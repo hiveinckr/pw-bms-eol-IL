@@ -1,0 +1,98 @@
+﻿<Window x:Class="_PeopleWorks__JF2_PBMS_EOL_Tester_IL.DIOMonitor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_PeopleWorks__JF2_PBMS_EOL_Tester_IL"
+        mc:Ignorable="d"
+                   Title="DIO Monitor" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
+        SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStyle="ToolWindow">
+    <Grid Height="767" Width="1600">
+        <TabControl  x:Name="tabX" HorizontalAlignment="Left" Height="36" Margin="10,10,0,0" VerticalAlignment="Top" Width="1580">
+            <TabItem Header="X000 ~ 01F" FontSize="15">
+                <Grid Background="White"/>
+            </TabItem>
+        </TabControl>
+
+        <local:UserControl1 x:Name="uc1" HorizontalAlignment="Left" Height="35" Margin="10,51,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc2" HorizontalAlignment="Left" Height="35" Margin="10,91,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc3" HorizontalAlignment="Left" Height="35" Margin="10,131,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc4" HorizontalAlignment="Left" Height="35" Margin="10,171,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc5" HorizontalAlignment="Left" Height="35" Margin="10,211,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc6" HorizontalAlignment="Left" Height="35" Margin="10,251,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc7" HorizontalAlignment="Left" Height="35" Margin="10,291,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc8" HorizontalAlignment="Left" Height="35" Margin="10,331,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc9" HorizontalAlignment="Left" Height="35" Margin="406,51,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc10" HorizontalAlignment="Left" Height="35" Margin="406,91,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc11" HorizontalAlignment="Left" Height="35" Margin="406,131,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc12" HorizontalAlignment="Left" Height="35" Margin="406,171,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc13" HorizontalAlignment="Left" Height="35" Margin="406,211,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc14" HorizontalAlignment="Left" Height="35" Margin="406,251,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc15" HorizontalAlignment="Left" Height="35" Margin="406,291,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc16" HorizontalAlignment="Left" Height="35" Margin="406,331,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc17" HorizontalAlignment="Left" Height="35" Margin="804,51,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc18" HorizontalAlignment="Left" Height="35" Margin="804,91,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc19" HorizontalAlignment="Left" Height="35" Margin="804,131,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc20" HorizontalAlignment="Left" Height="35" Margin="804,171,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc21" HorizontalAlignment="Left" Height="35" Margin="804,211,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc22" HorizontalAlignment="Left" Height="35" Margin="804,251,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc23" HorizontalAlignment="Left" Height="35" Margin="804,291,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc24" HorizontalAlignment="Left" Height="35" Margin="804,331,0,0" VerticalAlignment="Top" Width="390"/>
+        <local:UserControl1 x:Name="uc25" HorizontalAlignment="Left" Height="35" Margin="1201,51,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc26" HorizontalAlignment="Left" Height="35" Margin="1201,91,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc27" HorizontalAlignment="Left" Height="35" Margin="1201,131,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc28" HorizontalAlignment="Left" Height="35" Margin="1201,171,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc29" HorizontalAlignment="Left" Height="35" Margin="1201,211,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc30" HorizontalAlignment="Left" Height="35" Margin="1201,251,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc31" HorizontalAlignment="Left" Height="35" Margin="1201,291,0,0" VerticalAlignment="Top" Width="389"/>
+        <local:UserControl1 x:Name="uc32" HorizontalAlignment="Left" Height="35" Margin="1201,331,0,0" VerticalAlignment="Top" Width="389"/>
+
+        <local:UserControl1 x:Name="uc33" HorizontalAlignment="Left" Height="35" Margin="10,435,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc34" HorizontalAlignment="Left" Height="35" Margin="10,475,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc35" HorizontalAlignment="Left" Height="35" Margin="10,515,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc36" HorizontalAlignment="Left" Height="35" Margin="10,555,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc37" HorizontalAlignment="Left" Height="35" Margin="10,595,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc38" HorizontalAlignment="Left" Height="35" Margin="10,635,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc39" HorizontalAlignment="Left" Height="35" Margin="10,675,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc40" HorizontalAlignment="Left" Height="35" Margin="10,715,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc41" HorizontalAlignment="Left" Height="35" Margin="407,435,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc42" HorizontalAlignment="Left" Height="35" Margin="407,475,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc43" HorizontalAlignment="Left" Height="35" Margin="407,515,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc44" HorizontalAlignment="Left" Height="35" Margin="407,555,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc45" HorizontalAlignment="Left" Height="35" Margin="407,595,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc46" HorizontalAlignment="Left" Height="35" Margin="407,635,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc47" HorizontalAlignment="Left" Height="35" Margin="407,675,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc48" HorizontalAlignment="Left" Height="35" Margin="407,715,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc49" HorizontalAlignment="Left" Height="35" Margin="804,435,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc50" HorizontalAlignment="Left" Height="35" Margin="804,475,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc51" HorizontalAlignment="Left" Height="35" Margin="804,515,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc52" HorizontalAlignment="Left" Height="35" Margin="804,555,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc53" HorizontalAlignment="Left" Height="35" Margin="804,595,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc54" HorizontalAlignment="Left" Height="35" Margin="804,635,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc55" HorizontalAlignment="Left" Height="35" Margin="804,675,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc56" HorizontalAlignment="Left" Height="35" Margin="804,715,0,0" VerticalAlignment="Top" Width="389" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc57" HorizontalAlignment="Left" Height="35" Margin="1202,435,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc58" HorizontalAlignment="Left" Height="35" Margin="1202,475,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc59" HorizontalAlignment="Left" Height="35" Margin="1202,515,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc60" HorizontalAlignment="Left" Height="35" Margin="1202,555,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc61" HorizontalAlignment="Left" Height="35" Margin="1202,595,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc62" HorizontalAlignment="Left" Height="35" Margin="1202,635,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc63" HorizontalAlignment="Left" Height="35" Margin="1202,675,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <local:UserControl1 x:Name="uc64" HorizontalAlignment="Left" Height="35" Margin="1202,715,0,0" VerticalAlignment="Top" Width="388" MouseDown="y_MouseDown"/>
+        <TabControl  x:Name="tabY" HorizontalAlignment="Left" Height="36" Margin="10,394,0,0" VerticalAlignment="Top" Width="1580">
+            <TabItem Header="Y000 ~ 01F" FontSize="15">
+                <Grid Background="White"/>
+            </TabItem>
+            <TabItem Header="Y020 ~ 03F" FontSize="15">
+                <Grid Background="White"/>
+            </TabItem>
+            <TabItem Header="Y040 ~ 05F" FontSize="15">
+                <Grid Background="White"/>
+            </TabItem>
+        </TabControl>
+
+
+    </Grid>
+</Window>
+
+

@@ -1,0 +1,233 @@
+﻿<Window x:Class="_PeopleWorks__JF2_PBMS_EOL_Tester_IL.MainWindow2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_PeopleWorks__JF2_PBMS_EOL_Tester_IL"
+        mc:Ignorable="d"
+                  Title="[PeopleWorks] JF2 RBMS BBMS EOL Tester IL2 (Ver. 20250613.1)" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
+        SizeToContent="WidthAndHeight">
+    <Grid  Height="1010" Width="1920">
+        <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowTime" Content="0" HorizontalAlignment="Left" Height="40" Margin="1632,36,0,0" VerticalAlignment="Top" Width="278" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FF04C8E3" FontWeight="Bold" FontSize="20"/>
+        <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowDay" Content="--:--:--" HorizontalAlignment="Left" Height="28" Margin="1632,78,0,0" VerticalAlignment="Top" Width="278" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FFFFFFDC" FontSize="15"/>
+        <Label HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="959" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Foreground="Aqua" FontWeight="Medium" FontSize="25" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="320,36,0,0">
+            <TextBlock x:Name="lbModelName2" Text="Model Name"/>
+        </Label>
+        <Button x:Name="btModelChnage2" HorizontalAlignment="Left" Height="70" Margin="1284,36,0,0" VerticalAlignment="Top" Width="169" Style="{DynamicResource MyImgButton}" Click="btModelChnage2_Click">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Source="Resource/icons8-list-64.png" Width="32" Height="32"/>
+                <ContentControl x:Name="btModelChnageContent" Content="모델 변경" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+        <Image HorizontalAlignment="Left" Height="70" Margin="10,36,0,0" VerticalAlignment="Top" Width="295" Source="Resource/Logo.jpg" Stretch="None"/>
+        <Canvas HorizontalAlignment="Left" Height="10" Margin="10,111,0,0" VerticalAlignment="Top" Width="1900" Background="LightGray"/>
+        <Canvas HorizontalAlignment="Left" Height="702" Margin="305,111,0,0" VerticalAlignment="Top" Width="10" Background="LightGray"/>
+        <Canvas HorizontalAlignment="Left" Height="10" Margin="10,803,0,0" VerticalAlignment="Top" Width="1900" Background="LightGray"/>
+        <DataGrid x:Name="gdLogView" HorizontalAlignment="Left" Height="182" Margin="10,818,0,0" VerticalAlignment="Top" Width="910" Background="White"  AutoGenerateColumns="False" CanUserAddRows="False" GridLinesVisibility="All" CanUserResizeRows="False" RowHeaderWidth="0" CanUserDeleteRows="False"  HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray"  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ScrollViewer.CanContentScroll="True" ScrollViewer.IsDeferredScrollingEnabled="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding dtAppendTime, StringFormat=\{0:yyyy-MM-dd HH:mm:ss\}, UpdateSourceTrigger=PropertyChanged}" Header="Time" CanUserReorder="False" Width="150" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False" IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle1}"/>
+                <DataGridTextColumn Binding="{Binding strType, UpdateSourceTrigger=PropertyChanged}" Header="Type" CanUserReorder="False" Width="100" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False"  IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle1}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding strType}" Value="ERROR">
+                                    <Setter Property="Background" Value="LightPink"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding strComment, UpdateSourceTrigger=PropertyChanged}" Header="Comment" CanUserReorder="False" Width="*" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False"  IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style  TargetType="{x:Type TextBlock}">
+                            <Setter Property="Margin" Value="10,2,0,2"/>
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="13"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Canvas HorizontalAlignment="Left" Height="10" Margin="10,803,0,0" VerticalAlignment="Top" Width="1900" Background="LightGray"/>
+        <Label x:Name="lbMainStatus2" Content="검사 작업중" HorizontalAlignment="Left" Height="166" VerticalAlignment="Top" Width="401" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Ivory" Foreground="Black" FontWeight="Medium" FontSize="40" Template="{DynamicResource LabelControlTemplateGray}" Padding="0,0,0,0" Margin="1509,562,0,0"/>
+        <Canvas HorizontalAlignment="Left" Height="694" Margin="1494,116,0,0" VerticalAlignment="Top" Width="10" Background="LightGray"/>
+        <Label Content="C.Time" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="81" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="1509,768,0,0"/>
+        <Label x:Name="lbCTime2" Content="--:--:--" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="315" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Foreground="Black" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,0,0" Margin="1595,768,0,0" BorderBrush="Black" BorderThickness="1"/>
+        <ProgressBar x:Name="pgBarProcess2" HorizontalAlignment="Left" Height="30" Margin="1509,733,0,0" VerticalAlignment="Top" Width="401"/>
+        <Label x:Name="lbProductionInfo" Content="검사 수량" HorizontalAlignment="Left" Height="29" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Foreground="Aqua" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="10,126,0,0"/>
+        <Label x:Name="lbNowProduction"  Content="현재 검사 수량" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="14" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="10,160,0,0"/>
+        <Label x:Name="lbNowProductCount2" Content="0" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Background="White" Foreground="DarkBlue" FontWeight="Bold" FontSize="30" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,10,0" Margin="10,185,0,0" BorderBrush="Black" BorderThickness="1"/>
+        <Label x:Name="lbAllProduction" Content="누적 검사 수량" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="14" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="10,382,0,0"/>
+        <Label x:Name="lbTotalProductCount2" Content="1000" HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Background="White" Foreground="Black" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,10,0" Margin="10,407,0,0" BorderBrush="Black" BorderThickness="1"/>
+        <Label x:Name="lbProductionClearTime" Content="검사 수량 초기화 시간" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="14" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="10,447,0,0"/>
+        <Label x:Name="lbProductCountClearTime2" Content="--:--:--" HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Foreground="Black" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,0,0" Margin="10,472,0,0" BorderBrush="Black" BorderThickness="1"/>
+        <!--<Button x:Name="btLotClear2" HorizontalAlignment="Left" Height="55" Margin="10,512,0,0" VerticalAlignment="Top" Width="290" Style="{DynamicResource MyImgButton}" Click="btLotClear2_Click">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Source="Resource/icons8-eraser-64.png" Width="32" Height="32"/>
+                <ContentControl Content="검사 수량 초기화" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>-->
+        <Label x:Name="lbOKCount" Content="양품 수량" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="162" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="14" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="10,234,0,0"/>
+        <Label x:Name="lbNowOKCount2" Content="0" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="162" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Background="White" Foreground="DarkGreen" FontWeight="Bold" FontSize="30" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,10,0" Margin="10,259,0,0" BorderBrush="Black" BorderThickness="1"/>
+        <Label x:Name="lbNGCount"  Content="불량 수량" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="162" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="14" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="10,308,0,0"/>
+        <Label x:Name="lbNowNGCount2" Content="0" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="162" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Background="White" Foreground="DarkRed" FontWeight="Bold" FontSize="30" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,10,0" Margin="10,333,0,0" BorderBrush="Black" BorderThickness="1"/>
+        <Label x:Name="lbGoodproductrate" Content="양품률" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="123" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="14" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="177,234,0,0"/>
+        <Label x:Name="lbNowOKCountPct2" Content="0.0%" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="123" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Background="White" Foreground="DarkGreen" FontWeight="Bold" FontSize="30" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,10,0" Margin="177,259,0,0" BorderBrush="Black" BorderThickness="1"/>
+        <Label x:Name="lbBadproductrate" Content="불량률" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="123" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="14" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="177,308,0,0"/>
+        <Label x:Name="lbNowNGCountPct2" Content="0.0%" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="123" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Background="White" Foreground="DarkRed" FontWeight="Bold" FontSize="30" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,10,0" Margin="177,333,0,0" BorderBrush="Black" BorderThickness="1"/>
+        <Label Content="Barcode" HorizontalAlignment="Left" Height="56" VerticalAlignment="Top" Width="111" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="24" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="320,681,0,0"/>
+        <Label x:Name="lbBarcode2" Content="-" HorizontalAlignment="Left" Height="56" VerticalAlignment="Top" Width="547" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Foreground="Black" FontWeight="Medium" FontSize="30" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,0,0" Margin="436,681,0,0" BorderBrush="Black" BorderThickness="1" MouseDoubleClick="lbBarcode_MouseDoubleClick"/>
+        <Button x:Name="btStart2" HorizontalAlignment="Left" Margin="1571,818,0,10" Width="167" Style="{DynamicResource MyImgButton}" Click="ControlButton_Click">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Source="Resource/icons8-play-96.png" Width="48" Height="48"/>
+                <ContentControl x:Name="btStartContent"  Content="시  작" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Margin="0,30,0,0" FontSize="20" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="btStop2" HorizontalAlignment="Left" Height="182" Margin="1743,818,0,0" VerticalAlignment="Top" Width="167" Style="{DynamicResource MyImgButton}" Click="ControlButton_Click">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Source="Resource/icons8-stop-96.png" Width="48" Height="48"/>
+                <ContentControl x:Name="btStopContent" Content="정  지" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Margin="0,30,0,0" FontSize="20" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+        <ListView x:Name="lstLogData2"  HorizontalAlignment="Left" Height="182" Margin="925,819,0,0" VerticalAlignment="Top" Width="641" FontSize="12" >
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Time" DisplayMemberBinding="{Binding _tTime, StringFormat=\{0:HH:mm:ss:fffff\}, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+                    <GridViewColumn Header="Ch" DisplayMemberBinding="{Binding nCh, UpdateSourceTrigger=PropertyChanged}" Width="40"/>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding nID, StringFormat=\{0:X\}, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding strType, UpdateSourceTrigger=PropertyChanged}" Width="50"/>
+                    <GridViewColumn Header="Data1" DisplayMemberBinding="{Binding strData1, UpdateSourceTrigger=PropertyChanged}" Width="40"/>
+                    <GridViewColumn Header="Data2" DisplayMemberBinding="{Binding strData2, UpdateSourceTrigger=PropertyChanged}" Width="40"/>
+                    <GridViewColumn Header="Data3" DisplayMemberBinding="{Binding strData3, UpdateSourceTrigger=PropertyChanged}" Width="40"/>
+                    <GridViewColumn Header="Data4" DisplayMemberBinding="{Binding strData4, UpdateSourceTrigger=PropertyChanged}" Width="40"/>
+                    <GridViewColumn Header="Data5" DisplayMemberBinding="{Binding strData5, UpdateSourceTrigger=PropertyChanged}" Width="40"/>
+                    <GridViewColumn Header="Data6" DisplayMemberBinding="{Binding strData6, UpdateSourceTrigger=PropertyChanged}" Width="40"/>
+                    <GridViewColumn Header="Data7" DisplayMemberBinding="{Binding strData7, UpdateSourceTrigger=PropertyChanged}" Width="40"/>
+                    <GridViewColumn Header="Data8" DisplayMemberBinding="{Binding strData8, UpdateSourceTrigger=PropertyChanged}" Width="40"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <DataGrid x:Name="gdLogView_Copy2" HorizontalAlignment="Left" Height="398" Margin="1509,159,0,0" VerticalAlignment="Top" Width="401" Background="White"  AutoGenerateColumns="False" CanUserAddRows="False" BorderThickness="1" GridLinesVisibility="All" VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="LightGray" CanUserResizeRows="False" RowHeaderWidth="0" CanUserDeleteRows="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ScrollViewer.CanContentScroll="True" ScrollViewer.IsDeferredScrollingEnabled="True">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="BorderThickness" Value="0.1" />
+                    <Setter Property="BorderBrush" Value="Gray" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding dtAppendTime, StringFormat=\{0:yyyy-MM-dd HH:mm:ss\}, UpdateSourceTrigger=PropertyChanged}" Header="Time" CanUserReorder="False" Width="130" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False" IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle3}"/>
+                <DataGridTextColumn Binding="{Binding strBCD, UpdateSourceTrigger=PropertyChanged}" Header="Barcode" CanUserReorder="False" Width="*" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False"  IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle3}"/>
+                <DataGridTextColumn Binding="{Binding strTotalResult, UpdateSourceTrigger=PropertyChanged}" Header="Result" CanUserReorder="False" Width="80" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False"  IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle3}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding strTotalResult}" Value="OK">
+                                    <Setter Property="Background" Value="LightGreen"/>
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding strTotalResult}" Value="NG">
+                                    <Setter Property="Background" Value="LightPink"/>
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding strTotalResult}" Value="USER_STOP">
+                                    <Setter Property="Background" Value="LightPink"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label x:Name="lbInspectionhistory" Content="검사 이력" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="401" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Foreground="Aqua" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="1509,126,0,0"/>
+        <Label Name="lbOptionalErrorHistory" Content="선택항목 불량 내역" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Foreground="Aqua" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="10,572,0,0"/>
+        <DataGrid x:Name="gdLogView_Copy12" HorizontalAlignment="Left" Height="147" Margin="10,605,0,0" VerticalAlignment="Top" Width="290" Background="White"  AutoGenerateColumns="False" CanUserAddRows="False" BorderThickness="1" GridLinesVisibility="All" VerticalGridLinesBrush="LightGray" HorizontalGridLinesBrush="LightGray" CanUserResizeRows="False" RowHeaderWidth="0" CanUserDeleteRows="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding strAddr, UpdateSourceTrigger=PropertyChanged}" Header="Addr" CanUserReorder="False" Width="*" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False"  IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle3}"/>
+                <DataGridTextColumn Binding="{Binding strSource, UpdateSourceTrigger=PropertyChanged}" Header="Source" CanUserReorder="False" Width="*" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False"  IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle3}"/>
+                <DataGridTextColumn Binding="{Binding strRead, UpdateSourceTrigger=PropertyChanged}" Header="Read" CanUserReorder="False" Width="*" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False"  IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle3}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding strTestResult}" Value="OK">
+                                    <Setter Property="Background" Value="LightGreen"/>
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding strTestResult}" Value="NG">
+                                    <Setter Property="Background" Value="LightPink"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="S/N" HorizontalAlignment="Left" Height="56" VerticalAlignment="Top" Width="111" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="24" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="988,681,0,0"/>
+        <Label x:Name="lbSerialNum2" Content="" HorizontalAlignment="Left" Height="56" VerticalAlignment="Top" Width="385" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Foreground="Black" FontWeight="Medium" FontSize="30" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,0,0" Margin="1104,681,0,0" BorderBrush="Black" BorderThickness="1"/>
+        <Label Content="Mac" HorizontalAlignment="Left" Height="56" VerticalAlignment="Top" Width="111" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="24" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="988,742,0,0"/>
+        <Label x:Name="lbSerialNum_Copy2" Content="" HorizontalAlignment="Left" Height="56" VerticalAlignment="Top" Width="385" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Foreground="Black" FontWeight="Medium" FontSize="30" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,0,0" Margin="1104,742,0,0" BorderBrush="Black" BorderThickness="1"/>
+        <Label Content="EOL Contact Counter" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="14" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="10,753,0,0"/>
+        <Label x:Name="lbEolPinCount2" Content="-" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="187" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Background="White" Foreground="Black" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,10,0" Margin="10,776,0,0" BorderBrush="Black" BorderThickness="1"/>
+        <Button x:Name="btAHIPOT1PinCountClear2" HorizontalAlignment="Left" Height="24" Margin="202,776,0,0" VerticalAlignment="Top" Width="98" Style="{DynamicResource MyImgButton}" Click="btAHIPOT1PinCountClear2_Click" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ContentControl Content="Reset counter" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="10" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="btModelSetup2" HorizontalAlignment="Left" Height="70" Margin="1458,36,0,0" VerticalAlignment="Top" Width="169" Style="{DynamicResource MyImgButton}" Click="btModelSetup_Click">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Source="/Resource/icons8-renew-64.png" Width="32" Height="32"/>
+                <ContentControl x:Name="btModelSetupContent" Content="모델 설정" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="btNutCountM" HorizontalAlignment="Left" Height="60" Margin="470,740,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountM_Click" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ContentControl Content="TITLE COUNT -" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="btNutCountP" HorizontalAlignment="Left" Height="60" Margin="320,740,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountP_Click" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ContentControl Content="TITLE COUNT +" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+        <DataGrid x:Name="gdWorkList" HorizontalAlignment="Left" Height="550" Margin="320,126,0,0" VerticalAlignment="Top" Width="1169" Background="White"  AutoGenerateColumns="False" CanUserAddRows="False" GridLinesVisibility="None" CanUserResizeRows="False" RowHeaderWidth="0" FontSize="12" LoadingRow="gdWorkList_LoadingRow" SelectedCellsChanged="gdWorkList_SelectedCellsChanged" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ScrollViewer.CanContentScroll="True" ScrollViewer.IsDeferredScrollingEnabled="True">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="BorderThickness" Value="0.1" />
+                    <Setter Property="BorderBrush" Value="Gray" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Header, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" Header="No." CanUserReorder="False" Width="50" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle4}" CanUserSort="False" CanUserResize="False" IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle2}"/>
+                <DataGridTextColumn Binding="{Binding Cate, UpdateSourceTrigger=PropertyChanged}" Header="Unit" CanUserReorder="False" Width="100" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle4}" CanUserSort="False" CanUserResize="False"  IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle2}"/>
+                <DataGridTextColumn Binding="{Binding strTestName, UpdateSourceTrigger=PropertyChanged}" Header="Name" CanUserReorder="False" Width="*" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle4}" CanUserSort="False" CanUserResize="False" IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle2}"/>
+                <DataGridTextColumn Binding="{Binding strResult, UpdateSourceTrigger=PropertyChanged}" Header="Result" CanUserReorder="False" Width="100" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle4}" CanUserSort="False" CanUserResize="False"  IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle2}" CellStyle="{DynamicResource DataGridCellStyle4}"/>
+                <DataGridTextColumn Binding="{Binding SpecMin, UpdateSourceTrigger=PropertyChanged}" Header="Spec(Min)" CanUserReorder="False" Width="120" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle4}" CanUserSort="False" CanUserResize="False"  IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle2}"/>
+                <DataGridTextColumn Binding="{Binding Data, UpdateSourceTrigger=PropertyChanged}" Header="Data" CanUserReorder="False" Width="200" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle4}" CanUserSort="False" CanUserResize="False"  IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle2}"/>
+                <DataGridTextColumn Binding="{Binding SpecMax, UpdateSourceTrigger=PropertyChanged}" Header="Spec(Max)" CanUserReorder="False" Width="120" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle4}" CanUserSort="False" CanUserResize="False"  IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle2}"/>
+                <DataGridTextColumn Binding="{Binding Unit, UpdateSourceTrigger=PropertyChanged}" Header="Unit" CanUserReorder="False" Width="50" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle4}" CanUserSort="False" CanUserResize="False"  IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle2}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btLotClear" HorizontalAlignment="Left" Height="55" Margin="10,512,0,0" VerticalAlignment="Top" Width="290" Style="{DynamicResource MyImgButton}" Click="btLotClear_Click">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Source="/Resource/icons8-eraser-64.png" Width="32" Height="32"/>
+                <ContentControl x:Name="btProductCountClearContent"  Content="검사 수량 초기화" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="btBarcodeReprint" HorizontalAlignment="Left" Height="56" Margin="810,742,0,0" VerticalAlignment="Top" Width="173" Style="{DynamicResource MyImgButton}" Click="btBarcodeReprint_Click" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Source="/Resource/icons8-print-64.png" Width="32" Height="32"/>
+                <ContentControl x:Name="btBarcodeReprintContent" Content="Reprint barcode" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+    </Grid>
+</Window>
+

@@ -1,0 +1,408 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F10A9560-A4FD-4A5C-B4B6-4AE959D54075}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>_PeopleWorks__JF2_PBMS_EOL_Tester_IL</RootNamespace>
+    <AssemblyName>[PeopleWorks] JF2 PBMS EOL Tester IL</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ksim.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="canlibCLSNET">
+      <HintPath>..\..\..\LG 솔루션\lges-blink-eol-V2\fw40\canlibCLSNET.dll</HintPath>
+    </Reference>
+    <Reference Include="kvadblibCLSNET">
+      <HintPath>..\..\..\LG 솔루션\lges-blink-eol-V2\fw40\kvadblibCLSNET.dll</HintPath>
+    </Reference>
+    <Reference Include="kvlclibCLSNET">
+      <HintPath>..\..\..\LG 솔루션\lges-blink-eol-V2\fw40\kvlclibCLSNET.dll</HintPath>
+    </Reference>
+    <Reference Include="kvmlibCLSNET">
+      <HintPath>..\..\..\LG 솔루션\lges-blink-eol-V2\fw40\kvmlibCLSNET.dll</HintPath>
+    </Reference>
+    <Reference Include="kvrlibCLSNET">
+      <HintPath>..\..\..\LG 솔루션\lges-blink-eol-V2\fw40\kvrlibCLSNET.dll</HintPath>
+    </Reference>
+    <Reference Include="linlibCLSNET">
+      <HintPath>..\..\..\LG 솔루션\lges-blink-eol-V2\fw40\linlibCLSNET.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="ATTestEth.cs" />
+    <Compile Include="AXL\AXA.cs" />
+    <Compile Include="AXL\AXC.cs" />
+    <Compile Include="AXL\AXD.cs" />
+    <Compile Include="AXL\AXDev.cs" />
+    <Compile Include="AXL\AXHD.cs" />
+    <Compile Include="AXL\AXHS.cs" />
+    <Compile Include="AXL\AXL.cs" />
+    <Compile Include="AXL\AXM.cs" />
+    <Compile Include="BarcodePopUP.xaml.cs">
+      <DependentUpon>BarcodePopUP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BarcodePopUP2.xaml.cs">
+      <DependentUpon>BarcodePopUP2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BarcodePrint.cs" />
+    <Compile Include="BarcodeReader.cs" />
+    <Compile Include="BarcodeRePrint.xaml.cs">
+      <DependentUpon>BarcodeRePrint.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BarcodeRePrint2.xaml.cs">
+      <DependentUpon>BarcodeRePrint2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ClientSoket.cs" />
+    <Compile Include="cyclone_control_api.cs" />
+    <Compile Include="cyclone_control_api2.cs" />
+    <Compile Include="DmmEtc.cs" />
+    <Compile Include="HIVE_Timer.cs" />
+    <Compile Include="KvaserCanComm.cs" />
+    <Compile Include="MainWindow2.xaml.cs">
+      <DependentUpon>MainWindow2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ModbusTCP.cs" />
+    <Compile Include="ModelList2.xaml.cs">
+      <DependentUpon>ModelList2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ModelSetup2.xaml.cs">
+      <DependentUpon>ModelSetup2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NewNameSave2.xaml.cs">
+      <DependentUpon>NewNameSave2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NutrunnerEth.cs" />
+    <Compile Include="NutrunnerEth2.cs" />
+    <Compile Include="OPE_PS.cs" />
+    <Compile Include="PCANBasic.cs" />
+    <Compile Include="PcanComm.cs" />
+    <Compile Include="PingTester.cs" />
+    <Compile Include="PopUp2.xaml.cs">
+      <DependentUpon>PopUp2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StepMonitor.xaml.cs">
+      <DependentUpon>StepMonitor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StepMonitorV2.xaml.cs">
+      <DependentUpon>StepMonitorV2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SystemSetting.xaml.cs">
+      <DependentUpon>SystemSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="theApp.cs" />
+    <Compile Include="UserBarcodeEdit.xaml.cs">
+      <DependentUpon>UserBarcodeEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserStartMassage.xaml.cs">
+      <DependentUpon>UserStartMassage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserStartMassage2.xaml.cs">
+      <DependentUpon>UserStartMassage2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VersionInfo.xaml.cs">
+      <DependentUpon>VersionInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="_Collection.cs" />
+    <Compile Include="_Define.cs" />
+    <Page Include="AdminPass.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BarcodePopUP.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BarcodePopUP2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BarcodeRePrint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BarcodeRePrint2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CellSimulator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DebugMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dictionary1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DIOMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="AdminPass.xaml.cs">
+      <DependentUpon>AdminPass.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CellSimulator.xaml.cs">
+      <DependentUpon>CellSimulator.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DebugMonitor.xaml.cs">
+      <DependentUpon>DebugMonitor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DIOMonitor.xaml.cs">
+      <DependentUpon>DIOMonitor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="MainWindow2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MasterPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ModelList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ModelList2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ModelSetup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ModelSetup2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewNameSave.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NewNameSave2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUp2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StepMonitor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StepMonitorV2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SystemSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserBarcodeEdit.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserStartMassage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserStartMassage2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VersionInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MasterPopup.xaml.cs">
+      <DependentUpon>MasterPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ModelList.xaml.cs">
+      <DependentUpon>ModelList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ModelSetup.xaml.cs">
+      <DependentUpon>ModelSetup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NewNameSave.xaml.cs">
+      <DependentUpon>NewNameSave.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp.xaml.cs">
+      <DependentUpon>PopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ksim.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\icons8-add-new-100.png" />
+    <Resource Include="Resource\icons8-alarm-48.png" />
+    <Resource Include="Resource\icons8-alarm-96.png" />
+    <Resource Include="Resource\icons8-alarm-clock-48.png" />
+    <Resource Include="Resource\icons8-alarm-clock-96.png" />
+    <Resource Include="Resource\icons8-available-updates-96.png" />
+    <Resource Include="Resource\icons8-calendar-64.png" />
+    <Resource Include="Resource\icons8-cancel-64.png" />
+    <Resource Include="Resource\icons8-change-64.png" />
+    <Resource Include="Resource\icons8-check-all-64.png" />
+    <Resource Include="Resource\icons8-checkmark-64.png" />
+    <Resource Include="Resource\icons8-circular-arrows-64.png" />
+    <Resource Include="Resource\icons8-close-window-64.png" />
+    <Resource Include="Resource\icons8-compose-64.png" />
+    <Resource Include="Resource\icons8-console-48.png" />
+    <Resource Include="Resource\icons8-console-48_Crop.png" />
+    <Resource Include="Resource\icons8-delete-64.png" />
+    <Resource Include="Resource\icons8-delete-bin-64.png" />
+    <Resource Include="Resource\icons8-document-64.png" />
+    <Resource Include="Resource\icons8-double-right-64.png" />
+    <Resource Include="Resource\icons8-down-arrow-64.png" />
+    <Resource Include="Resource\icons8-eraser-64.png" />
+    <Resource Include="Resource\icons8-left-64.png" />
+    <Resource Include="Resource\icons8-light-on-64.png" />
+    <Resource Include="Resource\icons8-list-64.png" />
+    <Resource Include="Resource\icons8-merge-horizontal-100.png" />
+    <Resource Include="Resource\icons8-minus-100.png" />
+    <Resource Include="Resource\icons8-monitor-100.png" />
+    <Resource Include="Resource\icons8-mute-96.png" />
+    <Resource Include="Resource\icons8-pause-100.png" />
+    <Resource Include="Resource\icons8-pause-64.png" />
+    <Resource Include="Resource\icons8-pause-button-64.png" />
+    <Resource Include="Resource\icons8-play-96.png" />
+    <Resource Include="Resource\icons8-plus-64.png" />
+    <Resource Include="Resource\icons8-print-64.png" />
+    <Resource Include="Resource\icons8-process-96.png" />
+    <Resource Include="Resource\icons8-renew-64.png" />
+    <Resource Include="Resource\icons8-resume-button-64.png" />
+    <Resource Include="Resource\icons8-right-64.png" />
+    <Resource Include="Resource\icons8-save-64.png" />
+    <Resource Include="Resource\icons8-save-all-64.png" />
+    <Resource Include="Resource\icons8-save-as-64.png" />
+    <Resource Include="Resource\icons8-save-close-64.png" />
+    <Resource Include="Resource\icons8-search-64.png" />
+    <Resource Include="Resource\icons8-settings-100.png" />
+    <Resource Include="Resource\icons8-split-vertical-100.png" />
+    <Resource Include="Resource\icons8-stop-96.png" />
+    <Resource Include="Resource\icons8-up-64.png" />
+    <Resource Include="Resource\ksim.ico" />
+    <Resource Include="Resource\Logo.jpg" />
+    <Resource Include="Resource\Logo_intor.png" />
+    <Resource Include="Resource\Main_logo.jpg" />
+    <Resource Include="Resource\noatunplay.png" />
+    <Resource Include="Resource\noatunplay1.png" />
+    <Resource Include="Resource\noatunplay2.png" />
+    <Resource Include="Resource\pssLogo.png" />
+    <Resource Include="Resource\pssLogo2.png" />
+    <Resource Include="Resource\Untitled-1.png" />
+    <Resource Include="Resource\Untitled-2.png" />
+    <Resource Include="Resource\Untitled-3.png" />
+    <Resource Include="Resource\Untitled-4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,120 @@
+﻿<Window x:Class="_PeopleWorks__JF2_PBMS_EOL_Tester_IL.SystemSetting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_PeopleWorks__JF2_PBMS_EOL_Tester_IL"
+        mc:Ignorable="d"
+                         Title="시스템 설정" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
+        SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+    <Grid Height="760" Width="1134">
+        <DataGrid x:Name="gdWorkInfo" HorizontalAlignment="Left" Height="594" Margin="10,44,0,0" VerticalAlignment="Top" Width="542" Background="White"  AutoGenerateColumns="False" CanUserAddRows="False" GridLinesVisibility="All" CanUserResizeRows="False" RowHeaderWidth="0" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" CanUserDeleteRows="False"  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                    <Setter Property="FontSize" Value="13"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Ivory"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="BorderBrush" Value="{x:Null}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+
+                <DataGridCheckBoxColumn Binding="{Binding bUseSpec, UpdateSourceTrigger=PropertyChanged}" Header="Use" CanUserReorder="False" Width="50" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False">
+                    <DataGridCheckBoxColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="#FFF8F8FF"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                        <Grid Background="{TemplateBinding Background}">
+                                            <ContentPresenter VerticalAlignment="Center" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridCheckBoxColumn.CellStyle>
+                </DataGridCheckBoxColumn>
+                <DataGridTextColumn Binding="{Binding strName, UpdateSourceTrigger=PropertyChanged}" Header="Name" CanUserReorder="False" Width="*" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False" IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle1}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="#FFF8F8FF"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="1" />
+                                    <Setter Property="BorderBrush" Value="Black" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding strValue, UpdateSourceTrigger=PropertyChanged}" Header="Value" CanUserReorder="False" Width="200" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False"  IsReadOnly="False" ElementStyle="{DynamicResource TextBlockStyle1}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label x:Name="lbWorkInfo"  Content="작업 옵션" HorizontalAlignment="Left" Height="29" VerticalAlignment="Top" Width="542" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Foreground="Aqua" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="10,10,0,0"/>
+        <Label x:Name="lbEtcInfo"   Content="기타 설정" HorizontalAlignment="Left" Height="29" VerticalAlignment="Top" Width="567" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Foreground="Aqua" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="557,10,0,0"/>
+        <DataGrid x:Name="gdEtcInfo" HorizontalAlignment="Left" Height="594" Margin="557,44,0,0" VerticalAlignment="Top" Width="567" Background="White"  AutoGenerateColumns="False" CanUserAddRows="False" GridLinesVisibility="All" CanUserResizeRows="False" RowHeaderWidth="0" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" CanUserDeleteRows="False"  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                    <Setter Property="FontSize" Value="13"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="Ivory"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="BorderBrush" Value="{x:Null}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding strName, UpdateSourceTrigger=PropertyChanged}" Header="Name" CanUserReorder="False" Width="*" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False" IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle1}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Background" Value="#FFF8F8FF"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="BorderThickness" Value="1" />
+                                    <Setter Property="BorderBrush" Value="Black" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding strValue, UpdateSourceTrigger=PropertyChanged}" Header="Value" CanUserReorder="False" Width="220" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle2}" CanUserSort="False" CanUserResize="False"  IsReadOnly="False" ElementStyle="{DynamicResource TextBlockStyle1}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btSaveClose" HorizontalAlignment="Left" Height="107" Margin="10,643,0,0" VerticalAlignment="Top" Width="200" Style="{DynamicResource MyImgButton}" Click="btSaveClose_Click">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Source="Resource/icons8-save-close-64.png" Width="32" Height="32"/>
+                <ContentControl x:Name="btSaveCloseContent" Content=" 저장 및 닫기 " HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="btSave" HorizontalAlignment="Left" Height="51" Margin="215,643,0,0" VerticalAlignment="Top" Width="179" Style="{DynamicResource MyImgButton}" Click="btSave_Click">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Source="Resource/icons8-save-64.png" Width="32" Height="32"/>
+                <ContentControl x:Name="btSaveContent" Content=" 저  장 " HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="btClose" HorizontalAlignment="Left" Height="51" Margin="215,699,0,0" VerticalAlignment="Top" Width="179" Style="{DynamicResource MyImgButton}" Click="btClose_Click">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Source="Resource/icons8-close-window-64.png" Width="32" Height="32"/>
+                <ContentControl x:Name="btCloseContent" Content=" 취  소 " HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+
+        <ComboBox Name="cbLanguageCheck"  HorizontalAlignment="Left" Height="51" Margin="880,693,0,0" VerticalAlignment="Top" Width="244" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="40" />
+        <Label Content="LANGUAGE" HorizontalAlignment="Left" Height="51" VerticalAlignment="Top" Width="116" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Foreground="Aqua" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="759,693,0,0" RenderTransformOrigin="0.5,0.5"/>
+
+
+    </Grid>
+</Window>
