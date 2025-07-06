@@ -68,6 +68,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		// 메인 쓰레드
 		public static Thread MainThread = new Thread(WorkMain);
+		public static Thread MainThread2 = new Thread(WorkMain2);
 
 		// 모델 정보
 		public static MODEL_INFO _ModelInfo = new MODEL_INFO();
@@ -188,12 +189,12 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			{
 				PowerSupply[0].Process();
 				PowerSupply[1].Process();
-				PowerSupply[2].Process();
-				PowerSupply[3].Process();
+				//PowerSupply[2].Process();
+				//PowerSupply[3].Process();
 				_BcdReader.Process();
-				_BcdReader2.Process();
+				//_BcdReader2.Process();
 				_Nutrunner.Process();
-				_Nutrunner2.Process();
+				//_Nutrunner2.Process();
 
 				_CanComm[0].ReadMessage();
 				_CanComm[1].ReadMessage();
@@ -205,7 +206,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				_CanComm[7].ReadMessage();
 
 				_BarcodePrint.Process();
-				_BarcodePrint2.Process();
+				//_BarcodePrint2.Process();
 
 
 				if (_Config.bDmmEtcMode)
@@ -217,35 +218,35 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					KeysiteDmm.Process();
 				}
 
-				if (_Config.bDmmEtcMode)
-				{
-					_KeysiteDmmEtc2.Process();
-				}
-				else
-				{
-					KeysiteDmm2.Process();
-				}
+				//if (_Config.bDmmEtcMode)
+				//{
+				//	_KeysiteDmmEtc2.Process();
+				//}
+				//else
+				//{
+				//	KeysiteDmm2.Process();
+				//}
 
 
 				_CellSimulator1.Process();
 				_CellSimulator2.Process();
-				_CellSimulator3.Process();
-				_CellSimulator4.Process();
+				//_CellSimulator3.Process();
+				//_CellSimulator4.Process();
 				//_Cyclone.Process();
 
 				PROC_MAIN();
-				PROC_MAIN2();
+				//PROC_MAIN2();
 				SUB_EOL();
-				SUB_EOL2();
+				//SUB_EOL2();
 				PingTest();
-				PingTest2();
+				//PingTest2();
 				TowerBuzzerProcess();
 				TowerLampProcess();
 				LotCountInfoUpdate();
-				LotCountInfoUpdate2();
+				//LotCountInfoUpdate2();
 				PROC_MANUAL();
 				SUB_TITE_PROC();
-				SUB_TITE_PROC2();
+				//SUB_TITE_PROC2();
 				
 				if (nThreadCount > 100)
 				{
@@ -271,21 +272,21 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 			PowerSupply[0].CloseComm();
 			PowerSupply[1].CloseComm();
-			PowerSupply[2].CloseComm();
-			PowerSupply[3].CloseComm();
+			//PowerSupply[2].CloseComm();
+			//PowerSupply[3].CloseComm();
 			_BcdReader.CloseComm();
-			_BcdReader2.CloseComm();
+			//_BcdReader2.CloseComm();
 			KeysiteDmm.CloseComm();
-			KeysiteDmm2.CloseComm();
+			//KeysiteDmm2.CloseComm();
 
 			while (PowerSupply[0].PortIsAlive()) { Thread.Sleep(1); }
 			while (PowerSupply[1].PortIsAlive()) { Thread.Sleep(1); }
 			while (_BcdReader.IsOpened()) { Thread.Sleep(1); }
 			while (KeysiteDmm.PortIsAlive()) { Thread.Sleep(1); }
-			while (PowerSupply[2].PortIsAlive()) { Thread.Sleep(1); }
-			while (PowerSupply[3].PortIsAlive()) { Thread.Sleep(1); }
-			while (_BcdReader2.IsOpened()) { Thread.Sleep(1); }
-			while (KeysiteDmm2.PortIsAlive()) { Thread.Sleep(1); }
+			//while (PowerSupply[2].PortIsAlive()) { Thread.Sleep(1); }
+			//while (PowerSupply[3].PortIsAlive()) { Thread.Sleep(1); }
+			//while (_BcdReader2.IsOpened()) { Thread.Sleep(1); }
+			//while (KeysiteDmm2.PortIsAlive()) { Thread.Sleep(1); }
 
 			SaveIniFile();
 
@@ -297,7 +298,71 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			});
 		}
 
-	
+		public static void WorkMain2()
+		{
+			Thread.Sleep(500);
+
+			int nThreadCount = 0;
+
+			// 메인 쓰레드
+			while (!_SysInfo.bMainProcessStop)
+			{
+				PowerSupply[2].Process();
+				PowerSupply[3].Process();
+				_BcdReader2.Process();
+				_Nutrunner2.Process();
+
+				_BarcodePrint2.Process();
+
+				if (_Config.bDmmEtcMode)
+				{
+					_KeysiteDmmEtc2.Process();
+				}
+				else
+				{
+					KeysiteDmm2.Process();
+				}
+
+				_CellSimulator3.Process();
+				_CellSimulator4.Process();
+				//_Cyclone.Process();
+
+
+				PROC_MAIN2();
+				SUB_EOL2();
+				PingTest2();
+				LotCountInfoUpdate2();
+				SUB_TITE_PROC2();
+
+				if (nThreadCount > 100)
+				{
+					nThreadCount = 0;
+					Thread.Sleep(1);
+				}
+				else
+				{
+					nThreadCount++;
+				}
+			}
+
+			PowerSupply[2].CloseComm();
+			PowerSupply[3].CloseComm();
+			_BcdReader2.CloseComm();
+			KeysiteDmm2.CloseComm();
+
+			while (PowerSupply[2].PortIsAlive()) { Thread.Sleep(1); }
+			while (PowerSupply[3].PortIsAlive()) { Thread.Sleep(1); }
+			while (_BcdReader2.IsOpened()) { Thread.Sleep(1); }
+			while (KeysiteDmm2.PortIsAlive()) { Thread.Sleep(1); }
+
+			Thread.Sleep(1000);
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE
+			{
+				App.Current.Shutdown();
+			});
+		}
+
+
 
 		public static void PROC_MAIN()
 		{
@@ -12793,7 +12858,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				btSendData[13 + (i * 2)] = (byte)(nData[i] / 0x100);
 				btSendData[13 + (i * 2) + 1] = (byte)(nData[i] % 0x100);
 			}
-			_SysInfo.btTcpReadData = _ModbusSoket.TcpSocket("192.168.0.200", 502, btSendData);
+			_SysInfo.btTcpReadData = _ModbusSoket.TcpSocket(_Config.strRBMSIP, _Config.nRBMSPort, btSendData);
 
 		}
 
@@ -12815,7 +12880,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			btSendData[10] = 0x00;
 			btSendData[11] = 0x01;
 			_ModbusSoket.bResultOk = false;
-			_SysInfo.btTcpReadData = _ModbusSoket.TcpSocket("192.168.0.200", 502, btSendData);
+			_SysInfo.btTcpReadData = _ModbusSoket.TcpSocket(_Config.strRBMSIP, _Config.nRBMSPort, btSendData);
 
 		}
 
@@ -12842,7 +12907,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				btSendData[13 + (i * 2)] = (byte)(nData[i] / 0x100);
 				btSendData[13 + (i * 2) + 1] = (byte)(nData[i] % 0x100);
 			}
-			_SysInfo2.btTcpReadData = _ModbusSoket2.TcpSocket("192.168.0.200", 502, btSendData);
+			_SysInfo2.btTcpReadData = _ModbusSoket2.TcpSocket(_Config.strRBMSIP2, _Config.nRBMSPort2, btSendData);
 
 		}
 
@@ -12864,7 +12929,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			btSendData[10] = 0x00;
 			btSendData[11] = 0x01;
 			_ModbusSoket2.bResultOk = false;
-			_SysInfo2.btTcpReadData = _ModbusSoket2.TcpSocket("192.168.0.200", 502, btSendData);
+			_SysInfo2.btTcpReadData = _ModbusSoket2.TcpSocket(_Config.strRBMSIP2, _Config.nRBMSPort2, btSendData);
 
 		}
 
@@ -15827,6 +15892,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			_IniFile.IniWriteValue("COMM", "nCounterMyPort2", _Config.nCounterMyPort2.ToString(), strPath);
 			_IniFile.IniWriteValue("COMM", "nBcdPrinterPort", _Config.nBcdPrinterPort.ToString(), strPath);
 			_IniFile.IniWriteValue("COMM", "nBcdPrinterPort2", _Config.nBcdPrinterPort2.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "strRBMSIP", _Config.strRBMSIP.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nRBMSPort", _Config.nRBMSPort.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "strRBMSIP2", _Config.strRBMSIP2.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nRBMSPort2", _Config.nRBMSPort2.ToString(), strPath);
 
 
 			// 마지막 작업모델
@@ -15908,9 +15977,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			int.TryParse(_IniFile.IniReadValue("COMM", "nCounterMyPort", "5001", strPath), out _Config.nCounterMyPort);
 			_Config.strCounterMyIP2 = _IniFile.IniReadValue("COMM", "strCounterMyIP2", "192.168.0.1", strPath);
 			int.TryParse(_IniFile.IniReadValue("COMM", "nCounterMyPort2", "5001", strPath), out _Config.nCounterMyPort2);
+
 			int.TryParse(_IniFile.IniReadValue("COMM", "nBcdPrinterPort", "-1", strPath), out _Config.nBcdPrinterPort);
 			int.TryParse(_IniFile.IniReadValue("COMM", "nBcdPrinterPort2", "-1", strPath), out _Config.nBcdPrinterPort2);
 
+			_Config.strRBMSIP = _IniFile.IniReadValue("COMM", "strRBMSIP", "192.168.0.1", strPath);
+			int.TryParse(_IniFile.IniReadValue("COMM", "nRBMSPort", "502", strPath), out _Config.nRBMSPort);
+			_Config.strRBMSIP2 = _IniFile.IniReadValue("COMM", "strRBMSIP2", "192.168.0.1", strPath);
+			int.TryParse(_IniFile.IniReadValue("COMM", "nRBMSPort2", "502", strPath), out _Config.nRBMSPort2);
 			//마지막 작업 모델
 			_Config.strCurrentModel = _IniFile.IniReadValue("CURRENT", "strCurrentModel", "_NONAME_", strPath);
 			_Config.strCurrentModel2 = _IniFile.IniReadValue("CURRENT", "strCurrentModel2", "_NONAME_", strPath);

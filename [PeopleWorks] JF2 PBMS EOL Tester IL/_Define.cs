@@ -536,7 +536,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static int nDmmPort;
 		public static string strDmmIP2;
 		public static int nDmmPort2;
-		
+		public static string strRBMSIP;
+		public static int nRBMSPort;
+		public static string strRBMSIP2;
+		public static int nRBMSPort2;
+
 		public static string strCycloneMyIP;
 		public static int nCycloneMyPort;
 

@@ -89,6 +89,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 			// 메인 쓰레드 시작
 			theApp.MainThread.Start();
+			theApp.MainThread2.Start();
 			
 
 			// 타이머 시작
