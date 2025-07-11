@@ -775,6 +775,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		
 		public static int nCyclonHandle;
 		public static string strCyclonFileName;
+		public static double dbNutData;
 
 
 		public static CyclonFileName_RESULT _FileNameResult = new CyclonFileName_RESULT();
@@ -962,6 +963,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		
 		public static int nCyclonHandle;
 		public static string strCyclonFileName;
+		public static double dbNutData;
 
 		public static CyclonFileName_RESULT2 _FileNameResult = new CyclonFileName_RESULT2();
 	}

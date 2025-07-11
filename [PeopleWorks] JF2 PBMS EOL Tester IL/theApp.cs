@@ -605,8 +605,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 					else if (!GetDIOPort(DI.START_SW1) || !GetDIOPort(DI.START_SW2))
 					{
-						HideUserStartMessege();
-						nProcessStep[nStepIndex] = 0;
+						nProcessStep[nStepIndex] = 2;
 					}
 					break;
 
@@ -4882,7 +4881,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 				
 				case 50000:
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMax, out _SysInfo.nTipMaxCount);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue2, out _SysInfo.nTipMaxCount);
 					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nSetNutSch);
 					_SysInfo.bTiteIngStart = true;
 					
@@ -4932,7 +4931,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 50020:
 					if (_SysInfo.bTiteOk)
 					{
-						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.nTipNowCount.ToString(), "OK");
+						_SysInfo.dbNutData = _Nutrunner.dbTorqueData * 0.01;
+						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbNutData.ToString("F2"), "OK");
 						_SysInfo.bTiteIngStart = false;
 						_SysInfo.bTiteOk = false;
 						SetNutRunnerSch(50);   // 너트러너 스케줄 설정
@@ -5618,8 +5618,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 					else if (!GetDIOPort(DI.START_SW3) || !GetDIOPort(DI.START_SW4))
 					{
-						HideUserStartMessege2();
-						nProcessStep[nStepIndex] = 0;
+					
+						nProcessStep[nStepIndex] = 2;
 					}
 					break;
 
@@ -9891,7 +9891,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 50000:
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMax, out _SysInfo2.nTipMaxCount);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue2, out _SysInfo2.nTipMaxCount);
 					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nSetNutSch);
 					_SysInfo2.bTiteIngStart = true;
 
@@ -9941,7 +9941,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 50020:
 					if (_SysInfo2.bTiteOk)
 					{
-						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.nTipNowCount.ToString(), "OK");
+						_SysInfo2.dbNutData = _Nutrunner2.dbTorqueData * 0.01;
+						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbNutData.ToString("F2"), "OK");
 						_SysInfo2.bTiteIngStart = false;
 						SetNutRunnerSch2(50);   // 너트러너 스케줄 설정
 						_SysInfo2.bTiteOk = false;

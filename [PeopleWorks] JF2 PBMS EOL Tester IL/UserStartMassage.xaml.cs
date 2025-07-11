@@ -28,6 +28,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
 			_SysInfo.bEMGStop = true;
+			_SysInfo.bReadMainBcd = false;
+			_SysInfo.bReadMacBcd = false;
 			theApp.nProcessStep[(int)PROC_LIST.MAIN] = 80000;
 			e.Cancel = true;
 		}
