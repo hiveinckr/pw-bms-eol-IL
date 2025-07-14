@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_PeopleWorks__JF2_PBMS_EOL_Tester_IL"
         mc:Ignorable="d"
-                  Title="[PeopleWorks] JF2 RBMS BBMS EOL Tester IL2 (Ver. 20250613.1)" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
+                  Title="[PeopleWorks] JF2 RBMS BBMS EOL Tester IL2" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
         SizeToContent="WidthAndHeight">
     <Grid  Height="1010" Width="1920">
         <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowTime" Content="0" HorizontalAlignment="Left" Height="40" Margin="1632,36,0,0" VerticalAlignment="Top" Width="278" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FF04C8E3" FontWeight="Bold" FontSize="20"/>

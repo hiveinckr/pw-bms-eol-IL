@@ -8,8 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -25,6 +27,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 	{
 		DispatcherTimer _timer = new DispatcherTimer();
 		public static UserStartMassage2 _UserStartMassage2;
+		public static PopUp2 _PopUp2;
 		public MainWindow2()
 		{
 			InitializeComponent();
@@ -521,7 +524,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		// 시작 버튼 클릭
 		private void ControlButton_Click(object sender, RoutedEventArgs e)
 		{
-			switch (((Button)sender).Name)
+			switch (((System.Windows.Controls.Button)sender).Name)
 			{
 				case "btStart2":
 
@@ -593,12 +596,24 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public void ShowUserStartMsgMessege2()
 		{
-			//StartCBCheck startCB = new StartCBCheck();
-			//            startCB.Close();
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[0].WorkingArea;
+				UserStartMassage2 window = new UserStartMassage2();
+				window.Show();
+				// Show 메소드와 속성 설정의 순서가 중요하다.
+				window.WindowStartupLocation = WindowStartupLocation.Manual;
+				window.Left = secondaryScreenRectangle.Left;
+				window.Top = secondaryScreenRectangle.Top;
+				window.Width = secondaryScreenRectangle.Width;
+				window.Height = secondaryScreenRectangle.Height;
+				window.WindowState = System.Windows.WindowState.Maximized;
 
-			if (_UserStartMassage2 == null)
-				_UserStartMassage2 = new UserStartMassage2();
-			_UserStartMassage2.Show();
+			}
+
+			//if (_UserStartMassage2 == null)
+			//	_UserStartMassage2 = new UserStartMassage2();
+			//_UserStartMassage2.Show();
 
 		}
 
@@ -743,7 +758,30 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			BarcodeRePrint2 _window = new BarcodeRePrint2();
 			_window.ShowDialog();
 		}
-    }
+
+		public void ShowPopUpMessage()
+		{
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[0].WorkingArea;
+				PopUp2 window = new PopUp2();
+				window.Show();
+				// Show 메소드와 속성 설정의 순서가 중요하다.
+				window.WindowStartupLocation = WindowStartupLocation.Manual;
+				window.Left = secondaryScreenRectangle.Left;
+				window.Top = secondaryScreenRectangle.Top;
+				window.Width = secondaryScreenRectangle.Width;
+				window.Height = secondaryScreenRectangle.Height;
+				window.WindowState = System.Windows.WindowState.Maximized;
+
+			}
+
+			//if (_PopUp2 == null)
+			//	_PopUp2 = new PopUp2();
+			//_PopUp2.Show();
+		}
+	}
 	
 }
 

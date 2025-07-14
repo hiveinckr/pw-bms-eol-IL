@@ -53,7 +53,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			_SysInfo2.bReadMainBcd = false;
 			_SysInfo2.bReadMacBcd = false;
 			theApp.nProcessStep[(int)PROC_LIST.MAIN2] = 80000;
+			Hide();
 			e.Cancel = true;
+		
 		}
 	}
 }

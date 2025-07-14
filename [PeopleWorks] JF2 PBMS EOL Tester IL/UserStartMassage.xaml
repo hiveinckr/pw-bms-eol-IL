@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:_PeopleWorks__JF2_PBMS_EOL_Tester_IL"
         mc:Ignorable="d"
                Title="[Popup]" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" Closing="Window_Closing">
-    <Grid  Height="253" Width="1200">
+    <Grid  Height="250" Width="1200">
         <Label x:Name="lbMainStatus" Content="Station #1 Please start the test by pressing two buttons." HorizontalAlignment="Center" Height="233" VerticalAlignment="Center" Width="1180" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="LightBlue" Foreground="Black" FontWeight="Medium" FontSize="30" Template="{DynamicResource LabelControlTemplateGray}" Padding="0,0,0,0"/>
 
     </Grid>

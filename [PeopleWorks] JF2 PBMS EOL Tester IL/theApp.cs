@@ -689,6 +689,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo.nTL_Beep = 1;
 					_SysInfo.nMainWorkStep = 0;
 					_SysInfo.nSubWorkStep = 0;
+					_SysInfo.nVoltCount = 0;
 					_SysInfo.bEMGStop = false;	
 					_SysInfo.dtTestStartTime = DateTime.Now;
 					_SysInfo.strSaveFileName = _SysInfo.strDispBarcode + DateTime.Now.ToString("_HHmmss");
@@ -869,7 +870,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						}
 						else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 8)
 						{
-							//DMM Step
+							//POP UP
 							nProcessStep[nStepIndex] = 37000;
 						}
 						else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 9)
@@ -934,12 +935,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						{
 							// DMM(Curr.A)
 							_SysInfo.nCurrNGRetryCount = 0;
+							cellT.Clear();
 							nProcessStep[nStepIndex] = 49000;
 						}
 						else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 23)
 						{
 							// 체결
 							_SysInfo.nTipNowCount = 0;
+
 							nProcessStep[nStepIndex] = 50000;
 						}
 						else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 24)
@@ -4740,7 +4743,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						//}
 						//else
 						//{
-						KeysiteDmm.Send($"ROUTe:CLOSe(@{_SysInfo.nDmmCh})");
+						KeysiteDmm.Send($"ROUTe:CLOSe (@{_SysInfo.nDmmCh})");
 						//}
 					}
 
@@ -4767,7 +4770,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					//	//}
 					//	//else
 					//	//{
-					//	_KeysiteDmmEtc.Send($"SENS:CURR:APER {_ModelInfo.dbDmmAScanSpeed},(@{_SysInfo.nDmmCh})", true);
+					//	_KeysiteDmmEtc.Send($"SENS:CURR:APER {_ModelInfo.dbDmmMScanSpeed},(@{_SysInfo.nDmmCh})", true);
 					//	//}
 					//}
 					//else
@@ -4778,7 +4781,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					//	//}
 					//	//else
 					//	//{
-					//	KeysiteDmm.Send($"SENS:CURR:APER {_ModelInfo.dbDmmAScanSpeed},(@{_SysInfo.nDmmCh})");
+					//	KeysiteDmm.Send($"SENS:CURR:APER {_ModelInfo.dbDmmMScanSpeed},(@{_SysInfo.nDmmCh})");
 					//	//}
 					//}
 					//tMainTimer[nStepIndex].Start(3000);
@@ -4811,6 +4814,12 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_KeysiteDmmEtc.IsReadData())
 						{
 							nProcessStep[nStepIndex] = 49025;
+
+							if (_SysInfo.bFirstCheck)
+							{
+								tMainTimer[nStepIndex].Start(1000);
+								_SysInfo.bFirstCheck = false;
+							}
 						}
 					}
 					else
@@ -4818,6 +4827,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (KeysiteDmm.IsReadData())
 						{
 							nProcessStep[nStepIndex] = 49025;
+							if (_SysInfo.bFirstCheck)
+							{
+								tMainTimer[nStepIndex].Start(1000);
+								_SysInfo.bFirstCheck = false;
+							}
 						}
 					}
 					break;
@@ -4827,22 +4841,39 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_Config.bDmmEtcMode)
 					{
 						double.TryParse(_KeysiteDmmEtc.strReadMessage, out _SysInfo.dbCommReadData);
-						nProcessStep[nStepIndex] = 49040;
+						AppendDebugMsg($"Curr AVG : {_SysInfo.dbCommReadData}", "CURR");
+						cellT.Add(_SysInfo.dbCommReadData);
+						nProcessStep[nStepIndex] = 49026;
 					}
 					else
 					{
 						double.TryParse(KeysiteDmm.GetReadData(), out _SysInfo.dbCommReadData);
-						AppendDebugMsg($"Curr.A {_SysInfo.dbCommReadData}", "CURR");
+						AppendDebugMsg($"Curr AVG : {_SysInfo.dbCommReadData}", "CURR");
+						cellT.Add(_SysInfo.dbCommReadData);
+						nProcessStep[nStepIndex] = 49026;
+
+					}
+
+					break;
+
+				case 49026:
+					if (!tMainTimer[nStepIndex].Verify())
+					{
+						nProcessStep[nStepIndex] = 49023;
+
+					}
+					else
+					{
+						_SysInfo.dbCommReadMinData = cellT.Average();
 						nProcessStep[nStepIndex] = 49040;
 
 					}
 					break;
 
 
-
 				case 49040:
-					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo.dbCommReadData}{_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo.dbCalcData);
-					//theApp.AppendLogMsg(_SysInfo.dbCalcData.ToString(), MSG_TYPE.INFO);
+					
+					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo.dbCommReadMinData}{_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo.dbCalcData);
 					double.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMin, out _SysInfo.dbSpecMin);
 					double.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMax, out _SysInfo.dbSpecMax);
 
@@ -4870,6 +4901,29 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "OK");
 					}
+					//}
+					//else if (_SysInfo.nBuffIndex == 1)
+					//{
+					//	if (_SysInfo.dbCalcData < _SysInfo.dbSpecMin)
+					//	{
+					//		TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+					//	}
+					//	else
+					//	{
+					//		TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "OK");
+					//	}
+					//}
+					//else if (_SysInfo.nBuffIndex == 2)
+					//{
+					//	if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax)
+					//	{
+					//		TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+					//	}
+					//	else
+					//	{
+					//		TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "OK");
+					//	}
+					//}
 
 					nProcessStep[nStepIndex] = 49050;
 					break;
@@ -4884,63 +4938,80 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue2, out _SysInfo.nTipMaxCount);
 					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nSetNutSch);
 					_SysInfo.bTiteIngStart = true;
-					
+					_SysInfo.bNutRetry = false;
+					_SysInfo.bNutNext = false;
+					//_SysInfo.nVoltCount++;
+					ShowUserNutMessege();
 					nProcessStep[nStepIndex] = 50020;
 					break;
-
-				//case 50010:
-				//	if (_Nutrunner.bReadData)
-				//	{
-				//		_Nutrunner.bReadData = false;
-				//		if (_SysInfo.nTipNowCount < _SysInfo.nTipMaxCount)
-				//		{
-
-				//			// 체결작업 진행
-				//			if (GetTiteStatus() == TITE_STATUS.OK)
-				//			{
-
-				//				// OK 시그널이 들어옴
-				//				theApp._Nutrunner.nTiteNum = _SysInfo.nTipNowCount;
-				//				_SysInfo.nTipNowCount++;
-				//				_SysInfo.nTiteLog = 2;
-				//				theApp._Nutrunner.SaveResultData();
-				//				nProcessStep[nStepIndex] = 50020;
-				//				break;
-
-				//			}
-				//			else if (GetTiteStatus() == TITE_STATUS.NG)
-				//			{
-				//				theApp._Nutrunner.nTiteNum = _SysInfo.nTipNowCount;
-
-				//				_SysInfo.nTiteLog = 3;
-				//				theApp._Nutrunner.SaveResultData();
-				//				theApp.AppendLogMsg(String.Format("팁 체결 불량"), MSG_TYPE.ERROR);
-				//				_SysInfo.nCount_Beep = 3;
-				//				nProcessStep[nStepIndex] = 50000;
-				//				break;
-				//			}
-				//			else
-				//			{
-
-				//			}
-				//		}
-				//	}
-
-				//	break;
 
 				case 50020:
 					if (_SysInfo.bTiteOk)
 					{
-						_SysInfo.dbNutData = _Nutrunner.dbTorqueData * 0.01;
-						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbNutData.ToString("F2"), "OK");
+						HideUserNutMessege();
+						_SysInfo.bNutRetryCheckOK = false;
 						_SysInfo.bTiteIngStart = false;
-						_SysInfo.bTiteOk = false;
-						SetNutRunnerSch(50);   // 너트러너 스케줄 설정
-						_SysInfo.nMainWorkStep++;
-						nProcessStep[nStepIndex] = 3000;
+						SetNutRunnerSch(50);
+						//_SysInfo.dbNutData = _Nutrunner.dbTorqueData * 0.01;
+						//TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbNutData.ToString("F2"), "OK");
+						//_SysInfo.bTiteIngStart = false;
+						//_SysInfo.bTiteOk = false;
+						//SetNutRunnerSch(50);   // 너트러너 스케줄 설정
+						//_SysInfo.nMainWorkStep++;
+						nProcessStep[nStepIndex] = 50050;
 					}
 					break;
-				
+
+				case 50050:
+					ShowNutRetryMessege();
+					nProcessStep[nStepIndex] = 50055;
+					break;
+
+				case 50055:
+					if (_SysInfo.bNutRetryCheckOK)
+					{
+						_SysInfo.bNutRetryCheckOK = false;
+						nProcessStep[nStepIndex] = 50060;
+					}
+					else if (GetDIOPort(DI.START_SW1) && !GetDIOPort(DI.START_SW2))
+					{
+						HideNutRetryMessege();
+						_SysInfo.bNutNext = true;
+						_SysInfo.bNutRetry = false;
+						nProcessStep[nStepIndex] = 50060;
+					}
+					else if (!GetDIOPort(DI.START_SW1) && GetDIOPort(DI.START_SW2))
+					{
+						HideNutRetryMessege();
+						_SysInfo.bNutNext = false;
+						_SysInfo.bNutRetry = true;
+						nProcessStep[nStepIndex] = 50060;
+					}
+					break;
+
+				case 50060:
+					//if (_SysInfo.bNutRetryCheckOK)
+					//{
+						if (_SysInfo.bNutNext && !_SysInfo.bNutRetry)
+						{
+							_SysInfo.dbNutData = _Nutrunner.dbTorqueData * 0.01;
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbNutData.ToString("F2"), "OK");
+							_SysInfo.bTiteIngStart = false;
+							SetNutRunnerSch(50);   // 너트러너 스케줄 설정
+							_SysInfo.bTiteOk = false;
+							_SysInfo.nMainWorkStep++;
+							nProcessStep[nStepIndex] = 3000;
+						}
+						else if (!_SysInfo.bNutNext && _SysInfo.bNutRetry)
+						{
+							//_SysInfo.nVoltCount--;
+							nProcessStep[nStepIndex] = 3000;
+						}
+					//}
+					
+					break;
+
+
 				case 51000:
 					_SysInfo._FileNameResult = CyclonFileName_RESULT.READY;
 					_CyStatus = CYCLON_STATUS.READY;
@@ -5350,6 +5421,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					_SysInfo.bReadMacBcd = false;
 					_SysInfo.bReadMainBcd = false;
+					_SysInfo.nVoltCount = 0;
 					nProcessStep[nStepIndex] = 86000;
 					break;
 
@@ -5703,7 +5775,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo2.nMainWorkStep = 0;
 					_SysInfo2.nSubWorkStep = 0;
 					_SysInfo2.bEMGStop = false;
-
+					_SysInfo2.nVoltCount = 0;
 					_SysInfo2.dtTestStartTime = DateTime.Now;
 					_SysInfo2.strSaveFileName = _SysInfo2.strDispBarcode + DateTime.Now.ToString("_HHmmss");
 
@@ -5948,6 +6020,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						{
 							// DMM(Curr.A)
 							_SysInfo2.nCurrNGRetryCount = 0;
+							cellT2.Clear();
 							nProcessStep[nStepIndex] = 49000;
 						}
 						else if (_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].nTestItem == 23)
@@ -9672,7 +9745,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					break;
 
-				// 1번 채널 Power Supply 설정
+					// 1번 채널 Power Supply 설정
 				case 49010:
 					if (_Config.bDmmEtcMode)
 					{
@@ -9750,7 +9823,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						//}
 						//else
 						//{
-						KeysiteDmm2.Send($"ROUTe:CLOSe(@{_SysInfo2.nDmmCh})");
+						KeysiteDmm2.Send($"ROUTe:CLOSe (@{_SysInfo2.nDmmCh})");
 						//}
 					}
 
@@ -9777,7 +9850,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					//	//}
 					//	//else
 					//	//{
-					//	_KeysiteDmmEtc2.Send($"SENS:CURR:APER {_ModelInfo2.dbDmmAScanSpeed},(@{_SysInfo2.nDmmCh})", true);
+					//	_KeysiteDmmEtc2.Send($"SENS:CURR:APER {_ModelInfo2.dbDmmMScanSpeed},(@{_SysInfo2.nDmmCh})", true);
 					//	//}
 					//}
 					//else
@@ -9788,7 +9861,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					//	//}
 					//	//else
 					//	//{
-					//	KeysiteDmm2.Send($"SENS:CURR:APER {_ModelInfo2.dbDmmAScanSpeed},(@{_SysInfo2.nDmmCh})");
+					//	KeysiteDmm2.Send($"SENS:CURR:APER {_ModelInfo2.dbDmmMScanSpeed},(@{_SysInfo2.nDmmCh})");
 					//	//}
 					//}
 					//tMainTimer[nStepIndex].Start(3000);
@@ -9821,6 +9894,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_KeysiteDmmEtc2.IsReadData())
 						{
 							nProcessStep[nStepIndex] = 49025;
+							if (_SysInfo2.bFirstCheck)
+							{
+								tMainTimer[nStepIndex].Start(1000);
+								_SysInfo2.bFirstCheck = false;
+							}
 						}
 					}
 					else
@@ -9828,6 +9906,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (KeysiteDmm2.IsReadData())
 						{
 							nProcessStep[nStepIndex] = 49025;
+							if (_SysInfo2.bFirstCheck)
+							{
+								tMainTimer[nStepIndex].Start(1000);
+								_SysInfo2.bFirstCheck = false;
+							}
 						}
 					}
 					break;
@@ -9837,21 +9920,51 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_Config.bDmmEtcMode)
 					{
 						double.TryParse(_KeysiteDmmEtc2.strReadMessage, out _SysInfo2.dbCommReadData);
-						nProcessStep[nStepIndex] = 49040;
+						AppendDebugMsg($"Curr AVG #2 {_SysInfo2.dbCommReadData}", "CURR");
+						cellT2.Add(_SysInfo2.dbCommReadData);
+						nProcessStep[nStepIndex] = 49026;
 					}
 					else
 					{
 						double.TryParse(KeysiteDmm2.GetReadData(), out _SysInfo2.dbCommReadData);
-						AppendDebugMsg($"Curr.A {_SysInfo2.dbCommReadData}", "CURR");
+						AppendDebugMsg($"Curr AVG #2 {_SysInfo2.dbCommReadData}", "CURR");
+						cellT2.Add(_SysInfo2.dbCommReadData);
+						nProcessStep[nStepIndex] = 49026;
+
+					}
+
+					break;
+
+				case 49026:
+					if (!tMainTimer[nStepIndex].Verify())
+					{
+
+						nProcessStep[nStepIndex] = 49023;
+
+					}
+					else
+					{
+						_SysInfo2.dbCommReadMinData = cellT2.Average();
 						nProcessStep[nStepIndex] = 49040;
 
 					}
 					break;
 
 
-
 				case 49040:
-					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo2.dbCommReadData}{_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo2.dbCalcData);
+					//theApp.AppendLogMsg2(KeysiteDmm2.GetReadData(), MSG_TYPE.INFO);
+					//if (_Config.bDmmEtcMode)
+					//{
+					//	double.TryParse(_KeysiteDmmEtc2.strReadMessage, out _SysInfo2.dbCommReadData);
+					//}
+					//else
+					//{
+					//	double.TryParse(KeysiteDmm2.GetReadData(), out _SysInfo2.dbCommReadData);
+					//}
+
+					//theApp.AppendLogMsg2(_SysInfo2.dbCommReadData.ToString(), MSG_TYPE.INFO);
+					//int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue3, out _SysInfo2.nBuffIndex);
+					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo2.dbCommReadMinData}{_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo2.dbCalcData);
 					//theApp.AppendLogMsg2(_SysInfo2.dbCalcData.ToString(), MSG_TYPE.INFO);
 					double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMin, out _SysInfo2.dbSpecMin);
 					double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMax, out _SysInfo2.dbSpecMax);
@@ -9880,6 +9993,29 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "OK");
 					}
+					//}
+					//else if (_SysInfo2.nBuffIndex == 1)
+					//{
+					//	if (_SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
+					//	{
+					//		TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+					//	}
+					//	else
+					//	{
+					//		TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "OK");
+					//	}
+					//}
+					//else if (_SysInfo2.nBuffIndex == 2)
+					//{
+					//	if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax)
+					//	{
+					//		TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+					//	}
+					//	else
+					//	{
+					//		TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "OK");
+					//	}
+					//}
 
 					nProcessStep[nStepIndex] = 49050;
 					break;
@@ -9894,61 +10030,93 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue2, out _SysInfo2.nTipMaxCount);
 					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nSetNutSch);
 					_SysInfo2.bTiteIngStart = true;
-
+					_SysInfo2.bNutRetry = false;
+					_SysInfo2.bNutNext = false;
+					//_SysInfo2.nVoltCount++;
+					ShowUserNutMessege2();
 					nProcessStep[nStepIndex] = 50020;
 					break;
-
-				//case 50010:
-				//	if (_Nutrunner.bReadData)
-				//	{
-				//		_Nutrunner.bReadData = false;
-				//		if (_SysInfo.nTipNowCount < _SysInfo.nTipMaxCount)
-				//		{
-
-				//			// 체결작업 진행
-				//			if (GetTiteStatus() == TITE_STATUS.OK)
-				//			{
-
-				//				// OK 시그널이 들어옴
-				//				theApp._Nutrunner.nTiteNum = _SysInfo.nTipNowCount;
-				//				_SysInfo.nTipNowCount++;
-				//				_SysInfo.nTiteLog = 2;
-				//				theApp._Nutrunner.SaveResultData();
-				//				nProcessStep[nStepIndex] = 50020;
-				//				break;
-
-				//			}
-				//			else if (GetTiteStatus() == TITE_STATUS.NG)
-				//			{
-				//				theApp._Nutrunner.nTiteNum = _SysInfo.nTipNowCount;
-
-				//				_SysInfo.nTiteLog = 3;
-				//				theApp._Nutrunner.SaveResultData();
-				//				theApp.AppendLogMsg(String.Format("팁 체결 불량"), MSG_TYPE.ERROR);
-				//				_SysInfo.nCount_Beep = 3;
-				//				nProcessStep[nStepIndex] = 50000;
-				//				break;
-				//			}
-				//			else
-				//			{
-
-				//			}
-				//		}
-				//	}
-
-				//	break;
 
 				case 50020:
 					if (_SysInfo2.bTiteOk)
 					{
-						_SysInfo2.dbNutData = _Nutrunner2.dbTorqueData * 0.01;
-						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbNutData.ToString("F2"), "OK");
+					
+						HideUserNutMessege2();
+						_SysInfo2.bNutRetryCheckOK = false;
 						_SysInfo2.bTiteIngStart = false;
-						SetNutRunnerSch2(50);   // 너트러너 스케줄 설정
-						_SysInfo2.bTiteOk = false;
-						_SysInfo2.nMainWorkStep++;
-						nProcessStep[nStepIndex] = 3000;
+						SetNutRunnerSch2(50);
+						//_SysInfo2.dbNutData = _Nutrunner2.dbTorqueData * 0.01;
+						//TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbNutData.ToString("F2"), "OK");
+						//_SysInfo2.bTiteIngStart = false;
+						//SetNutRunnerSch2(50);   // 너트러너 스케줄 설정
+						//_SysInfo2.bTiteOk = false;
+						//_SysInfo2.nMainWorkStep++;
+					
+						nProcessStep[nStepIndex] = 50050;
 					}
+					break;
+
+				case 50050:
+					ShowNutRetryMessege2();
+					nProcessStep[nStepIndex] = 50055;
+					break;
+
+				case 50055:
+					if(_SysInfo2.bNutRetryCheckOK)
+					{
+						_SysInfo2.bNutRetryCheckOK = false;
+						nProcessStep[nStepIndex] = 50060;
+					}
+					else if(GetDIOPort(DI.START_SW3) && !GetDIOPort(DI.START_SW4))
+					{
+						HideNutRetryMessege2();
+						_SysInfo2.bNutNext = true;
+						_SysInfo2.bNutRetry = false;
+						nProcessStep[nStepIndex] = 50060;
+					}
+					else if (!GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4))
+					{
+						HideNutRetryMessege2();
+						_SysInfo2.bNutNext = false;
+						_SysInfo2.bNutRetry = true;
+						nProcessStep[nStepIndex] = 50060;
+					}
+					break;
+
+				case 50060:
+
+						if (_SysInfo2.bNutNext && !_SysInfo2.bNutRetry)
+						{
+							_SysInfo2.dbNutData = _Nutrunner2.dbTorqueData * 0.01;
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbNutData.ToString("F2"), "OK");
+							_SysInfo2.bTiteIngStart = false;
+							SetNutRunnerSch2(50);   // 너트러너 스케줄 설정
+							_SysInfo2.bTiteOk = false;
+							_SysInfo2.nMainWorkStep++;
+							nProcessStep[nStepIndex] = 3000;
+						}
+						else if (!_SysInfo2.bNutNext && _SysInfo2.bNutRetry)
+						{
+							//_SysInfo2.nVoltCount --;
+							nProcessStep[nStepIndex] = 3000;
+						}
+						//else if (GetDIOPort(DI.START_SW3))
+						//{
+						//	_SysInfo2.dbNutData = _Nutrunner2.dbTorqueData * 0.01;
+						//	TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbNutData.ToString("F2"), "OK");
+						//	_SysInfo2.bTiteIngStart = false;
+						//	SetNutRunnerSch2(50);   // 너트러너 스케줄 설정
+						//	_SysInfo2.bTiteOk = false;
+						//	_SysInfo2.nMainWorkStep++;
+						//	nProcessStep[nStepIndex] = 3000;
+						//}
+						//else if (GetDIOPort(DI.START_SW4))
+						//{
+						//	//_SysInfo2.nVoltCount --;
+						//	nProcessStep[nStepIndex] = 3000;
+						//}
+					
+						
 					break;
 
 				case 51000:
@@ -10223,7 +10391,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 52060:
-					TestResultSet(_SysInfo2.nMainWorkStep, "OK", "OK");
+					TestResultSet2(_SysInfo2.nMainWorkStep, "OK", "OK");
 					_SysInfo2.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
@@ -10371,6 +10539,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					SetDIOPort(DO.RY_01 + 56 - 1, false);
 					_SysInfo2.bReadMacBcd = false;
 					_SysInfo2.bReadMainBcd = false;
+					_SysInfo2.nVoltCount = 0;
 					nProcessStep[nStepIndex] = 86000;
 					break;
 
@@ -14207,53 +14376,25 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 
-		//public static bool ReadModbusCanAddr(int nCh, int nAddress)
-		//{
-		//	return _CanComm[nCh].lstModbusData[nAddress].bNewData;
-		//}
 
-
-		//public static int ReadModbusCanData(int nCh, int nAddress)
-		//{
-		//	return _CanComm[nCh].lstModbusData[nAddress].nData;
-		//}
 
 		public static void ShowPopUpWindow()
 		{
 			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
 			{
-
-				if (_PopUpWindow == null)
-				{
-					_PopUpWindow = new PopUp();
-					_PopUpWindow.Show();
-				}
-				else
-				{
-					_PopUpWindow.Show();
-					_PopUpWindow.Activate();
-				}
-
+				((MainWindow)App.Current.MainWindow).ShowPopupMessage();
 			});
+
 		}
 
 		public static void ShowPopUpWindow2()
 		{
+
 			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
 			{
-
-				if (_PopUpWindow2 == null)
-				{
-					_PopUpWindow2 = new PopUp2();
-					_PopUpWindow2.Show();
-				}
-				else
-				{
-					_PopUpWindow2.Show();
-					_PopUpWindow2.Activate();
-				}
-
+				((MainWindow)App.Current.MainWindow).ShowPopupMessage2();
 			});
+			
 		}
 
 		// 팝업 열기 및 동작
@@ -14292,18 +14433,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
 			{
-
-				if (_BarcodePopUP == null)
-				{
-					_BarcodePopUP = new BarcodePopUP();
-					_BarcodePopUP.Show();
-				}
-				else
-				{
-					_BarcodePopUP.Show();
-					_BarcodePopUP.Activate();
-				}
-
+				((MainWindow)App.Current.MainWindow).ShowBcdCheckMessege();
 			});
 		}
 
@@ -14311,11 +14441,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
 			{
-				if (_BarcodePopUP != null && _BarcodePopUP.IsActive)
-				{
-					_BarcodePopUP.Hide();
-				}
-
+				((MainWindow)App.Current.MainWindow).HideBcdCheckMessege();
 			});
 		}
 
@@ -14323,18 +14449,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
 			{
-
-				if (_BarcodePopUP2 == null)
-				{
-					_BarcodePopUP2 = new BarcodePopUP2();
-					_BarcodePopUP2.Show();
-				}
-				else
-				{
-					_BarcodePopUP2.Show();
-					_BarcodePopUP2.Activate();
-				}
-
+				((MainWindow)App.Current.MainWindow).ShowBcdCheckMessege2();
 			});
 		}
 
@@ -14342,11 +14457,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
 			{
-				if (_BarcodePopUP2 != null && _BarcodePopUP2.IsActive)
-				{
-					_BarcodePopUP2.Hide();
-				}
-
+				((MainWindow)App.Current.MainWindow).HideBcdCheckMessege2();
 			});
 		}
 
@@ -14355,25 +14466,143 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
 			{
-				if (_PopUpWindow != null && _PopUpWindow.IsActive)
-				{
-					_PopUpWindow.Hide();
-				}
-
+				((MainWindow)App.Current.MainWindow).HidePopupMessage();
 			});
+			//App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			//{
+			//	if (_PopUpWindow != null && _PopUpWindow.IsActive)
+			//	{
+			//		_PopUpWindow.Hide();
+			//	}
+
+			//});
 		}
 
 		public static void ClosePopUpWindow2()
 		{
 			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
 			{
-				if (_PopUpWindow2 != null && _PopUpWindow2.IsActive)
-				{
-					_PopUpWindow2.Hide();
-				}
+				((MainWindow)App.Current.MainWindow).HidePopupMessage2();
+			});
 
+		}
+
+		static void ShowUserStartMessege()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowUserStartMsgMessege();
 			});
 		}
+		static void HideUserStartMessege()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HideUserStartMsgMessege();
+			});
+		}
+
+		// 카운터 로드
+		public static void ShowUserStartMessege2()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowStartMessage2();
+			});
+			//App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			//{
+
+			//	if (_UserStartMassage2 == null)
+			//	{
+			//		_UserStartMassage2 = new UserStartMassage2();
+			//		_UserStartMassage2.Show();
+			//	}
+			//	else
+			//	{
+			//		_UserStartMassage2.Show();
+			//		_UserStartMassage2.Activate();
+			//	}
+
+			//});
+		}
+
+
+		public static void HideUserStartMessege2()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HideStartMessage2();
+			});
+			//App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			//{
+			//	if (_UserStartMassage2 != null)
+			//	{
+			//		_UserStartMassage2.Hide();
+			//	}
+
+			//});
+		}
+
+		static void ShowUserNutMessege()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowUserNutMsgMessege();
+			});
+		}
+		static void HideUserNutMessege()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HideUserNutMsgMessege();
+			});
+		}
+
+		static void ShowUserNutMessege2()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowUserNutMsgMessege2();
+			});
+		}
+		static void HideUserNutMessege2()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HideUserNutMsgMessege2();
+			});
+		}
+
+		static void ShowNutRetryMessege()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowNutRetryMessege();
+			});
+		}
+		static void HideNutRetryMessege()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HideNutRetryMessege();
+			});
+		}
+
+		static void ShowNutRetryMessege2()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowNutRetryMessege2();
+			});
+		}
+		static void HideNutRetryMessege2()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HideNutRetryMessege2();
+			});
+		}
+
 
 		public static UInt16 ModRTU_CRC(byte[] buf, int len)
 		{
@@ -15795,53 +16024,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }
 		}
 
-		static void ShowUserStartMessege()
-		{
-			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
-			{
-				((MainWindow)App.Current.MainWindow).ShowUserStartMsgMessege();
-			});
-		}
-		static void HideUserStartMessege()
-		{
-			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
-			{
-				((MainWindow)App.Current.MainWindow).HideUserStartMsgMessege();
-			});
-		}
-
-		// 카운터 로드
-		public static void ShowUserStartMessege2()
-		{
-			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
-			{
-
-				if (_UserStartMassage2 == null)
-				{
-					_UserStartMassage2 = new UserStartMassage2();
-					_UserStartMassage2.Show();
-				}
-				else
-				{
-					_UserStartMassage2.Show();
-					_UserStartMassage2.Activate();
-				}
-
-			});
-		}
-
-
-		public static void HideUserStartMessege2()
-		{
-			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
-			{
-				if (_UserStartMassage2 != null)
-				{
-					_UserStartMassage2.Hide();
-				}
-
-			});
-		}
+		
 
 
 

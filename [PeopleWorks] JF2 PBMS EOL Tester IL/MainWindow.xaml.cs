@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Forms;
@@ -19,6 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
@@ -26,10 +28,19 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 	/// <summary>
 	/// MainWindow.xaml에 대한 상호 작용 논리
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class MainWindow : System.Windows.Window
 	{
 		DispatcherTimer _timer = new DispatcherTimer();
 		public static UserStartMassage _UserStartMassage;
+		public static UserStartMassage2 _UserStartMassage2;
+		public static PopUp _PopUp;
+		public static PopUp2 _PopUp2;
+		public static UserTitleMassage _UserTitleMassage;
+		public static UserTitleMassage2 _UserTitleMassage2;
+		public static NutRetryPopUp _NutRetryPopUp;
+		public static NutRetryPopUp2 _NutRetryPopUp2;
+		public static BarcodePopUP _BarcodePopUP;
+		public static BarcodePopUP2 _BarcodePopUP2;
 		public MainWindow()
 		{
 			//this.Title = "[PeopleWorks] JF2 RBMS BBMS EOL Tester IL (Ver. 20250613.1)";
@@ -51,8 +62,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				window.WindowState = System.Windows.WindowState.Maximized;
 
 			}
+
+
 			
-		
+
+
 			gdLogView.ItemsSource = theApp.MainLogMessage;
 			gdWorkList.ItemsSource = theApp._TestData;
 			gdLogView_Copy.ItemsSource = theApp._TestResultList;
@@ -713,22 +727,16 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 
-		public void ShowUserStartMsgMessege()
+	
+
+		public void ShowPopUpMsgMessege()
 		{
 			//StartCBCheck startCB = new StartCBCheck();
 			//            startCB.Close();
 
-			if (_UserStartMassage == null)
-				_UserStartMassage = new UserStartMassage();
-			_UserStartMassage.Show();
-
-		}
-
-		public void HideUserStartMsgMessege()
-		{
-			if (_UserStartMassage == null)
-				_UserStartMassage = new UserStartMassage();
-			_UserStartMassage.Hide();
+			if (_PopUp == null)
+				_PopUp = new PopUp();
+			_PopUp.Show();
 
 		}
 
@@ -867,9 +875,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public void ChangeUI(int nIndex)
 		{
 
-			foreach (Window window in System.Windows.Application.Current.Windows)
+			foreach (System.Windows.Window window in System.Windows.Application.Current.Windows)
 			{
-				if (window.Title == "[PeopleWorks] JF2 RBMS BBMS EOL Tester IL2 (Ver. 20250613.1)") // 원하는 윈도우 찾기
+				if (window.Title == "[PeopleWorks] JF2 RBMS BBMS EOL Tester IL2") // 원하는 윈도우 찾기
 				{
 					// UI 컨트롤 직접 수정
 					if (window is MainWindow2 customWindow)
@@ -889,9 +897,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public void ChangeUI2(int nIndex)
 		{
 
-			foreach (Window window in System.Windows.Application.Current.Windows)
+			foreach (System.Windows.Window window in System.Windows.Application.Current.Windows)
 			{
-				if (window.Title == "[PeopleWorks] JF2 RBMS BBMS EOL Tester IL2 (Ver. 20250613.1)") // 원하는 윈도우 찾기
+				if (window.Title == "[PeopleWorks] JF2 RBMS BBMS EOL Tester IL2") // 원하는 윈도우 찾기
 				{
 					// UI 컨트롤 직접 수정
 					if (window is MainWindow2 customWindow)
@@ -909,6 +917,601 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			//	_window2.TestLogSet2(nIndex, strData, strResult);
 
 			//});
+		}
+		public void ShowUserStartMsgMessege()
+		{
+			//StartCBCheck startCB = new StartCBCheck();
+			//            startCB.Close();
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_UserStartMassage == null)
+				{
+					_UserStartMassage = new UserStartMassage();
+					_UserStartMassage.Show();
+					// Show 메소드와 속성 설정의 순서가 중요하다.
+					_UserStartMassage.WindowStartupLocation = WindowStartupLocation.Manual;
+					_UserStartMassage.Left = left;
+					_UserStartMassage.Top = top;
+					_UserStartMassage.Width = popupWidth;
+					_UserStartMassage.Height = popupHeight;
+					_UserStartMassage.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_UserStartMassage.Show();
+					_UserStartMassage.Activate();
+					_UserStartMassage.WindowStartupLocation = WindowStartupLocation.Manual;
+					_UserStartMassage.Left = left;
+					_UserStartMassage.Top = top;
+					_UserStartMassage.Width = popupWidth;
+					_UserStartMassage.Height = popupHeight;
+					_UserStartMassage.WindowState = System.Windows.WindowState.Normal;
+
+				}
+
+
+
+
+			}
+
+			//if (_UserStartMassage == null)
+			//	_UserStartMassage = new UserStartMassage();
+			//_UserStartMassage.Show();
+
+		}
+
+		public void HideUserStartMsgMessege()
+		{
+			//if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			//{
+			//	System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+			//	UserStartMassage window = new UserStartMassage();
+			//	window.Hide();
+			//	// Show 메소드와 속성 설정의 순서가 중요하다.
+			//	window.WindowStartupLocation = WindowStartupLocation.Manual;
+			//	window.Left = secondaryScreenRectangle.Left;
+			//	window.Top = secondaryScreenRectangle.Top;
+			//	window.Width = secondaryScreenRectangle.Width;
+			//	window.Height = secondaryScreenRectangle.Height;
+			//	window.WindowState = System.Windows.WindowState.Maximized;
+
+			//}
+			if (_UserStartMassage == null)
+				_UserStartMassage = new UserStartMassage();
+			_UserStartMassage.Hide();
+
+		}
+
+		public void ShowStartMessage2()
+		{
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[0].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_UserStartMassage2 == null)
+				{
+					_UserStartMassage2 = new UserStartMassage2();
+					_UserStartMassage2.Show();
+					// Show 메소드와 속성 설정의 순서가 중요하다.
+					_UserStartMassage2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_UserStartMassage2.Left = left;
+					_UserStartMassage2.Top = top;
+					_UserStartMassage2.Width = popupWidth;
+					_UserStartMassage2.Height = popupHeight;
+					_UserStartMassage2.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_UserStartMassage2.Show();
+					_UserStartMassage2.Activate();
+					_UserStartMassage2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_UserStartMassage2.Left = left;
+					_UserStartMassage2.Top = top;
+					_UserStartMassage2.Width = popupWidth;
+					_UserStartMassage2.Height = popupHeight;
+					_UserStartMassage2.WindowState = System.Windows.WindowState.Normal;
+				}
+
+
+			}
+			//if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			//{
+			//	System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[0].WorkingArea;
+			//	UserStartMassage2 window = new UserStartMassage2();
+			//	window.Show();
+			//	// Show 메소드와 속성 설정의 순서가 중요하다.
+			//	window.WindowStartupLocation = WindowStartupLocation.Manual;
+			//	window.Left = secondaryScreenRectangle.Left;
+			//	window.Top = secondaryScreenRectangle.Top;
+			//	window.Width = secondaryScreenRectangle.Width;
+			//	window.Height = secondaryScreenRectangle.Height;
+			//	window.WindowState = System.Windows.WindowState.Maximized;
+
+				
+			//}
+		}
+
+		public void HideStartMessage2()
+		{
+			//System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+			//UserStartMassage2 window = new UserStartMassage2();
+			//window.Hide();
+			//// Show 메소드와 속성 설정의 순서가 중요하다.
+			//window.WindowStartupLocation = WindowStartupLocation.Manual;
+			//window.Left = secondaryScreenRectangle.Left;
+			//window.Top = secondaryScreenRectangle.Top;
+			//window.Width = secondaryScreenRectangle.Width;
+			//window.Height = secondaryScreenRectangle.Height;
+			//window.WindowState = System.Windows.WindowState.Maximized;
+			if (_UserStartMassage2 == null)
+				_UserStartMassage2 = new UserStartMassage2();
+			_UserStartMassage2.Hide();
+
+
+		}
+
+		public void ShowPopupMessage()
+		{
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount >1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_PopUp == null)
+				{
+					_PopUp = new PopUp();
+					_PopUp.Show();
+					// Show 메소드와 속성 설정의 순서가 중요하다.
+					_PopUp.WindowStartupLocation = WindowStartupLocation.Manual;
+					_PopUp.Left = left;
+					_PopUp.Top = top;
+					_PopUp.Width = popupWidth;
+					_PopUp.Height = popupHeight;
+					_PopUp.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_PopUp.Show();
+					_PopUp.Activate();
+					_PopUp.WindowStartupLocation = WindowStartupLocation.Manual;
+					_PopUp.Left = left;
+					_PopUp.Top = top;
+					_PopUp.Width = popupWidth;
+					_PopUp.Height = popupHeight;
+					_PopUp.WindowState = System.Windows.WindowState.Normal;
+				}
+
+			}
+			//if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			//{
+			//	System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+			//	PopUp window = new PopUp();
+			//	window.Show();
+			//	// Show 메소드와 속성 설정의 순서가 중요하다.
+			//	window.WindowStartupLocation = WindowStartupLocation.Manual;
+			//	window.Left = secondaryScreenRectangle.Left;
+			//	window.Top = secondaryScreenRectangle.Top;
+			//	window.Width = secondaryScreenRectangle.Width;
+			//	window.Height = secondaryScreenRectangle.Height;
+			//	window.WindowState = System.Windows.WindowState.Maximized;
+
+			//}
+		}
+
+		public void ShowPopupMessage2()
+		{
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+
+
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[0].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+				if (_PopUp2 == null)
+				{
+					_PopUp2 = new PopUp2();
+					_PopUp2.Show();
+					// Show 메소드와 속성 설정의 순서가 중요하다.
+					_PopUp2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_PopUp2.Left = left;
+					_PopUp2.Top = top;
+					_PopUp2.Width = popupWidth;
+					_PopUp2.Height = popupHeight;
+					_PopUp2.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_PopUp2.Show();
+					_PopUp2.Activate();
+					_PopUp2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_PopUp2.Left = left;
+					_PopUp2.Top = top;
+					_PopUp2.Width = popupWidth;
+					_PopUp2.Height = popupHeight;
+					_PopUp2.WindowState = System.Windows.WindowState.Normal;
+				}
+
+			}
+
+
+		}
+
+		public void HidePopupMessage()
+		{
+			//System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+			//UserStartMassage2 window = new UserStartMassage2();
+			//window.Hide();
+			//// Show 메소드와 속성 설정의 순서가 중요하다.
+			//window.WindowStartupLocation = WindowStartupLocation.Manual;
+			//window.Left = secondaryScreenRectangle.Left;
+			//window.Top = secondaryScreenRectangle.Top;
+			//window.Width = secondaryScreenRectangle.Width;
+			//window.Height = secondaryScreenRectangle.Height;
+			//window.WindowState = System.Windows.WindowState.Maximized;
+			if (_PopUp == null)
+				_PopUp = new PopUp();
+			_PopUp.Hide();
+
+
+		}
+
+		public void HidePopupMessage2()
+		{
+			//System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+			//UserStartMassage2 window = new UserStartMassage2();
+			//window.Hide();
+			//// Show 메소드와 속성 설정의 순서가 중요하다.
+			//window.WindowStartupLocation = WindowStartupLocation.Manual;
+			//window.Left = secondaryScreenRectangle.Left;
+			//window.Top = secondaryScreenRectangle.Top;
+			//window.Width = secondaryScreenRectangle.Width;
+			//window.Height = secondaryScreenRectangle.Height;
+			//window.WindowState = System.Windows.WindowState.Maximized;
+			if (_PopUp2 == null)
+				_PopUp2 = new PopUp2();
+			_PopUp2.Hide();
+
+
+		}
+
+		public void ShowUserNutMsgMessege()
+		{
+			//StartCBCheck startCB = new StartCBCheck();
+			//            startCB.Close();
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_UserTitleMassage == null)
+				{
+					_UserTitleMassage = new UserTitleMassage();
+					_UserTitleMassage.Show();
+					// Show 메소드와 속성 설정의 순서가 중요하다.
+					_UserTitleMassage.WindowStartupLocation = WindowStartupLocation.Manual;
+					_UserTitleMassage.Left = left;
+					_UserTitleMassage.Top = top;
+					_UserTitleMassage.Width = popupWidth;
+					_UserTitleMassage.Height = popupHeight;
+					_UserTitleMassage.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_UserTitleMassage.Show();
+					_UserTitleMassage.Activate();
+					_UserTitleMassage.WindowStartupLocation = WindowStartupLocation.Manual;
+					_UserTitleMassage.Left = left;
+					_UserTitleMassage.Top = top;
+					_UserTitleMassage.Width = popupWidth;
+					_UserTitleMassage.Height = popupHeight;
+					_UserTitleMassage.WindowState = System.Windows.WindowState.Normal;
+
+				}
+
+
+
+
+			}
+
+
+
+		}
+
+		public void HideUserNutMsgMessege()
+		{
+	
+			if (_UserTitleMassage == null)
+				_UserTitleMassage = new UserTitleMassage();
+			_UserTitleMassage.Hide();
+
+		}
+
+		public void ShowUserNutMsgMessege2()
+		{
+			//StartCBCheck startCB = new StartCBCheck();
+			//            startCB.Close();
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[0].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_UserTitleMassage2 == null)
+				{
+					_UserTitleMassage2 = new UserTitleMassage2();
+					_UserTitleMassage2.Show();
+					// Show 메소드와 2속성 설정의 순서가 중요하다.
+					_UserTitleMassage2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_UserTitleMassage2.Left = left;
+					_UserTitleMassage2.Top = top;
+					_UserTitleMassage2.Width = popupWidth;
+					_UserTitleMassage2.Height = popupHeight;
+					_UserTitleMassage2.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_UserTitleMassage2.Show();
+					_UserTitleMassage2.Activate();
+					_UserTitleMassage2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_UserTitleMassage2.Left = left;
+					_UserTitleMassage2.Top = top;
+					_UserTitleMassage2.Width = popupWidth;
+					_UserTitleMassage2.Height = popupHeight;
+					_UserTitleMassage2.WindowState = System.Windows.WindowState.Normal;
+
+				}
+
+
+
+
+			}
+
+
+
+		}
+
+		public void HideUserNutMsgMessege2()
+		{
+
+			if (_UserTitleMassage2 == null)
+				_UserTitleMassage2 = new UserTitleMassage2();
+			_UserTitleMassage2.Hide();
+
+		}
+
+		public void ShowNutRetryMessege()
+		{
+			//StartCBCheck startCB = new StartCBCheck();
+			//            startCB.Close();
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_NutRetryPopUp == null)
+				{
+					_NutRetryPopUp = new NutRetryPopUp();
+					_NutRetryPopUp.Show();
+					_NutRetryPopUp.WindowStartupLocation = WindowStartupLocation.Manual;
+					_NutRetryPopUp.Left = left;
+					_NutRetryPopUp.Top = top;
+					_NutRetryPopUp.Width = popupWidth;
+					_NutRetryPopUp.Height = popupHeight;
+					_NutRetryPopUp.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_NutRetryPopUp.Show();
+					_NutRetryPopUp.Activate();
+					_NutRetryPopUp.WindowStartupLocation = WindowStartupLocation.Manual;
+					_NutRetryPopUp.Left = left;
+					_NutRetryPopUp.Top = top;
+					_NutRetryPopUp.Width = popupWidth;
+					_NutRetryPopUp.Height = popupHeight;
+					_NutRetryPopUp.WindowState = System.Windows.WindowState.Normal;
+
+				}
+			}
+
+
+		}
+
+		public void HideNutRetryMessege()
+		{
+
+			if (_NutRetryPopUp == null)
+				_NutRetryPopUp = new NutRetryPopUp();
+			_NutRetryPopUp.Hide();
+
+		}
+
+		public void ShowNutRetryMessege2()
+		{
+			//StartCBCheck startCB = new StartCBCheck();
+			//            startCB.Close();
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[0].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_NutRetryPopUp2 == null)
+				{
+					_NutRetryPopUp2 = new NutRetryPopUp2();
+					_NutRetryPopUp2.Show();
+					_NutRetryPopUp2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_NutRetryPopUp2.Left = left;
+					_NutRetryPopUp2.Top = top;
+					_NutRetryPopUp2.Width = popupWidth;
+					_NutRetryPopUp2.Height = popupHeight;
+					_NutRetryPopUp2.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_NutRetryPopUp2.Show();
+					_NutRetryPopUp2.Activate();
+					_NutRetryPopUp2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_NutRetryPopUp2.Left = left;
+					_NutRetryPopUp2.Top = top;
+					_NutRetryPopUp2.Width = popupWidth;
+					_NutRetryPopUp2.Height = popupHeight;
+					_NutRetryPopUp2.WindowState = System.Windows.WindowState.Normal;
+
+				}
+			}
+
+
+		}
+
+		public void HideNutRetryMessege2()
+		{
+
+			if (_NutRetryPopUp2 == null)
+				_NutRetryPopUp2 = new NutRetryPopUp2();
+			_NutRetryPopUp2.Hide();
+
+		}
+		public void ShowBcdCheckMessege()
+		{
+			//StartCBCheck startCB = new StartCBCheck();
+			//            startCB.Close();
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_BarcodePopUP == null)
+				{
+					_BarcodePopUP = new BarcodePopUP();
+					_BarcodePopUP.Show();
+					_BarcodePopUP.WindowStartupLocation = WindowStartupLocation.Manual;
+					_BarcodePopUP.Left = left;
+					_BarcodePopUP.Top = top;
+					_BarcodePopUP.Width = popupWidth;
+					_BarcodePopUP.Height = popupHeight;
+					_BarcodePopUP.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_BarcodePopUP.Show();
+					_BarcodePopUP.Activate();
+					_BarcodePopUP.WindowStartupLocation = WindowStartupLocation.Manual;
+					_BarcodePopUP.Left = left;
+					_BarcodePopUP.Top = top;
+					_BarcodePopUP.Width = popupWidth;
+					_BarcodePopUP.Height = popupHeight;
+					_BarcodePopUP.WindowState = System.Windows.WindowState.Normal;
+
+				}
+			}
+
+
+		}
+
+		public void HideBcdCheckMessege()
+		{
+
+			if (_BarcodePopUP == null)
+				_BarcodePopUP = new BarcodePopUP();
+			_BarcodePopUP.Hide();
+
+		}
+
+		public void ShowBcdCheckMessege2()
+		{
+			//StartCBCheck startCB = new StartCBCheck();
+			//            startCB.Close();
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[0].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_BarcodePopUP2 == null)
+				{
+					_BarcodePopUP2 = new BarcodePopUP2();
+					_BarcodePopUP2.Show();
+					_BarcodePopUP2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_BarcodePopUP2.Left = left;
+					_BarcodePopUP2.Top = top;
+					_BarcodePopUP2.Width = popupWidth;
+					_BarcodePopUP2.Height = popupHeight;
+					_BarcodePopUP2.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_BarcodePopUP2.Show();
+					_BarcodePopUP2.Activate();
+					_BarcodePopUP2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_BarcodePopUP2.Left = left;
+					_BarcodePopUP2.Top = top;
+					_BarcodePopUP2.Width = popupWidth;
+					_BarcodePopUP2.Height = popupHeight;
+					_BarcodePopUP2.WindowState = System.Windows.WindowState.Normal;
+
+				}
+			}
+
+
+		}
+
+		public void HideBcdCheckMessege2()
+		{
+
+			if (_BarcodePopUP2 == null)
+				_BarcodePopUP2 = new BarcodePopUP2();
+			_BarcodePopUP2.Hide();
+
 		}
 	}
     

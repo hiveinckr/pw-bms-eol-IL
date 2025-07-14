@@ -124,6 +124,12 @@
     <Compile Include="NewNameSave2.xaml.cs">
       <DependentUpon>NewNameSave2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NutRetryPopUp.xaml.cs">
+      <DependentUpon>NutRetryPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NutRetryPopUp2.xaml.cs">
+      <DependentUpon>NutRetryPopUp2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NutrunnerEth.cs" />
     <Compile Include="NutrunnerEth2.cs" />
     <Compile Include="OPE_PS.cs" />
@@ -154,6 +160,12 @@
     </Compile>
     <Compile Include="UserStartMassage2.xaml.cs">
       <DependentUpon>UserStartMassage2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserTitleMassage.xaml.cs">
+      <DependentUpon>UserTitleMassage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserTitleMassage2.xaml.cs">
+      <DependentUpon>UserTitleMassage2.xaml</DependentUpon>
     </Compile>
     <Compile Include="VersionInfo.xaml.cs">
       <DependentUpon>VersionInfo.xaml</DependentUpon>
@@ -252,6 +264,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="NutRetryPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NutRetryPopUp2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PopUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -285,6 +305,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserStartMassage2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserTitleMassage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserTitleMassage2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
