@@ -919,6 +919,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 19)
 						{
 							// EOL(Repeat)
+							_SysInfo.nRepeatWorkStep = 0;
 							nProcessStep[nStepIndex] = 46000;
 						}
 						else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 20)
@@ -4198,6 +4199,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_SysInfo.nSubEol == 0)
 					{
 						_SysInfo.bSubEolStart = true;
+						_SysInfo.nSubMainWorkStep = _SysInfo.nMainWorkStep;
 						theApp.nProcessStep[(int)PROC_LIST.SUB_EOL] = 10000;
 						nProcessStep[nStepIndex] = 46020;
 					}
@@ -4205,12 +4207,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						_SysInfo.bSubEolStart = false;
 						theApp.nProcessStep[(int)PROC_LIST.SUB_EOL] = 30000;
+						TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
 						nProcessStep[nStepIndex] = 46020;
 					}
 					break;
 
 				case 46020:
-					TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
+					
 					_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
@@ -4898,7 +4901,6 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 					else
 					{
-
 						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "OK");
 					}
 					//}
@@ -4935,8 +4937,30 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 				
 				case 50000:
+					bool bMidTestResult = true;
+					for (int i = 0; i < _TestData.Count; i++)
+					{
+						if (_TestData[i].strResult == "NG")
+						{
+							bMidTestResult = false;
+						}
+					}
+
+					if (bMidTestResult)
+					{
+						nProcessStep[nStepIndex] = 50001;
+					}
+					else
+					{
+						nProcessStep[nStepIndex] = 80000;
+					}
+					
+					break;
+				
+				case 50001:
 					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue2, out _SysInfo.nTipMaxCount);
 					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nSetNutSch);
+					_SysInfo.strTitleName = _ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strTestName;
 					_SysInfo.bTiteIngStart = true;
 					_SysInfo.bNutRetry = false;
 					_SysInfo.bNutNext = false;
@@ -5324,7 +5348,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						_LotCount.nNGCount++;
 						SaveModelProductCount(_LotCount, _ModelInfo.strModelName);
 
-						_Count.nTotalCount++;
+						_LotCount.nTotalCount++;
 						SaveProductCount();
 						_SysInfo.strTotalResult = "USER_STOP";
 					}
@@ -5336,7 +5360,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo.nTL_Beep = 2;
 							_LotCount.nOkCount++;
 							SaveModelProductCount(_LotCount, _ModelInfo.strModelName);
-							_Count.nTotalCount++;
+							_LotCount.nTotalCount++;
 							SaveProductCount();
 							_SysInfo.strTotalResult = "OK";
 							//_LotCount.nLotCount++;
@@ -5347,7 +5371,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo.nTL_Beep = 5;
 							_LotCount.nNGCount++;
 							SaveModelProductCount(_LotCount, _ModelInfo.strModelName);
-							_Count.nTotalCount++;
+							_LotCount.nTotalCount++;
 							SaveProductCount();
 							_SysInfo.strTotalResult = "NG";
 							//_LotCount.nLotCount++;
@@ -5935,7 +5959,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						else if (_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].nTestItem == 4)
 						{
 							//IO Step
-							_SysInfo2.nSubWorkStep = 0;
+							
 							nProcessStep[nStepIndex] = 33000;
 						}
 						else if (_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].nTestItem == 5)
@@ -6004,6 +6028,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						else if (_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].nTestItem == 19)
 						{
 							// EOL(Repeat)
+							_SysInfo2.nRepeatWorkStep = 0;
 							nProcessStep[nStepIndex] = 46000;
 						}
 						else if (_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].nTestItem == 20)
@@ -9278,6 +9303,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_SysInfo2.nSubEol == 0)
 					{
 						_SysInfo2.bSubEolStart = true;
+						_SysInfo2.nSubMainWorkStep = _SysInfo2.nMainWorkStep;
 						theApp.nProcessStep[(int)PROC_LIST.SUB_EOL2] = 10000;
 						nProcessStep[nStepIndex] = 46020;
 					}
@@ -9285,12 +9311,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						_SysInfo2.bSubEolStart = false;
 						theApp.nProcessStep[(int)PROC_LIST.SUB_EOL2] = 30000;
+						TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
 						nProcessStep[nStepIndex] = 46020;
 					}
 					break;
 
 				case 46020:
-					TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
+				
 					_SysInfo2.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
@@ -10027,8 +10054,30 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 50000:
+					bool bMidTestResult = true;
+					for (int i = 0; i < _TestData2.Count; i++)
+					{
+						if (_TestData2[i].strResult == "NG")
+						{
+							bMidTestResult = false;
+						}
+					}
+
+					if (bMidTestResult)
+					{
+						nProcessStep[nStepIndex] = 50001;
+					}
+					else
+					{
+						nProcessStep[nStepIndex] = 80000;
+					}
+
+					break;
+
+				case 50001:
 					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue2, out _SysInfo2.nTipMaxCount);
 					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nSetNutSch);
+					_SysInfo2.strTitleName = _ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strTestName;
 					_SysInfo2.bTiteIngStart = true;
 					_SysInfo2.bNutRetry = false;
 					_SysInfo2.bNutNext = false;
@@ -10181,7 +10230,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 52000:
-					if (_ModelInfo.bUseRbmsTest)
+					if (_ModelInfo2.bUseRbmsTest)
 					{
 						nProcessStep[nStepIndex] = 52050;
 					}
@@ -10443,7 +10492,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						_LotCount2.nNGCount++;
 						SaveModelProductCount2(_LotCount2, _ModelInfo2.strModelName);
 
-						_Count2.nTotalCount++;
+						_LotCount2.nTotalCount++;
 						SaveProductCount2();
 						_SysInfo2.strTotalResult = "USER_STOP";
 					}
@@ -10455,7 +10504,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo.nTL_Beep = 2;
 							_LotCount2.nOkCount++;
 							SaveModelProductCount2(_LotCount2, _ModelInfo2.strModelName);
-							_Count2.nTotalCount++;
+							_LotCount2.nTotalCount++;
 							SaveProductCount2();
 							_SysInfo2.strTotalResult = "OK";
 							//_LotCount.nLotCount++;
@@ -10466,7 +10515,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo.nTL_Beep = 5;
 							_LotCount2.nNGCount++;
 							SaveModelProductCount2(_LotCount2, _ModelInfo2.strModelName);
-							_Count2.nTotalCount++;
+							_LotCount2.nTotalCount++;
 							SaveProductCount2();
 							_SysInfo2.strTotalResult = "NG";
 							//_LotCount.nLotCount++;
@@ -10809,7 +10858,6 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 10000:
 
-					_SysInfo.nSubMainWorkStep = _SysInfo.nMainWorkStep;
 					nProcessStep[nStepIndex] = 11000;
 
 
@@ -10827,7 +10875,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 20000:
-					if (_SysInfo.nSubWorkStep >= _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo.Count)
+					if (_SysInfo.nRepeatWorkStep >= _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo.Count)
 					{
 						if (_SysInfo.bEolNg)
 						{
@@ -10860,7 +10908,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 				case 20060:
-					if (_SysInfo.nSubWorkStep >= _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo.Count)
+					if (_SysInfo.nRepeatWorkStep >= _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo.Count)
 					{
 
 						_SysInfo.bEolReadData = false;
@@ -10875,52 +10923,52 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 				case 21000:
-					if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nTestType == 0)
+					if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nTestType == 0)
 					{
 						// Modbus Can Write
 						nProcessStep[nStepIndex] = 21100;
 					}
-					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nTestType == 1)
+					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nTestType == 1)
 					{
 						// Modbus Can Read(Comp)
 						nProcessStep[nStepIndex] = 21200;
 					}
-					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nTestType == 2)
+					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nTestType == 2)
 					{
 						// Modbus Can Read(Buff)
 						nProcessStep[nStepIndex] = 21300;
 					}
-					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nTestType == 3)
+					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nTestType == 3)
 					{
 						// Dealy
 						nProcessStep[nStepIndex] = 21400;
 					}
-					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nTestType == 4)
+					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nTestType == 4)
 					{
 						// Modbus Can Write(Multi)
 						nProcessStep[nStepIndex] = 21500;
 					}
-					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nTestType == 5)
+					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nTestType == 5)
 					{
 						// Can Write
 						nProcessStep[nStepIndex] = 21600;
 					}
-					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nTestType == 6)
+					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nTestType == 6)
 					{
 						// Can Read
 						nProcessStep[nStepIndex] = 21700;
 					}
-					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nTestType == 7)
+					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nTestType == 7)
 					{
 						// TCP Write
 						nProcessStep[nStepIndex] = 21800;
 					}
-					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nTestType == 8)
+					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nTestType == 8)
 					{
 						// TCP Read ( Comp )
 						nProcessStep[nStepIndex] = 21900;
 					}
-					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nTestType == 9)
+					else if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nTestType == 9)
 					{
 						// TCP Read ( Buff )
 						nProcessStep[nStepIndex] = 22000;
@@ -10931,9 +10979,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				// Modbus Can Write
 				case 21100:
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nID.ToString(), out _SysInfo.nCanCh);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue2.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nCanData);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nID.ToString(), out _SysInfo.nCanCh);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue2.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nCanData);
 					//tMainTimer[nStepIndex].Start(1000);
 					SendWriteCommand(_SysInfo.nCanCh, _SysInfo.nCanAddr, _SysInfo.nCanData, 1);
 					nProcessStep[nStepIndex]++;
@@ -10949,7 +10997,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					//		//{
 
 					//		//}
-					//		_SysInfo.nSubWorkStep++;
+					//		_SysInfo.nRepeatWorkStep++;
 					//		nProcessStep[nStepIndex] = 20000;
 					//	}
 					//}
@@ -10960,10 +11008,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				// Modbus Can Read(COMP)
 				case 21200:
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nID.ToString(), out _SysInfo.nCanCh);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
-					//int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue2.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nCanData);
-					_SysInfo.nCanData = GetFuncData2(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue2.ToString());
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nID.ToString(), out _SysInfo.nCanCh);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
+					//int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue2.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nCanData);
+					_SysInfo.nCanData = GetFuncData2(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue2.ToString());
 					SendReadCommand(_SysInfo.nCanCh, _SysInfo.nCanAddr, 1);
 
 					tMainTimer[nStepIndex].Start(5000);
@@ -10975,7 +11023,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						NgDataSet(_SysInfo.nSubMainWorkStep, _SysInfo.nCanAddr.ToString(), _SysInfo.nCanData.ToString("X4"), "TIME OUT", "NG");
 						_SysInfo.bEolNg = true;
-						_SysInfo.nSubWorkStep++;
+						_SysInfo.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 						break;
 					}
@@ -10985,9 +11033,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						if (_CanComm[_SysInfo.nCanCh].btReadData[0] == 0x03)
 						{
-							if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue3 != null && _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue3 != "")
+							if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue3 != null && _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue3 != "")
 							{
-								if (int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue3.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMaskingData))
+								if (int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue3.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMaskingData))
 								{
 									_SysInfo.nCompData = ((_CanComm[_SysInfo.nCanCh].btReadData[2] * 0x100) + _CanComm[_SysInfo.nCanCh].btReadData[3]) & _SysInfo.nMaskingData;
 
@@ -11042,15 +11090,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo.bEolNg = true;
 							NgDataSet(_SysInfo.nSubMainWorkStep, _SysInfo.nCanAddr.ToString(), _SysInfo.nCanData.ToString("X4"), "DATA ERROR", "NG");
 						}
-						_SysInfo.nSubWorkStep++;
+						_SysInfo.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 					}
 					break;
 
 				case 21300:
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nID.ToString(), out _SysInfo.nCanCh);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue2.ToString(), out _SysInfo.nBuffIndex);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nID.ToString(), out _SysInfo.nCanCh);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue2.ToString(), out _SysInfo.nBuffIndex);
 					tMainTimer[nStepIndex].Start(5000);
 					SendReadCommand(_SysInfo.nCanCh, _SysInfo.nCanAddr, 1);
 					nProcessStep[nStepIndex]++;
@@ -11061,7 +11109,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						NgDataSet(_SysInfo.nSubMainWorkStep, _SysInfo.nCanAddr.ToString(), "", "TIME OUT", "NG");
 						_SysInfo.bEolNg = true;
-						_SysInfo.nSubWorkStep++;
+						_SysInfo.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 						break;
 					}
@@ -11075,14 +11123,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo.nReadDataBuff[_SysInfo.nBuffIndex] = (_CanComm[_SysInfo.nCanCh].btReadData[2] * 0x100) + _CanComm[_SysInfo.nCanCh].btReadData[3];
 							NgDataSet(_SysInfo.nSubMainWorkStep, _SysInfo.nCanAddr.ToString(), $"BUFFER{_SysInfo.nBuffIndex}", ((_CanComm[_SysInfo.nCanCh].btReadData[2] * 0x100) + _CanComm[_SysInfo.nCanCh].btReadData[3]).ToString("X4"), "");
 						}
-						_SysInfo.nSubWorkStep++;
+						_SysInfo.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 					}
 					break;
 
 
 				case 21400:
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
 					tMainTimer[nStepIndex].Start(_SysInfo.nCanAddr);
 					nProcessStep[nStepIndex]++;
 					break;
@@ -11090,132 +11138,132 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 21401:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 
-					_SysInfo.nSubWorkStep++;
+					_SysInfo.nRepeatWorkStep++;
 					nProcessStep[nStepIndex] = 20000;
 					break;
 
 
 				case 21500:
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nID.ToString(), out _SysInfo.nCanCh);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue2.ToString(), out _SysInfo.nCanMultiCount);
-					if (_SysInfo.nCanMultiCount > 0) { _SysInfo.nMultiSendData[0] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue3.ToString()); }
-					if (_SysInfo.nCanMultiCount > 1) { _SysInfo.nMultiSendData[1] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue4.ToString()); }
-					if (_SysInfo.nCanMultiCount > 2) { _SysInfo.nMultiSendData[2] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue5.ToString()); }
-					if (_SysInfo.nCanMultiCount > 3) { _SysInfo.nMultiSendData[3] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue6.ToString()); }
-					if (_SysInfo.nCanMultiCount > 4) { _SysInfo.nMultiSendData[4] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue7.ToString()); }
-					if (_SysInfo.nCanMultiCount > 5) { _SysInfo.nMultiSendData[5] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue8.ToString()); }
-					if (_SysInfo.nCanMultiCount > 6) { _SysInfo.nMultiSendData[6] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue9.ToString()); }
-					if (_SysInfo.nCanMultiCount > 7) { _SysInfo.nMultiSendData[7] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue10.ToString()); }
-					if (_SysInfo.nCanMultiCount > 8) { _SysInfo.nMultiSendData[8] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue11.ToString()); }
-					if (_SysInfo.nCanMultiCount > 9) { _SysInfo.nMultiSendData[9] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue12.ToString()); }
-					if (_SysInfo.nCanMultiCount > 10) { _SysInfo.nMultiSendData[10] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue13.ToString()); }
-					if (_SysInfo.nCanMultiCount > 11) { _SysInfo.nMultiSendData[11] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue14.ToString()); }
-					if (_SysInfo.nCanMultiCount > 12) { _SysInfo.nMultiSendData[12] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue15.ToString()); }
-					if (_SysInfo.nCanMultiCount > 13) { _SysInfo.nMultiSendData[13] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue16.ToString()); }
-					if (_SysInfo.nCanMultiCount > 14) { _SysInfo.nMultiSendData[14] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue17.ToString()); }
-					if (_SysInfo.nCanMultiCount > 15) { _SysInfo.nMultiSendData[15] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue18.ToString()); }
-					if (_SysInfo.nCanMultiCount > 16) { _SysInfo.nMultiSendData[16] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue19.ToString()); }
-					if (_SysInfo.nCanMultiCount > 17) { _SysInfo.nMultiSendData[17] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue20.ToString()); }
-					if (_SysInfo.nCanMultiCount > 18) { _SysInfo.nMultiSendData[18] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue21.ToString()); }
-					if (_SysInfo.nCanMultiCount > 19) { _SysInfo.nMultiSendData[19] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue22.ToString()); }
-					if (_SysInfo.nCanMultiCount > 20) { _SysInfo.nMultiSendData[20] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue23.ToString()); }
-					if (_SysInfo.nCanMultiCount > 21) { _SysInfo.nMultiSendData[21] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue24.ToString()); }
-					if (_SysInfo.nCanMultiCount > 22) { _SysInfo.nMultiSendData[22] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue25.ToString()); }
-					if (_SysInfo.nCanMultiCount > 23) { _SysInfo.nMultiSendData[23] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue26.ToString()); }
-					if (_SysInfo.nCanMultiCount > 24) { _SysInfo.nMultiSendData[24] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue27.ToString()); }
-					if (_SysInfo.nCanMultiCount > 25) { _SysInfo.nMultiSendData[25] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue28.ToString()); }
-					if (_SysInfo.nCanMultiCount > 26) { _SysInfo.nMultiSendData[26] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue29.ToString()); }
-					if (_SysInfo.nCanMultiCount > 27) { _SysInfo.nMultiSendData[27] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue30.ToString()); }
-					if (_SysInfo.nCanMultiCount > 28) { _SysInfo.nMultiSendData[28] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue31.ToString()); }
-					if (_SysInfo.nCanMultiCount > 29) { _SysInfo.nMultiSendData[29] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue32.ToString()); }
-					if (_SysInfo.nCanMultiCount > 30) { _SysInfo.nMultiSendData[30] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue33.ToString()); }
-					if (_SysInfo.nCanMultiCount > 31) { _SysInfo.nMultiSendData[31] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue34.ToString()); }
-					if (_SysInfo.nCanMultiCount > 32) { _SysInfo.nMultiSendData[32] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue35.ToString()); }
-					if (_SysInfo.nCanMultiCount > 33) { _SysInfo.nMultiSendData[33] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue36.ToString()); }
-					if (_SysInfo.nCanMultiCount > 34) { _SysInfo.nMultiSendData[34] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue37.ToString()); }
-					if (_SysInfo.nCanMultiCount > 35) { _SysInfo.nMultiSendData[35] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue38.ToString()); }
-					if (_SysInfo.nCanMultiCount > 36) { _SysInfo.nMultiSendData[36] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue39.ToString()); }
-					if (_SysInfo.nCanMultiCount > 37) { _SysInfo.nMultiSendData[37] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue40.ToString()); }
-					if (_SysInfo.nCanMultiCount > 38) { _SysInfo.nMultiSendData[38] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue41.ToString()); }
-					if (_SysInfo.nCanMultiCount > 39) { _SysInfo.nMultiSendData[39] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue42.ToString()); }
-					if (_SysInfo.nCanMultiCount > 40) { _SysInfo.nMultiSendData[40] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue43.ToString()); }
-					if (_SysInfo.nCanMultiCount > 41) { _SysInfo.nMultiSendData[41] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue44.ToString()); }
-					if (_SysInfo.nCanMultiCount > 42) { _SysInfo.nMultiSendData[42] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue45.ToString()); }
-					if (_SysInfo.nCanMultiCount > 43) { _SysInfo.nMultiSendData[43] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue46.ToString()); }
-					if (_SysInfo.nCanMultiCount > 44) { _SysInfo.nMultiSendData[44] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue47.ToString()); }
-					if (_SysInfo.nCanMultiCount > 45) { _SysInfo.nMultiSendData[45] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue48.ToString()); }
-					if (_SysInfo.nCanMultiCount > 46) { _SysInfo.nMultiSendData[46] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue49.ToString()); }
-					if (_SysInfo.nCanMultiCount > 47) { _SysInfo.nMultiSendData[47] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue50.ToString()); }
-					if (_SysInfo.nCanMultiCount > 48) { _SysInfo.nMultiSendData[48] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue51.ToString()); }
-					if (_SysInfo.nCanMultiCount > 49) { _SysInfo.nMultiSendData[49] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue52.ToString()); }
-					if (_SysInfo.nCanMultiCount > 50) { _SysInfo.nMultiSendData[50] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue53.ToString()); }
-					if (_SysInfo.nCanMultiCount > 51) { _SysInfo.nMultiSendData[51] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue54.ToString()); }
-					if (_SysInfo.nCanMultiCount > 52) { _SysInfo.nMultiSendData[52] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue55.ToString()); }
-					if (_SysInfo.nCanMultiCount > 53) { _SysInfo.nMultiSendData[53] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue56.ToString()); }
-					if (_SysInfo.nCanMultiCount > 54) { _SysInfo.nMultiSendData[54] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue57.ToString()); }
-					if (_SysInfo.nCanMultiCount > 55) { _SysInfo.nMultiSendData[55] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue58.ToString()); }
-					if (_SysInfo.nCanMultiCount > 56) { _SysInfo.nMultiSendData[56] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue59.ToString()); }
-					if (_SysInfo.nCanMultiCount > 57) { _SysInfo.nMultiSendData[57] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue60.ToString()); }
-					if (_SysInfo.nCanMultiCount > 58) { _SysInfo.nMultiSendData[58] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue61.ToString()); }
-					if (_SysInfo.nCanMultiCount > 59) { _SysInfo.nMultiSendData[59] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue62.ToString()); }
-					if (_SysInfo.nCanMultiCount > 60) { _SysInfo.nMultiSendData[60] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue63.ToString()); }
-					if (_SysInfo.nCanMultiCount > 61) { _SysInfo.nMultiSendData[61] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue64.ToString()); }
-					if (_SysInfo.nCanMultiCount > 62) { _SysInfo.nMultiSendData[62] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue65.ToString()); }
-					if (_SysInfo.nCanMultiCount > 63) { _SysInfo.nMultiSendData[63] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue66.ToString()); }
-					if (_SysInfo.nCanMultiCount > 64) { _SysInfo.nMultiSendData[64] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue67.ToString()); }
-					if (_SysInfo.nCanMultiCount > 65) { _SysInfo.nMultiSendData[65] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue68.ToString()); }
-					if (_SysInfo.nCanMultiCount > 66) { _SysInfo.nMultiSendData[66] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue69.ToString()); }
-					if (_SysInfo.nCanMultiCount > 67) { _SysInfo.nMultiSendData[67] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue70.ToString()); }
-					if (_SysInfo.nCanMultiCount > 68) { _SysInfo.nMultiSendData[68] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue71.ToString()); }
-					if (_SysInfo.nCanMultiCount > 69) { _SysInfo.nMultiSendData[69] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue72.ToString()); }
-					if (_SysInfo.nCanMultiCount > 70) { _SysInfo.nMultiSendData[70] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue73.ToString()); }
-					if (_SysInfo.nCanMultiCount > 71) { _SysInfo.nMultiSendData[71] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue74.ToString()); }
-					if (_SysInfo.nCanMultiCount > 72) { _SysInfo.nMultiSendData[72] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue75.ToString()); }
-					if (_SysInfo.nCanMultiCount > 73) { _SysInfo.nMultiSendData[73] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue76.ToString()); }
-					if (_SysInfo.nCanMultiCount > 74) { _SysInfo.nMultiSendData[74] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue77.ToString()); }
-					if (_SysInfo.nCanMultiCount > 75) { _SysInfo.nMultiSendData[75] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue78.ToString()); }
-					if (_SysInfo.nCanMultiCount > 76) { _SysInfo.nMultiSendData[76] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue79.ToString()); }
-					if (_SysInfo.nCanMultiCount > 77) { _SysInfo.nMultiSendData[77] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue80.ToString()); }
-					if (_SysInfo.nCanMultiCount > 78) { _SysInfo.nMultiSendData[78] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue81.ToString()); }
-					if (_SysInfo.nCanMultiCount > 79) { _SysInfo.nMultiSendData[79] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue82.ToString()); }
-					if (_SysInfo.nCanMultiCount > 80) { _SysInfo.nMultiSendData[80] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue83.ToString()); }
-					if (_SysInfo.nCanMultiCount > 81) { _SysInfo.nMultiSendData[81] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue84.ToString()); }
-					if (_SysInfo.nCanMultiCount > 82) { _SysInfo.nMultiSendData[82] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue85.ToString()); }
-					if (_SysInfo.nCanMultiCount > 83) { _SysInfo.nMultiSendData[83] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue86.ToString()); }
-					if (_SysInfo.nCanMultiCount > 84) { _SysInfo.nMultiSendData[84] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue87.ToString()); }
-					if (_SysInfo.nCanMultiCount > 85) { _SysInfo.nMultiSendData[85] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue88.ToString()); }
-					if (_SysInfo.nCanMultiCount > 86) { _SysInfo.nMultiSendData[86] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue89.ToString()); }
-					if (_SysInfo.nCanMultiCount > 87) { _SysInfo.nMultiSendData[87] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue90.ToString()); }
-					if (_SysInfo.nCanMultiCount > 88) { _SysInfo.nMultiSendData[88] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue91.ToString()); }
-					if (_SysInfo.nCanMultiCount > 89) { _SysInfo.nMultiSendData[89] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue92.ToString()); }
-					if (_SysInfo.nCanMultiCount > 90) { _SysInfo.nMultiSendData[90] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue93.ToString()); }
-					if (_SysInfo.nCanMultiCount > 91) { _SysInfo.nMultiSendData[91] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue94.ToString()); }
-					if (_SysInfo.nCanMultiCount > 92) { _SysInfo.nMultiSendData[92] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue95.ToString()); }
-					if (_SysInfo.nCanMultiCount > 93) { _SysInfo.nMultiSendData[93] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue96.ToString()); }
-					if (_SysInfo.nCanMultiCount > 94) { _SysInfo.nMultiSendData[94] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue97.ToString()); }
-					if (_SysInfo.nCanMultiCount > 95) { _SysInfo.nMultiSendData[95] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue98.ToString()); }
-					if (_SysInfo.nCanMultiCount > 96) { _SysInfo.nMultiSendData[96] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue99.ToString()); }
-					if (_SysInfo.nCanMultiCount > 97) { _SysInfo.nMultiSendData[97] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue100.ToString()); }
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nID.ToString(), out _SysInfo.nCanCh);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue2.ToString(), out _SysInfo.nCanMultiCount);
+					if (_SysInfo.nCanMultiCount > 0) { _SysInfo.nMultiSendData[0] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue3.ToString()); }
+					if (_SysInfo.nCanMultiCount > 1) { _SysInfo.nMultiSendData[1] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue4.ToString()); }
+					if (_SysInfo.nCanMultiCount > 2) { _SysInfo.nMultiSendData[2] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue5.ToString()); }
+					if (_SysInfo.nCanMultiCount > 3) { _SysInfo.nMultiSendData[3] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue6.ToString()); }
+					if (_SysInfo.nCanMultiCount > 4) { _SysInfo.nMultiSendData[4] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue7.ToString()); }
+					if (_SysInfo.nCanMultiCount > 5) { _SysInfo.nMultiSendData[5] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue8.ToString()); }
+					if (_SysInfo.nCanMultiCount > 6) { _SysInfo.nMultiSendData[6] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue9.ToString()); }
+					if (_SysInfo.nCanMultiCount > 7) { _SysInfo.nMultiSendData[7] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue10.ToString()); }
+					if (_SysInfo.nCanMultiCount > 8) { _SysInfo.nMultiSendData[8] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue11.ToString()); }
+					if (_SysInfo.nCanMultiCount > 9) { _SysInfo.nMultiSendData[9] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue12.ToString()); }
+					if (_SysInfo.nCanMultiCount > 10) { _SysInfo.nMultiSendData[10] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue13.ToString()); }
+					if (_SysInfo.nCanMultiCount > 11) { _SysInfo.nMultiSendData[11] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue14.ToString()); }
+					if (_SysInfo.nCanMultiCount > 12) { _SysInfo.nMultiSendData[12] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue15.ToString()); }
+					if (_SysInfo.nCanMultiCount > 13) { _SysInfo.nMultiSendData[13] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue16.ToString()); }
+					if (_SysInfo.nCanMultiCount > 14) { _SysInfo.nMultiSendData[14] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue17.ToString()); }
+					if (_SysInfo.nCanMultiCount > 15) { _SysInfo.nMultiSendData[15] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue18.ToString()); }
+					if (_SysInfo.nCanMultiCount > 16) { _SysInfo.nMultiSendData[16] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue19.ToString()); }
+					if (_SysInfo.nCanMultiCount > 17) { _SysInfo.nMultiSendData[17] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue20.ToString()); }
+					if (_SysInfo.nCanMultiCount > 18) { _SysInfo.nMultiSendData[18] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue21.ToString()); }
+					if (_SysInfo.nCanMultiCount > 19) { _SysInfo.nMultiSendData[19] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue22.ToString()); }
+					if (_SysInfo.nCanMultiCount > 20) { _SysInfo.nMultiSendData[20] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue23.ToString()); }
+					if (_SysInfo.nCanMultiCount > 21) { _SysInfo.nMultiSendData[21] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue24.ToString()); }
+					if (_SysInfo.nCanMultiCount > 22) { _SysInfo.nMultiSendData[22] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue25.ToString()); }
+					if (_SysInfo.nCanMultiCount > 23) { _SysInfo.nMultiSendData[23] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue26.ToString()); }
+					if (_SysInfo.nCanMultiCount > 24) { _SysInfo.nMultiSendData[24] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue27.ToString()); }
+					if (_SysInfo.nCanMultiCount > 25) { _SysInfo.nMultiSendData[25] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue28.ToString()); }
+					if (_SysInfo.nCanMultiCount > 26) { _SysInfo.nMultiSendData[26] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue29.ToString()); }
+					if (_SysInfo.nCanMultiCount > 27) { _SysInfo.nMultiSendData[27] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue30.ToString()); }
+					if (_SysInfo.nCanMultiCount > 28) { _SysInfo.nMultiSendData[28] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue31.ToString()); }
+					if (_SysInfo.nCanMultiCount > 29) { _SysInfo.nMultiSendData[29] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue32.ToString()); }
+					if (_SysInfo.nCanMultiCount > 30) { _SysInfo.nMultiSendData[30] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue33.ToString()); }
+					if (_SysInfo.nCanMultiCount > 31) { _SysInfo.nMultiSendData[31] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue34.ToString()); }
+					if (_SysInfo.nCanMultiCount > 32) { _SysInfo.nMultiSendData[32] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue35.ToString()); }
+					if (_SysInfo.nCanMultiCount > 33) { _SysInfo.nMultiSendData[33] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue36.ToString()); }
+					if (_SysInfo.nCanMultiCount > 34) { _SysInfo.nMultiSendData[34] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue37.ToString()); }
+					if (_SysInfo.nCanMultiCount > 35) { _SysInfo.nMultiSendData[35] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue38.ToString()); }
+					if (_SysInfo.nCanMultiCount > 36) { _SysInfo.nMultiSendData[36] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue39.ToString()); }
+					if (_SysInfo.nCanMultiCount > 37) { _SysInfo.nMultiSendData[37] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue40.ToString()); }
+					if (_SysInfo.nCanMultiCount > 38) { _SysInfo.nMultiSendData[38] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue41.ToString()); }
+					if (_SysInfo.nCanMultiCount > 39) { _SysInfo.nMultiSendData[39] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue42.ToString()); }
+					if (_SysInfo.nCanMultiCount > 40) { _SysInfo.nMultiSendData[40] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue43.ToString()); }
+					if (_SysInfo.nCanMultiCount > 41) { _SysInfo.nMultiSendData[41] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue44.ToString()); }
+					if (_SysInfo.nCanMultiCount > 42) { _SysInfo.nMultiSendData[42] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue45.ToString()); }
+					if (_SysInfo.nCanMultiCount > 43) { _SysInfo.nMultiSendData[43] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue46.ToString()); }
+					if (_SysInfo.nCanMultiCount > 44) { _SysInfo.nMultiSendData[44] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue47.ToString()); }
+					if (_SysInfo.nCanMultiCount > 45) { _SysInfo.nMultiSendData[45] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue48.ToString()); }
+					if (_SysInfo.nCanMultiCount > 46) { _SysInfo.nMultiSendData[46] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue49.ToString()); }
+					if (_SysInfo.nCanMultiCount > 47) { _SysInfo.nMultiSendData[47] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue50.ToString()); }
+					if (_SysInfo.nCanMultiCount > 48) { _SysInfo.nMultiSendData[48] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue51.ToString()); }
+					if (_SysInfo.nCanMultiCount > 49) { _SysInfo.nMultiSendData[49] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue52.ToString()); }
+					if (_SysInfo.nCanMultiCount > 50) { _SysInfo.nMultiSendData[50] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue53.ToString()); }
+					if (_SysInfo.nCanMultiCount > 51) { _SysInfo.nMultiSendData[51] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue54.ToString()); }
+					if (_SysInfo.nCanMultiCount > 52) { _SysInfo.nMultiSendData[52] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue55.ToString()); }
+					if (_SysInfo.nCanMultiCount > 53) { _SysInfo.nMultiSendData[53] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue56.ToString()); }
+					if (_SysInfo.nCanMultiCount > 54) { _SysInfo.nMultiSendData[54] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue57.ToString()); }
+					if (_SysInfo.nCanMultiCount > 55) { _SysInfo.nMultiSendData[55] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue58.ToString()); }
+					if (_SysInfo.nCanMultiCount > 56) { _SysInfo.nMultiSendData[56] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue59.ToString()); }
+					if (_SysInfo.nCanMultiCount > 57) { _SysInfo.nMultiSendData[57] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue60.ToString()); }
+					if (_SysInfo.nCanMultiCount > 58) { _SysInfo.nMultiSendData[58] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue61.ToString()); }
+					if (_SysInfo.nCanMultiCount > 59) { _SysInfo.nMultiSendData[59] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue62.ToString()); }
+					if (_SysInfo.nCanMultiCount > 60) { _SysInfo.nMultiSendData[60] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue63.ToString()); }
+					if (_SysInfo.nCanMultiCount > 61) { _SysInfo.nMultiSendData[61] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue64.ToString()); }
+					if (_SysInfo.nCanMultiCount > 62) { _SysInfo.nMultiSendData[62] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue65.ToString()); }
+					if (_SysInfo.nCanMultiCount > 63) { _SysInfo.nMultiSendData[63] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue66.ToString()); }
+					if (_SysInfo.nCanMultiCount > 64) { _SysInfo.nMultiSendData[64] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue67.ToString()); }
+					if (_SysInfo.nCanMultiCount > 65) { _SysInfo.nMultiSendData[65] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue68.ToString()); }
+					if (_SysInfo.nCanMultiCount > 66) { _SysInfo.nMultiSendData[66] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue69.ToString()); }
+					if (_SysInfo.nCanMultiCount > 67) { _SysInfo.nMultiSendData[67] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue70.ToString()); }
+					if (_SysInfo.nCanMultiCount > 68) { _SysInfo.nMultiSendData[68] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue71.ToString()); }
+					if (_SysInfo.nCanMultiCount > 69) { _SysInfo.nMultiSendData[69] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue72.ToString()); }
+					if (_SysInfo.nCanMultiCount > 70) { _SysInfo.nMultiSendData[70] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue73.ToString()); }
+					if (_SysInfo.nCanMultiCount > 71) { _SysInfo.nMultiSendData[71] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue74.ToString()); }
+					if (_SysInfo.nCanMultiCount > 72) { _SysInfo.nMultiSendData[72] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue75.ToString()); }
+					if (_SysInfo.nCanMultiCount > 73) { _SysInfo.nMultiSendData[73] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue76.ToString()); }
+					if (_SysInfo.nCanMultiCount > 74) { _SysInfo.nMultiSendData[74] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue77.ToString()); }
+					if (_SysInfo.nCanMultiCount > 75) { _SysInfo.nMultiSendData[75] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue78.ToString()); }
+					if (_SysInfo.nCanMultiCount > 76) { _SysInfo.nMultiSendData[76] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue79.ToString()); }
+					if (_SysInfo.nCanMultiCount > 77) { _SysInfo.nMultiSendData[77] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue80.ToString()); }
+					if (_SysInfo.nCanMultiCount > 78) { _SysInfo.nMultiSendData[78] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue81.ToString()); }
+					if (_SysInfo.nCanMultiCount > 79) { _SysInfo.nMultiSendData[79] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue82.ToString()); }
+					if (_SysInfo.nCanMultiCount > 80) { _SysInfo.nMultiSendData[80] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue83.ToString()); }
+					if (_SysInfo.nCanMultiCount > 81) { _SysInfo.nMultiSendData[81] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue84.ToString()); }
+					if (_SysInfo.nCanMultiCount > 82) { _SysInfo.nMultiSendData[82] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue85.ToString()); }
+					if (_SysInfo.nCanMultiCount > 83) { _SysInfo.nMultiSendData[83] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue86.ToString()); }
+					if (_SysInfo.nCanMultiCount > 84) { _SysInfo.nMultiSendData[84] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue87.ToString()); }
+					if (_SysInfo.nCanMultiCount > 85) { _SysInfo.nMultiSendData[85] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue88.ToString()); }
+					if (_SysInfo.nCanMultiCount > 86) { _SysInfo.nMultiSendData[86] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue89.ToString()); }
+					if (_SysInfo.nCanMultiCount > 87) { _SysInfo.nMultiSendData[87] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue90.ToString()); }
+					if (_SysInfo.nCanMultiCount > 88) { _SysInfo.nMultiSendData[88] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue91.ToString()); }
+					if (_SysInfo.nCanMultiCount > 89) { _SysInfo.nMultiSendData[89] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue92.ToString()); }
+					if (_SysInfo.nCanMultiCount > 90) { _SysInfo.nMultiSendData[90] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue93.ToString()); }
+					if (_SysInfo.nCanMultiCount > 91) { _SysInfo.nMultiSendData[91] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue94.ToString()); }
+					if (_SysInfo.nCanMultiCount > 92) { _SysInfo.nMultiSendData[92] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue95.ToString()); }
+					if (_SysInfo.nCanMultiCount > 93) { _SysInfo.nMultiSendData[93] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue96.ToString()); }
+					if (_SysInfo.nCanMultiCount > 94) { _SysInfo.nMultiSendData[94] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue97.ToString()); }
+					if (_SysInfo.nCanMultiCount > 95) { _SysInfo.nMultiSendData[95] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue98.ToString()); }
+					if (_SysInfo.nCanMultiCount > 96) { _SysInfo.nMultiSendData[96] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue99.ToString()); }
+					if (_SysInfo.nCanMultiCount > 97) { _SysInfo.nMultiSendData[97] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue100.ToString()); }
 
-					//if (_SysInfo.nCanMultiCount > 0) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue3.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[0]); }
-					//if (_SysInfo.nCanMultiCount > 1) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue4.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[1]); }
-					//if (_SysInfo.nCanMultiCount > 2) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue5.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[2]); }
-					//if (_SysInfo.nCanMultiCount > 3) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue6.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[3]); }
-					//if (_SysInfo.nCanMultiCount > 4) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue7.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[4]); }
-					//if (_SysInfo.nCanMultiCount > 5) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue8.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[5]); }
-					//if (_SysInfo.nCanMultiCount > 6) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue9.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[6]); }
-					//if (_SysInfo.nCanMultiCount > 7) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue10.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[7]); }
-					//if (_SysInfo.nCanMultiCount > 8) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue11.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[8]); }
-					//if (_SysInfo.nCanMultiCount > 9) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue12.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[9]); }
-					//if (_SysInfo.nCanMultiCount > 10) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue13.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[10]); }
-					//if (_SysInfo.nCanMultiCount > 11) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue14.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[11]); }
-					//if (_SysInfo.nCanMultiCount > 12) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue15.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[12]); }
-					//if (_SysInfo.nCanMultiCount > 13) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue16.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[13]); }
-					//if (_SysInfo.nCanMultiCount > 14) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue17.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[14]); }
-					//if (_SysInfo.nCanMultiCount > 15) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue18.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[15]); }
-					//if (_SysInfo.nCanMultiCount > 16) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue19.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[16]); }
-					//if (_SysInfo.nCanMultiCount > 17) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue20.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[17]); }
+					//if (_SysInfo.nCanMultiCount > 0) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue3.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[0]); }
+					//if (_SysInfo.nCanMultiCount > 1) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue4.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[1]); }
+					//if (_SysInfo.nCanMultiCount > 2) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue5.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[2]); }
+					//if (_SysInfo.nCanMultiCount > 3) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue6.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[3]); }
+					//if (_SysInfo.nCanMultiCount > 4) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue7.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[4]); }
+					//if (_SysInfo.nCanMultiCount > 5) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue8.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[5]); }
+					//if (_SysInfo.nCanMultiCount > 6) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue9.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[6]); }
+					//if (_SysInfo.nCanMultiCount > 7) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue10.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[7]); }
+					//if (_SysInfo.nCanMultiCount > 8) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue11.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[8]); }
+					//if (_SysInfo.nCanMultiCount > 9) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue12.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[9]); }
+					//if (_SysInfo.nCanMultiCount > 10) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue13.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[10]); }
+					//if (_SysInfo.nCanMultiCount > 11) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue14.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[11]); }
+					//if (_SysInfo.nCanMultiCount > 12) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue15.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[12]); }
+					//if (_SysInfo.nCanMultiCount > 13) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue16.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[13]); }
+					//if (_SysInfo.nCanMultiCount > 14) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue17.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[14]); }
+					//if (_SysInfo.nCanMultiCount > 15) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue18.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[15]); }
+					//if (_SysInfo.nCanMultiCount > 16) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue19.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[16]); }
+					//if (_SysInfo.nCanMultiCount > 17) { int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue20.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nMultiSendData[17]); }
 
 					//tMainTimer[nStepIndex].Start(1000);
 					SendWriteMultiCommand(_SysInfo.nCanCh, _SysInfo.nCanAddr, _SysInfo.nMultiSendData, _SysInfo.nCanMultiCount, 1);
@@ -11232,225 +11280,225 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					//		//{
 
 					//		//}
-					//		_SysInfo.nSubWorkStep++;
+					//		_SysInfo.nRepeatWorkStep++;
 					//		nProcessStep[nStepIndex] = 20000;
 					//	}
 					//}
-					_SysInfo.nSubWorkStep++;
+					_SysInfo.nRepeatWorkStep++;
 					nProcessStep[nStepIndex] = 20000;
 					break;
 
 
 				// Can Write
 				case 21600:
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nID.ToString(), out _SysInfo.nCanCh);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue1, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nCanStartAddr);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue2.ToString(), out _SysInfo.nCanMultiCount);
-					if (_SysInfo.nCanMultiCount > 0) { _SysInfo.nMultiSendData[0] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue3.ToString()); }
-					if (_SysInfo.nCanMultiCount > 1) { _SysInfo.nMultiSendData[1] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue4.ToString()); }
-					if (_SysInfo.nCanMultiCount > 2) { _SysInfo.nMultiSendData[2] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue5.ToString()); }
-					if (_SysInfo.nCanMultiCount > 3) { _SysInfo.nMultiSendData[3] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue6.ToString()); }
-					if (_SysInfo.nCanMultiCount > 4) { _SysInfo.nMultiSendData[4] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue7.ToString()); }
-					if (_SysInfo.nCanMultiCount > 5) { _SysInfo.nMultiSendData[5] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue8.ToString()); }
-					if (_SysInfo.nCanMultiCount > 6) { _SysInfo.nMultiSendData[6] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue9.ToString()); }
-					if (_SysInfo.nCanMultiCount > 7) { _SysInfo.nMultiSendData[7] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue10.ToString()); }
-					if (_SysInfo.nCanMultiCount > 8) { _SysInfo.nMultiSendData[8] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue11.ToString()); }
-					if (_SysInfo.nCanMultiCount > 9) { _SysInfo.nMultiSendData[9] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue12.ToString()); }
-					if (_SysInfo.nCanMultiCount > 10) { _SysInfo.nMultiSendData[10] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue13.ToString()); }
-					if (_SysInfo.nCanMultiCount > 11) { _SysInfo.nMultiSendData[11] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue14.ToString()); }
-					if (_SysInfo.nCanMultiCount > 12) { _SysInfo.nMultiSendData[12] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue15.ToString()); }
-					if (_SysInfo.nCanMultiCount > 13) { _SysInfo.nMultiSendData[13] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue16.ToString()); }
-					if (_SysInfo.nCanMultiCount > 14) { _SysInfo.nMultiSendData[14] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue17.ToString()); }
-					if (_SysInfo.nCanMultiCount > 15) { _SysInfo.nMultiSendData[15] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue18.ToString()); }
-					if (_SysInfo.nCanMultiCount > 16) { _SysInfo.nMultiSendData[16] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue19.ToString()); }
-					if (_SysInfo.nCanMultiCount > 17) { _SysInfo.nMultiSendData[17] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue20.ToString()); }
-					if (_SysInfo.nCanMultiCount > 18) { _SysInfo.nMultiSendData[18] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue21.ToString()); }
-					if (_SysInfo.nCanMultiCount > 19) { _SysInfo.nMultiSendData[19] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue22.ToString()); }
-					if (_SysInfo.nCanMultiCount > 20) { _SysInfo.nMultiSendData[20] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue23.ToString()); }
-					if (_SysInfo.nCanMultiCount > 21) { _SysInfo.nMultiSendData[21] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue24.ToString()); }
-					if (_SysInfo.nCanMultiCount > 22) { _SysInfo.nMultiSendData[22] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue25.ToString()); }
-					if (_SysInfo.nCanMultiCount > 23) { _SysInfo.nMultiSendData[23] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue26.ToString()); }
-					if (_SysInfo.nCanMultiCount > 24) { _SysInfo.nMultiSendData[24] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue27.ToString()); }
-					if (_SysInfo.nCanMultiCount > 25) { _SysInfo.nMultiSendData[25] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue28.ToString()); }
-					if (_SysInfo.nCanMultiCount > 26) { _SysInfo.nMultiSendData[26] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue29.ToString()); }
-					if (_SysInfo.nCanMultiCount > 27) { _SysInfo.nMultiSendData[27] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue30.ToString()); }
-					if (_SysInfo.nCanMultiCount > 28) { _SysInfo.nMultiSendData[28] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue31.ToString()); }
-					if (_SysInfo.nCanMultiCount > 29) { _SysInfo.nMultiSendData[29] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue32.ToString()); }
-					if (_SysInfo.nCanMultiCount > 30) { _SysInfo.nMultiSendData[30] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue33.ToString()); }
-					if (_SysInfo.nCanMultiCount > 31) { _SysInfo.nMultiSendData[31] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue34.ToString()); }
-					if (_SysInfo.nCanMultiCount > 32) { _SysInfo.nMultiSendData[32] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue35.ToString()); }
-					if (_SysInfo.nCanMultiCount > 33) { _SysInfo.nMultiSendData[33] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue36.ToString()); }
-					if (_SysInfo.nCanMultiCount > 34) { _SysInfo.nMultiSendData[34] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue37.ToString()); }
-					if (_SysInfo.nCanMultiCount > 35) { _SysInfo.nMultiSendData[35] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue38.ToString()); }
-					if (_SysInfo.nCanMultiCount > 36) { _SysInfo.nMultiSendData[36] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue39.ToString()); }
-					if (_SysInfo.nCanMultiCount > 37) { _SysInfo.nMultiSendData[37] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue40.ToString()); }
-					if (_SysInfo.nCanMultiCount > 38) { _SysInfo.nMultiSendData[38] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue41.ToString()); }
-					if (_SysInfo.nCanMultiCount > 39) { _SysInfo.nMultiSendData[39] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue42.ToString()); }
-					if (_SysInfo.nCanMultiCount > 40) { _SysInfo.nMultiSendData[40] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue43.ToString()); }
-					if (_SysInfo.nCanMultiCount > 41) { _SysInfo.nMultiSendData[41] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue44.ToString()); }
-					if (_SysInfo.nCanMultiCount > 42) { _SysInfo.nMultiSendData[42] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue45.ToString()); }
-					if (_SysInfo.nCanMultiCount > 43) { _SysInfo.nMultiSendData[43] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue46.ToString()); }
-					if (_SysInfo.nCanMultiCount > 44) { _SysInfo.nMultiSendData[44] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue47.ToString()); }
-					if (_SysInfo.nCanMultiCount > 45) { _SysInfo.nMultiSendData[45] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue48.ToString()); }
-					if (_SysInfo.nCanMultiCount > 46) { _SysInfo.nMultiSendData[46] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue49.ToString()); }
-					if (_SysInfo.nCanMultiCount > 47) { _SysInfo.nMultiSendData[47] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue50.ToString()); }
-					if (_SysInfo.nCanMultiCount > 48) { _SysInfo.nMultiSendData[48] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue51.ToString()); }
-					if (_SysInfo.nCanMultiCount > 49) { _SysInfo.nMultiSendData[49] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue52.ToString()); }
-					if (_SysInfo.nCanMultiCount > 50) { _SysInfo.nMultiSendData[50] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue53.ToString()); }
-					if (_SysInfo.nCanMultiCount > 51) { _SysInfo.nMultiSendData[51] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue54.ToString()); }
-					if (_SysInfo.nCanMultiCount > 52) { _SysInfo.nMultiSendData[52] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue55.ToString()); }
-					if (_SysInfo.nCanMultiCount > 53) { _SysInfo.nMultiSendData[53] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue56.ToString()); }
-					if (_SysInfo.nCanMultiCount > 54) { _SysInfo.nMultiSendData[54] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue57.ToString()); }
-					if (_SysInfo.nCanMultiCount > 55) { _SysInfo.nMultiSendData[55] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue58.ToString()); }
-					if (_SysInfo.nCanMultiCount > 56) { _SysInfo.nMultiSendData[56] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue59.ToString()); }
-					if (_SysInfo.nCanMultiCount > 57) { _SysInfo.nMultiSendData[57] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue60.ToString()); }
-					if (_SysInfo.nCanMultiCount > 58) { _SysInfo.nMultiSendData[58] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue61.ToString()); }
-					if (_SysInfo.nCanMultiCount > 59) { _SysInfo.nMultiSendData[59] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue62.ToString()); }
-					if (_SysInfo.nCanMultiCount > 60) { _SysInfo.nMultiSendData[60] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue63.ToString()); }
-					if (_SysInfo.nCanMultiCount > 61) { _SysInfo.nMultiSendData[61] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue64.ToString()); }
-					if (_SysInfo.nCanMultiCount > 62) { _SysInfo.nMultiSendData[62] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue65.ToString()); }
-					if (_SysInfo.nCanMultiCount > 63) { _SysInfo.nMultiSendData[63] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue66.ToString()); }
-					if (_SysInfo.nCanMultiCount > 64) { _SysInfo.nMultiSendData[64] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue67.ToString()); }
-					if (_SysInfo.nCanMultiCount > 65) { _SysInfo.nMultiSendData[65] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue68.ToString()); }
-					if (_SysInfo.nCanMultiCount > 66) { _SysInfo.nMultiSendData[66] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue69.ToString()); }
-					if (_SysInfo.nCanMultiCount > 67) { _SysInfo.nMultiSendData[67] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue70.ToString()); }
-					if (_SysInfo.nCanMultiCount > 68) { _SysInfo.nMultiSendData[68] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue71.ToString()); }
-					if (_SysInfo.nCanMultiCount > 69) { _SysInfo.nMultiSendData[69] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue72.ToString()); }
-					if (_SysInfo.nCanMultiCount > 70) { _SysInfo.nMultiSendData[70] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue73.ToString()); }
-					if (_SysInfo.nCanMultiCount > 71) { _SysInfo.nMultiSendData[71] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue74.ToString()); }
-					if (_SysInfo.nCanMultiCount > 72) { _SysInfo.nMultiSendData[72] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue75.ToString()); }
-					if (_SysInfo.nCanMultiCount > 73) { _SysInfo.nMultiSendData[73] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue76.ToString()); }
-					if (_SysInfo.nCanMultiCount > 74) { _SysInfo.nMultiSendData[74] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue77.ToString()); }
-					if (_SysInfo.nCanMultiCount > 75) { _SysInfo.nMultiSendData[75] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue78.ToString()); }
-					if (_SysInfo.nCanMultiCount > 76) { _SysInfo.nMultiSendData[76] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue79.ToString()); }
-					if (_SysInfo.nCanMultiCount > 77) { _SysInfo.nMultiSendData[77] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue80.ToString()); }
-					if (_SysInfo.nCanMultiCount > 78) { _SysInfo.nMultiSendData[78] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue81.ToString()); }
-					if (_SysInfo.nCanMultiCount > 79) { _SysInfo.nMultiSendData[79] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue82.ToString()); }
-					if (_SysInfo.nCanMultiCount > 80) { _SysInfo.nMultiSendData[80] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue83.ToString()); }
-					if (_SysInfo.nCanMultiCount > 81) { _SysInfo.nMultiSendData[81] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue84.ToString()); }
-					if (_SysInfo.nCanMultiCount > 82) { _SysInfo.nMultiSendData[82] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue85.ToString()); }
-					if (_SysInfo.nCanMultiCount > 83) { _SysInfo.nMultiSendData[83] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue86.ToString()); }
-					if (_SysInfo.nCanMultiCount > 84) { _SysInfo.nMultiSendData[84] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue87.ToString()); }
-					if (_SysInfo.nCanMultiCount > 85) { _SysInfo.nMultiSendData[85] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue88.ToString()); }
-					if (_SysInfo.nCanMultiCount > 86) { _SysInfo.nMultiSendData[86] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue89.ToString()); }
-					if (_SysInfo.nCanMultiCount > 87) { _SysInfo.nMultiSendData[87] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue90.ToString()); }
-					if (_SysInfo.nCanMultiCount > 88) { _SysInfo.nMultiSendData[88] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue91.ToString()); }
-					if (_SysInfo.nCanMultiCount > 89) { _SysInfo.nMultiSendData[89] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue92.ToString()); }
-					if (_SysInfo.nCanMultiCount > 90) { _SysInfo.nMultiSendData[90] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue93.ToString()); }
-					if (_SysInfo.nCanMultiCount > 91) { _SysInfo.nMultiSendData[91] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue94.ToString()); }
-					if (_SysInfo.nCanMultiCount > 92) { _SysInfo.nMultiSendData[92] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue95.ToString()); }
-					if (_SysInfo.nCanMultiCount > 93) { _SysInfo.nMultiSendData[93] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue96.ToString()); }
-					if (_SysInfo.nCanMultiCount > 94) { _SysInfo.nMultiSendData[94] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue97.ToString()); }
-					if (_SysInfo.nCanMultiCount > 95) { _SysInfo.nMultiSendData[95] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue98.ToString()); }
-					if (_SysInfo.nCanMultiCount > 96) { _SysInfo.nMultiSendData[96] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue99.ToString()); }
-					if (_SysInfo.nCanMultiCount > 97) { _SysInfo.nMultiSendData[97] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue100.ToString()); }
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nID.ToString(), out _SysInfo.nCanCh);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue1, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nCanStartAddr);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue2.ToString(), out _SysInfo.nCanMultiCount);
+					if (_SysInfo.nCanMultiCount > 0) { _SysInfo.nMultiSendData[0] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue3.ToString()); }
+					if (_SysInfo.nCanMultiCount > 1) { _SysInfo.nMultiSendData[1] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue4.ToString()); }
+					if (_SysInfo.nCanMultiCount > 2) { _SysInfo.nMultiSendData[2] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue5.ToString()); }
+					if (_SysInfo.nCanMultiCount > 3) { _SysInfo.nMultiSendData[3] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue6.ToString()); }
+					if (_SysInfo.nCanMultiCount > 4) { _SysInfo.nMultiSendData[4] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue7.ToString()); }
+					if (_SysInfo.nCanMultiCount > 5) { _SysInfo.nMultiSendData[5] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue8.ToString()); }
+					if (_SysInfo.nCanMultiCount > 6) { _SysInfo.nMultiSendData[6] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue9.ToString()); }
+					if (_SysInfo.nCanMultiCount > 7) { _SysInfo.nMultiSendData[7] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue10.ToString()); }
+					if (_SysInfo.nCanMultiCount > 8) { _SysInfo.nMultiSendData[8] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue11.ToString()); }
+					if (_SysInfo.nCanMultiCount > 9) { _SysInfo.nMultiSendData[9] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue12.ToString()); }
+					if (_SysInfo.nCanMultiCount > 10) { _SysInfo.nMultiSendData[10] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue13.ToString()); }
+					if (_SysInfo.nCanMultiCount > 11) { _SysInfo.nMultiSendData[11] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue14.ToString()); }
+					if (_SysInfo.nCanMultiCount > 12) { _SysInfo.nMultiSendData[12] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue15.ToString()); }
+					if (_SysInfo.nCanMultiCount > 13) { _SysInfo.nMultiSendData[13] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue16.ToString()); }
+					if (_SysInfo.nCanMultiCount > 14) { _SysInfo.nMultiSendData[14] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue17.ToString()); }
+					if (_SysInfo.nCanMultiCount > 15) { _SysInfo.nMultiSendData[15] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue18.ToString()); }
+					if (_SysInfo.nCanMultiCount > 16) { _SysInfo.nMultiSendData[16] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue19.ToString()); }
+					if (_SysInfo.nCanMultiCount > 17) { _SysInfo.nMultiSendData[17] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue20.ToString()); }
+					if (_SysInfo.nCanMultiCount > 18) { _SysInfo.nMultiSendData[18] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue21.ToString()); }
+					if (_SysInfo.nCanMultiCount > 19) { _SysInfo.nMultiSendData[19] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue22.ToString()); }
+					if (_SysInfo.nCanMultiCount > 20) { _SysInfo.nMultiSendData[20] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue23.ToString()); }
+					if (_SysInfo.nCanMultiCount > 21) { _SysInfo.nMultiSendData[21] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue24.ToString()); }
+					if (_SysInfo.nCanMultiCount > 22) { _SysInfo.nMultiSendData[22] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue25.ToString()); }
+					if (_SysInfo.nCanMultiCount > 23) { _SysInfo.nMultiSendData[23] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue26.ToString()); }
+					if (_SysInfo.nCanMultiCount > 24) { _SysInfo.nMultiSendData[24] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue27.ToString()); }
+					if (_SysInfo.nCanMultiCount > 25) { _SysInfo.nMultiSendData[25] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue28.ToString()); }
+					if (_SysInfo.nCanMultiCount > 26) { _SysInfo.nMultiSendData[26] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue29.ToString()); }
+					if (_SysInfo.nCanMultiCount > 27) { _SysInfo.nMultiSendData[27] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue30.ToString()); }
+					if (_SysInfo.nCanMultiCount > 28) { _SysInfo.nMultiSendData[28] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue31.ToString()); }
+					if (_SysInfo.nCanMultiCount > 29) { _SysInfo.nMultiSendData[29] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue32.ToString()); }
+					if (_SysInfo.nCanMultiCount > 30) { _SysInfo.nMultiSendData[30] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue33.ToString()); }
+					if (_SysInfo.nCanMultiCount > 31) { _SysInfo.nMultiSendData[31] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue34.ToString()); }
+					if (_SysInfo.nCanMultiCount > 32) { _SysInfo.nMultiSendData[32] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue35.ToString()); }
+					if (_SysInfo.nCanMultiCount > 33) { _SysInfo.nMultiSendData[33] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue36.ToString()); }
+					if (_SysInfo.nCanMultiCount > 34) { _SysInfo.nMultiSendData[34] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue37.ToString()); }
+					if (_SysInfo.nCanMultiCount > 35) { _SysInfo.nMultiSendData[35] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue38.ToString()); }
+					if (_SysInfo.nCanMultiCount > 36) { _SysInfo.nMultiSendData[36] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue39.ToString()); }
+					if (_SysInfo.nCanMultiCount > 37) { _SysInfo.nMultiSendData[37] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue40.ToString()); }
+					if (_SysInfo.nCanMultiCount > 38) { _SysInfo.nMultiSendData[38] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue41.ToString()); }
+					if (_SysInfo.nCanMultiCount > 39) { _SysInfo.nMultiSendData[39] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue42.ToString()); }
+					if (_SysInfo.nCanMultiCount > 40) { _SysInfo.nMultiSendData[40] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue43.ToString()); }
+					if (_SysInfo.nCanMultiCount > 41) { _SysInfo.nMultiSendData[41] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue44.ToString()); }
+					if (_SysInfo.nCanMultiCount > 42) { _SysInfo.nMultiSendData[42] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue45.ToString()); }
+					if (_SysInfo.nCanMultiCount > 43) { _SysInfo.nMultiSendData[43] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue46.ToString()); }
+					if (_SysInfo.nCanMultiCount > 44) { _SysInfo.nMultiSendData[44] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue47.ToString()); }
+					if (_SysInfo.nCanMultiCount > 45) { _SysInfo.nMultiSendData[45] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue48.ToString()); }
+					if (_SysInfo.nCanMultiCount > 46) { _SysInfo.nMultiSendData[46] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue49.ToString()); }
+					if (_SysInfo.nCanMultiCount > 47) { _SysInfo.nMultiSendData[47] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue50.ToString()); }
+					if (_SysInfo.nCanMultiCount > 48) { _SysInfo.nMultiSendData[48] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue51.ToString()); }
+					if (_SysInfo.nCanMultiCount > 49) { _SysInfo.nMultiSendData[49] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue52.ToString()); }
+					if (_SysInfo.nCanMultiCount > 50) { _SysInfo.nMultiSendData[50] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue53.ToString()); }
+					if (_SysInfo.nCanMultiCount > 51) { _SysInfo.nMultiSendData[51] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue54.ToString()); }
+					if (_SysInfo.nCanMultiCount > 52) { _SysInfo.nMultiSendData[52] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue55.ToString()); }
+					if (_SysInfo.nCanMultiCount > 53) { _SysInfo.nMultiSendData[53] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue56.ToString()); }
+					if (_SysInfo.nCanMultiCount > 54) { _SysInfo.nMultiSendData[54] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue57.ToString()); }
+					if (_SysInfo.nCanMultiCount > 55) { _SysInfo.nMultiSendData[55] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue58.ToString()); }
+					if (_SysInfo.nCanMultiCount > 56) { _SysInfo.nMultiSendData[56] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue59.ToString()); }
+					if (_SysInfo.nCanMultiCount > 57) { _SysInfo.nMultiSendData[57] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue60.ToString()); }
+					if (_SysInfo.nCanMultiCount > 58) { _SysInfo.nMultiSendData[58] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue61.ToString()); }
+					if (_SysInfo.nCanMultiCount > 59) { _SysInfo.nMultiSendData[59] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue62.ToString()); }
+					if (_SysInfo.nCanMultiCount > 60) { _SysInfo.nMultiSendData[60] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue63.ToString()); }
+					if (_SysInfo.nCanMultiCount > 61) { _SysInfo.nMultiSendData[61] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue64.ToString()); }
+					if (_SysInfo.nCanMultiCount > 62) { _SysInfo.nMultiSendData[62] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue65.ToString()); }
+					if (_SysInfo.nCanMultiCount > 63) { _SysInfo.nMultiSendData[63] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue66.ToString()); }
+					if (_SysInfo.nCanMultiCount > 64) { _SysInfo.nMultiSendData[64] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue67.ToString()); }
+					if (_SysInfo.nCanMultiCount > 65) { _SysInfo.nMultiSendData[65] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue68.ToString()); }
+					if (_SysInfo.nCanMultiCount > 66) { _SysInfo.nMultiSendData[66] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue69.ToString()); }
+					if (_SysInfo.nCanMultiCount > 67) { _SysInfo.nMultiSendData[67] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue70.ToString()); }
+					if (_SysInfo.nCanMultiCount > 68) { _SysInfo.nMultiSendData[68] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue71.ToString()); }
+					if (_SysInfo.nCanMultiCount > 69) { _SysInfo.nMultiSendData[69] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue72.ToString()); }
+					if (_SysInfo.nCanMultiCount > 70) { _SysInfo.nMultiSendData[70] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue73.ToString()); }
+					if (_SysInfo.nCanMultiCount > 71) { _SysInfo.nMultiSendData[71] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue74.ToString()); }
+					if (_SysInfo.nCanMultiCount > 72) { _SysInfo.nMultiSendData[72] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue75.ToString()); }
+					if (_SysInfo.nCanMultiCount > 73) { _SysInfo.nMultiSendData[73] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue76.ToString()); }
+					if (_SysInfo.nCanMultiCount > 74) { _SysInfo.nMultiSendData[74] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue77.ToString()); }
+					if (_SysInfo.nCanMultiCount > 75) { _SysInfo.nMultiSendData[75] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue78.ToString()); }
+					if (_SysInfo.nCanMultiCount > 76) { _SysInfo.nMultiSendData[76] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue79.ToString()); }
+					if (_SysInfo.nCanMultiCount > 77) { _SysInfo.nMultiSendData[77] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue80.ToString()); }
+					if (_SysInfo.nCanMultiCount > 78) { _SysInfo.nMultiSendData[78] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue81.ToString()); }
+					if (_SysInfo.nCanMultiCount > 79) { _SysInfo.nMultiSendData[79] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue82.ToString()); }
+					if (_SysInfo.nCanMultiCount > 80) { _SysInfo.nMultiSendData[80] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue83.ToString()); }
+					if (_SysInfo.nCanMultiCount > 81) { _SysInfo.nMultiSendData[81] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue84.ToString()); }
+					if (_SysInfo.nCanMultiCount > 82) { _SysInfo.nMultiSendData[82] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue85.ToString()); }
+					if (_SysInfo.nCanMultiCount > 83) { _SysInfo.nMultiSendData[83] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue86.ToString()); }
+					if (_SysInfo.nCanMultiCount > 84) { _SysInfo.nMultiSendData[84] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue87.ToString()); }
+					if (_SysInfo.nCanMultiCount > 85) { _SysInfo.nMultiSendData[85] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue88.ToString()); }
+					if (_SysInfo.nCanMultiCount > 86) { _SysInfo.nMultiSendData[86] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue89.ToString()); }
+					if (_SysInfo.nCanMultiCount > 87) { _SysInfo.nMultiSendData[87] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue90.ToString()); }
+					if (_SysInfo.nCanMultiCount > 88) { _SysInfo.nMultiSendData[88] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue91.ToString()); }
+					if (_SysInfo.nCanMultiCount > 89) { _SysInfo.nMultiSendData[89] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue92.ToString()); }
+					if (_SysInfo.nCanMultiCount > 90) { _SysInfo.nMultiSendData[90] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue93.ToString()); }
+					if (_SysInfo.nCanMultiCount > 91) { _SysInfo.nMultiSendData[91] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue94.ToString()); }
+					if (_SysInfo.nCanMultiCount > 92) { _SysInfo.nMultiSendData[92] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue95.ToString()); }
+					if (_SysInfo.nCanMultiCount > 93) { _SysInfo.nMultiSendData[93] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue96.ToString()); }
+					if (_SysInfo.nCanMultiCount > 94) { _SysInfo.nMultiSendData[94] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue97.ToString()); }
+					if (_SysInfo.nCanMultiCount > 95) { _SysInfo.nMultiSendData[95] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue98.ToString()); }
+					if (_SysInfo.nCanMultiCount > 96) { _SysInfo.nMultiSendData[96] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue99.ToString()); }
+					if (_SysInfo.nCanMultiCount > 97) { _SysInfo.nMultiSendData[97] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue100.ToString()); }
 					SendCanData(_SysInfo.nCanCh, _SysInfo.nCanStartAddr, _SysInfo.nMultiSendData, _SysInfo.nCanMultiCount, 1);
-					_SysInfo.nSubWorkStep++;
+					_SysInfo.nRepeatWorkStep++;
 					nProcessStep[nStepIndex] = 20000;
 					break;
 
 				case 21700:
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nID.ToString(), out _SysInfo.nCanCh);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue1, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nCanStartAddr);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue2.ToString(), out _SysInfo.nCanMultiCount);
-					if (_SysInfo.nCanMultiCount > 0) { _SysInfo.strValueBuff[0] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue3; }
-					if (_SysInfo.nCanMultiCount > 1) { _SysInfo.strValueBuff[1] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue4; }
-					if (_SysInfo.nCanMultiCount > 2) { _SysInfo.strValueBuff[2] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue5; }
-					if (_SysInfo.nCanMultiCount > 3) { _SysInfo.strValueBuff[3] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue6; }
-					if (_SysInfo.nCanMultiCount > 4) { _SysInfo.strValueBuff[4] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue7; }
-					if (_SysInfo.nCanMultiCount > 5) { _SysInfo.strValueBuff[5] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue8; }
-					if (_SysInfo.nCanMultiCount > 6) { _SysInfo.strValueBuff[6] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue9; }
-					if (_SysInfo.nCanMultiCount > 7) { _SysInfo.strValueBuff[7] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue10; }
-					if (_SysInfo.nCanMultiCount > 8) { _SysInfo.strValueBuff[8] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue11; }
-					if (_SysInfo.nCanMultiCount > 9) { _SysInfo.strValueBuff[9] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue12; }
-					if (_SysInfo.nCanMultiCount > 10) { _SysInfo.strValueBuff[10] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue13; }
-					if (_SysInfo.nCanMultiCount > 11) { _SysInfo.strValueBuff[11] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue14; }
-					if (_SysInfo.nCanMultiCount > 12) { _SysInfo.strValueBuff[12] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue15; }
-					if (_SysInfo.nCanMultiCount > 13) { _SysInfo.strValueBuff[13] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue16; }
-					if (_SysInfo.nCanMultiCount > 14) { _SysInfo.strValueBuff[14] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue17; }
-					if (_SysInfo.nCanMultiCount > 15) { _SysInfo.strValueBuff[15] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue18; }
-					if (_SysInfo.nCanMultiCount > 16) { _SysInfo.strValueBuff[16] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue19; }
-					if (_SysInfo.nCanMultiCount > 17) { _SysInfo.strValueBuff[17] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue20; }
-					if (_SysInfo.nCanMultiCount > 18) { _SysInfo.strValueBuff[18] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue21; }
-					if (_SysInfo.nCanMultiCount > 19) { _SysInfo.strValueBuff[19] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue22; }
-					if (_SysInfo.nCanMultiCount > 20) { _SysInfo.strValueBuff[20] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue23; }
-					if (_SysInfo.nCanMultiCount > 21) { _SysInfo.strValueBuff[21] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue24; }
-					if (_SysInfo.nCanMultiCount > 22) { _SysInfo.strValueBuff[22] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue25; }
-					if (_SysInfo.nCanMultiCount > 23) { _SysInfo.strValueBuff[23] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue26; }
-					if (_SysInfo.nCanMultiCount > 24) { _SysInfo.strValueBuff[24] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue27; }
-					if (_SysInfo.nCanMultiCount > 25) { _SysInfo.strValueBuff[25] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue28; }
-					if (_SysInfo.nCanMultiCount > 26) { _SysInfo.strValueBuff[26] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue29; }
-					if (_SysInfo.nCanMultiCount > 27) { _SysInfo.strValueBuff[27] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue30; }
-					if (_SysInfo.nCanMultiCount > 28) { _SysInfo.strValueBuff[28] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue31; }
-					if (_SysInfo.nCanMultiCount > 29) { _SysInfo.strValueBuff[29] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue32; }
-					if (_SysInfo.nCanMultiCount > 30) { _SysInfo.strValueBuff[30] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue33; }
-					if (_SysInfo.nCanMultiCount > 31) { _SysInfo.strValueBuff[31] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue34; }
-					if (_SysInfo.nCanMultiCount > 32) { _SysInfo.strValueBuff[32] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue35; }
-					if (_SysInfo.nCanMultiCount > 33) { _SysInfo.strValueBuff[33] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue36; }
-					if (_SysInfo.nCanMultiCount > 34) { _SysInfo.strValueBuff[34] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue37; }
-					if (_SysInfo.nCanMultiCount > 35) { _SysInfo.strValueBuff[35] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue38; }
-					if (_SysInfo.nCanMultiCount > 36) { _SysInfo.strValueBuff[36] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue39; }
-					if (_SysInfo.nCanMultiCount > 37) { _SysInfo.strValueBuff[37] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue40; }
-					if (_SysInfo.nCanMultiCount > 38) { _SysInfo.strValueBuff[38] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue41; }
-					if (_SysInfo.nCanMultiCount > 39) { _SysInfo.strValueBuff[39] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue42; }
-					if (_SysInfo.nCanMultiCount > 40) { _SysInfo.strValueBuff[40] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue43; }
-					if (_SysInfo.nCanMultiCount > 41) { _SysInfo.strValueBuff[41] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue44; }
-					if (_SysInfo.nCanMultiCount > 42) { _SysInfo.strValueBuff[42] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue45; }
-					if (_SysInfo.nCanMultiCount > 43) { _SysInfo.strValueBuff[43] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue46; }
-					if (_SysInfo.nCanMultiCount > 44) { _SysInfo.strValueBuff[44] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue47; }
-					if (_SysInfo.nCanMultiCount > 45) { _SysInfo.strValueBuff[45] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue48; }
-					if (_SysInfo.nCanMultiCount > 46) { _SysInfo.strValueBuff[46] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue49; }
-					if (_SysInfo.nCanMultiCount > 47) { _SysInfo.strValueBuff[47] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue50; }
-					if (_SysInfo.nCanMultiCount > 48) { _SysInfo.strValueBuff[48] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue51; }
-					if (_SysInfo.nCanMultiCount > 49) { _SysInfo.strValueBuff[49] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue52; }
-					if (_SysInfo.nCanMultiCount > 50) { _SysInfo.strValueBuff[50] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue53; }
-					if (_SysInfo.nCanMultiCount > 51) { _SysInfo.strValueBuff[51] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue54; }
-					if (_SysInfo.nCanMultiCount > 52) { _SysInfo.strValueBuff[52] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue55; }
-					if (_SysInfo.nCanMultiCount > 53) { _SysInfo.strValueBuff[53] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue56; }
-					if (_SysInfo.nCanMultiCount > 54) { _SysInfo.strValueBuff[54] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue57; }
-					if (_SysInfo.nCanMultiCount > 55) { _SysInfo.strValueBuff[55] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue58; }
-					if (_SysInfo.nCanMultiCount > 56) { _SysInfo.strValueBuff[56] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue59; }
-					if (_SysInfo.nCanMultiCount > 57) { _SysInfo.strValueBuff[57] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue60; }
-					if (_SysInfo.nCanMultiCount > 58) { _SysInfo.strValueBuff[58] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue61; }
-					if (_SysInfo.nCanMultiCount > 59) { _SysInfo.strValueBuff[59] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue62; }
-					if (_SysInfo.nCanMultiCount > 60) { _SysInfo.strValueBuff[60] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue63; }
-					if (_SysInfo.nCanMultiCount > 61) { _SysInfo.strValueBuff[61] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue64; }
-					if (_SysInfo.nCanMultiCount > 62) { _SysInfo.strValueBuff[62] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue65; }
-					if (_SysInfo.nCanMultiCount > 63) { _SysInfo.strValueBuff[63] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue66; }
-					if (_SysInfo.nCanMultiCount > 64) { _SysInfo.strValueBuff[64] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue67; }
-					if (_SysInfo.nCanMultiCount > 65) { _SysInfo.strValueBuff[65] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue68; }
-					if (_SysInfo.nCanMultiCount > 66) { _SysInfo.strValueBuff[66] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue69; }
-					if (_SysInfo.nCanMultiCount > 67) { _SysInfo.strValueBuff[67] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue70; }
-					if (_SysInfo.nCanMultiCount > 68) { _SysInfo.strValueBuff[68] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue71; }
-					if (_SysInfo.nCanMultiCount > 69) { _SysInfo.strValueBuff[69] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue72; }
-					if (_SysInfo.nCanMultiCount > 70) { _SysInfo.strValueBuff[70] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue73; }
-					if (_SysInfo.nCanMultiCount > 71) { _SysInfo.strValueBuff[71] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue74; }
-					if (_SysInfo.nCanMultiCount > 72) { _SysInfo.strValueBuff[72] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue75; }
-					if (_SysInfo.nCanMultiCount > 73) { _SysInfo.strValueBuff[73] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue76; }
-					if (_SysInfo.nCanMultiCount > 74) { _SysInfo.strValueBuff[74] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue77; }
-					if (_SysInfo.nCanMultiCount > 75) { _SysInfo.strValueBuff[75] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue78; }
-					if (_SysInfo.nCanMultiCount > 76) { _SysInfo.strValueBuff[76] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue79; }
-					if (_SysInfo.nCanMultiCount > 77) { _SysInfo.strValueBuff[77] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue80; }
-					if (_SysInfo.nCanMultiCount > 78) { _SysInfo.strValueBuff[78] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue81; }
-					if (_SysInfo.nCanMultiCount > 79) { _SysInfo.strValueBuff[79] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue82; }
-					if (_SysInfo.nCanMultiCount > 80) { _SysInfo.strValueBuff[80] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue83; }
-					if (_SysInfo.nCanMultiCount > 81) { _SysInfo.strValueBuff[81] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue84; }
-					if (_SysInfo.nCanMultiCount > 82) { _SysInfo.strValueBuff[82] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue85; }
-					if (_SysInfo.nCanMultiCount > 83) { _SysInfo.strValueBuff[83] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue86; }
-					if (_SysInfo.nCanMultiCount > 84) { _SysInfo.strValueBuff[84] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue87; }
-					if (_SysInfo.nCanMultiCount > 85) { _SysInfo.strValueBuff[85] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue88; }
-					if (_SysInfo.nCanMultiCount > 86) { _SysInfo.strValueBuff[86] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue89; }
-					if (_SysInfo.nCanMultiCount > 87) { _SysInfo.strValueBuff[87] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue90; }
-					if (_SysInfo.nCanMultiCount > 88) { _SysInfo.strValueBuff[88] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue91; }
-					if (_SysInfo.nCanMultiCount > 89) { _SysInfo.strValueBuff[89] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue92; }
-					if (_SysInfo.nCanMultiCount > 90) { _SysInfo.strValueBuff[90] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue93; }
-					if (_SysInfo.nCanMultiCount > 91) { _SysInfo.strValueBuff[91] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue94; }
-					if (_SysInfo.nCanMultiCount > 92) { _SysInfo.strValueBuff[92] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue95; }
-					if (_SysInfo.nCanMultiCount > 93) { _SysInfo.strValueBuff[93] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue96; }
-					if (_SysInfo.nCanMultiCount > 94) { _SysInfo.strValueBuff[94] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue97; }
-					if (_SysInfo.nCanMultiCount > 95) { _SysInfo.strValueBuff[95] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue98; }
-					if (_SysInfo.nCanMultiCount > 96) { _SysInfo.strValueBuff[96] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue99; }
-					if (_SysInfo.nCanMultiCount > 97) { _SysInfo.strValueBuff[97] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue100; }
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nID.ToString(), out _SysInfo.nCanCh);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue1, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nCanStartAddr);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue2.ToString(), out _SysInfo.nCanMultiCount);
+					if (_SysInfo.nCanMultiCount > 0) { _SysInfo.strValueBuff[0] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue3; }
+					if (_SysInfo.nCanMultiCount > 1) { _SysInfo.strValueBuff[1] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue4; }
+					if (_SysInfo.nCanMultiCount > 2) { _SysInfo.strValueBuff[2] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue5; }
+					if (_SysInfo.nCanMultiCount > 3) { _SysInfo.strValueBuff[3] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue6; }
+					if (_SysInfo.nCanMultiCount > 4) { _SysInfo.strValueBuff[4] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue7; }
+					if (_SysInfo.nCanMultiCount > 5) { _SysInfo.strValueBuff[5] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue8; }
+					if (_SysInfo.nCanMultiCount > 6) { _SysInfo.strValueBuff[6] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue9; }
+					if (_SysInfo.nCanMultiCount > 7) { _SysInfo.strValueBuff[7] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue10; }
+					if (_SysInfo.nCanMultiCount > 8) { _SysInfo.strValueBuff[8] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue11; }
+					if (_SysInfo.nCanMultiCount > 9) { _SysInfo.strValueBuff[9] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue12; }
+					if (_SysInfo.nCanMultiCount > 10) { _SysInfo.strValueBuff[10] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue13; }
+					if (_SysInfo.nCanMultiCount > 11) { _SysInfo.strValueBuff[11] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue14; }
+					if (_SysInfo.nCanMultiCount > 12) { _SysInfo.strValueBuff[12] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue15; }
+					if (_SysInfo.nCanMultiCount > 13) { _SysInfo.strValueBuff[13] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue16; }
+					if (_SysInfo.nCanMultiCount > 14) { _SysInfo.strValueBuff[14] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue17; }
+					if (_SysInfo.nCanMultiCount > 15) { _SysInfo.strValueBuff[15] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue18; }
+					if (_SysInfo.nCanMultiCount > 16) { _SysInfo.strValueBuff[16] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue19; }
+					if (_SysInfo.nCanMultiCount > 17) { _SysInfo.strValueBuff[17] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue20; }
+					if (_SysInfo.nCanMultiCount > 18) { _SysInfo.strValueBuff[18] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue21; }
+					if (_SysInfo.nCanMultiCount > 19) { _SysInfo.strValueBuff[19] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue22; }
+					if (_SysInfo.nCanMultiCount > 20) { _SysInfo.strValueBuff[20] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue23; }
+					if (_SysInfo.nCanMultiCount > 21) { _SysInfo.strValueBuff[21] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue24; }
+					if (_SysInfo.nCanMultiCount > 22) { _SysInfo.strValueBuff[22] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue25; }
+					if (_SysInfo.nCanMultiCount > 23) { _SysInfo.strValueBuff[23] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue26; }
+					if (_SysInfo.nCanMultiCount > 24) { _SysInfo.strValueBuff[24] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue27; }
+					if (_SysInfo.nCanMultiCount > 25) { _SysInfo.strValueBuff[25] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue28; }
+					if (_SysInfo.nCanMultiCount > 26) { _SysInfo.strValueBuff[26] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue29; }
+					if (_SysInfo.nCanMultiCount > 27) { _SysInfo.strValueBuff[27] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue30; }
+					if (_SysInfo.nCanMultiCount > 28) { _SysInfo.strValueBuff[28] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue31; }
+					if (_SysInfo.nCanMultiCount > 29) { _SysInfo.strValueBuff[29] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue32; }
+					if (_SysInfo.nCanMultiCount > 30) { _SysInfo.strValueBuff[30] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue33; }
+					if (_SysInfo.nCanMultiCount > 31) { _SysInfo.strValueBuff[31] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue34; }
+					if (_SysInfo.nCanMultiCount > 32) { _SysInfo.strValueBuff[32] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue35; }
+					if (_SysInfo.nCanMultiCount > 33) { _SysInfo.strValueBuff[33] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue36; }
+					if (_SysInfo.nCanMultiCount > 34) { _SysInfo.strValueBuff[34] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue37; }
+					if (_SysInfo.nCanMultiCount > 35) { _SysInfo.strValueBuff[35] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue38; }
+					if (_SysInfo.nCanMultiCount > 36) { _SysInfo.strValueBuff[36] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue39; }
+					if (_SysInfo.nCanMultiCount > 37) { _SysInfo.strValueBuff[37] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue40; }
+					if (_SysInfo.nCanMultiCount > 38) { _SysInfo.strValueBuff[38] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue41; }
+					if (_SysInfo.nCanMultiCount > 39) { _SysInfo.strValueBuff[39] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue42; }
+					if (_SysInfo.nCanMultiCount > 40) { _SysInfo.strValueBuff[40] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue43; }
+					if (_SysInfo.nCanMultiCount > 41) { _SysInfo.strValueBuff[41] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue44; }
+					if (_SysInfo.nCanMultiCount > 42) { _SysInfo.strValueBuff[42] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue45; }
+					if (_SysInfo.nCanMultiCount > 43) { _SysInfo.strValueBuff[43] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue46; }
+					if (_SysInfo.nCanMultiCount > 44) { _SysInfo.strValueBuff[44] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue47; }
+					if (_SysInfo.nCanMultiCount > 45) { _SysInfo.strValueBuff[45] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue48; }
+					if (_SysInfo.nCanMultiCount > 46) { _SysInfo.strValueBuff[46] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue49; }
+					if (_SysInfo.nCanMultiCount > 47) { _SysInfo.strValueBuff[47] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue50; }
+					if (_SysInfo.nCanMultiCount > 48) { _SysInfo.strValueBuff[48] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue51; }
+					if (_SysInfo.nCanMultiCount > 49) { _SysInfo.strValueBuff[49] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue52; }
+					if (_SysInfo.nCanMultiCount > 50) { _SysInfo.strValueBuff[50] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue53; }
+					if (_SysInfo.nCanMultiCount > 51) { _SysInfo.strValueBuff[51] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue54; }
+					if (_SysInfo.nCanMultiCount > 52) { _SysInfo.strValueBuff[52] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue55; }
+					if (_SysInfo.nCanMultiCount > 53) { _SysInfo.strValueBuff[53] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue56; }
+					if (_SysInfo.nCanMultiCount > 54) { _SysInfo.strValueBuff[54] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue57; }
+					if (_SysInfo.nCanMultiCount > 55) { _SysInfo.strValueBuff[55] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue58; }
+					if (_SysInfo.nCanMultiCount > 56) { _SysInfo.strValueBuff[56] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue59; }
+					if (_SysInfo.nCanMultiCount > 57) { _SysInfo.strValueBuff[57] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue60; }
+					if (_SysInfo.nCanMultiCount > 58) { _SysInfo.strValueBuff[58] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue61; }
+					if (_SysInfo.nCanMultiCount > 59) { _SysInfo.strValueBuff[59] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue62; }
+					if (_SysInfo.nCanMultiCount > 60) { _SysInfo.strValueBuff[60] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue63; }
+					if (_SysInfo.nCanMultiCount > 61) { _SysInfo.strValueBuff[61] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue64; }
+					if (_SysInfo.nCanMultiCount > 62) { _SysInfo.strValueBuff[62] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue65; }
+					if (_SysInfo.nCanMultiCount > 63) { _SysInfo.strValueBuff[63] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue66; }
+					if (_SysInfo.nCanMultiCount > 64) { _SysInfo.strValueBuff[64] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue67; }
+					if (_SysInfo.nCanMultiCount > 65) { _SysInfo.strValueBuff[65] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue68; }
+					if (_SysInfo.nCanMultiCount > 66) { _SysInfo.strValueBuff[66] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue69; }
+					if (_SysInfo.nCanMultiCount > 67) { _SysInfo.strValueBuff[67] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue70; }
+					if (_SysInfo.nCanMultiCount > 68) { _SysInfo.strValueBuff[68] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue71; }
+					if (_SysInfo.nCanMultiCount > 69) { _SysInfo.strValueBuff[69] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue72; }
+					if (_SysInfo.nCanMultiCount > 70) { _SysInfo.strValueBuff[70] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue73; }
+					if (_SysInfo.nCanMultiCount > 71) { _SysInfo.strValueBuff[71] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue74; }
+					if (_SysInfo.nCanMultiCount > 72) { _SysInfo.strValueBuff[72] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue75; }
+					if (_SysInfo.nCanMultiCount > 73) { _SysInfo.strValueBuff[73] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue76; }
+					if (_SysInfo.nCanMultiCount > 74) { _SysInfo.strValueBuff[74] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue77; }
+					if (_SysInfo.nCanMultiCount > 75) { _SysInfo.strValueBuff[75] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue78; }
+					if (_SysInfo.nCanMultiCount > 76) { _SysInfo.strValueBuff[76] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue79; }
+					if (_SysInfo.nCanMultiCount > 77) { _SysInfo.strValueBuff[77] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue80; }
+					if (_SysInfo.nCanMultiCount > 78) { _SysInfo.strValueBuff[78] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue81; }
+					if (_SysInfo.nCanMultiCount > 79) { _SysInfo.strValueBuff[79] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue82; }
+					if (_SysInfo.nCanMultiCount > 80) { _SysInfo.strValueBuff[80] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue83; }
+					if (_SysInfo.nCanMultiCount > 81) { _SysInfo.strValueBuff[81] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue84; }
+					if (_SysInfo.nCanMultiCount > 82) { _SysInfo.strValueBuff[82] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue85; }
+					if (_SysInfo.nCanMultiCount > 83) { _SysInfo.strValueBuff[83] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue86; }
+					if (_SysInfo.nCanMultiCount > 84) { _SysInfo.strValueBuff[84] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue87; }
+					if (_SysInfo.nCanMultiCount > 85) { _SysInfo.strValueBuff[85] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue88; }
+					if (_SysInfo.nCanMultiCount > 86) { _SysInfo.strValueBuff[86] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue89; }
+					if (_SysInfo.nCanMultiCount > 87) { _SysInfo.strValueBuff[87] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue90; }
+					if (_SysInfo.nCanMultiCount > 88) { _SysInfo.strValueBuff[88] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue91; }
+					if (_SysInfo.nCanMultiCount > 89) { _SysInfo.strValueBuff[89] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue92; }
+					if (_SysInfo.nCanMultiCount > 90) { _SysInfo.strValueBuff[90] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue93; }
+					if (_SysInfo.nCanMultiCount > 91) { _SysInfo.strValueBuff[91] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue94; }
+					if (_SysInfo.nCanMultiCount > 92) { _SysInfo.strValueBuff[92] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue95; }
+					if (_SysInfo.nCanMultiCount > 93) { _SysInfo.strValueBuff[93] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue96; }
+					if (_SysInfo.nCanMultiCount > 94) { _SysInfo.strValueBuff[94] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue97; }
+					if (_SysInfo.nCanMultiCount > 95) { _SysInfo.strValueBuff[95] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue98; }
+					if (_SysInfo.nCanMultiCount > 96) { _SysInfo.strValueBuff[96] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue99; }
+					if (_SysInfo.nCanMultiCount > 97) { _SysInfo.strValueBuff[97] = _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue100; }
 					tMainTimer[nStepIndex].Start(5000);
 					nProcessStep[nStepIndex]++;
 					break;
@@ -11460,7 +11508,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						NgDataSet(_SysInfo.nSubMainWorkStep, _SysInfo.nCanAddr.ToString("X"), "", "TIME OUT", "NG");
 						_SysInfo.bEolNg = true;
-						_SysInfo.nSubWorkStep++;
+						_SysInfo.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 						break;
 					}
@@ -11492,7 +11540,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo.bEolNg = true;
 						}
 
-						_SysInfo.nSubWorkStep++;
+						_SysInfo.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 					}
 					break;
@@ -11501,124 +11549,124 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 				case 21800:
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nID.ToString(), out _SysInfo.nCanCh);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue1, out _SysInfo.nCanAddr);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue2.ToString(), out _SysInfo.nCanMultiCount);
-					if (_SysInfo.nCanMultiCount > 0) { _SysInfo.nMultiSendData[0] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue3.ToString()); }
-					if (_SysInfo.nCanMultiCount > 1) { _SysInfo.nMultiSendData[1] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue4.ToString()); }
-					if (_SysInfo.nCanMultiCount > 2) { _SysInfo.nMultiSendData[2] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue5.ToString()); }
-					if (_SysInfo.nCanMultiCount > 3) { _SysInfo.nMultiSendData[3] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue6.ToString()); }
-					if (_SysInfo.nCanMultiCount > 4) { _SysInfo.nMultiSendData[4] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue7.ToString()); }
-					if (_SysInfo.nCanMultiCount > 5) { _SysInfo.nMultiSendData[5] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue8.ToString()); }
-					if (_SysInfo.nCanMultiCount > 6) { _SysInfo.nMultiSendData[6] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue9.ToString()); }
-					if (_SysInfo.nCanMultiCount > 7) { _SysInfo.nMultiSendData[7] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue10.ToString()); }
-					if (_SysInfo.nCanMultiCount > 8) { _SysInfo.nMultiSendData[8] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue11.ToString()); }
-					if (_SysInfo.nCanMultiCount > 9) { _SysInfo.nMultiSendData[9] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue12.ToString()); }
-					if (_SysInfo.nCanMultiCount > 10) { _SysInfo.nMultiSendData[10] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue13.ToString()); }
-					if (_SysInfo.nCanMultiCount > 11) { _SysInfo.nMultiSendData[11] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue14.ToString()); }
-					if (_SysInfo.nCanMultiCount > 12) { _SysInfo.nMultiSendData[12] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue15.ToString()); }
-					if (_SysInfo.nCanMultiCount > 13) { _SysInfo.nMultiSendData[13] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue16.ToString()); }
-					if (_SysInfo.nCanMultiCount > 14) { _SysInfo.nMultiSendData[14] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue17.ToString()); }
-					if (_SysInfo.nCanMultiCount > 15) { _SysInfo.nMultiSendData[15] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue18.ToString()); }
-					if (_SysInfo.nCanMultiCount > 16) { _SysInfo.nMultiSendData[16] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue19.ToString()); }
-					if (_SysInfo.nCanMultiCount > 17) { _SysInfo.nMultiSendData[17] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue20.ToString()); }
-					if (_SysInfo.nCanMultiCount > 18) { _SysInfo.nMultiSendData[18] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue21.ToString()); }
-					if (_SysInfo.nCanMultiCount > 19) { _SysInfo.nMultiSendData[19] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue22.ToString()); }
-					if (_SysInfo.nCanMultiCount > 20) { _SysInfo.nMultiSendData[20] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue23.ToString()); }
-					if (_SysInfo.nCanMultiCount > 21) { _SysInfo.nMultiSendData[21] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue24.ToString()); }
-					if (_SysInfo.nCanMultiCount > 22) { _SysInfo.nMultiSendData[22] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue25.ToString()); }
-					if (_SysInfo.nCanMultiCount > 23) { _SysInfo.nMultiSendData[23] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue26.ToString()); }
-					if (_SysInfo.nCanMultiCount > 24) { _SysInfo.nMultiSendData[24] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue27.ToString()); }
-					if (_SysInfo.nCanMultiCount > 25) { _SysInfo.nMultiSendData[25] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue28.ToString()); }
-					if (_SysInfo.nCanMultiCount > 26) { _SysInfo.nMultiSendData[26] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue29.ToString()); }
-					if (_SysInfo.nCanMultiCount > 27) { _SysInfo.nMultiSendData[27] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue30.ToString()); }
-					if (_SysInfo.nCanMultiCount > 28) { _SysInfo.nMultiSendData[28] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue31.ToString()); }
-					if (_SysInfo.nCanMultiCount > 29) { _SysInfo.nMultiSendData[29] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue32.ToString()); }
-					if (_SysInfo.nCanMultiCount > 30) { _SysInfo.nMultiSendData[30] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue33.ToString()); }
-					if (_SysInfo.nCanMultiCount > 31) { _SysInfo.nMultiSendData[31] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue34.ToString()); }
-					if (_SysInfo.nCanMultiCount > 32) { _SysInfo.nMultiSendData[32] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue35.ToString()); }
-					if (_SysInfo.nCanMultiCount > 33) { _SysInfo.nMultiSendData[33] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue36.ToString()); }
-					if (_SysInfo.nCanMultiCount > 34) { _SysInfo.nMultiSendData[34] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue37.ToString()); }
-					if (_SysInfo.nCanMultiCount > 35) { _SysInfo.nMultiSendData[35] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue38.ToString()); }
-					if (_SysInfo.nCanMultiCount > 36) { _SysInfo.nMultiSendData[36] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue39.ToString()); }
-					if (_SysInfo.nCanMultiCount > 37) { _SysInfo.nMultiSendData[37] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue40.ToString()); }
-					if (_SysInfo.nCanMultiCount > 38) { _SysInfo.nMultiSendData[38] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue41.ToString()); }
-					if (_SysInfo.nCanMultiCount > 39) { _SysInfo.nMultiSendData[39] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue42.ToString()); }
-					if (_SysInfo.nCanMultiCount > 40) { _SysInfo.nMultiSendData[40] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue43.ToString()); }
-					if (_SysInfo.nCanMultiCount > 41) { _SysInfo.nMultiSendData[41] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue44.ToString()); }
-					if (_SysInfo.nCanMultiCount > 42) { _SysInfo.nMultiSendData[42] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue45.ToString()); }
-					if (_SysInfo.nCanMultiCount > 43) { _SysInfo.nMultiSendData[43] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue46.ToString()); }
-					if (_SysInfo.nCanMultiCount > 44) { _SysInfo.nMultiSendData[44] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue47.ToString()); }
-					if (_SysInfo.nCanMultiCount > 45) { _SysInfo.nMultiSendData[45] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue48.ToString()); }
-					if (_SysInfo.nCanMultiCount > 46) { _SysInfo.nMultiSendData[46] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue49.ToString()); }
-					if (_SysInfo.nCanMultiCount > 47) { _SysInfo.nMultiSendData[47] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue50.ToString()); }
-					if (_SysInfo.nCanMultiCount > 48) { _SysInfo.nMultiSendData[48] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue51.ToString()); }
-					if (_SysInfo.nCanMultiCount > 49) { _SysInfo.nMultiSendData[49] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue52.ToString()); }
-					if (_SysInfo.nCanMultiCount > 50) { _SysInfo.nMultiSendData[50] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue53.ToString()); }
-					if (_SysInfo.nCanMultiCount > 51) { _SysInfo.nMultiSendData[51] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue54.ToString()); }
-					if (_SysInfo.nCanMultiCount > 52) { _SysInfo.nMultiSendData[52] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue55.ToString()); }
-					if (_SysInfo.nCanMultiCount > 53) { _SysInfo.nMultiSendData[53] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue56.ToString()); }
-					if (_SysInfo.nCanMultiCount > 54) { _SysInfo.nMultiSendData[54] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue57.ToString()); }
-					if (_SysInfo.nCanMultiCount > 55) { _SysInfo.nMultiSendData[55] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue58.ToString()); }
-					if (_SysInfo.nCanMultiCount > 56) { _SysInfo.nMultiSendData[56] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue59.ToString()); }
-					if (_SysInfo.nCanMultiCount > 57) { _SysInfo.nMultiSendData[57] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue60.ToString()); }
-					if (_SysInfo.nCanMultiCount > 58) { _SysInfo.nMultiSendData[58] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue61.ToString()); }
-					if (_SysInfo.nCanMultiCount > 59) { _SysInfo.nMultiSendData[59] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue62.ToString()); }
-					if (_SysInfo.nCanMultiCount > 60) { _SysInfo.nMultiSendData[60] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue63.ToString()); }
-					if (_SysInfo.nCanMultiCount > 61) { _SysInfo.nMultiSendData[61] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue64.ToString()); }
-					if (_SysInfo.nCanMultiCount > 62) { _SysInfo.nMultiSendData[62] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue65.ToString()); }
-					if (_SysInfo.nCanMultiCount > 63) { _SysInfo.nMultiSendData[63] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue66.ToString()); }
-					if (_SysInfo.nCanMultiCount > 64) { _SysInfo.nMultiSendData[64] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue67.ToString()); }
-					if (_SysInfo.nCanMultiCount > 65) { _SysInfo.nMultiSendData[65] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue68.ToString()); }
-					if (_SysInfo.nCanMultiCount > 66) { _SysInfo.nMultiSendData[66] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue69.ToString()); }
-					if (_SysInfo.nCanMultiCount > 67) { _SysInfo.nMultiSendData[67] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue70.ToString()); }
-					if (_SysInfo.nCanMultiCount > 68) { _SysInfo.nMultiSendData[68] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue71.ToString()); }
-					if (_SysInfo.nCanMultiCount > 69) { _SysInfo.nMultiSendData[69] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue72.ToString()); }
-					if (_SysInfo.nCanMultiCount > 70) { _SysInfo.nMultiSendData[70] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue73.ToString()); }
-					if (_SysInfo.nCanMultiCount > 71) { _SysInfo.nMultiSendData[71] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue74.ToString()); }
-					if (_SysInfo.nCanMultiCount > 72) { _SysInfo.nMultiSendData[72] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue75.ToString()); }
-					if (_SysInfo.nCanMultiCount > 73) { _SysInfo.nMultiSendData[73] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue76.ToString()); }
-					if (_SysInfo.nCanMultiCount > 74) { _SysInfo.nMultiSendData[74] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue77.ToString()); }
-					if (_SysInfo.nCanMultiCount > 75) { _SysInfo.nMultiSendData[75] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue78.ToString()); }
-					if (_SysInfo.nCanMultiCount > 76) { _SysInfo.nMultiSendData[76] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue79.ToString()); }
-					if (_SysInfo.nCanMultiCount > 77) { _SysInfo.nMultiSendData[77] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue80.ToString()); }
-					if (_SysInfo.nCanMultiCount > 78) { _SysInfo.nMultiSendData[78] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue81.ToString()); }
-					if (_SysInfo.nCanMultiCount > 79) { _SysInfo.nMultiSendData[79] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue82.ToString()); }
-					if (_SysInfo.nCanMultiCount > 80) { _SysInfo.nMultiSendData[80] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue83.ToString()); }
-					if (_SysInfo.nCanMultiCount > 81) { _SysInfo.nMultiSendData[81] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue84.ToString()); }
-					if (_SysInfo.nCanMultiCount > 82) { _SysInfo.nMultiSendData[82] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue85.ToString()); }
-					if (_SysInfo.nCanMultiCount > 83) { _SysInfo.nMultiSendData[83] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue86.ToString()); }
-					if (_SysInfo.nCanMultiCount > 84) { _SysInfo.nMultiSendData[84] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue87.ToString()); }
-					if (_SysInfo.nCanMultiCount > 85) { _SysInfo.nMultiSendData[85] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue88.ToString()); }
-					if (_SysInfo.nCanMultiCount > 86) { _SysInfo.nMultiSendData[86] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue89.ToString()); }
-					if (_SysInfo.nCanMultiCount > 87) { _SysInfo.nMultiSendData[87] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue90.ToString()); }
-					if (_SysInfo.nCanMultiCount > 88) { _SysInfo.nMultiSendData[88] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue91.ToString()); }
-					if (_SysInfo.nCanMultiCount > 89) { _SysInfo.nMultiSendData[89] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue92.ToString()); }
-					if (_SysInfo.nCanMultiCount > 90) { _SysInfo.nMultiSendData[90] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue93.ToString()); }
-					if (_SysInfo.nCanMultiCount > 91) { _SysInfo.nMultiSendData[91] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue94.ToString()); }
-					if (_SysInfo.nCanMultiCount > 92) { _SysInfo.nMultiSendData[92] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue95.ToString()); }
-					if (_SysInfo.nCanMultiCount > 93) { _SysInfo.nMultiSendData[93] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue96.ToString()); }
-					if (_SysInfo.nCanMultiCount > 94) { _SysInfo.nMultiSendData[94] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue97.ToString()); }
-					if (_SysInfo.nCanMultiCount > 95) { _SysInfo.nMultiSendData[95] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue98.ToString()); }
-					if (_SysInfo.nCanMultiCount > 96) { _SysInfo.nMultiSendData[96] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue99.ToString()); }
-					if (_SysInfo.nCanMultiCount > 97) { _SysInfo.nMultiSendData[97] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue100.ToString()); }
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nID.ToString(), out _SysInfo.nCanCh);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue1, out _SysInfo.nCanAddr);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue2.ToString(), out _SysInfo.nCanMultiCount);
+					if (_SysInfo.nCanMultiCount > 0) { _SysInfo.nMultiSendData[0] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue3.ToString()); }
+					if (_SysInfo.nCanMultiCount > 1) { _SysInfo.nMultiSendData[1] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue4.ToString()); }
+					if (_SysInfo.nCanMultiCount > 2) { _SysInfo.nMultiSendData[2] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue5.ToString()); }
+					if (_SysInfo.nCanMultiCount > 3) { _SysInfo.nMultiSendData[3] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue6.ToString()); }
+					if (_SysInfo.nCanMultiCount > 4) { _SysInfo.nMultiSendData[4] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue7.ToString()); }
+					if (_SysInfo.nCanMultiCount > 5) { _SysInfo.nMultiSendData[5] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue8.ToString()); }
+					if (_SysInfo.nCanMultiCount > 6) { _SysInfo.nMultiSendData[6] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue9.ToString()); }
+					if (_SysInfo.nCanMultiCount > 7) { _SysInfo.nMultiSendData[7] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue10.ToString()); }
+					if (_SysInfo.nCanMultiCount > 8) { _SysInfo.nMultiSendData[8] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue11.ToString()); }
+					if (_SysInfo.nCanMultiCount > 9) { _SysInfo.nMultiSendData[9] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue12.ToString()); }
+					if (_SysInfo.nCanMultiCount > 10) { _SysInfo.nMultiSendData[10] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue13.ToString()); }
+					if (_SysInfo.nCanMultiCount > 11) { _SysInfo.nMultiSendData[11] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue14.ToString()); }
+					if (_SysInfo.nCanMultiCount > 12) { _SysInfo.nMultiSendData[12] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue15.ToString()); }
+					if (_SysInfo.nCanMultiCount > 13) { _SysInfo.nMultiSendData[13] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue16.ToString()); }
+					if (_SysInfo.nCanMultiCount > 14) { _SysInfo.nMultiSendData[14] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue17.ToString()); }
+					if (_SysInfo.nCanMultiCount > 15) { _SysInfo.nMultiSendData[15] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue18.ToString()); }
+					if (_SysInfo.nCanMultiCount > 16) { _SysInfo.nMultiSendData[16] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue19.ToString()); }
+					if (_SysInfo.nCanMultiCount > 17) { _SysInfo.nMultiSendData[17] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue20.ToString()); }
+					if (_SysInfo.nCanMultiCount > 18) { _SysInfo.nMultiSendData[18] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue21.ToString()); }
+					if (_SysInfo.nCanMultiCount > 19) { _SysInfo.nMultiSendData[19] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue22.ToString()); }
+					if (_SysInfo.nCanMultiCount > 20) { _SysInfo.nMultiSendData[20] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue23.ToString()); }
+					if (_SysInfo.nCanMultiCount > 21) { _SysInfo.nMultiSendData[21] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue24.ToString()); }
+					if (_SysInfo.nCanMultiCount > 22) { _SysInfo.nMultiSendData[22] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue25.ToString()); }
+					if (_SysInfo.nCanMultiCount > 23) { _SysInfo.nMultiSendData[23] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue26.ToString()); }
+					if (_SysInfo.nCanMultiCount > 24) { _SysInfo.nMultiSendData[24] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue27.ToString()); }
+					if (_SysInfo.nCanMultiCount > 25) { _SysInfo.nMultiSendData[25] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue28.ToString()); }
+					if (_SysInfo.nCanMultiCount > 26) { _SysInfo.nMultiSendData[26] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue29.ToString()); }
+					if (_SysInfo.nCanMultiCount > 27) { _SysInfo.nMultiSendData[27] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue30.ToString()); }
+					if (_SysInfo.nCanMultiCount > 28) { _SysInfo.nMultiSendData[28] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue31.ToString()); }
+					if (_SysInfo.nCanMultiCount > 29) { _SysInfo.nMultiSendData[29] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue32.ToString()); }
+					if (_SysInfo.nCanMultiCount > 30) { _SysInfo.nMultiSendData[30] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue33.ToString()); }
+					if (_SysInfo.nCanMultiCount > 31) { _SysInfo.nMultiSendData[31] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue34.ToString()); }
+					if (_SysInfo.nCanMultiCount > 32) { _SysInfo.nMultiSendData[32] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue35.ToString()); }
+					if (_SysInfo.nCanMultiCount > 33) { _SysInfo.nMultiSendData[33] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue36.ToString()); }
+					if (_SysInfo.nCanMultiCount > 34) { _SysInfo.nMultiSendData[34] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue37.ToString()); }
+					if (_SysInfo.nCanMultiCount > 35) { _SysInfo.nMultiSendData[35] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue38.ToString()); }
+					if (_SysInfo.nCanMultiCount > 36) { _SysInfo.nMultiSendData[36] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue39.ToString()); }
+					if (_SysInfo.nCanMultiCount > 37) { _SysInfo.nMultiSendData[37] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue40.ToString()); }
+					if (_SysInfo.nCanMultiCount > 38) { _SysInfo.nMultiSendData[38] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue41.ToString()); }
+					if (_SysInfo.nCanMultiCount > 39) { _SysInfo.nMultiSendData[39] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue42.ToString()); }
+					if (_SysInfo.nCanMultiCount > 40) { _SysInfo.nMultiSendData[40] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue43.ToString()); }
+					if (_SysInfo.nCanMultiCount > 41) { _SysInfo.nMultiSendData[41] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue44.ToString()); }
+					if (_SysInfo.nCanMultiCount > 42) { _SysInfo.nMultiSendData[42] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue45.ToString()); }
+					if (_SysInfo.nCanMultiCount > 43) { _SysInfo.nMultiSendData[43] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue46.ToString()); }
+					if (_SysInfo.nCanMultiCount > 44) { _SysInfo.nMultiSendData[44] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue47.ToString()); }
+					if (_SysInfo.nCanMultiCount > 45) { _SysInfo.nMultiSendData[45] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue48.ToString()); }
+					if (_SysInfo.nCanMultiCount > 46) { _SysInfo.nMultiSendData[46] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue49.ToString()); }
+					if (_SysInfo.nCanMultiCount > 47) { _SysInfo.nMultiSendData[47] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue50.ToString()); }
+					if (_SysInfo.nCanMultiCount > 48) { _SysInfo.nMultiSendData[48] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue51.ToString()); }
+					if (_SysInfo.nCanMultiCount > 49) { _SysInfo.nMultiSendData[49] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue52.ToString()); }
+					if (_SysInfo.nCanMultiCount > 50) { _SysInfo.nMultiSendData[50] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue53.ToString()); }
+					if (_SysInfo.nCanMultiCount > 51) { _SysInfo.nMultiSendData[51] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue54.ToString()); }
+					if (_SysInfo.nCanMultiCount > 52) { _SysInfo.nMultiSendData[52] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue55.ToString()); }
+					if (_SysInfo.nCanMultiCount > 53) { _SysInfo.nMultiSendData[53] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue56.ToString()); }
+					if (_SysInfo.nCanMultiCount > 54) { _SysInfo.nMultiSendData[54] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue57.ToString()); }
+					if (_SysInfo.nCanMultiCount > 55) { _SysInfo.nMultiSendData[55] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue58.ToString()); }
+					if (_SysInfo.nCanMultiCount > 56) { _SysInfo.nMultiSendData[56] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue59.ToString()); }
+					if (_SysInfo.nCanMultiCount > 57) { _SysInfo.nMultiSendData[57] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue60.ToString()); }
+					if (_SysInfo.nCanMultiCount > 58) { _SysInfo.nMultiSendData[58] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue61.ToString()); }
+					if (_SysInfo.nCanMultiCount > 59) { _SysInfo.nMultiSendData[59] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue62.ToString()); }
+					if (_SysInfo.nCanMultiCount > 60) { _SysInfo.nMultiSendData[60] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue63.ToString()); }
+					if (_SysInfo.nCanMultiCount > 61) { _SysInfo.nMultiSendData[61] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue64.ToString()); }
+					if (_SysInfo.nCanMultiCount > 62) { _SysInfo.nMultiSendData[62] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue65.ToString()); }
+					if (_SysInfo.nCanMultiCount > 63) { _SysInfo.nMultiSendData[63] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue66.ToString()); }
+					if (_SysInfo.nCanMultiCount > 64) { _SysInfo.nMultiSendData[64] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue67.ToString()); }
+					if (_SysInfo.nCanMultiCount > 65) { _SysInfo.nMultiSendData[65] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue68.ToString()); }
+					if (_SysInfo.nCanMultiCount > 66) { _SysInfo.nMultiSendData[66] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue69.ToString()); }
+					if (_SysInfo.nCanMultiCount > 67) { _SysInfo.nMultiSendData[67] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue70.ToString()); }
+					if (_SysInfo.nCanMultiCount > 68) { _SysInfo.nMultiSendData[68] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue71.ToString()); }
+					if (_SysInfo.nCanMultiCount > 69) { _SysInfo.nMultiSendData[69] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue72.ToString()); }
+					if (_SysInfo.nCanMultiCount > 70) { _SysInfo.nMultiSendData[70] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue73.ToString()); }
+					if (_SysInfo.nCanMultiCount > 71) { _SysInfo.nMultiSendData[71] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue74.ToString()); }
+					if (_SysInfo.nCanMultiCount > 72) { _SysInfo.nMultiSendData[72] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue75.ToString()); }
+					if (_SysInfo.nCanMultiCount > 73) { _SysInfo.nMultiSendData[73] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue76.ToString()); }
+					if (_SysInfo.nCanMultiCount > 74) { _SysInfo.nMultiSendData[74] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue77.ToString()); }
+					if (_SysInfo.nCanMultiCount > 75) { _SysInfo.nMultiSendData[75] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue78.ToString()); }
+					if (_SysInfo.nCanMultiCount > 76) { _SysInfo.nMultiSendData[76] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue79.ToString()); }
+					if (_SysInfo.nCanMultiCount > 77) { _SysInfo.nMultiSendData[77] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue80.ToString()); }
+					if (_SysInfo.nCanMultiCount > 78) { _SysInfo.nMultiSendData[78] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue81.ToString()); }
+					if (_SysInfo.nCanMultiCount > 79) { _SysInfo.nMultiSendData[79] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue82.ToString()); }
+					if (_SysInfo.nCanMultiCount > 80) { _SysInfo.nMultiSendData[80] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue83.ToString()); }
+					if (_SysInfo.nCanMultiCount > 81) { _SysInfo.nMultiSendData[81] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue84.ToString()); }
+					if (_SysInfo.nCanMultiCount > 82) { _SysInfo.nMultiSendData[82] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue85.ToString()); }
+					if (_SysInfo.nCanMultiCount > 83) { _SysInfo.nMultiSendData[83] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue86.ToString()); }
+					if (_SysInfo.nCanMultiCount > 84) { _SysInfo.nMultiSendData[84] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue87.ToString()); }
+					if (_SysInfo.nCanMultiCount > 85) { _SysInfo.nMultiSendData[85] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue88.ToString()); }
+					if (_SysInfo.nCanMultiCount > 86) { _SysInfo.nMultiSendData[86] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue89.ToString()); }
+					if (_SysInfo.nCanMultiCount > 87) { _SysInfo.nMultiSendData[87] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue90.ToString()); }
+					if (_SysInfo.nCanMultiCount > 88) { _SysInfo.nMultiSendData[88] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue91.ToString()); }
+					if (_SysInfo.nCanMultiCount > 89) { _SysInfo.nMultiSendData[89] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue92.ToString()); }
+					if (_SysInfo.nCanMultiCount > 90) { _SysInfo.nMultiSendData[90] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue93.ToString()); }
+					if (_SysInfo.nCanMultiCount > 91) { _SysInfo.nMultiSendData[91] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue94.ToString()); }
+					if (_SysInfo.nCanMultiCount > 92) { _SysInfo.nMultiSendData[92] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue95.ToString()); }
+					if (_SysInfo.nCanMultiCount > 93) { _SysInfo.nMultiSendData[93] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue96.ToString()); }
+					if (_SysInfo.nCanMultiCount > 94) { _SysInfo.nMultiSendData[94] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue97.ToString()); }
+					if (_SysInfo.nCanMultiCount > 95) { _SysInfo.nMultiSendData[95] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue98.ToString()); }
+					if (_SysInfo.nCanMultiCount > 96) { _SysInfo.nMultiSendData[96] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue99.ToString()); }
+					if (_SysInfo.nCanMultiCount > 97) { _SysInfo.nMultiSendData[97] = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue100.ToString()); }
 
 					SendTCPMultiCommand(_SysInfo.nCanCh, _SysInfo.nCanAddr, _SysInfo.nMultiSendData, _SysInfo.nCanMultiCount);
 					nProcessStep[nStepIndex]++;
 					break;
 
 				case 21801:
-					_SysInfo.nSubWorkStep++;
+					_SysInfo.nRepeatWorkStep++;
 					nProcessStep[nStepIndex] = 20000;
 					break;
 
 
 				// Modbus TCP Read(COMP)
 				case 21900:
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nID.ToString(), out _SysInfo.nCanCh);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
-					//int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue2.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nCanData);
-					_SysInfo.nCanData = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue2.ToString());
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nID.ToString(), out _SysInfo.nCanCh);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
+					//int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue2.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo.nCanData);
+					_SysInfo.nCanData = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue2.ToString());
 					SendTCPReadCommand(_SysInfo.nCanCh, _SysInfo.nCanAddr);
 
 					tMainTimer[nStepIndex].Start(5000);
@@ -11630,7 +11678,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						NgDataSet(_SysInfo.nSubMainWorkStep, _SysInfo.nCanAddr.ToString(), _SysInfo.nCanData.ToString("X4"), "TIME OUT", "NG");
 						_SysInfo.bEolNg = true;
-						_SysInfo.nSubWorkStep++;
+						_SysInfo.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 						break;
 					}
@@ -11658,7 +11706,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo.bEolNg = true;
 							NgDataSet(_SysInfo.nSubMainWorkStep, _SysInfo.nCanAddr.ToString(), _SysInfo.nCanData.ToString("X4"), "DATA ERROR", "NG");
 						}
-						_SysInfo.nSubWorkStep++;
+						_SysInfo.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 					}
 					break;
@@ -11666,9 +11714,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 				case 22000:
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nID.ToString(), out _SysInfo.nCanCh);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue2.ToString(), out _SysInfo.nBuffIndex);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nID.ToString(), out _SysInfo.nCanCh);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue1.ToString(), out _SysInfo.nCanAddr);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].strValue2.ToString(), out _SysInfo.nBuffIndex);
 					tMainTimer[nStepIndex].Start(5000);
 					SendTCPReadCommand(_SysInfo.nCanCh, _SysInfo.nCanAddr);
 					nProcessStep[nStepIndex]++;
@@ -11679,7 +11727,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						NgDataSet(_SysInfo.nSubMainWorkStep, _SysInfo.nCanAddr.ToString(), "", "TIME OUT", "NG");
 						_SysInfo.bEolNg = true;
-						_SysInfo.nSubWorkStep++;
+						_SysInfo.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 						break;
 					}
@@ -11691,14 +11739,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo.nReadDataBuff[_SysInfo.nBuffIndex] = (_SysInfo.btTcpReadData[9] * 0x100) + _SysInfo.btTcpReadData[10];
 							NgDataSet(_SysInfo.nSubMainWorkStep, _SysInfo.nCanAddr.ToString(), $"BUFFER{_SysInfo.nBuffIndex}", ((_SysInfo.btTcpReadData[9] * 0x100) + _SysInfo.btTcpReadData[10]).ToString("X4"), "");
 						}
-						_SysInfo.nSubWorkStep++;
+						_SysInfo.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 					}
 					break;
 
 				// Sub Item 통신 종료
 				case 29000:
-					_SysInfo.nSubWorkStep = 0;
+					_SysInfo.nRepeatWorkStep = 0;
 					nProcessStep[nStepIndex] = 11000;
 					break;
 
@@ -11723,7 +11771,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 10000:
 
-					_SysInfo2.nSubMainWorkStep = _SysInfo2.nMainWorkStep;
+					
 					nProcessStep[nStepIndex] = 11000;
 
 
@@ -11741,7 +11789,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 20000:
-					if (_SysInfo2.nSubWorkStep >= _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo.Count)
+					if (_SysInfo2.nRepeatWorkStep >= _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo.Count)
 					{
 						if (_SysInfo2.bEolNg)
 						{
@@ -11774,7 +11822,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 				case 20060:
-					if (_SysInfo2.nSubWorkStep >= _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo.Count)
+					if (_SysInfo2.nRepeatWorkStep >= _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo.Count)
 					{
 
 						_SysInfo2.bEolReadData = false;
@@ -11789,52 +11837,52 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 				case 21000:
-					if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nTestType == 0)
+					if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nTestType == 0)
 					{
 						// Modbus Can Write
 						nProcessStep[nStepIndex] = 21100;
 					}
-					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nTestType == 1)
+					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nTestType == 1)
 					{
 						// Modbus Can Read(Comp)
 						nProcessStep[nStepIndex] = 21200;
 					}
-					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nTestType == 2)
+					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nTestType == 2)
 					{
 						// Modbus Can Read(Buff)
 						nProcessStep[nStepIndex] = 21300;
 					}
-					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nTestType == 3)
+					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nTestType == 3)
 					{
 						// Dealy
 						nProcessStep[nStepIndex] = 21400;
 					}
-					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nTestType == 4)
+					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nTestType == 4)
 					{
 						// Modbus Can Write(Multi)
 						nProcessStep[nStepIndex] = 21500;
 					}
-					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nTestType == 5)
+					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nTestType == 5)
 					{
 						// Can Write
 						nProcessStep[nStepIndex] = 21600;
 					}
-					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nTestType == 6)
+					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nTestType == 6)
 					{
 						// Can Read
 						nProcessStep[nStepIndex] = 21700;
 					}
-					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nTestType == 7)
+					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nTestType == 7)
 					{
 						// TCP Write
 						nProcessStep[nStepIndex] = 21800;
 					}
-					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nTestType == 8)
+					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nTestType == 8)
 					{
 						// TCP Read ( Comp )
 						nProcessStep[nStepIndex] = 21900;
 					}
-					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nTestType == 9)
+					else if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nTestType == 9)
 					{
 						// TCP Read ( Buff )
 						nProcessStep[nStepIndex] = 22000;
@@ -11845,9 +11893,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				// Modbus Can Write
 				case 21100:
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue2.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nCanData);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue2.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nCanData);
 					//tMainTimer[nStepIndex].Start(1000);
 					SendWriteCommand(_SysInfo2.nCanCh, _SysInfo2.nCanAddr, _SysInfo2.nCanData, 2);
 					nProcessStep[nStepIndex]++;
@@ -11863,7 +11911,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					//		//{
 
 					//		//}
-					//		_SysInfo2.nSubWorkStep++;
+					//		_SysInfo2.nRepeatWorkStep++;
 					//		nProcessStep[nStepIndex] = 20000;
 					//	}
 					//}
@@ -11874,10 +11922,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				// Modbus Can Read(COMP)
 				case 21200:
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
-					//int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue2.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nCanData);
-					_SysInfo2.nCanData = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue2.ToString());
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
+					//int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue2.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nCanData);
+					_SysInfo2.nCanData = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue2.ToString());
 					SendReadCommand(_SysInfo2.nCanCh, _SysInfo2.nCanAddr, 2);
 
 					tMainTimer[nStepIndex].Start(5000);
@@ -11889,7 +11937,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						NgDataSet2(_SysInfo2.nSubMainWorkStep, _SysInfo2.nCanAddr.ToString(), _SysInfo2.nCanData.ToString("X4"), "TIME OUT", "NG");
 						_SysInfo2.bEolNg = true;
-						_SysInfo2.nSubWorkStep++;
+						_SysInfo2.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 						break;
 					}
@@ -11899,9 +11947,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						if (_CanComm[_SysInfo2.nCanCh].btReadData[0] == 0x03)
 						{
-							if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue3 != null && _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue3 != "")
+							if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue3 != null && _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue3 != "")
 							{
-								if (int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue3.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMaskingData))
+								if (int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue3.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMaskingData))
 								{
 									_SysInfo2.nCompData = ((_CanComm[_SysInfo2.nCanCh].btReadData[2] * 0x100) + _CanComm[_SysInfo2.nCanCh].btReadData[3]) & _SysInfo2.nMaskingData;
 
@@ -11956,15 +12004,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo2.bEolNg = true;
 							NgDataSet2(_SysInfo2.nSubMainWorkStep, _SysInfo2.nCanAddr.ToString(), _SysInfo2.nCanData.ToString("X4"), "DATA ERROR", "NG");
 						}
-						_SysInfo2.nSubWorkStep++;
+						_SysInfo2.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 					}
 					break;
 
 				case 21300:
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue2.ToString(), out _SysInfo2.nBuffIndex);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue2.ToString(), out _SysInfo2.nBuffIndex);
 					tMainTimer[nStepIndex].Start(5000);
 					SendReadCommand(_SysInfo2.nCanCh, _SysInfo2.nCanAddr, 2);
 					nProcessStep[nStepIndex]++;
@@ -11975,7 +12023,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						NgDataSet2(_SysInfo2.nSubMainWorkStep, _SysInfo2.nCanAddr.ToString(), "", "TIME OUT", "NG");
 						_SysInfo2.bEolNg = true;
-						_SysInfo2.nSubWorkStep++;
+						_SysInfo2.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 						break;
 					}
@@ -11989,14 +12037,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo2.nReadDataBuff[_SysInfo2.nBuffIndex] = (_CanComm[_SysInfo2.nCanCh].btReadData[2] * 0x100) + _CanComm[_SysInfo2.nCanCh].btReadData[3];
 							NgDataSet2(_SysInfo2.nSubMainWorkStep, _SysInfo2.nCanAddr.ToString(), $"BUFFER{_SysInfo2.nBuffIndex}", ((_CanComm[_SysInfo2.nCanCh].btReadData[2] * 0x100) + _CanComm[_SysInfo2.nCanCh].btReadData[3]).ToString("X4"), "");
 						}
-						_SysInfo2.nSubWorkStep++;
+						_SysInfo2.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 					}
 					break;
 
 
 				case 21400:
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
 					tMainTimer[nStepIndex].Start(_SysInfo2.nCanAddr);
 					nProcessStep[nStepIndex]++;
 					break;
@@ -12004,132 +12052,132 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 21401:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 
-					_SysInfo2.nSubWorkStep++;
+					_SysInfo2.nRepeatWorkStep++;
 					nProcessStep[nStepIndex] = 20000;
 					break;
 
 
 				case 21500:
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue2.ToString(), out _SysInfo2.nCanMultiCount);
-					if (_SysInfo2.nCanMultiCount > 0) { _SysInfo2.nMultiSendData[0] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue3.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 1) { _SysInfo2.nMultiSendData[1] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue4.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 2) { _SysInfo2.nMultiSendData[2] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue5.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 3) { _SysInfo2.nMultiSendData[3] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue6.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 4) { _SysInfo2.nMultiSendData[4] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue7.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 5) { _SysInfo2.nMultiSendData[5] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue8.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 6) { _SysInfo2.nMultiSendData[6] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue9.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 7) { _SysInfo2.nMultiSendData[7] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue10.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 8) { _SysInfo2.nMultiSendData[8] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue11.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 9) { _SysInfo2.nMultiSendData[9] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue12.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 10) { _SysInfo2.nMultiSendData[10] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue13.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 11) { _SysInfo2.nMultiSendData[11] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue14.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 12) { _SysInfo2.nMultiSendData[12] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue15.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 13) { _SysInfo2.nMultiSendData[13] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue16.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 14) { _SysInfo2.nMultiSendData[14] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue17.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 15) { _SysInfo2.nMultiSendData[15] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue18.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 16) { _SysInfo2.nMultiSendData[16] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue19.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 17) { _SysInfo2.nMultiSendData[17] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue20.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 18) { _SysInfo2.nMultiSendData[18] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue21.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 19) { _SysInfo2.nMultiSendData[19] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue22.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 20) { _SysInfo2.nMultiSendData[20] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue23.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 21) { _SysInfo2.nMultiSendData[21] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue24.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 22) { _SysInfo2.nMultiSendData[22] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue25.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 23) { _SysInfo2.nMultiSendData[23] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue26.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 24) { _SysInfo2.nMultiSendData[24] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue27.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 25) { _SysInfo2.nMultiSendData[25] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue28.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 26) { _SysInfo2.nMultiSendData[26] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue29.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 27) { _SysInfo2.nMultiSendData[27] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue30.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 28) { _SysInfo2.nMultiSendData[28] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue31.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 29) { _SysInfo2.nMultiSendData[29] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue32.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 30) { _SysInfo2.nMultiSendData[30] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue33.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 31) { _SysInfo2.nMultiSendData[31] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue34.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 32) { _SysInfo2.nMultiSendData[32] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue35.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 33) { _SysInfo2.nMultiSendData[33] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue36.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 34) { _SysInfo2.nMultiSendData[34] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue37.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 35) { _SysInfo2.nMultiSendData[35] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue38.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 36) { _SysInfo2.nMultiSendData[36] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue39.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 37) { _SysInfo2.nMultiSendData[37] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue40.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 38) { _SysInfo2.nMultiSendData[38] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue41.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 39) { _SysInfo2.nMultiSendData[39] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue42.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 40) { _SysInfo2.nMultiSendData[40] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue43.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 41) { _SysInfo2.nMultiSendData[41] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue44.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 42) { _SysInfo2.nMultiSendData[42] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue45.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 43) { _SysInfo2.nMultiSendData[43] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue46.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 44) { _SysInfo2.nMultiSendData[44] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue47.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 45) { _SysInfo2.nMultiSendData[45] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue48.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 46) { _SysInfo2.nMultiSendData[46] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue49.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 47) { _SysInfo2.nMultiSendData[47] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue50.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 48) { _SysInfo2.nMultiSendData[48] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue51.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 49) { _SysInfo2.nMultiSendData[49] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue52.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 50) { _SysInfo2.nMultiSendData[50] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue53.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 51) { _SysInfo2.nMultiSendData[51] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue54.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 52) { _SysInfo2.nMultiSendData[52] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue55.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 53) { _SysInfo2.nMultiSendData[53] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue56.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 54) { _SysInfo2.nMultiSendData[54] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue57.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 55) { _SysInfo2.nMultiSendData[55] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue58.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 56) { _SysInfo2.nMultiSendData[56] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue59.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 57) { _SysInfo2.nMultiSendData[57] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue60.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 58) { _SysInfo2.nMultiSendData[58] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue61.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 59) { _SysInfo2.nMultiSendData[59] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue62.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 60) { _SysInfo2.nMultiSendData[60] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue63.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 61) { _SysInfo2.nMultiSendData[61] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue64.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 62) { _SysInfo2.nMultiSendData[62] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue65.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 63) { _SysInfo2.nMultiSendData[63] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue66.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 64) { _SysInfo2.nMultiSendData[64] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue67.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 65) { _SysInfo2.nMultiSendData[65] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue68.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 66) { _SysInfo2.nMultiSendData[66] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue69.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 67) { _SysInfo2.nMultiSendData[67] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue70.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 68) { _SysInfo2.nMultiSendData[68] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue71.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 69) { _SysInfo2.nMultiSendData[69] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue72.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 70) { _SysInfo2.nMultiSendData[70] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue73.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 71) { _SysInfo2.nMultiSendData[71] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue74.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 72) { _SysInfo2.nMultiSendData[72] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue75.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 73) { _SysInfo2.nMultiSendData[73] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue76.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 74) { _SysInfo2.nMultiSendData[74] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue77.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 75) { _SysInfo2.nMultiSendData[75] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue78.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 76) { _SysInfo2.nMultiSendData[76] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue79.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 77) { _SysInfo2.nMultiSendData[77] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue80.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 78) { _SysInfo2.nMultiSendData[78] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue81.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 79) { _SysInfo2.nMultiSendData[79] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue82.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 80) { _SysInfo2.nMultiSendData[80] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue83.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 81) { _SysInfo2.nMultiSendData[81] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue84.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 82) { _SysInfo2.nMultiSendData[82] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue85.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 83) { _SysInfo2.nMultiSendData[83] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue86.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 84) { _SysInfo2.nMultiSendData[84] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue87.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 85) { _SysInfo2.nMultiSendData[85] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue88.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 86) { _SysInfo2.nMultiSendData[86] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue89.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 87) { _SysInfo2.nMultiSendData[87] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue90.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 88) { _SysInfo2.nMultiSendData[88] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue91.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 89) { _SysInfo2.nMultiSendData[89] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue92.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 90) { _SysInfo2.nMultiSendData[90] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue93.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 91) { _SysInfo2.nMultiSendData[91] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue94.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 92) { _SysInfo2.nMultiSendData[92] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue95.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 93) { _SysInfo2.nMultiSendData[93] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue96.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 94) { _SysInfo2.nMultiSendData[94] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue97.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 95) { _SysInfo2.nMultiSendData[95] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue98.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 96) { _SysInfo2.nMultiSendData[96] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue99.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 97) { _SysInfo2.nMultiSendData[97] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue100.ToString()); }
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue2.ToString(), out _SysInfo2.nCanMultiCount);
+					if (_SysInfo2.nCanMultiCount > 0) { _SysInfo2.nMultiSendData[0] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue3.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 1) { _SysInfo2.nMultiSendData[1] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue4.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 2) { _SysInfo2.nMultiSendData[2] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue5.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 3) { _SysInfo2.nMultiSendData[3] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue6.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 4) { _SysInfo2.nMultiSendData[4] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue7.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 5) { _SysInfo2.nMultiSendData[5] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue8.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 6) { _SysInfo2.nMultiSendData[6] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue9.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 7) { _SysInfo2.nMultiSendData[7] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue10.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 8) { _SysInfo2.nMultiSendData[8] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue11.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 9) { _SysInfo2.nMultiSendData[9] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue12.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 10) { _SysInfo2.nMultiSendData[10] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue13.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 11) { _SysInfo2.nMultiSendData[11] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue14.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 12) { _SysInfo2.nMultiSendData[12] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue15.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 13) { _SysInfo2.nMultiSendData[13] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue16.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 14) { _SysInfo2.nMultiSendData[14] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue17.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 15) { _SysInfo2.nMultiSendData[15] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue18.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 16) { _SysInfo2.nMultiSendData[16] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue19.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 17) { _SysInfo2.nMultiSendData[17] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue20.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 18) { _SysInfo2.nMultiSendData[18] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue21.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 19) { _SysInfo2.nMultiSendData[19] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue22.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 20) { _SysInfo2.nMultiSendData[20] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue23.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 21) { _SysInfo2.nMultiSendData[21] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue24.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 22) { _SysInfo2.nMultiSendData[22] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue25.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 23) { _SysInfo2.nMultiSendData[23] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue26.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 24) { _SysInfo2.nMultiSendData[24] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue27.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 25) { _SysInfo2.nMultiSendData[25] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue28.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 26) { _SysInfo2.nMultiSendData[26] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue29.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 27) { _SysInfo2.nMultiSendData[27] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue30.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 28) { _SysInfo2.nMultiSendData[28] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue31.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 29) { _SysInfo2.nMultiSendData[29] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue32.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 30) { _SysInfo2.nMultiSendData[30] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue33.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 31) { _SysInfo2.nMultiSendData[31] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue34.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 32) { _SysInfo2.nMultiSendData[32] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue35.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 33) { _SysInfo2.nMultiSendData[33] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue36.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 34) { _SysInfo2.nMultiSendData[34] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue37.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 35) { _SysInfo2.nMultiSendData[35] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue38.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 36) { _SysInfo2.nMultiSendData[36] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue39.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 37) { _SysInfo2.nMultiSendData[37] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue40.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 38) { _SysInfo2.nMultiSendData[38] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue41.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 39) { _SysInfo2.nMultiSendData[39] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue42.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 40) { _SysInfo2.nMultiSendData[40] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue43.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 41) { _SysInfo2.nMultiSendData[41] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue44.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 42) { _SysInfo2.nMultiSendData[42] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue45.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 43) { _SysInfo2.nMultiSendData[43] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue46.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 44) { _SysInfo2.nMultiSendData[44] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue47.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 45) { _SysInfo2.nMultiSendData[45] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue48.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 46) { _SysInfo2.nMultiSendData[46] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue49.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 47) { _SysInfo2.nMultiSendData[47] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue50.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 48) { _SysInfo2.nMultiSendData[48] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue51.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 49) { _SysInfo2.nMultiSendData[49] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue52.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 50) { _SysInfo2.nMultiSendData[50] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue53.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 51) { _SysInfo2.nMultiSendData[51] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue54.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 52) { _SysInfo2.nMultiSendData[52] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue55.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 53) { _SysInfo2.nMultiSendData[53] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue56.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 54) { _SysInfo2.nMultiSendData[54] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue57.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 55) { _SysInfo2.nMultiSendData[55] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue58.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 56) { _SysInfo2.nMultiSendData[56] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue59.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 57) { _SysInfo2.nMultiSendData[57] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue60.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 58) { _SysInfo2.nMultiSendData[58] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue61.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 59) { _SysInfo2.nMultiSendData[59] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue62.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 60) { _SysInfo2.nMultiSendData[60] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue63.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 61) { _SysInfo2.nMultiSendData[61] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue64.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 62) { _SysInfo2.nMultiSendData[62] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue65.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 63) { _SysInfo2.nMultiSendData[63] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue66.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 64) { _SysInfo2.nMultiSendData[64] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue67.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 65) { _SysInfo2.nMultiSendData[65] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue68.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 66) { _SysInfo2.nMultiSendData[66] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue69.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 67) { _SysInfo2.nMultiSendData[67] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue70.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 68) { _SysInfo2.nMultiSendData[68] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue71.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 69) { _SysInfo2.nMultiSendData[69] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue72.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 70) { _SysInfo2.nMultiSendData[70] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue73.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 71) { _SysInfo2.nMultiSendData[71] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue74.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 72) { _SysInfo2.nMultiSendData[72] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue75.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 73) { _SysInfo2.nMultiSendData[73] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue76.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 74) { _SysInfo2.nMultiSendData[74] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue77.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 75) { _SysInfo2.nMultiSendData[75] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue78.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 76) { _SysInfo2.nMultiSendData[76] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue79.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 77) { _SysInfo2.nMultiSendData[77] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue80.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 78) { _SysInfo2.nMultiSendData[78] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue81.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 79) { _SysInfo2.nMultiSendData[79] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue82.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 80) { _SysInfo2.nMultiSendData[80] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue83.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 81) { _SysInfo2.nMultiSendData[81] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue84.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 82) { _SysInfo2.nMultiSendData[82] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue85.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 83) { _SysInfo2.nMultiSendData[83] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue86.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 84) { _SysInfo2.nMultiSendData[84] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue87.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 85) { _SysInfo2.nMultiSendData[85] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue88.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 86) { _SysInfo2.nMultiSendData[86] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue89.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 87) { _SysInfo2.nMultiSendData[87] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue90.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 88) { _SysInfo2.nMultiSendData[88] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue91.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 89) { _SysInfo2.nMultiSendData[89] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue92.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 90) { _SysInfo2.nMultiSendData[90] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue93.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 91) { _SysInfo2.nMultiSendData[91] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue94.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 92) { _SysInfo2.nMultiSendData[92] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue95.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 93) { _SysInfo2.nMultiSendData[93] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue96.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 94) { _SysInfo2.nMultiSendData[94] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue97.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 95) { _SysInfo2.nMultiSendData[95] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue98.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 96) { _SysInfo2.nMultiSendData[96] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue99.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 97) { _SysInfo2.nMultiSendData[97] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue100.ToString()); }
 
-					//if (_SysInfo2.nCanMultiCount > 0) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue3.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[0]); }
-					//if (_SysInfo2.nCanMultiCount > 1) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue4.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[1]); }
-					//if (_SysInfo2.nCanMultiCount > 2) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue5.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[2]); }
-					//if (_SysInfo2.nCanMultiCount > 3) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue6.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[3]); }
-					//if (_SysInfo2.nCanMultiCount > 4) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue7.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[4]); }
-					//if (_SysInfo2.nCanMultiCount > 5) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue8.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[5]); }
-					//if (_SysInfo2.nCanMultiCount > 6) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue9.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[6]); }
-					//if (_SysInfo2.nCanMultiCount > 7) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue10.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[7]); }
-					//if (_SysInfo2.nCanMultiCount > 8) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue11.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[8]); }
-					//if (_SysInfo2.nCanMultiCount > 9) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue12.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[9]); }
-					//if (_SysInfo2.nCanMultiCount > 10) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue13.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[10]); }
-					//if (_SysInfo2.nCanMultiCount > 11) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue14.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[11]); }
-					//if (_SysInfo2.nCanMultiCount > 12) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue15.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[12]); }
-					//if (_SysInfo2.nCanMultiCount > 13) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue16.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[13]); }
-					//if (_SysInfo2.nCanMultiCount > 14) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue17.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[14]); }
-					//if (_SysInfo2.nCanMultiCount > 15) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue18.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[15]); }
-					//if (_SysInfo2.nCanMultiCount > 16) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue19.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[16]); }
-					//if (_SysInfo2.nCanMultiCount > 17) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue20.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[17]); }
+					//if (_SysInfo2.nCanMultiCount > 0) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue3.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[0]); }
+					//if (_SysInfo2.nCanMultiCount > 1) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue4.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[1]); }
+					//if (_SysInfo2.nCanMultiCount > 2) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue5.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[2]); }
+					//if (_SysInfo2.nCanMultiCount > 3) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue6.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[3]); }
+					//if (_SysInfo2.nCanMultiCount > 4) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue7.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[4]); }
+					//if (_SysInfo2.nCanMultiCount > 5) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue8.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[5]); }
+					//if (_SysInfo2.nCanMultiCount > 6) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue9.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[6]); }
+					//if (_SysInfo2.nCanMultiCount > 7) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue10.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[7]); }
+					//if (_SysInfo2.nCanMultiCount > 8) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue11.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[8]); }
+					//if (_SysInfo2.nCanMultiCount > 9) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue12.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[9]); }
+					//if (_SysInfo2.nCanMultiCount > 10) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue13.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[10]); }
+					//if (_SysInfo2.nCanMultiCount > 11) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue14.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[11]); }
+					//if (_SysInfo2.nCanMultiCount > 12) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue15.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[12]); }
+					//if (_SysInfo2.nCanMultiCount > 13) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue16.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[13]); }
+					//if (_SysInfo2.nCanMultiCount > 14) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue17.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[14]); }
+					//if (_SysInfo2.nCanMultiCount > 15) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue18.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[15]); }
+					//if (_SysInfo2.nCanMultiCount > 16) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue19.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[16]); }
+					//if (_SysInfo2.nCanMultiCount > 17) { int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue20.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nMultiSendData[17]); }
 
 					//tMainTimer[nStepIndex].Start(1000);
 					SendWriteMultiCommand(_SysInfo2.nCanCh, _SysInfo2.nCanAddr, _SysInfo2.nMultiSendData, _SysInfo2.nCanMultiCount, 2);
@@ -12146,225 +12194,225 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					//		//{
 
 					//		//}
-					//		_SysInfo2.nSubWorkStep++;
+					//		_SysInfo2.nRepeatWorkStep++;
 					//		nProcessStep[nStepIndex] = 20000;
 					//	}
 					//}
-					_SysInfo2.nSubWorkStep++;
+					_SysInfo2.nRepeatWorkStep++;
 					nProcessStep[nStepIndex] = 20000;
 					break;
 
 
 				// Can Write
 				case 21600:
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue1, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nCanStartAddr);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue2.ToString(), out _SysInfo2.nCanMultiCount);
-					if (_SysInfo2.nCanMultiCount > 0) { _SysInfo2.nMultiSendData[0] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue3.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 1) { _SysInfo2.nMultiSendData[1] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue4.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 2) { _SysInfo2.nMultiSendData[2] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue5.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 3) { _SysInfo2.nMultiSendData[3] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue6.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 4) { _SysInfo2.nMultiSendData[4] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue7.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 5) { _SysInfo2.nMultiSendData[5] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue8.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 6) { _SysInfo2.nMultiSendData[6] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue9.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 7) { _SysInfo2.nMultiSendData[7] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue10.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 8) { _SysInfo2.nMultiSendData[8] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue11.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 9) { _SysInfo2.nMultiSendData[9] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue12.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 10) { _SysInfo2.nMultiSendData[10] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue13.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 11) { _SysInfo2.nMultiSendData[11] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue14.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 12) { _SysInfo2.nMultiSendData[12] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue15.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 13) { _SysInfo2.nMultiSendData[13] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue16.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 14) { _SysInfo2.nMultiSendData[14] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue17.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 15) { _SysInfo2.nMultiSendData[15] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue18.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 16) { _SysInfo2.nMultiSendData[16] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue19.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 17) { _SysInfo2.nMultiSendData[17] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue20.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 18) { _SysInfo2.nMultiSendData[18] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue21.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 19) { _SysInfo2.nMultiSendData[19] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue22.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 20) { _SysInfo2.nMultiSendData[20] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue23.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 21) { _SysInfo2.nMultiSendData[21] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue24.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 22) { _SysInfo2.nMultiSendData[22] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue25.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 23) { _SysInfo2.nMultiSendData[23] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue26.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 24) { _SysInfo2.nMultiSendData[24] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue27.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 25) { _SysInfo2.nMultiSendData[25] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue28.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 26) { _SysInfo2.nMultiSendData[26] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue29.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 27) { _SysInfo2.nMultiSendData[27] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue30.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 28) { _SysInfo2.nMultiSendData[28] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue31.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 29) { _SysInfo2.nMultiSendData[29] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue32.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 30) { _SysInfo2.nMultiSendData[30] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue33.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 31) { _SysInfo2.nMultiSendData[31] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue34.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 32) { _SysInfo2.nMultiSendData[32] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue35.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 33) { _SysInfo2.nMultiSendData[33] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue36.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 34) { _SysInfo2.nMultiSendData[34] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue37.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 35) { _SysInfo2.nMultiSendData[35] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue38.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 36) { _SysInfo2.nMultiSendData[36] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue39.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 37) { _SysInfo2.nMultiSendData[37] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue40.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 38) { _SysInfo2.nMultiSendData[38] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue41.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 39) { _SysInfo2.nMultiSendData[39] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue42.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 40) { _SysInfo2.nMultiSendData[40] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue43.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 41) { _SysInfo2.nMultiSendData[41] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue44.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 42) { _SysInfo2.nMultiSendData[42] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue45.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 43) { _SysInfo2.nMultiSendData[43] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue46.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 44) { _SysInfo2.nMultiSendData[44] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue47.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 45) { _SysInfo2.nMultiSendData[45] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue48.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 46) { _SysInfo2.nMultiSendData[46] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue49.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 47) { _SysInfo2.nMultiSendData[47] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue50.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 48) { _SysInfo2.nMultiSendData[48] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue51.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 49) { _SysInfo2.nMultiSendData[49] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue52.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 50) { _SysInfo2.nMultiSendData[50] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue53.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 51) { _SysInfo2.nMultiSendData[51] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue54.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 52) { _SysInfo2.nMultiSendData[52] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue55.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 53) { _SysInfo2.nMultiSendData[53] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue56.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 54) { _SysInfo2.nMultiSendData[54] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue57.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 55) { _SysInfo2.nMultiSendData[55] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue58.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 56) { _SysInfo2.nMultiSendData[56] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue59.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 57) { _SysInfo2.nMultiSendData[57] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue60.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 58) { _SysInfo2.nMultiSendData[58] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue61.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 59) { _SysInfo2.nMultiSendData[59] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue62.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 60) { _SysInfo2.nMultiSendData[60] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue63.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 61) { _SysInfo2.nMultiSendData[61] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue64.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 62) { _SysInfo2.nMultiSendData[62] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue65.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 63) { _SysInfo2.nMultiSendData[63] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue66.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 64) { _SysInfo2.nMultiSendData[64] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue67.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 65) { _SysInfo2.nMultiSendData[65] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue68.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 66) { _SysInfo2.nMultiSendData[66] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue69.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 67) { _SysInfo2.nMultiSendData[67] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue70.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 68) { _SysInfo2.nMultiSendData[68] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue71.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 69) { _SysInfo2.nMultiSendData[69] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue72.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 70) { _SysInfo2.nMultiSendData[70] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue73.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 71) { _SysInfo2.nMultiSendData[71] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue74.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 72) { _SysInfo2.nMultiSendData[72] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue75.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 73) { _SysInfo2.nMultiSendData[73] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue76.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 74) { _SysInfo2.nMultiSendData[74] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue77.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 75) { _SysInfo2.nMultiSendData[75] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue78.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 76) { _SysInfo2.nMultiSendData[76] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue79.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 77) { _SysInfo2.nMultiSendData[77] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue80.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 78) { _SysInfo2.nMultiSendData[78] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue81.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 79) { _SysInfo2.nMultiSendData[79] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue82.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 80) { _SysInfo2.nMultiSendData[80] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue83.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 81) { _SysInfo2.nMultiSendData[81] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue84.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 82) { _SysInfo2.nMultiSendData[82] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue85.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 83) { _SysInfo2.nMultiSendData[83] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue86.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 84) { _SysInfo2.nMultiSendData[84] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue87.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 85) { _SysInfo2.nMultiSendData[85] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue88.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 86) { _SysInfo2.nMultiSendData[86] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue89.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 87) { _SysInfo2.nMultiSendData[87] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue90.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 88) { _SysInfo2.nMultiSendData[88] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue91.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 89) { _SysInfo2.nMultiSendData[89] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue92.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 90) { _SysInfo2.nMultiSendData[90] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue93.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 91) { _SysInfo2.nMultiSendData[91] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue94.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 92) { _SysInfo2.nMultiSendData[92] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue95.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 93) { _SysInfo2.nMultiSendData[93] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue96.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 94) { _SysInfo2.nMultiSendData[94] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue97.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 95) { _SysInfo2.nMultiSendData[95] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue98.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 96) { _SysInfo2.nMultiSendData[96] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue99.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 97) { _SysInfo2.nMultiSendData[97] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue100.ToString()); }
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue1, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nCanStartAddr);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue2.ToString(), out _SysInfo2.nCanMultiCount);
+					if (_SysInfo2.nCanMultiCount > 0) { _SysInfo2.nMultiSendData[0] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue3.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 1) { _SysInfo2.nMultiSendData[1] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue4.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 2) { _SysInfo2.nMultiSendData[2] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue5.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 3) { _SysInfo2.nMultiSendData[3] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue6.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 4) { _SysInfo2.nMultiSendData[4] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue7.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 5) { _SysInfo2.nMultiSendData[5] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue8.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 6) { _SysInfo2.nMultiSendData[6] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue9.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 7) { _SysInfo2.nMultiSendData[7] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue10.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 8) { _SysInfo2.nMultiSendData[8] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue11.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 9) { _SysInfo2.nMultiSendData[9] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue12.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 10) { _SysInfo2.nMultiSendData[10] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue13.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 11) { _SysInfo2.nMultiSendData[11] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue14.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 12) { _SysInfo2.nMultiSendData[12] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue15.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 13) { _SysInfo2.nMultiSendData[13] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue16.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 14) { _SysInfo2.nMultiSendData[14] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue17.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 15) { _SysInfo2.nMultiSendData[15] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue18.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 16) { _SysInfo2.nMultiSendData[16] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue19.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 17) { _SysInfo2.nMultiSendData[17] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue20.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 18) { _SysInfo2.nMultiSendData[18] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue21.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 19) { _SysInfo2.nMultiSendData[19] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue22.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 20) { _SysInfo2.nMultiSendData[20] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue23.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 21) { _SysInfo2.nMultiSendData[21] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue24.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 22) { _SysInfo2.nMultiSendData[22] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue25.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 23) { _SysInfo2.nMultiSendData[23] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue26.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 24) { _SysInfo2.nMultiSendData[24] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue27.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 25) { _SysInfo2.nMultiSendData[25] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue28.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 26) { _SysInfo2.nMultiSendData[26] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue29.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 27) { _SysInfo2.nMultiSendData[27] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue30.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 28) { _SysInfo2.nMultiSendData[28] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue31.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 29) { _SysInfo2.nMultiSendData[29] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue32.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 30) { _SysInfo2.nMultiSendData[30] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue33.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 31) { _SysInfo2.nMultiSendData[31] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue34.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 32) { _SysInfo2.nMultiSendData[32] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue35.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 33) { _SysInfo2.nMultiSendData[33] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue36.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 34) { _SysInfo2.nMultiSendData[34] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue37.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 35) { _SysInfo2.nMultiSendData[35] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue38.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 36) { _SysInfo2.nMultiSendData[36] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue39.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 37) { _SysInfo2.nMultiSendData[37] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue40.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 38) { _SysInfo2.nMultiSendData[38] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue41.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 39) { _SysInfo2.nMultiSendData[39] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue42.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 40) { _SysInfo2.nMultiSendData[40] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue43.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 41) { _SysInfo2.nMultiSendData[41] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue44.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 42) { _SysInfo2.nMultiSendData[42] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue45.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 43) { _SysInfo2.nMultiSendData[43] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue46.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 44) { _SysInfo2.nMultiSendData[44] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue47.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 45) { _SysInfo2.nMultiSendData[45] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue48.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 46) { _SysInfo2.nMultiSendData[46] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue49.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 47) { _SysInfo2.nMultiSendData[47] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue50.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 48) { _SysInfo2.nMultiSendData[48] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue51.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 49) { _SysInfo2.nMultiSendData[49] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue52.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 50) { _SysInfo2.nMultiSendData[50] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue53.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 51) { _SysInfo2.nMultiSendData[51] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue54.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 52) { _SysInfo2.nMultiSendData[52] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue55.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 53) { _SysInfo2.nMultiSendData[53] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue56.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 54) { _SysInfo2.nMultiSendData[54] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue57.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 55) { _SysInfo2.nMultiSendData[55] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue58.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 56) { _SysInfo2.nMultiSendData[56] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue59.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 57) { _SysInfo2.nMultiSendData[57] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue60.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 58) { _SysInfo2.nMultiSendData[58] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue61.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 59) { _SysInfo2.nMultiSendData[59] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue62.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 60) { _SysInfo2.nMultiSendData[60] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue63.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 61) { _SysInfo2.nMultiSendData[61] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue64.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 62) { _SysInfo2.nMultiSendData[62] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue65.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 63) { _SysInfo2.nMultiSendData[63] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue66.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 64) { _SysInfo2.nMultiSendData[64] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue67.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 65) { _SysInfo2.nMultiSendData[65] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue68.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 66) { _SysInfo2.nMultiSendData[66] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue69.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 67) { _SysInfo2.nMultiSendData[67] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue70.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 68) { _SysInfo2.nMultiSendData[68] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue71.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 69) { _SysInfo2.nMultiSendData[69] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue72.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 70) { _SysInfo2.nMultiSendData[70] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue73.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 71) { _SysInfo2.nMultiSendData[71] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue74.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 72) { _SysInfo2.nMultiSendData[72] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue75.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 73) { _SysInfo2.nMultiSendData[73] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue76.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 74) { _SysInfo2.nMultiSendData[74] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue77.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 75) { _SysInfo2.nMultiSendData[75] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue78.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 76) { _SysInfo2.nMultiSendData[76] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue79.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 77) { _SysInfo2.nMultiSendData[77] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue80.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 78) { _SysInfo2.nMultiSendData[78] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue81.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 79) { _SysInfo2.nMultiSendData[79] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue82.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 80) { _SysInfo2.nMultiSendData[80] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue83.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 81) { _SysInfo2.nMultiSendData[81] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue84.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 82) { _SysInfo2.nMultiSendData[82] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue85.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 83) { _SysInfo2.nMultiSendData[83] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue86.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 84) { _SysInfo2.nMultiSendData[84] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue87.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 85) { _SysInfo2.nMultiSendData[85] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue88.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 86) { _SysInfo2.nMultiSendData[86] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue89.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 87) { _SysInfo2.nMultiSendData[87] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue90.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 88) { _SysInfo2.nMultiSendData[88] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue91.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 89) { _SysInfo2.nMultiSendData[89] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue92.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 90) { _SysInfo2.nMultiSendData[90] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue93.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 91) { _SysInfo2.nMultiSendData[91] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue94.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 92) { _SysInfo2.nMultiSendData[92] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue95.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 93) { _SysInfo2.nMultiSendData[93] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue96.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 94) { _SysInfo2.nMultiSendData[94] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue97.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 95) { _SysInfo2.nMultiSendData[95] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue98.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 96) { _SysInfo2.nMultiSendData[96] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue99.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 97) { _SysInfo2.nMultiSendData[97] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue100.ToString()); }
 					SendCanData(_SysInfo2.nCanCh, _SysInfo2.nCanStartAddr, _SysInfo2.nMultiSendData, _SysInfo2.nCanMultiCount, 2);
-					_SysInfo2.nSubWorkStep++;
+					_SysInfo2.nRepeatWorkStep++;
 					nProcessStep[nStepIndex] = 20000;
 					break;
 
 				case 21700:
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue1, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nCanStartAddr);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue2.ToString(), out _SysInfo2.nCanMultiCount);
-					if (_SysInfo2.nCanMultiCount > 0) { _SysInfo2.strValueBuff[0] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue3; }
-					if (_SysInfo2.nCanMultiCount > 1) { _SysInfo2.strValueBuff[1] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue4; }
-					if (_SysInfo2.nCanMultiCount > 2) { _SysInfo2.strValueBuff[2] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue5; }
-					if (_SysInfo2.nCanMultiCount > 3) { _SysInfo2.strValueBuff[3] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue6; }
-					if (_SysInfo2.nCanMultiCount > 4) { _SysInfo2.strValueBuff[4] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue7; }
-					if (_SysInfo2.nCanMultiCount > 5) { _SysInfo2.strValueBuff[5] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue8; }
-					if (_SysInfo2.nCanMultiCount > 6) { _SysInfo2.strValueBuff[6] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue9; }
-					if (_SysInfo2.nCanMultiCount > 7) { _SysInfo2.strValueBuff[7] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue10; }
-					if (_SysInfo2.nCanMultiCount > 8) { _SysInfo2.strValueBuff[8] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue11; }
-					if (_SysInfo2.nCanMultiCount > 9) { _SysInfo2.strValueBuff[9] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue12; }
-					if (_SysInfo2.nCanMultiCount > 10) { _SysInfo2.strValueBuff[10] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue13; }
-					if (_SysInfo2.nCanMultiCount > 11) { _SysInfo2.strValueBuff[11] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue14; }
-					if (_SysInfo2.nCanMultiCount > 12) { _SysInfo2.strValueBuff[12] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue15; }
-					if (_SysInfo2.nCanMultiCount > 13) { _SysInfo2.strValueBuff[13] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue16; }
-					if (_SysInfo2.nCanMultiCount > 14) { _SysInfo2.strValueBuff[14] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue17; }
-					if (_SysInfo2.nCanMultiCount > 15) { _SysInfo2.strValueBuff[15] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue18; }
-					if (_SysInfo2.nCanMultiCount > 16) { _SysInfo2.strValueBuff[16] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue19; }
-					if (_SysInfo2.nCanMultiCount > 17) { _SysInfo2.strValueBuff[17] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue20; }
-					if (_SysInfo2.nCanMultiCount > 18) { _SysInfo2.strValueBuff[18] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue21; }
-					if (_SysInfo2.nCanMultiCount > 19) { _SysInfo2.strValueBuff[19] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue22; }
-					if (_SysInfo2.nCanMultiCount > 20) { _SysInfo2.strValueBuff[20] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue23; }
-					if (_SysInfo2.nCanMultiCount > 21) { _SysInfo2.strValueBuff[21] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue24; }
-					if (_SysInfo2.nCanMultiCount > 22) { _SysInfo2.strValueBuff[22] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue25; }
-					if (_SysInfo2.nCanMultiCount > 23) { _SysInfo2.strValueBuff[23] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue26; }
-					if (_SysInfo2.nCanMultiCount > 24) { _SysInfo2.strValueBuff[24] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue27; }
-					if (_SysInfo2.nCanMultiCount > 25) { _SysInfo2.strValueBuff[25] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue28; }
-					if (_SysInfo2.nCanMultiCount > 26) { _SysInfo2.strValueBuff[26] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue29; }
-					if (_SysInfo2.nCanMultiCount > 27) { _SysInfo2.strValueBuff[27] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue30; }
-					if (_SysInfo2.nCanMultiCount > 28) { _SysInfo2.strValueBuff[28] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue31; }
-					if (_SysInfo2.nCanMultiCount > 29) { _SysInfo2.strValueBuff[29] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue32; }
-					if (_SysInfo2.nCanMultiCount > 30) { _SysInfo2.strValueBuff[30] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue33; }
-					if (_SysInfo2.nCanMultiCount > 31) { _SysInfo2.strValueBuff[31] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue34; }
-					if (_SysInfo2.nCanMultiCount > 32) { _SysInfo2.strValueBuff[32] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue35; }
-					if (_SysInfo2.nCanMultiCount > 33) { _SysInfo2.strValueBuff[33] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue36; }
-					if (_SysInfo2.nCanMultiCount > 34) { _SysInfo2.strValueBuff[34] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue37; }
-					if (_SysInfo2.nCanMultiCount > 35) { _SysInfo2.strValueBuff[35] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue38; }
-					if (_SysInfo2.nCanMultiCount > 36) { _SysInfo2.strValueBuff[36] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue39; }
-					if (_SysInfo2.nCanMultiCount > 37) { _SysInfo2.strValueBuff[37] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue40; }
-					if (_SysInfo2.nCanMultiCount > 38) { _SysInfo2.strValueBuff[38] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue41; }
-					if (_SysInfo2.nCanMultiCount > 39) { _SysInfo2.strValueBuff[39] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue42; }
-					if (_SysInfo2.nCanMultiCount > 40) { _SysInfo2.strValueBuff[40] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue43; }
-					if (_SysInfo2.nCanMultiCount > 41) { _SysInfo2.strValueBuff[41] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue44; }
-					if (_SysInfo2.nCanMultiCount > 42) { _SysInfo2.strValueBuff[42] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue45; }
-					if (_SysInfo2.nCanMultiCount > 43) { _SysInfo2.strValueBuff[43] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue46; }
-					if (_SysInfo2.nCanMultiCount > 44) { _SysInfo2.strValueBuff[44] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue47; }
-					if (_SysInfo2.nCanMultiCount > 45) { _SysInfo2.strValueBuff[45] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue48; }
-					if (_SysInfo2.nCanMultiCount > 46) { _SysInfo2.strValueBuff[46] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue49; }
-					if (_SysInfo2.nCanMultiCount > 47) { _SysInfo2.strValueBuff[47] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue50; }
-					if (_SysInfo2.nCanMultiCount > 48) { _SysInfo2.strValueBuff[48] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue51; }
-					if (_SysInfo2.nCanMultiCount > 49) { _SysInfo2.strValueBuff[49] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue52; }
-					if (_SysInfo2.nCanMultiCount > 50) { _SysInfo2.strValueBuff[50] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue53; }
-					if (_SysInfo2.nCanMultiCount > 51) { _SysInfo2.strValueBuff[51] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue54; }
-					if (_SysInfo2.nCanMultiCount > 52) { _SysInfo2.strValueBuff[52] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue55; }
-					if (_SysInfo2.nCanMultiCount > 53) { _SysInfo2.strValueBuff[53] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue56; }
-					if (_SysInfo2.nCanMultiCount > 54) { _SysInfo2.strValueBuff[54] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue57; }
-					if (_SysInfo2.nCanMultiCount > 55) { _SysInfo2.strValueBuff[55] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue58; }
-					if (_SysInfo2.nCanMultiCount > 56) { _SysInfo2.strValueBuff[56] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue59; }
-					if (_SysInfo2.nCanMultiCount > 57) { _SysInfo2.strValueBuff[57] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue60; }
-					if (_SysInfo2.nCanMultiCount > 58) { _SysInfo2.strValueBuff[58] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue61; }
-					if (_SysInfo2.nCanMultiCount > 59) { _SysInfo2.strValueBuff[59] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue62; }
-					if (_SysInfo2.nCanMultiCount > 60) { _SysInfo2.strValueBuff[60] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue63; }
-					if (_SysInfo2.nCanMultiCount > 61) { _SysInfo2.strValueBuff[61] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue64; }
-					if (_SysInfo2.nCanMultiCount > 62) { _SysInfo2.strValueBuff[62] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue65; }
-					if (_SysInfo2.nCanMultiCount > 63) { _SysInfo2.strValueBuff[63] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue66; }
-					if (_SysInfo2.nCanMultiCount > 64) { _SysInfo2.strValueBuff[64] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue67; }
-					if (_SysInfo2.nCanMultiCount > 65) { _SysInfo2.strValueBuff[65] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue68; }
-					if (_SysInfo2.nCanMultiCount > 66) { _SysInfo2.strValueBuff[66] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue69; }
-					if (_SysInfo2.nCanMultiCount > 67) { _SysInfo2.strValueBuff[67] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue70; }
-					if (_SysInfo2.nCanMultiCount > 68) { _SysInfo2.strValueBuff[68] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue71; }
-					if (_SysInfo2.nCanMultiCount > 69) { _SysInfo2.strValueBuff[69] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue72; }
-					if (_SysInfo2.nCanMultiCount > 70) { _SysInfo2.strValueBuff[70] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue73; }
-					if (_SysInfo2.nCanMultiCount > 71) { _SysInfo2.strValueBuff[71] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue74; }
-					if (_SysInfo2.nCanMultiCount > 72) { _SysInfo2.strValueBuff[72] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue75; }
-					if (_SysInfo2.nCanMultiCount > 73) { _SysInfo2.strValueBuff[73] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue76; }
-					if (_SysInfo2.nCanMultiCount > 74) { _SysInfo2.strValueBuff[74] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue77; }
-					if (_SysInfo2.nCanMultiCount > 75) { _SysInfo2.strValueBuff[75] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue78; }
-					if (_SysInfo2.nCanMultiCount > 76) { _SysInfo2.strValueBuff[76] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue79; }
-					if (_SysInfo2.nCanMultiCount > 77) { _SysInfo2.strValueBuff[77] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue80; }
-					if (_SysInfo2.nCanMultiCount > 78) { _SysInfo2.strValueBuff[78] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue81; }
-					if (_SysInfo2.nCanMultiCount > 79) { _SysInfo2.strValueBuff[79] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue82; }
-					if (_SysInfo2.nCanMultiCount > 80) { _SysInfo2.strValueBuff[80] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue83; }
-					if (_SysInfo2.nCanMultiCount > 81) { _SysInfo2.strValueBuff[81] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue84; }
-					if (_SysInfo2.nCanMultiCount > 82) { _SysInfo2.strValueBuff[82] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue85; }
-					if (_SysInfo2.nCanMultiCount > 83) { _SysInfo2.strValueBuff[83] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue86; }
-					if (_SysInfo2.nCanMultiCount > 84) { _SysInfo2.strValueBuff[84] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue87; }
-					if (_SysInfo2.nCanMultiCount > 85) { _SysInfo2.strValueBuff[85] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue88; }
-					if (_SysInfo2.nCanMultiCount > 86) { _SysInfo2.strValueBuff[86] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue89; }
-					if (_SysInfo2.nCanMultiCount > 87) { _SysInfo2.strValueBuff[87] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue90; }
-					if (_SysInfo2.nCanMultiCount > 88) { _SysInfo2.strValueBuff[88] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue91; }
-					if (_SysInfo2.nCanMultiCount > 89) { _SysInfo2.strValueBuff[89] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue92; }
-					if (_SysInfo2.nCanMultiCount > 90) { _SysInfo2.strValueBuff[90] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue93; }
-					if (_SysInfo2.nCanMultiCount > 91) { _SysInfo2.strValueBuff[91] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue94; }
-					if (_SysInfo2.nCanMultiCount > 92) { _SysInfo2.strValueBuff[92] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue95; }
-					if (_SysInfo2.nCanMultiCount > 93) { _SysInfo2.strValueBuff[93] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue96; }
-					if (_SysInfo2.nCanMultiCount > 94) { _SysInfo2.strValueBuff[94] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue97; }
-					if (_SysInfo2.nCanMultiCount > 95) { _SysInfo2.strValueBuff[95] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue98; }
-					if (_SysInfo2.nCanMultiCount > 96) { _SysInfo2.strValueBuff[96] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue99; }
-					if (_SysInfo2.nCanMultiCount > 97) { _SysInfo2.strValueBuff[97] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue100; }
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue1, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nCanStartAddr);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue2.ToString(), out _SysInfo2.nCanMultiCount);
+					if (_SysInfo2.nCanMultiCount > 0) { _SysInfo2.strValueBuff[0] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue3; }
+					if (_SysInfo2.nCanMultiCount > 1) { _SysInfo2.strValueBuff[1] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue4; }
+					if (_SysInfo2.nCanMultiCount > 2) { _SysInfo2.strValueBuff[2] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue5; }
+					if (_SysInfo2.nCanMultiCount > 3) { _SysInfo2.strValueBuff[3] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue6; }
+					if (_SysInfo2.nCanMultiCount > 4) { _SysInfo2.strValueBuff[4] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue7; }
+					if (_SysInfo2.nCanMultiCount > 5) { _SysInfo2.strValueBuff[5] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue8; }
+					if (_SysInfo2.nCanMultiCount > 6) { _SysInfo2.strValueBuff[6] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue9; }
+					if (_SysInfo2.nCanMultiCount > 7) { _SysInfo2.strValueBuff[7] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue10; }
+					if (_SysInfo2.nCanMultiCount > 8) { _SysInfo2.strValueBuff[8] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue11; }
+					if (_SysInfo2.nCanMultiCount > 9) { _SysInfo2.strValueBuff[9] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue12; }
+					if (_SysInfo2.nCanMultiCount > 10) { _SysInfo2.strValueBuff[10] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue13; }
+					if (_SysInfo2.nCanMultiCount > 11) { _SysInfo2.strValueBuff[11] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue14; }
+					if (_SysInfo2.nCanMultiCount > 12) { _SysInfo2.strValueBuff[12] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue15; }
+					if (_SysInfo2.nCanMultiCount > 13) { _SysInfo2.strValueBuff[13] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue16; }
+					if (_SysInfo2.nCanMultiCount > 14) { _SysInfo2.strValueBuff[14] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue17; }
+					if (_SysInfo2.nCanMultiCount > 15) { _SysInfo2.strValueBuff[15] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue18; }
+					if (_SysInfo2.nCanMultiCount > 16) { _SysInfo2.strValueBuff[16] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue19; }
+					if (_SysInfo2.nCanMultiCount > 17) { _SysInfo2.strValueBuff[17] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue20; }
+					if (_SysInfo2.nCanMultiCount > 18) { _SysInfo2.strValueBuff[18] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue21; }
+					if (_SysInfo2.nCanMultiCount > 19) { _SysInfo2.strValueBuff[19] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue22; }
+					if (_SysInfo2.nCanMultiCount > 20) { _SysInfo2.strValueBuff[20] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue23; }
+					if (_SysInfo2.nCanMultiCount > 21) { _SysInfo2.strValueBuff[21] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue24; }
+					if (_SysInfo2.nCanMultiCount > 22) { _SysInfo2.strValueBuff[22] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue25; }
+					if (_SysInfo2.nCanMultiCount > 23) { _SysInfo2.strValueBuff[23] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue26; }
+					if (_SysInfo2.nCanMultiCount > 24) { _SysInfo2.strValueBuff[24] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue27; }
+					if (_SysInfo2.nCanMultiCount > 25) { _SysInfo2.strValueBuff[25] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue28; }
+					if (_SysInfo2.nCanMultiCount > 26) { _SysInfo2.strValueBuff[26] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue29; }
+					if (_SysInfo2.nCanMultiCount > 27) { _SysInfo2.strValueBuff[27] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue30; }
+					if (_SysInfo2.nCanMultiCount > 28) { _SysInfo2.strValueBuff[28] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue31; }
+					if (_SysInfo2.nCanMultiCount > 29) { _SysInfo2.strValueBuff[29] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue32; }
+					if (_SysInfo2.nCanMultiCount > 30) { _SysInfo2.strValueBuff[30] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue33; }
+					if (_SysInfo2.nCanMultiCount > 31) { _SysInfo2.strValueBuff[31] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue34; }
+					if (_SysInfo2.nCanMultiCount > 32) { _SysInfo2.strValueBuff[32] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue35; }
+					if (_SysInfo2.nCanMultiCount > 33) { _SysInfo2.strValueBuff[33] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue36; }
+					if (_SysInfo2.nCanMultiCount > 34) { _SysInfo2.strValueBuff[34] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue37; }
+					if (_SysInfo2.nCanMultiCount > 35) { _SysInfo2.strValueBuff[35] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue38; }
+					if (_SysInfo2.nCanMultiCount > 36) { _SysInfo2.strValueBuff[36] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue39; }
+					if (_SysInfo2.nCanMultiCount > 37) { _SysInfo2.strValueBuff[37] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue40; }
+					if (_SysInfo2.nCanMultiCount > 38) { _SysInfo2.strValueBuff[38] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue41; }
+					if (_SysInfo2.nCanMultiCount > 39) { _SysInfo2.strValueBuff[39] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue42; }
+					if (_SysInfo2.nCanMultiCount > 40) { _SysInfo2.strValueBuff[40] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue43; }
+					if (_SysInfo2.nCanMultiCount > 41) { _SysInfo2.strValueBuff[41] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue44; }
+					if (_SysInfo2.nCanMultiCount > 42) { _SysInfo2.strValueBuff[42] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue45; }
+					if (_SysInfo2.nCanMultiCount > 43) { _SysInfo2.strValueBuff[43] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue46; }
+					if (_SysInfo2.nCanMultiCount > 44) { _SysInfo2.strValueBuff[44] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue47; }
+					if (_SysInfo2.nCanMultiCount > 45) { _SysInfo2.strValueBuff[45] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue48; }
+					if (_SysInfo2.nCanMultiCount > 46) { _SysInfo2.strValueBuff[46] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue49; }
+					if (_SysInfo2.nCanMultiCount > 47) { _SysInfo2.strValueBuff[47] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue50; }
+					if (_SysInfo2.nCanMultiCount > 48) { _SysInfo2.strValueBuff[48] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue51; }
+					if (_SysInfo2.nCanMultiCount > 49) { _SysInfo2.strValueBuff[49] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue52; }
+					if (_SysInfo2.nCanMultiCount > 50) { _SysInfo2.strValueBuff[50] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue53; }
+					if (_SysInfo2.nCanMultiCount > 51) { _SysInfo2.strValueBuff[51] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue54; }
+					if (_SysInfo2.nCanMultiCount > 52) { _SysInfo2.strValueBuff[52] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue55; }
+					if (_SysInfo2.nCanMultiCount > 53) { _SysInfo2.strValueBuff[53] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue56; }
+					if (_SysInfo2.nCanMultiCount > 54) { _SysInfo2.strValueBuff[54] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue57; }
+					if (_SysInfo2.nCanMultiCount > 55) { _SysInfo2.strValueBuff[55] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue58; }
+					if (_SysInfo2.nCanMultiCount > 56) { _SysInfo2.strValueBuff[56] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue59; }
+					if (_SysInfo2.nCanMultiCount > 57) { _SysInfo2.strValueBuff[57] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue60; }
+					if (_SysInfo2.nCanMultiCount > 58) { _SysInfo2.strValueBuff[58] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue61; }
+					if (_SysInfo2.nCanMultiCount > 59) { _SysInfo2.strValueBuff[59] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue62; }
+					if (_SysInfo2.nCanMultiCount > 60) { _SysInfo2.strValueBuff[60] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue63; }
+					if (_SysInfo2.nCanMultiCount > 61) { _SysInfo2.strValueBuff[61] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue64; }
+					if (_SysInfo2.nCanMultiCount > 62) { _SysInfo2.strValueBuff[62] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue65; }
+					if (_SysInfo2.nCanMultiCount > 63) { _SysInfo2.strValueBuff[63] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue66; }
+					if (_SysInfo2.nCanMultiCount > 64) { _SysInfo2.strValueBuff[64] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue67; }
+					if (_SysInfo2.nCanMultiCount > 65) { _SysInfo2.strValueBuff[65] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue68; }
+					if (_SysInfo2.nCanMultiCount > 66) { _SysInfo2.strValueBuff[66] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue69; }
+					if (_SysInfo2.nCanMultiCount > 67) { _SysInfo2.strValueBuff[67] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue70; }
+					if (_SysInfo2.nCanMultiCount > 68) { _SysInfo2.strValueBuff[68] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue71; }
+					if (_SysInfo2.nCanMultiCount > 69) { _SysInfo2.strValueBuff[69] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue72; }
+					if (_SysInfo2.nCanMultiCount > 70) { _SysInfo2.strValueBuff[70] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue73; }
+					if (_SysInfo2.nCanMultiCount > 71) { _SysInfo2.strValueBuff[71] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue74; }
+					if (_SysInfo2.nCanMultiCount > 72) { _SysInfo2.strValueBuff[72] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue75; }
+					if (_SysInfo2.nCanMultiCount > 73) { _SysInfo2.strValueBuff[73] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue76; }
+					if (_SysInfo2.nCanMultiCount > 74) { _SysInfo2.strValueBuff[74] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue77; }
+					if (_SysInfo2.nCanMultiCount > 75) { _SysInfo2.strValueBuff[75] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue78; }
+					if (_SysInfo2.nCanMultiCount > 76) { _SysInfo2.strValueBuff[76] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue79; }
+					if (_SysInfo2.nCanMultiCount > 77) { _SysInfo2.strValueBuff[77] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue80; }
+					if (_SysInfo2.nCanMultiCount > 78) { _SysInfo2.strValueBuff[78] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue81; }
+					if (_SysInfo2.nCanMultiCount > 79) { _SysInfo2.strValueBuff[79] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue82; }
+					if (_SysInfo2.nCanMultiCount > 80) { _SysInfo2.strValueBuff[80] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue83; }
+					if (_SysInfo2.nCanMultiCount > 81) { _SysInfo2.strValueBuff[81] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue84; }
+					if (_SysInfo2.nCanMultiCount > 82) { _SysInfo2.strValueBuff[82] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue85; }
+					if (_SysInfo2.nCanMultiCount > 83) { _SysInfo2.strValueBuff[83] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue86; }
+					if (_SysInfo2.nCanMultiCount > 84) { _SysInfo2.strValueBuff[84] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue87; }
+					if (_SysInfo2.nCanMultiCount > 85) { _SysInfo2.strValueBuff[85] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue88; }
+					if (_SysInfo2.nCanMultiCount > 86) { _SysInfo2.strValueBuff[86] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue89; }
+					if (_SysInfo2.nCanMultiCount > 87) { _SysInfo2.strValueBuff[87] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue90; }
+					if (_SysInfo2.nCanMultiCount > 88) { _SysInfo2.strValueBuff[88] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue91; }
+					if (_SysInfo2.nCanMultiCount > 89) { _SysInfo2.strValueBuff[89] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue92; }
+					if (_SysInfo2.nCanMultiCount > 90) { _SysInfo2.strValueBuff[90] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue93; }
+					if (_SysInfo2.nCanMultiCount > 91) { _SysInfo2.strValueBuff[91] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue94; }
+					if (_SysInfo2.nCanMultiCount > 92) { _SysInfo2.strValueBuff[92] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue95; }
+					if (_SysInfo2.nCanMultiCount > 93) { _SysInfo2.strValueBuff[93] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue96; }
+					if (_SysInfo2.nCanMultiCount > 94) { _SysInfo2.strValueBuff[94] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue97; }
+					if (_SysInfo2.nCanMultiCount > 95) { _SysInfo2.strValueBuff[95] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue98; }
+					if (_SysInfo2.nCanMultiCount > 96) { _SysInfo2.strValueBuff[96] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue99; }
+					if (_SysInfo2.nCanMultiCount > 97) { _SysInfo2.strValueBuff[97] = _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue100; }
 					tMainTimer[nStepIndex].Start(5000);
 					nProcessStep[nStepIndex]++;
 					break;
@@ -12374,7 +12422,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						NgDataSet2(_SysInfo2.nSubMainWorkStep, _SysInfo2.nCanAddr.ToString("X"), "", "TIME OUT", "NG");
 						_SysInfo2.bEolNg = true;
-						_SysInfo2.nSubWorkStep++;
+						_SysInfo2.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 						break;
 					}
@@ -12406,7 +12454,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo2.bEolNg = true;
 						}
 
-						_SysInfo2.nSubWorkStep++;
+						_SysInfo2.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 					}
 					break;
@@ -12415,124 +12463,124 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 				case 21800:
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue1, out _SysInfo2.nCanAddr);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue2.ToString(), out _SysInfo2.nCanMultiCount);
-					if (_SysInfo2.nCanMultiCount > 0) { _SysInfo2.nMultiSendData[0] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue3.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 1) { _SysInfo2.nMultiSendData[1] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue4.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 2) { _SysInfo2.nMultiSendData[2] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue5.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 3) { _SysInfo2.nMultiSendData[3] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue6.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 4) { _SysInfo2.nMultiSendData[4] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue7.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 5) { _SysInfo2.nMultiSendData[5] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue8.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 6) { _SysInfo2.nMultiSendData[6] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue9.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 7) { _SysInfo2.nMultiSendData[7] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue10.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 8) { _SysInfo2.nMultiSendData[8] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue11.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 9) { _SysInfo2.nMultiSendData[9] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue12.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 10) { _SysInfo2.nMultiSendData[10] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue13.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 11) { _SysInfo2.nMultiSendData[11] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue14.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 12) { _SysInfo2.nMultiSendData[12] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue15.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 13) { _SysInfo2.nMultiSendData[13] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue16.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 14) { _SysInfo2.nMultiSendData[14] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue17.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 15) { _SysInfo2.nMultiSendData[15] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue18.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 16) { _SysInfo2.nMultiSendData[16] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue19.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 17) { _SysInfo2.nMultiSendData[17] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue20.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 18) { _SysInfo2.nMultiSendData[18] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue21.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 19) { _SysInfo2.nMultiSendData[19] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue22.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 20) { _SysInfo2.nMultiSendData[20] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue23.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 21) { _SysInfo2.nMultiSendData[21] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue24.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 22) { _SysInfo2.nMultiSendData[22] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue25.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 23) { _SysInfo2.nMultiSendData[23] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue26.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 24) { _SysInfo2.nMultiSendData[24] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue27.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 25) { _SysInfo2.nMultiSendData[25] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue28.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 26) { _SysInfo2.nMultiSendData[26] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue29.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 27) { _SysInfo2.nMultiSendData[27] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue30.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 28) { _SysInfo2.nMultiSendData[28] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue31.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 29) { _SysInfo2.nMultiSendData[29] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue32.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 30) { _SysInfo2.nMultiSendData[30] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue33.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 31) { _SysInfo2.nMultiSendData[31] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue34.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 32) { _SysInfo2.nMultiSendData[32] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue35.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 33) { _SysInfo2.nMultiSendData[33] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue36.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 34) { _SysInfo2.nMultiSendData[34] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue37.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 35) { _SysInfo2.nMultiSendData[35] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue38.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 36) { _SysInfo2.nMultiSendData[36] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue39.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 37) { _SysInfo2.nMultiSendData[37] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue40.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 38) { _SysInfo2.nMultiSendData[38] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue41.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 39) { _SysInfo2.nMultiSendData[39] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue42.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 40) { _SysInfo2.nMultiSendData[40] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue43.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 41) { _SysInfo2.nMultiSendData[41] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue44.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 42) { _SysInfo2.nMultiSendData[42] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue45.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 43) { _SysInfo2.nMultiSendData[43] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue46.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 44) { _SysInfo2.nMultiSendData[44] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue47.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 45) { _SysInfo2.nMultiSendData[45] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue48.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 46) { _SysInfo2.nMultiSendData[46] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue49.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 47) { _SysInfo2.nMultiSendData[47] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue50.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 48) { _SysInfo2.nMultiSendData[48] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue51.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 49) { _SysInfo2.nMultiSendData[49] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue52.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 50) { _SysInfo2.nMultiSendData[50] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue53.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 51) { _SysInfo2.nMultiSendData[51] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue54.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 52) { _SysInfo2.nMultiSendData[52] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue55.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 53) { _SysInfo2.nMultiSendData[53] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue56.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 54) { _SysInfo2.nMultiSendData[54] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue57.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 55) { _SysInfo2.nMultiSendData[55] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue58.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 56) { _SysInfo2.nMultiSendData[56] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue59.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 57) { _SysInfo2.nMultiSendData[57] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue60.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 58) { _SysInfo2.nMultiSendData[58] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue61.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 59) { _SysInfo2.nMultiSendData[59] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue62.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 60) { _SysInfo2.nMultiSendData[60] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue63.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 61) { _SysInfo2.nMultiSendData[61] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue64.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 62) { _SysInfo2.nMultiSendData[62] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue65.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 63) { _SysInfo2.nMultiSendData[63] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue66.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 64) { _SysInfo2.nMultiSendData[64] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue67.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 65) { _SysInfo2.nMultiSendData[65] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue68.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 66) { _SysInfo2.nMultiSendData[66] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue69.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 67) { _SysInfo2.nMultiSendData[67] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue70.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 68) { _SysInfo2.nMultiSendData[68] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue71.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 69) { _SysInfo2.nMultiSendData[69] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue72.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 70) { _SysInfo2.nMultiSendData[70] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue73.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 71) { _SysInfo2.nMultiSendData[71] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue74.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 72) { _SysInfo2.nMultiSendData[72] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue75.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 73) { _SysInfo2.nMultiSendData[73] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue76.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 74) { _SysInfo2.nMultiSendData[74] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue77.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 75) { _SysInfo2.nMultiSendData[75] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue78.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 76) { _SysInfo2.nMultiSendData[76] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue79.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 77) { _SysInfo2.nMultiSendData[77] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue80.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 78) { _SysInfo2.nMultiSendData[78] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue81.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 79) { _SysInfo2.nMultiSendData[79] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue82.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 80) { _SysInfo2.nMultiSendData[80] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue83.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 81) { _SysInfo2.nMultiSendData[81] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue84.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 82) { _SysInfo2.nMultiSendData[82] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue85.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 83) { _SysInfo2.nMultiSendData[83] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue86.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 84) { _SysInfo2.nMultiSendData[84] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue87.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 85) { _SysInfo2.nMultiSendData[85] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue88.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 86) { _SysInfo2.nMultiSendData[86] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue89.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 87) { _SysInfo2.nMultiSendData[87] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue90.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 88) { _SysInfo2.nMultiSendData[88] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue91.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 89) { _SysInfo2.nMultiSendData[89] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue92.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 90) { _SysInfo2.nMultiSendData[90] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue93.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 91) { _SysInfo2.nMultiSendData[91] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue94.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 92) { _SysInfo2.nMultiSendData[92] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue95.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 93) { _SysInfo2.nMultiSendData[93] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue96.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 94) { _SysInfo2.nMultiSendData[94] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue97.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 95) { _SysInfo2.nMultiSendData[95] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue98.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 96) { _SysInfo2.nMultiSendData[96] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue99.ToString()); }
-					if (_SysInfo2.nCanMultiCount > 97) { _SysInfo2.nMultiSendData[97] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue100.ToString()); }
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue1, out _SysInfo2.nCanAddr);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue2.ToString(), out _SysInfo2.nCanMultiCount);
+					if (_SysInfo2.nCanMultiCount > 0) { _SysInfo2.nMultiSendData[0] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue3.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 1) { _SysInfo2.nMultiSendData[1] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue4.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 2) { _SysInfo2.nMultiSendData[2] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue5.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 3) { _SysInfo2.nMultiSendData[3] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue6.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 4) { _SysInfo2.nMultiSendData[4] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue7.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 5) { _SysInfo2.nMultiSendData[5] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue8.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 6) { _SysInfo2.nMultiSendData[6] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue9.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 7) { _SysInfo2.nMultiSendData[7] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue10.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 8) { _SysInfo2.nMultiSendData[8] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue11.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 9) { _SysInfo2.nMultiSendData[9] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue12.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 10) { _SysInfo2.nMultiSendData[10] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue13.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 11) { _SysInfo2.nMultiSendData[11] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue14.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 12) { _SysInfo2.nMultiSendData[12] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue15.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 13) { _SysInfo2.nMultiSendData[13] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue16.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 14) { _SysInfo2.nMultiSendData[14] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue17.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 15) { _SysInfo2.nMultiSendData[15] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue18.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 16) { _SysInfo2.nMultiSendData[16] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue19.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 17) { _SysInfo2.nMultiSendData[17] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue20.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 18) { _SysInfo2.nMultiSendData[18] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue21.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 19) { _SysInfo2.nMultiSendData[19] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue22.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 20) { _SysInfo2.nMultiSendData[20] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue23.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 21) { _SysInfo2.nMultiSendData[21] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue24.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 22) { _SysInfo2.nMultiSendData[22] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue25.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 23) { _SysInfo2.nMultiSendData[23] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue26.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 24) { _SysInfo2.nMultiSendData[24] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue27.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 25) { _SysInfo2.nMultiSendData[25] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue28.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 26) { _SysInfo2.nMultiSendData[26] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue29.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 27) { _SysInfo2.nMultiSendData[27] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue30.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 28) { _SysInfo2.nMultiSendData[28] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue31.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 29) { _SysInfo2.nMultiSendData[29] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue32.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 30) { _SysInfo2.nMultiSendData[30] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue33.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 31) { _SysInfo2.nMultiSendData[31] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue34.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 32) { _SysInfo2.nMultiSendData[32] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue35.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 33) { _SysInfo2.nMultiSendData[33] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue36.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 34) { _SysInfo2.nMultiSendData[34] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue37.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 35) { _SysInfo2.nMultiSendData[35] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue38.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 36) { _SysInfo2.nMultiSendData[36] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue39.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 37) { _SysInfo2.nMultiSendData[37] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue40.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 38) { _SysInfo2.nMultiSendData[38] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue41.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 39) { _SysInfo2.nMultiSendData[39] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue42.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 40) { _SysInfo2.nMultiSendData[40] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue43.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 41) { _SysInfo2.nMultiSendData[41] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue44.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 42) { _SysInfo2.nMultiSendData[42] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue45.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 43) { _SysInfo2.nMultiSendData[43] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue46.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 44) { _SysInfo2.nMultiSendData[44] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue47.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 45) { _SysInfo2.nMultiSendData[45] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue48.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 46) { _SysInfo2.nMultiSendData[46] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue49.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 47) { _SysInfo2.nMultiSendData[47] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue50.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 48) { _SysInfo2.nMultiSendData[48] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue51.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 49) { _SysInfo2.nMultiSendData[49] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue52.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 50) { _SysInfo2.nMultiSendData[50] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue53.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 51) { _SysInfo2.nMultiSendData[51] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue54.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 52) { _SysInfo2.nMultiSendData[52] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue55.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 53) { _SysInfo2.nMultiSendData[53] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue56.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 54) { _SysInfo2.nMultiSendData[54] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue57.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 55) { _SysInfo2.nMultiSendData[55] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue58.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 56) { _SysInfo2.nMultiSendData[56] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue59.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 57) { _SysInfo2.nMultiSendData[57] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue60.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 58) { _SysInfo2.nMultiSendData[58] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue61.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 59) { _SysInfo2.nMultiSendData[59] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue62.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 60) { _SysInfo2.nMultiSendData[60] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue63.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 61) { _SysInfo2.nMultiSendData[61] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue64.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 62) { _SysInfo2.nMultiSendData[62] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue65.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 63) { _SysInfo2.nMultiSendData[63] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue66.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 64) { _SysInfo2.nMultiSendData[64] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue67.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 65) { _SysInfo2.nMultiSendData[65] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue68.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 66) { _SysInfo2.nMultiSendData[66] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue69.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 67) { _SysInfo2.nMultiSendData[67] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue70.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 68) { _SysInfo2.nMultiSendData[68] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue71.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 69) { _SysInfo2.nMultiSendData[69] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue72.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 70) { _SysInfo2.nMultiSendData[70] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue73.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 71) { _SysInfo2.nMultiSendData[71] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue74.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 72) { _SysInfo2.nMultiSendData[72] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue75.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 73) { _SysInfo2.nMultiSendData[73] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue76.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 74) { _SysInfo2.nMultiSendData[74] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue77.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 75) { _SysInfo2.nMultiSendData[75] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue78.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 76) { _SysInfo2.nMultiSendData[76] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue79.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 77) { _SysInfo2.nMultiSendData[77] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue80.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 78) { _SysInfo2.nMultiSendData[78] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue81.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 79) { _SysInfo2.nMultiSendData[79] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue82.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 80) { _SysInfo2.nMultiSendData[80] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue83.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 81) { _SysInfo2.nMultiSendData[81] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue84.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 82) { _SysInfo2.nMultiSendData[82] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue85.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 83) { _SysInfo2.nMultiSendData[83] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue86.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 84) { _SysInfo2.nMultiSendData[84] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue87.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 85) { _SysInfo2.nMultiSendData[85] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue88.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 86) { _SysInfo2.nMultiSendData[86] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue89.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 87) { _SysInfo2.nMultiSendData[87] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue90.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 88) { _SysInfo2.nMultiSendData[88] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue91.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 89) { _SysInfo2.nMultiSendData[89] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue92.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 90) { _SysInfo2.nMultiSendData[90] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue93.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 91) { _SysInfo2.nMultiSendData[91] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue94.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 92) { _SysInfo2.nMultiSendData[92] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue95.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 93) { _SysInfo2.nMultiSendData[93] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue96.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 94) { _SysInfo2.nMultiSendData[94] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue97.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 95) { _SysInfo2.nMultiSendData[95] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue98.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 96) { _SysInfo2.nMultiSendData[96] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue99.ToString()); }
+					if (_SysInfo2.nCanMultiCount > 97) { _SysInfo2.nMultiSendData[97] = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue100.ToString()); }
 
 					SendTCPMultiCommand2(_SysInfo2.nCanCh, _SysInfo2.nCanAddr, _SysInfo2.nMultiSendData, _SysInfo2.nCanMultiCount);
 					nProcessStep[nStepIndex]++;
 					break;
 
 				case 21801:
-					_SysInfo2.nSubWorkStep++;
+					_SysInfo2.nRepeatWorkStep++;
 					nProcessStep[nStepIndex] = 20000;
 					break;
 
 
 				// Modbus TCP Read(COMP)
 				case 21900:
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
-					//int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue2.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nCanData);
-					_SysInfo2.nCanData = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue2.ToString());
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
+					//int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue2.ToString(), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out _SysInfo2.nCanData);
+					_SysInfo2.nCanData = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue2.ToString());
 					SendTCPReadCommand2(_SysInfo2.nCanCh, _SysInfo2.nCanAddr);
 
 					tMainTimer[nStepIndex].Start(5000);
@@ -12544,7 +12592,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						NgDataSet2(_SysInfo2.nSubMainWorkStep, _SysInfo2.nCanAddr.ToString(), _SysInfo2.nCanData.ToString("X4"), "TIME OUT", "NG");
 						_SysInfo2.bEolNg = true;
-						_SysInfo2.nSubWorkStep++;
+						_SysInfo2.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 						break;
 					}
@@ -12572,7 +12620,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo2.bEolNg = true;
 							NgDataSet2(_SysInfo2.nSubMainWorkStep, _SysInfo2.nCanAddr.ToString(), _SysInfo2.nCanData.ToString("X4"), "DATA ERROR", "NG");
 						}
-						_SysInfo2.nSubWorkStep++;
+						_SysInfo2.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 					}
 					break;
@@ -12580,9 +12628,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 				case 22000:
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue2.ToString(), out _SysInfo2.nBuffIndex);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nID.ToString(), out _SysInfo2.nCanCh);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue1.ToString(), out _SysInfo2.nCanAddr);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].strValue2.ToString(), out _SysInfo2.nBuffIndex);
 					tMainTimer[nStepIndex].Start(5000);
 					SendTCPReadCommand2(_SysInfo2.nCanCh, _SysInfo2.nCanAddr);
 					nProcessStep[nStepIndex]++;
@@ -12593,7 +12641,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						NgDataSet2(_SysInfo2.nSubMainWorkStep, _SysInfo2.nCanAddr.ToString(), "", "TIME OUT", "NG");
 						_SysInfo2.bEolNg = true;
-						_SysInfo2.nSubWorkStep++;
+						_SysInfo2.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 						break;
 					}
@@ -12605,14 +12653,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo2.nReadDataBuff[_SysInfo2.nBuffIndex] = (_SysInfo2.btTcpReadData[9] * 0x100) + _SysInfo2.btTcpReadData[10];
 							NgDataSet2(_SysInfo2.nSubMainWorkStep, _SysInfo2.nCanAddr.ToString(), $"BUFFER{_SysInfo2.nBuffIndex}", ((_SysInfo2.btTcpReadData[9] * 0x100) + _SysInfo2.btTcpReadData[10]).ToString("X4"), "");
 						}
-						_SysInfo2.nSubWorkStep++;
+						_SysInfo2.nRepeatWorkStep++;
 						nProcessStep[nStepIndex] = 20000;
 					}
 					break;
 
 				// Sub Item 통신 종료
 				case 29000:
-					_SysInfo2.nSubWorkStep = 0;
+					_SysInfo2.nRepeatWorkStep = 0;
 					nProcessStep[nStepIndex] = 11000;
 					break;
 
@@ -14117,7 +14165,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			//theApp.AppendLogMsg($"Contacting IP{_Config.strCycloneMyIP}", MSG_TYPE.LOG);
 			//System.Windows.Forms.Application.DoEvents();
 			//connection_type = convert_dropboxindex_to_connectiontype(1);
-			handle = cyclone_control_api2.connectToCyclone(_Config.strCycloneMyIP2);
+			handle = cyclone_control_api2.connectToCyclone(_Config.strCycloneMyIP);
+
+			
 
 			if (handle == 0)
 			{
@@ -14145,6 +14195,42 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 		}
+		//public static void CyclonReadCRC(int FileInNum, string strSearchString)
+		//{
+
+		//	UInt32 handle = 0;
+		//	string strName = "";
+		//	//theApp.AppendLogMsg($"Contacting IP{_Config.strCycloneMyIP}", MSG_TYPE.LOG);
+		//	//System.Windows.Forms.Application.DoEvents();
+		//	//connection_type = convert_dropboxindex_to_connectiontype(1);
+		//	handle = cyclone_control_api2.connectToCyclone(_Config.strCycloneMyIP2);
+
+		//	if (handle == 0)
+		//	{
+		//		theApp.AppendLogMsg2("Error Opening Device.", MSG_TYPE.LOG);
+		//		//_SysInfo.bGetFileNameOK = true;
+		//		_SysInfo2._FileNameResult = CyclonFileName_RESULT2.NG;
+		//	}
+		//	else
+		//	{
+		//		_SysInfo2.strCyclonFileName = cyclone_control_api2.getImageDescription(handle, Convert.ToByte(FileInNum));
+
+		//		//_SysInfo.bGetFileNameOK = true;
+		//		theApp.AppendLogMsg2($"{cyclone_control_api2.getImageDescription(handle, Convert.ToByte(FileInNum))}", MSG_TYPE.INFO);
+
+
+		//		if (_SysInfo2.strCyclonFileName.Contains(strSearchString))
+		//		{
+		//			_SysInfo2._FileNameResult = CyclonFileName_RESULT2.OK;
+		//		}
+		//		else
+		//		{
+		//			_SysInfo2._FileNameResult = CyclonFileName_RESULT2.NG;
+		//		}
+		//	}
+
+
+		//}
 
 		public static int GetFuncData(string strData)
 		{
@@ -15843,6 +15929,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 			catch (Exception _e) { _ModelInfo.strModelName = "_Noname_"; AppendDebugMsg(_e.Message, "System"); }
 			TestUIClearSet();
+			SaveWorkPageInI(_ModelInfo.strModelName);
+		}
+
+		public static void SaveWorkPageInI(string strModelName)
+		{
+			string strPath = @"D:\\_work_guide_data_\\Config.ini";
+
+
+			_IniFile.IniWriteValue("CONFIG", "szMasterCurrentModel", strModelName, strPath);
 		}
 
 		public static void SaveModelInfo2(MODEL_INFO2 _ModelInfo, String _ModelName)
@@ -15878,6 +15973,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 			catch (Exception _e) { _ModelInfo.strModelName = "_Noname_"; AppendDebugMsg(_e.Message, "System"); }
 			TestUIClearSet2();
+			SaveWorkPageInI2(_ModelInfo.strModelName);
+		}
+
+		public static void SaveWorkPageInI2(string strModelName)
+		{
+			string strPath = @"D:\\_work_guide_data_2\\Config.ini";
+
+
+			_IniFile.IniWriteValue("CONFIG", "szMasterCurrentModel", strModelName, strPath);
 		}
 
 
@@ -15954,7 +16058,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			try
 			{
-				File.WriteAllText(String.Format("Count.cnt"), JsonConvert.SerializeObject(_Count));
+				File.WriteAllText(String.Format("Count.cnt"), JsonConvert.SerializeObject(_LotCount));
 
 			}
 			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }
@@ -15966,7 +16070,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			try
 			{
-				_Count2 = JsonConvert.DeserializeObject<ProductCount>(File.ReadAllText(String.Format(@"Count.cnt")));
+				_LotCount = JsonConvert.DeserializeObject<LotCount>(File.ReadAllText(String.Format(@"Count.cnt")));
 
 			}
 			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }
@@ -16006,7 +16110,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			try
 			{
-				File.WriteAllText(String.Format("Count2.cnt"), JsonConvert.SerializeObject(_Count2));
+				File.WriteAllText(String.Format("Count2.cnt"), JsonConvert.SerializeObject(_LotCount2));
 
 			}
 			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }
@@ -16018,7 +16122,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			try
 			{
-				_Count2 = JsonConvert.DeserializeObject<ProductCount>(File.ReadAllText(String.Format(@"Count2.cnt")));
+				_LotCount2 = JsonConvert.DeserializeObject<LotCount>(File.ReadAllText(String.Format(@"Count2.cnt")));
 
 			}
 			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }

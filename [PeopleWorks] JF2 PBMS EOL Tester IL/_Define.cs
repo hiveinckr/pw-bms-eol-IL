@@ -610,6 +610,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static int nSubMainWorkStep;
 		public static int nSubWorkStep;
 		public static int nSubEOLWorkStep;
+		public static int nRepeatWorkStep;
 
 
 		// 커뮤니테이션용 데이터
@@ -786,7 +787,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public static CyclonFileName_RESULT _FileNameResult = new CyclonFileName_RESULT();
 
-
+		public static string strTitleName;
 
 	}
 
@@ -808,6 +809,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static int nSubMainWorkStep;
 		public static int nSubWorkStep;
 		public static int nSubEOLWorkStep;
+		public static int nRepeatWorkStep;
 
 		// 커뮤니테이션용 데이터
 		public static double dbCommSendData = 0.0;
@@ -977,6 +979,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static bool bNutNext;
 		public static bool bNutRetryCheckOK;
 
+		public static string strTitleName;
 
 
 		public static CyclonFileName_RESULT2 _FileNameResult = new CyclonFileName_RESULT2();
@@ -1122,6 +1125,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public int nSpareCount1;
 		public int nSpareCount2;
 		public int nSpareCount3;
+		public int nTotalCount;
 		public DateTime tLotClearTime;
 		public DateTime tProductClearTime;
 		public int nOkCount;

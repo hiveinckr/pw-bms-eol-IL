@@ -145,7 +145,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			lbNowTime.Content = DateTime.Now.ToLongTimeString();
 			lbNowDay.Content = DateTime.Now.ToLongDateString();
 
-			lbTotalProductCount.Content = theApp._Count.nTotalCount.ToString();
+			lbTotalProductCount.Content = theApp._LotCount.nTotalCount.ToString();
 			lbModelName.Text = theApp._ModelInfo.strModelName;
 
 			lbNowProductCount.Content = (theApp._LotCount.nOkCount + theApp._LotCount.nNGCount).ToString();
@@ -174,11 +174,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			{
 				// 최상단
 				btModelChnageContent.Content = "Change Model";
-				btModelSetupContent.Content = "Model settings";
+				btModelSetupContent.Content = "Model Settings";
 
 				// 생산 정보
 				lbProductionInfo.Content = "Inspection Information";
-				lbNowProduction.Content = "Current Inspection quantity";
+				lbNowProduction.Content = "Current Inspection Quantity";
 				lbProductionClearTime.Content = "Inspection Quantity Initialization Time";
 
 				btProductCountClearContent.Content = "Reset Inspection Quantity";
@@ -380,11 +380,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 		// 디버그 모니터
-		private void btDebugMonitor_Click(object sender, RoutedEventArgs e)
-		{
-			DebugMonitor _Window = new DebugMonitor();
-			_Window.ShowDialog();
-		}
+		
 
 
 		// 수량정보 초기화
@@ -466,6 +462,12 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			ModelList _window = new ModelList();
 			_window.ShowDialog();
+		}
+
+		private void btDebugMonitor_Click(object sender, RoutedEventArgs e)
+		{
+			DebugMonitor _Window = new DebugMonitor();
+			_Window.ShowDialog();
 		}
 
 		// 스텝 모니터
@@ -877,7 +879,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 			foreach (System.Windows.Window window in System.Windows.Application.Current.Windows)
 			{
-				if (window.Title == "[PeopleWorks] JF2 RBMS BBMS EOL Tester IL2") // 원하는 윈도우 찾기
+				if (window.Title == "[PeopleWorks] JF2 RBMS PBMS EOL Tester IL2") // 원하는 윈도우 찾기
 				{
 					// UI 컨트롤 직접 수정
 					if (window is MainWindow2 customWindow)
@@ -899,7 +901,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 			foreach (System.Windows.Window window in System.Windows.Application.Current.Windows)
 			{
-				if (window.Title == "[PeopleWorks] JF2 RBMS BBMS EOL Tester IL2") // 원하는 윈도우 찾기
+				if (window.Title == "[PeopleWorks] JF2 RBMS PBMS EOL Tester IL2") // 원하는 윈도우 찾기
 				{
 					// UI 컨트롤 직접 수정
 					if (window is MainWindow2 customWindow)

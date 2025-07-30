@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_PeopleWorks__JF2_PBMS_EOL_Tester_IL"
         mc:Ignorable="d"
-             Title="[PeopleWorks] JF2 RBMS BBMS EOL Tester IL (Ver. 20250613.1)" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
+             Title="[PeopleWorks] JF2 RBMS PBMS EOL Tester IL (Ver. 202500723.1)" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
         SizeToContent="WidthAndHeight" Closing="Window_Closing">
     <Grid  Height="1010" Width="1920">
         <ToolBar HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="1920" Background="GhostWhite">
@@ -52,13 +52,7 @@
             </Button>
             <Separator/>
 
-            <Button x:Name="btCellSimulator" Click="btCellSimulator_Click">
-                <StackPanel Orientation="Horizontal">
-                    <Image Stretch="Fill" Height="18" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    <TextBlock Margin="3,0,0,0"><Run Text="Cell Simulator"/></TextBlock>
-                </StackPanel>
-            </Button>
-            <Separator/>
+
         </ToolBar>
         <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowTime" Content="0" HorizontalAlignment="Left" Height="40" Margin="1632,36,0,0" VerticalAlignment="Top" Width="278" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FF04C8E3" FontWeight="Bold" FontSize="20"/>
         <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowDay" Content="--:--:--" HorizontalAlignment="Left" Height="28" Margin="1632,78,0,0" VerticalAlignment="Top" Width="278" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FFFFFFDC" FontSize="15"/>
@@ -77,7 +71,7 @@
                 <ContentControl x:Name="btModelSetupContent" Content="모델 설정" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Image HorizontalAlignment="Left" Height="70" Margin="10,36,0,0" VerticalAlignment="Top" Width="295" Source="Resource/Logo.jpg" Stretch="None"/>
+        <Image HorizontalAlignment="Left" Height="70" Margin="10,36,0,0" VerticalAlignment="Top" Width="295" Source="Resource/PBMS Logo.jpg" Stretch="None"/>
         <Canvas HorizontalAlignment="Left" Height="10" Margin="10,111,0,0" VerticalAlignment="Top" Width="1900" Background="LightGray"/>
         <Canvas HorizontalAlignment="Left" Height="702" Margin="305,111,0,0" VerticalAlignment="Top" Width="10" Background="LightGray"/>
         <Canvas HorizontalAlignment="Left" Height="10" Margin="10,803,0,0" VerticalAlignment="Top" Width="1900" Background="LightGray"/>
@@ -258,12 +252,12 @@
                 <ContentControl Content="Reset counter" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="10" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Button x:Name="btNutCountM" HorizontalAlignment="Left" Height="60" Margin="470,740,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountM_Click" >
+        <Button x:Name="btNutCountM" HorizontalAlignment="Left" Height="60" Margin="-190,750,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountM_Click" >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ContentControl Content="TITLE COUNT -" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Button x:Name="btNutCountP" HorizontalAlignment="Left" Height="60" Margin="320,740,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountP_Click" >
+        <Button x:Name="btNutCountP" HorizontalAlignment="Left" Height="60" Margin="-340,750,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountP_Click" >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ContentControl Content="TITLE COUNT +" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
             </StackPanel>

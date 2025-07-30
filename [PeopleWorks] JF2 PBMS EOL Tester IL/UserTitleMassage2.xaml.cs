@@ -33,7 +33,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		private void _timer_Tick(object sender, EventArgs e)
 		{
-			lbMainStatus.Content = $"Station #2 Use a nutrunner to tighten the bolts.";
+			lbMainStatus.Content = $"Station #2 Use a nutrunner to tighten the bolts. \r\n {_SysInfo2.strTitleName}";
 
 		}
 

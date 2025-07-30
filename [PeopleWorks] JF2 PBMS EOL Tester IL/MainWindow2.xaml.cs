@@ -72,7 +72,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			lbNowTime.Content = DateTime.Now.ToLongTimeString();
 			lbNowDay.Content = DateTime.Now.ToLongDateString();
 
-			lbTotalProductCount2.Content = theApp._Count.nTotalCount.ToString();
+			lbTotalProductCount2.Content = theApp._LotCount2.nTotalCount.ToString();
 			lbModelName2.Text = theApp._ModelInfo2.strModelName;
 
 			lbNowProductCount2.Content = (theApp._LotCount2.nOkCount + theApp._LotCount2.nNGCount).ToString();
@@ -102,11 +102,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			{
 				// 최상단
 				btModelChnageContent.Content = "Change Model";
-				btModelSetupContent.Content = "Model settings";
+				btModelSetupContent.Content = "Model Settings";
 
 				// 생산 정보
 				lbProductionInfo.Content = "Inspection Information";
-				lbNowProduction.Content = "Current Inspection quantity";
+				lbNowProduction.Content = "Current Inspection Quantity";
 				lbProductionClearTime.Content = "Inspection Quantity Initialization Time";
 
 				btProductCountClearContent.Content = "Reset Inspection Quantity";
@@ -307,137 +307,66 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 		}
+		private void btDebugMonitor_Click(object sender, RoutedEventArgs e)
+		{
+			DebugMonitor _Window = new DebugMonitor();
+			_Window.ShowDialog();
+		}
+
+		// 스텝 모니터
+		private void btStepMonitor_Click(object sender, RoutedEventArgs e)
+		{
+			StepMonitorV2 _window = new StepMonitorV2();
+			_window.Show();
+		}
 
 
-		// 디버그 모니터
+		// 시스템 설정
+		private void btSysSetting_Click(object sender, RoutedEventArgs e)
+		{
+			if (_Config.bUseAdminPass)
+			{
+				AdminPass _pwWindow = new AdminPass();
+
+				if (_pwWindow.ShowDialog() == true)
+				{
+					SystemSetting _window = new SystemSetting();
+					_window.ShowDialog();
+				}
+				else
+				{
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						System.Windows.MessageBox.Show("Password does not match.");
+					}
+					else
+					{
+						System.Windows.MessageBox.Show("비밀번호가 일치하지 않습니다.");
+					}
+				}
+			}
+			else
+			{
+				SystemSetting _window = new SystemSetting();
+				_window.ShowDialog();
+			}
 
 
-		// 수량정보 초기화
-		//private void btLotClear2_Click(object sender, RoutedEventArgs e)
-		//{
-		//	if (_Config.bUseAdminPass)
-		//	{
-		//		AdminPass _pwWindow = new AdminPass();
+		}
+		// IO 모니터 버튼 클릭 작업
+		private void btIOMonitor_Click(object sender, RoutedEventArgs e)
+		{
+			DIOMonitor _window = new DIOMonitor();
+			_window.ShowDialog();
+		}
+		// 버전 정보
+		private void btVInfo_Click(object sender, RoutedEventArgs e)
+		{
+			VersionInfo _Window = new VersionInfo();
+			_Window.ShowDialog();
 
-		//		if (_pwWindow.ShowDialog() == true)
-		//		{
-		//			if (MessageBox.Show("검사 수량을 초기화 하시겠습니까?", "검사 수량 초기화", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-		//			{
-		//				theApp._LotCount.nOkCount = 0;
-		//				theApp._LotCount.nNGCount = 0;
-		//				theApp._LotCount.tProductClearTime = DateTime.Now;
-		//				theApp.SaveModelProductCount2(theApp._LotCount, theApp._ModelInfo2.strModelName);
-		//			}
-		//		}
-		//		else
-		//		{
-		//			MessageBox.Show("비밀번호가 일치하지 않습니다.");
-		//		}
-		//	}
-		//	else
-		//	{
-		//		if (MessageBox.Show("검사 수량을 초기화 하시겠습니까?", "검사 수량 초기화", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-		//		{
-		//			theApp._LotCount.nOkCount = 0;
-		//			theApp._LotCount.nNGCount = 0;
-		//			theApp._LotCount.tProductClearTime = DateTime.Now;
-		//			theApp.SaveModelProductCount2(theApp._LotCount, theApp._ModelInfo2.strModelName);
-		//		}
-		//	}
-		//}
-
-
-		// 모델 변경
-
-
-
-
-
-		//// 시스템 설정
-		//private void btSysSetting_Click(object sender, RoutedEventArgs e)
-		//{
-		//	if (_Config.bUseAdminPass)
-		//	{
-		//		AdminPass _pwWindow = new AdminPass();
-
-		//		if (_pwWindow.ShowDialog() == true)
-		//		{
-		//			SystemSetting _window = new SystemSetting();
-		//			_window.ShowDialog();
-		//		}
-		//		else
-		//		{
-		//			MessageBox.Show("비밀번호가 일치하지 않습니다.");
-		//		}
-		//	}
-		//	else
-		//	{
-		//		SystemSetting _window = new SystemSetting();
-		//		_window.ShowDialog();
-		//	}
-
-
-		////}
-		//// IO 모니터 버튼 클릭 작업
-		//private void btIOMonitor_Click(object sender, RoutedEventArgs e)
-		//{
-		//	DIOMonitor _window = new DIOMonitor();
-		//	_window.ShowDialog();
-		//}
-		//// 버전 정보
-		//private void btVInfo_Click(object sender, RoutedEventArgs e)
-		//{
-		//	VersionInfo _Window = new VersionInfo();
-		//	_Window.ShowDialog();
-
-		//	theApp.SaveResultData();
-		//}
-
-		//// 모델 설정
-		//private void btModelSetup_Click(object sender, RoutedEventArgs e)
-		//{
-		//	if (_Config.bUseAdminPass)
-		//	{
-		//		AdminPass _pwWindow = new AdminPass();
-
-		//		if (_pwWindow.ShowDialog() == true)
-		//		{
-		//			ModelSetup _Window = new ModelSetup();
-		//			_Window.ShowDialog();
-		//		}
-		//		else
-		//		{
-		//			MessageBox.Show("비밀번호가 일치하지 않습니다.");
-		//		}
-		//	}
-		//	else
-		//	{
-		//		ModelSetup _Window = new ModelSetup();
-		//		_Window.ShowDialog();
-		//	}
-		//}
-
-		//public void TestLogSet(int nIndex, string strData, string strResult)
-		//{
-		//	myTestData _td = new myTestData();
-
-		//	_td.strTestName = theApp._TestData[nIndex].strTestName;
-		//	_td.SpecMin = theApp._TestData[nIndex].SpecMin;
-		//	_td.SpecMax = theApp._TestData[nIndex].SpecMax;
-		//	_td.Unit = theApp._TestData[nIndex].Unit;
-		//	_td.strType = theApp._TestData[nIndex].strType;
-		//	_td.Cate = theApp._TestData[nIndex].Cate;
-
-		//	_td.strResult = strResult;
-		//	_td.Data = strData;
-
-		//	theApp._TestData[nIndex] = _td;
-
-		//	gdWorkList.ScrollIntoView(gdWorkList.Items[nIndex]);
-
-		//	pgBarProcess2.Maximum = gdWorkList.Items.Count;
-		//	pgBarProcess2.Value = nIndex;
-		//}
+			theApp.SaveResultData();
+		}
 
 		public void TestLogSet2(int nIndex, string strData, string strResult)
 		{

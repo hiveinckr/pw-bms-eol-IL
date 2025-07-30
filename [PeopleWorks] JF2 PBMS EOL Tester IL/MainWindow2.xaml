@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_PeopleWorks__JF2_PBMS_EOL_Tester_IL"
         mc:Ignorable="d"
-                  Title="[PeopleWorks] JF2 RBMS BBMS EOL Tester IL2" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
+                  Title="[PeopleWorks] JF2 RBMS PBMS EOL Tester IL2" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
         SizeToContent="WidthAndHeight">
     <Grid  Height="1010" Width="1920">
         <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowTime" Content="0" HorizontalAlignment="Left" Height="40" Margin="1632,36,0,0" VerticalAlignment="Top" Width="278" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FF04C8E3" FontWeight="Bold" FontSize="20"/>
@@ -19,7 +19,7 @@
                 <ContentControl x:Name="btModelChnageContent" Content="모델 변경" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Image HorizontalAlignment="Left" Height="70" Margin="10,36,0,0" VerticalAlignment="Top" Width="295" Source="Resource/Logo.jpg" Stretch="None"/>
+        <Image HorizontalAlignment="Left" Height="70" Margin="10,36,0,0" VerticalAlignment="Top" Width="295" Source="Resource/PBMS Logo.jpg" Stretch="None"/>
         <Canvas HorizontalAlignment="Left" Height="10" Margin="10,111,0,0" VerticalAlignment="Top" Width="1900" Background="LightGray"/>
         <Canvas HorizontalAlignment="Left" Height="702" Margin="305,111,0,0" VerticalAlignment="Top" Width="10" Background="LightGray"/>
         <Canvas HorizontalAlignment="Left" Height="10" Margin="10,803,0,0" VerticalAlignment="Top" Width="1900" Background="LightGray"/>
@@ -188,12 +188,12 @@
                 <ContentControl x:Name="btModelSetupContent" Content="모델 설정" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Button x:Name="btNutCountM" HorizontalAlignment="Left" Height="60" Margin="470,740,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountM_Click" >
+        <Button x:Name="btNutCountM" HorizontalAlignment="Left" Height="60" Margin="-195,733,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountM_Click" >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ContentControl Content="TITLE COUNT -" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Button x:Name="btNutCountP" HorizontalAlignment="Left" Height="60" Margin="320,740,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountP_Click" >
+        <Button x:Name="btNutCountP" HorizontalAlignment="Left" Height="60" Margin="-345,733,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountP_Click" >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ContentControl Content="TITLE COUNT +" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
             </StackPanel>
@@ -228,6 +228,53 @@
                 <ContentControl x:Name="btBarcodeReprintContent" Content="Reprint barcode" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
             </StackPanel>
         </Button>
+        <ToolBar HorizontalAlignment="Center" Height="31" VerticalAlignment="Top" Width="1920" Background="GhostWhite">
+            <Button x:Name="btDebugMonitor" Click="btDebugMonitor_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Stretch="Uniform" Height="18" Source="/Resource/icons8-monitor-100.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <TextBlock Margin="3,0,0,0"><Run Text="Debug Monitor"/></TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Separator/>
+
+            <Button x:Name="btIOMonitor" Click="btIOMonitor_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Stretch="Uniform" Height="18" Source="/Resource/Untitled-3.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <TextBlock Margin="3,0,0,0"><Run Text="I/O Monitor"/></TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Separator/>
+
+            <Button x:Name="btSysSetting" Click="btSysSetting_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Stretch="Uniform" Height="18" Source="/Resource/icons8-settings-100.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <TextBlock Margin="3,0,0,0"><Run Text="Setting"/></TextBlock>
+                </StackPanel>
+            </Button>
+
+            <Separator/>
+
+            <Button x:Name="btStepMonitor" Click="btStepMonitor_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Stretch="Fill" Height="18" Source="/Resource/icons8-console-48_Crop.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <TextBlock Margin="3,0,0,0"><Run Text="Step Monitor"/></TextBlock>
+                </StackPanel>
+            </Button>
+            <Separator/>
+
+            <Button x:Name="btVInfo" Click="btVInfo_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Stretch="Fill" Height="18" Source="/Resource/icons8-document-64.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <TextBlock Margin="3,0,0,0"><Run Text="Version Info"/></TextBlock>
+                </StackPanel>
+            </Button>
+            <Separator/>
+
+
+
+        </ToolBar>
     </Grid>
 </Window>
 
