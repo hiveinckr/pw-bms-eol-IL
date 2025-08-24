@@ -35,6 +35,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static UserStartMassage2 _UserStartMassage2;
 		public static PopUp _PopUp;
 		public static PopUp2 _PopUp2;
+		public static NGPopUp _NGPopUp;
+		public static NGPopUp2 _NGPopUp2;
 		public static UserTitleMassage _UserTitleMassage;
 		public static UserTitleMassage2 _UserTitleMassage2;
 		public static NutRetryPopUp _NutRetryPopUp;
@@ -1069,7 +1071,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public void ShowPopupMessage()
 		{
 
-			if (System.Windows.Forms.SystemInformation.MonitorCount >1)
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
 			{
 				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
 
@@ -1195,6 +1197,139 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			if (_PopUp2 == null)
 				_PopUp2 = new PopUp2();
 			_PopUp2.Hide();
+
+
+		}
+
+		public void ShowNGPopupMessage()
+		{
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_NGPopUp == null)
+				{
+					_NGPopUp = new NGPopUp();
+					_NGPopUp.Show();
+					// Show 메소드와 속성 설정의 순서가 중요하다.
+					_NGPopUp.WindowStartupLocation = WindowStartupLocation.Manual;
+					_NGPopUp.Left = left;
+					_NGPopUp.Top = top;
+					_NGPopUp.Width = popupWidth;
+					_NGPopUp.Height = popupHeight;
+					_NGPopUp.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_NGPopUp.Show();
+					_NGPopUp.Activate();
+					_NGPopUp.WindowStartupLocation = WindowStartupLocation.Manual;
+					_NGPopUp.Left = left;
+					_NGPopUp.Top = top;
+					_NGPopUp.Width = popupWidth;
+					_NGPopUp.Height = popupHeight;
+					_NGPopUp.WindowState = System.Windows.WindowState.Normal;
+				}
+
+			}
+			//if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			//{
+			//	System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+			//	PopUp window = new PopUp();
+			//	window.Show();
+			//	// Show 메소드와 속성 설정의 순서가 중요하다.
+			//	window.WindowStartupLocation = WindowStartupLocation.Manual;
+			//	window.Left = secondaryScreenRectangle.Left;
+			//	window.Top = secondaryScreenRectangle.Top;
+			//	window.Width = secondaryScreenRectangle.Width;
+			//	window.Height = secondaryScreenRectangle.Height;
+			//	window.WindowState = System.Windows.WindowState.Maximized;
+
+			//}
+		}
+
+		public void ShowNGPopupMessage2()
+		{
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+
+
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[0].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+				if (_NGPopUp2 == null)
+				{
+					_NGPopUp2 = new NGPopUp2();
+					_NGPopUp2.Show();
+					// Show 메소드와 속성 설정의 순서가 중요하다.
+					_NGPopUp2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_NGPopUp2.Left = left;
+					_NGPopUp2.Top = top;
+					_NGPopUp2.Width = popupWidth;
+					_NGPopUp2.Height = popupHeight;
+					_NGPopUp2.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_NGPopUp2.Show();
+					_NGPopUp2.Activate();
+					_NGPopUp2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_NGPopUp2.Left = left;
+					_NGPopUp2.Top = top;
+					_NGPopUp2.Width = popupWidth;
+					_NGPopUp2.Height = popupHeight;
+					_NGPopUp2.WindowState = System.Windows.WindowState.Normal;
+				}
+
+			}
+
+
+		}
+
+		public void HideNGPopupMessage()
+		{
+			//System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+			//UserStartMassage2 window = new UserStartMassage2();
+			//window.Hide();
+			//// Show 메소드와 속성 설정의 순서가 중요하다.
+			//window.WindowStartupLocation = WindowStartupLocation.Manual;
+			//window.Left = secondaryScreenRectangle.Left;
+			//window.Top = secondaryScreenRectangle.Top;
+			//window.Width = secondaryScreenRectangle.Width;
+			//window.Height = secondaryScreenRectangle.Height;
+			//window.WindowState = System.Windows.WindowState.Maximized;
+			if (_NGPopUp == null)
+				_NGPopUp = new NGPopUp();
+			_NGPopUp.Hide();
+
+
+		}
+
+		public void HideNGPopupMessage2()
+		{
+			//System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+			//UserStartMassage2 window = new UserStartMassage2();
+			//window.Hide();
+			//// Show 메소드와 속성 설정의 순서가 중요하다.
+			//window.WindowStartupLocation = WindowStartupLocation.Manual;
+			//window.Left = secondaryScreenRectangle.Left;
+			//window.Top = secondaryScreenRectangle.Top;
+			//window.Width = secondaryScreenRectangle.Width;
+			//window.Height = secondaryScreenRectangle.Height;
+			//window.WindowState = System.Windows.WindowState.Maximized;
+			if (_NGPopUp2 == null)
+				_NGPopUp2 = new NGPopUp2();
+			_NGPopUp2.Hide();
 
 
 		}

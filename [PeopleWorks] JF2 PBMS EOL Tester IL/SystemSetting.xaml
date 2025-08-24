@@ -112,7 +112,7 @@
             </StackPanel>
         </Button>
 
-        <ComboBox Name="cbLanguageCheck"  HorizontalAlignment="Left" Height="51" Margin="880,693,0,0" VerticalAlignment="Top" Width="244" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="40" />
+        <ComboBox Name="cbLanguageCheck"  HorizontalAlignment="Left" Height="51" Margin="880,693,0,0" VerticalAlignment="Top" Width="244" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="30" />
         <Label Content="LANGUAGE" HorizontalAlignment="Left" Height="51" VerticalAlignment="Top" Width="116" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Foreground="Aqua" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="759,693,0,0" RenderTransformOrigin="0.5,0.5"/>
 
 

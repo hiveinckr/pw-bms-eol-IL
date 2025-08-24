@@ -61,11 +61,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			lbMainStatus.Content = _SysInfo2.strPopupContent;
 
-			if (_SysInfo2._PopupStatus == MAIN_STATUS.READY)
+			if (_SysInfo2._PopupStatus == MAIN_STATUS2.READY)
 			{
 				lbMainStatus.Background = Brushes.LightBlue;
 			}
-			else if (_SysInfo2._PopupStatus == MAIN_STATUS.NG)
+			else if (_SysInfo2._PopupStatus == MAIN_STATUS2.NG)
 			{
 				lbMainStatus.Background = Brushes.LightPink;
 			}
@@ -78,13 +78,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		private void btNext_Click(object sender, RoutedEventArgs e)
 		{
-			_SysInfo2._SwStatus = MAIN_STATUS.OK;
+			_SysInfo2._SwStatus = MAIN_STATUS2.OK;
 			this.Hide();
 		}
 
 		private void btStop_Click(object sender, RoutedEventArgs e)
 		{
-			_SysInfo2._SwStatus = MAIN_STATUS.NG;
+			_SysInfo2._SwStatus = MAIN_STATUS2.NG;
+			_SysInfo2.bEMGStop = true;
+			theApp.nProcessStep[(int)PROC_LIST.MAIN2] = 80000;
 			this.Hide();
 		}
 	}

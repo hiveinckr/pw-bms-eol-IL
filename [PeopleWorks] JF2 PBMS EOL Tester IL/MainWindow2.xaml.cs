@@ -122,7 +122,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				lbOptionalErrorHistory.Content = "Optional Error History";
 				lbInspectionhistory.Content = "Inspection History";
 
-				if (_SysInfo2.eMainStatus == MAIN_STATUS.READY)
+				if (_SysInfo2.eMainStatus == MAIN_STATUS2.READY)
 				{
 					lbMainStatus2.Content = "Waiting for work";
 					lbMainStatus2.Background = Brushes.DarkGreen;
@@ -131,7 +131,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					theApp.TowerLampBlink(LAMP_COLOR.TL_YELLOW);
 
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.ING)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.ING)
 				{
 					lbMainStatus2.Content = "Inspecting";
 					lbMainStatus2.Background = Brushes.Ivory;
@@ -139,7 +139,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = true;
 					theApp.TowerLampOn(LAMP_COLOR.TL_YELLOW);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.OK)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.OK)
 				{
 					lbMainStatus2.Content = "O.K";
 					lbMainStatus2.Background = Brushes.LightGreen;
@@ -147,7 +147,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.NG)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.NG)
 				{
 					lbMainStatus2.Content = "N.G";
 					lbMainStatus2.Background = Brushes.LightPink;
@@ -155,7 +155,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.EMG_STOP)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.EMG_STOP)
 				{
 					lbMainStatus2.Content = "Forced to stop";
 					lbMainStatus2.Background = Brushes.LightPink;
@@ -163,7 +163,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = false;
 					theApp.TowerLampBlink(LAMP_COLOR.TL_RED);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.OK_MASTER_OK)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.OK_MASTER_OK)
 				{
 					lbMainStatus2.Content = "O.K(OK quality master sample)";
 					lbMainStatus2.Background = Brushes.LightGreen;
@@ -171,7 +171,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.OK_MASTER_NG)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.OK_MASTER_NG)
 				{
 					lbMainStatus2.Content = "N.G(OK quality master sample)";
 					lbMainStatus2.Background = Brushes.LightPink;
@@ -179,7 +179,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.NG_MASTER_OK)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.NG_MASTER_OK)
 				{
 					lbMainStatus2.Content = "N.G(NG quality master sample)";
 					lbMainStatus2.Background = Brushes.LightPink;
@@ -187,7 +187,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.NG_MASTER_NG)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.NG_MASTER_NG)
 				{
 					lbMainStatus2.Content = "O.K(NG quality master sample)";
 					lbMainStatus2.Background = Brushes.LightGreen;
@@ -220,7 +220,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				lbOptionalErrorHistory.Content = "선택항목 불량 내역";
 				lbInspectionhistory.Content = "검사 이력";
 
-				if (_SysInfo2.eMainStatus == MAIN_STATUS.READY)
+				if (_SysInfo2.eMainStatus == MAIN_STATUS2.READY)
 				{
 					lbMainStatus2.Content = "작업 대기중";
 					lbMainStatus2.Background = Brushes.DarkGreen;
@@ -229,7 +229,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					theApp.TowerLampBlink(LAMP_COLOR.TL_YELLOW);
 
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.ING)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.ING)
 				{
 					lbMainStatus2.Content = "검사중";
 					lbMainStatus2.Background = Brushes.Ivory;
@@ -237,7 +237,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = true;
 					theApp.TowerLampOn(LAMP_COLOR.TL_YELLOW);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.OK)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.OK)
 				{
 					lbMainStatus2.Content = "O.K";
 					lbMainStatus2.Background = Brushes.LightGreen;
@@ -245,7 +245,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.NG)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.NG)
 				{
 					lbMainStatus2.Content = "N.G";
 					lbMainStatus2.Background = Brushes.LightPink;
@@ -253,7 +253,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.EMG_STOP)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.EMG_STOP)
 				{
 					lbMainStatus2.Content = "강제 정지됨";
 					lbMainStatus2.Background = Brushes.LightPink;
@@ -261,7 +261,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = false;
 					theApp.TowerLampBlink(LAMP_COLOR.TL_RED);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.OK_MASTER_OK)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.OK_MASTER_OK)
 				{
 					lbMainStatus2.Content = "O.K(양품 마스터 샘플)";
 					lbMainStatus2.Background = Brushes.LightGreen;
@@ -269,7 +269,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.OK_MASTER_NG)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.OK_MASTER_NG)
 				{
 					lbMainStatus2.Content = "N.G(양품 마스터 샘플)";
 					lbMainStatus2.Background = Brushes.LightPink;
@@ -277,7 +277,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.NG_MASTER_OK)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.NG_MASTER_OK)
 				{
 					lbMainStatus2.Content = "N.G(불량 마스터 샘플)";
 					lbMainStatus2.Background = Brushes.LightPink;
@@ -285,7 +285,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					btStop2.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
-				else if (_SysInfo2.eMainStatus == MAIN_STATUS.NG_MASTER_NG)
+				else if (_SysInfo2.eMainStatus == MAIN_STATUS2.NG_MASTER_NG)
 				{
 					lbMainStatus2.Content = "O.K(불량 마스터 샘플)";
 					lbMainStatus2.Background = Brushes.LightGreen;

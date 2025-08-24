@@ -744,18 +744,35 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						if (_SysInfo.nMainWorkStep > 0)
 						{
-							if (_TestData[_SysInfo.nMainWorkStep - 1].strResult == "NG")
+							//if (_TestData[_SysInfo.nMainWorkStep - 1].strResult == "NG")
+							//{
+							//	// 불량 발생시 PopUp 발생
+							//	AppendLogMsg("11111", MSG_TYPE.LOG);
+							//	_SysInfo.bTestNG = false;
+							//	nProcessStep[nStepIndex] = 3100;
+							//}
+							//else
+							//{
+							//	AppendLogMsg("2222", MSG_TYPE.LOG);
+							//	nProcessStep[nStepIndex] = 4000;
+							//}
+
+							if (_SysInfo.bTestNG)
 							{
 								// 불량 발생시 PopUp 발생
+							
+								_SysInfo.bTestNG = false;
 								nProcessStep[nStepIndex] = 3100;
 							}
 							else
 							{
+					
 								nProcessStep[nStepIndex] = 4000;
 							}
 						}
 						else
 						{
+						
 							nProcessStep[nStepIndex] = 4000;
 						}
 					}
@@ -765,7 +782,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo.strPopupContent = _ModelInfo._TestInfo[_SysInfo.nMainWorkStep - 1].strTestName + " NG";
 					_SysInfo._SwStatus = MAIN_STATUS.READY;
 					_SysInfo._PopupStatus = MAIN_STATUS.NG;
-					ShowPopUpWindow();
+					ShowNGPopUpWindow();
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -781,13 +798,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					if (GetDIOPort(DI.START_SW1))
 					{
-						ClosePopUpWindow();
+						CloseNGPopUpWindow();
 						_SysInfo._SwStatus = MAIN_STATUS.OK;
 						nProcessStep[nStepIndex] = 3102;
 					}
 					else if (GetDIOPort(DI.START_SW2))
 					{
-						ClosePopUpWindow();
+						CloseNGPopUpWindow();
 						_SysInfo._SwStatus = MAIN_STATUS.NG;
 						nProcessStep[nStepIndex] = 3102;
 					}
@@ -1068,6 +1085,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.bEolNg)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, "", "NG");
+							_SysInfo.bTestNG = true;
 						}
 						else
 						{
@@ -2018,6 +2036,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax || _SysInfo.dbCalcData < _SysInfo.dbSpecMin)
 					{
 						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F" + _SysInfo.nDispLen.ToString()), "NG");
+						_SysInfo.bTestNG = true;
 					}
 					else
 					{
@@ -2183,6 +2202,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_SysInfo.dbCommReadData > _SysInfo.dbSpecMax || _SysInfo.dbCommReadData < _SysInfo.dbSpecMin)
 					{
 						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCommReadData.ToString(), "NG");
+						_SysInfo.bTestNG = true;
 					}
 					else
 					{
@@ -2355,6 +2375,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_SysInfo.dbCommReadData > _SysInfo.dbSpecMax || _SysInfo.dbCommReadData < _SysInfo.dbSpecMin)
 					{
 						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCommReadData.ToString(), "NG");
+						_SysInfo.bTestNG = true;
 					}
 					else
 					{
@@ -2603,6 +2624,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax || _SysInfo.dbCalcData < _SysInfo.dbSpecMin)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
 						}
 						else
 						{
@@ -2614,6 +2636,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.dbCalcData < _SysInfo.dbSpecMin)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
 						}
 						else
 						{
@@ -2625,6 +2648,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
 						}
 						else
 						{
@@ -2752,6 +2776,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax || _SysInfo.dbCalcData < _SysInfo.dbSpecMin)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
 						}
 						else
 						{
@@ -2763,6 +2788,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.dbCalcData < _SysInfo.dbSpecMin)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
 						}
 						else
 						{
@@ -2774,6 +2800,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
 						}
 						else
 						{
@@ -2971,6 +2998,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax || _SysInfo.dbCalcData < _SysInfo.dbSpecMin)
 							{
 								TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+								_SysInfo.bTestNG = true;
 							}
 							else
 							{
@@ -2982,6 +3010,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							if (_SysInfo.dbCalcData < _SysInfo.dbSpecMin)
 							{
 								TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+								_SysInfo.bTestNG = true;
 							}
 							else
 							{
@@ -2993,6 +3022,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax)
 							{
 								TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+								_SysInfo.bTestNG = true;
 							}
 							else
 							{
@@ -3035,7 +3065,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					else if (_SysInfo._SwStatus == MAIN_STATUS.NG)
 					{
 						TestResultSet(_SysInfo.nMainWorkStep, "", "NG");
-						nProcessStep[nStepIndex] = 37002;
+						_SysInfo.bTestNG = true;
+						nProcessStep[nStepIndex] = 80000;
 					}
 					else if (GetDIOPort(DI.START_SW1))
 					{
@@ -3046,8 +3077,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					else if (GetDIOPort(DI.START_SW2))
 					{
 						TestResultSet(_SysInfo.nMainWorkStep, "", "NG");
+						_SysInfo.bTestNG = true;
 						ClosePopUpWindow();
-						nProcessStep[nStepIndex] = 37002;
+						nProcessStep[nStepIndex] = 80000;
 					}
 					break;
 
@@ -3092,6 +3124,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					else if (_SysInfo.bPingTestResult == MAIN_STATUS.NG)
 					{
 						TestResultSet(_SysInfo.nMainWorkStep, "", "NG");
+						_SysInfo.bTestNG = true;
 						nProcessStep[nStepIndex] = 38012;
 					}
 					break;
@@ -3151,11 +3184,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							else
 							{
 								TestResultSet(_SysInfo.nMainWorkStep, strVesion, "NG");
+								_SysInfo.bTestNG = true;
 							}
 						}
 						else
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, strVesion, "NG");
+							_SysInfo.bTestNG = true;
 						}
 						nProcessStep[nStepIndex]++;
 					}
@@ -3197,11 +3232,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							else
 							{
 								TestResultSet(_SysInfo.nMainWorkStep, strVesion, "NG");
+								_SysInfo.bTestNG = true;
 							}
 						}
 						else
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, strVesion, "NG");
+							_SysInfo.bTestNG = true;
 						}
 						nProcessStep[nStepIndex]++;
 					}
@@ -3213,20 +3250,27 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 41000:
+					_CellSimulator1.Send("*RST", true);
+					nProcessStep[nStepIndex] = 41005;
+					break;
+
+				case 41005:
+					_CellSimulator1.Send("*CLS", true);
 					nProcessStep[nStepIndex] = 41010;
 					break;
 
 				case 41010:
 					_CellSimulator1.Send("*IDN?", true);
+					tMainTimer[nStepIndex].Start(10000);
 					nProcessStep[nStepIndex]++;
 					break;
 
 				case 41011:
-					//if (tMainTimer[nStepIndex].Verify())
-					//{
-					//	AppendLogMsg("파워서플라이 초기화 실패", MSG_TYPE.ERROR);
-					//	nProcessStep[nStepIndex] = 90000;
-					//}
+					if (tMainTimer[nStepIndex].Verify())
+					{
+						AppendLogMsg("Cell Simulator #1 initialization failed", MSG_TYPE.ERROR);
+						nProcessStep[nStepIndex] = 90000;
+					}
 
 					if (_CellSimulator1.IsReadData())
 					{
@@ -3395,7 +3439,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 41102:
-					if (_CellSimulator1.strReadMessage == "1")
+
+					if (_SysInfo.dbCellVolt == 0)
 					{
 						TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
 						_SysInfo.nMainWorkStep++;
@@ -3403,27 +3448,47 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 					else
 					{
-						TestResultSet(_SysInfo.nMainWorkStep, "", "NG");
-						_SysInfo.nMainWorkStep++;
-						nProcessStep[nStepIndex] = 3000;
+						if (_CellSimulator1.strReadMessage == "1")
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
+							_SysInfo.nMainWorkStep++;
+							nProcessStep[nStepIndex] = 3000;
+						}
+						else
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, "", "NG");
+							_SysInfo.bTestNG = true;
+							_SysInfo.nMainWorkStep++;
+							nProcessStep[nStepIndex] = 3000;
+						}
 					}
+					
 					break;
 
 				case 42000:
+					_CellSimulator2.Send("*RST", true);
+					tMainTimer[nStepIndex].Start(200);
+					nProcessStep[nStepIndex] = 42005;
+					break;
+
+				case 42005:
+					_CellSimulator2.Send("*CLS", true);
+
 					nProcessStep[nStepIndex] = 42010;
 					break;
 
 				case 42010:
 					_CellSimulator2.Send("*IDN?", true);
+					tMainTimer[nStepIndex].Start(10000);
 					nProcessStep[nStepIndex]++;
 					break;
 
 				case 42011:
-					//if (tMainTimer[nStepIndex].Verify())
-					//{
-					//	AppendLogMsg("셀시뮬레이터 #2 초기화 실패", MSG_TYPE.ERROR);
-					//	nProcessStep[nStepIndex] = 0;
-					//}
+					if (tMainTimer[nStepIndex].Verify())
+					{
+						AppendLogMsg("Cell Simulator #2 initialization failed", MSG_TYPE.ERROR);
+						nProcessStep[nStepIndex] = 90000;
+					}
 
 					if (_CellSimulator2.IsReadData())
 					{
@@ -3450,10 +3515,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 42014:
-
 					if (_CellSimulator2.strReadMessage == "1")
 					{
-
 						nProcessStep[nStepIndex] = 42050;
 					}
 					else
@@ -3595,7 +3658,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 42102:
-					if (_CellSimulator2.strReadMessage == "1")
+					if(_SysInfo.dbCellVolt2 == 0)
 					{
 						TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
 						_SysInfo.nMainWorkStep++;
@@ -3603,10 +3666,21 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 					else
 					{
-						TestResultSet(_SysInfo.nMainWorkStep, "", "NG");
-						_SysInfo.nMainWorkStep++;
-						nProcessStep[nStepIndex] = 3000;
+						if (_CellSimulator2.strReadMessage == "1")
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
+							_SysInfo.nMainWorkStep++;
+							nProcessStep[nStepIndex] = 3000;
+						}
+						else
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, "", "NG");
+							_SysInfo.bTestNG = true;
+							_SysInfo.nMainWorkStep++;
+							nProcessStep[nStepIndex] = 3000;
+						}
 					}
+					
 					break;
 
 				case 43000:
@@ -3628,7 +3702,6 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 
 					break;
-
 				// 1번 채널 Power Supply 설정
 				case 43010:
 					if (_Config.bDmmEtcMode)
@@ -3697,6 +3770,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						//else
 						//{
 						_KeysiteDmmEtc.Send($"ROUTe:CLOSe (@{_SysInfo.nDmmCh})", true);
+
+						AppendDebugMsg($"Curr M 검사 시작", "CURR");
 						//}
 					}
 					else
@@ -3708,6 +3783,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						//else
 						//{
 						KeysiteDmm.Send($"ROUTe:CLOSe (@{_SysInfo.nDmmCh})");
+						AppendDebugMsg($"Curr M 검사 시작", "CURR");
 						//}
 					}
 
@@ -3861,6 +3937,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.nCurrNGRetryCount > 5)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
 						}
 						else
 						{
@@ -4136,6 +4213,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.dbRMSCommReadData > _SysInfo.dbSpecMax || _SysInfo.dbRMSCommReadData < _SysInfo.dbSpecMin)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
 						}
 						else
 						{
@@ -4147,6 +4225,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.dbRMSCommReadData < _SysInfo.dbSpecMin)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
 						}
 						else
 						{
@@ -4158,6 +4237,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.dbRMSCommReadData > _SysInfo.dbSpecMax)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
 						}
 						else
 						{
@@ -4638,6 +4718,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_SysInfo.dbRMSCommReadData > _SysInfo.dbSpecMax || _SysInfo.dbRMSCommReadData < _SysInfo.dbSpecMin)
 					{
 						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F" + _SysInfo.nDispLen.ToString()), "NG");
+						_SysInfo.bTestNG = true;
 					}
 					else
 					{
@@ -4736,6 +4817,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						//else
 						//{
 						_KeysiteDmmEtc.Send($"ROUTe:CLOSe (@{_SysInfo.nDmmCh})", true);
+						AppendDebugMsg($"Curr A  검사 시작", "CURR");
 						//}
 					}
 					else
@@ -4747,6 +4829,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						//else
 						//{
 						KeysiteDmm.Send($"ROUTe:CLOSe (@{_SysInfo.nDmmCh})");
+						AppendDebugMsg($"Curr A  검사 시작", "CURR");
 						//}
 					}
 
@@ -4888,6 +4971,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.nCurrNGRetryCount > 5)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
 						}
 						else
 						{
@@ -5055,6 +5139,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						else
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.strCyclonFileName, "NG");
+							_SysInfo.bTestNG = true;
 							_SysInfo.nMainWorkStep++;
 							nProcessStep[nStepIndex] = 3000;
 							break;
@@ -5083,6 +5168,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						else
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.strCyclonFileName, "NG");
+							_SysInfo.bTestNG = true;
 							nProcessStep[nStepIndex] = 51050;
 						}
 
@@ -5273,7 +5359,59 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					theApp._BarcodePrint.bPrintStart = true;
 					//theApp.SaveModelProductCount(theApp._LotCount, theApp._ModelInfo.strModelName);
 					SaveBarcodeInfo();
-					nProcessStep[nStepIndex] = 52040;
+					nProcessStep[nStepIndex] = 52033;
+					break;
+				
+				case 52033:
+					_SysInfo._PopupStatus = MAIN_STATUS.READY;
+					_BcdReader.strReadBarcode = "";
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						_SysInfo.strBcdPopupContent = "Please attach the Support Bracket barcode and scan it.";
+					}
+					else
+					{
+						_SysInfo.strBcdPopupContent = "Support Bracket 바코드를 부착 후 스캔하여 주세요.";
+					}
+					_BcdReader.bReadOk = false;
+					ShowBcdPopUpWindow();
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 52034:
+					if (_BcdReader.bReadOk)
+					{
+						_BcdReader.bReadOk = false;
+						CloseBcdPopUpWindow();
+
+						if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strSBBarcodSymbol))
+						{
+							
+							nProcessStep[nStepIndex] = 52040;
+						}
+						else
+						{
+							nProcessStep[nStepIndex] = 52035;
+						}
+					}
+					break;
+
+
+				case 52035:
+					_SysInfo._PopupStatus = MAIN_STATUS.NG;
+					_BcdReader.strReadBarcode = "";
+					_SysInfo.nTL_Beep = 3;
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						_SysInfo.strBcdPopupContent = "Please scan the correct Support Bracket barcode.";
+					}
+					else
+					{
+						_SysInfo.strBcdPopupContent = "올바른 Support Bracket 바코드를 스캔하여 주세요.";
+					}
+					_BcdReader.bReadOk = false;
+					ShowBcdPopUpWindow();
+					nProcessStep[nStepIndex] = 52034;
 					break;
 
 				case 52040:
@@ -5305,10 +5443,65 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 52060:
+					_SysInfo._PopupStatus = MAIN_STATUS.READY;
+					_BcdReader.strReadBarcode = "";
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						_SysInfo.strBcdPopupContent = "Please attach the RBMS barcode and scan it.";
+						
+					}
+					else
+					{
+						_SysInfo.strBcdPopupContent = "RBMS 바코드를 부착 후 스캔하여 주세요.";
+					}
+					_BcdReader.bReadOk = false;
+					ShowBcdPopUpWindow();
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 52061:
+					if (_BcdReader.bReadOk)
+					{
+						_BcdReader.bReadOk = false;
+						CloseBcdPopUpWindow();
+
+						if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strRBMSBarcodSymbol))
+						{
+
+							nProcessStep[nStepIndex] = 52070;
+						}
+						else
+						{
+							nProcessStep[nStepIndex] = 52065;
+						}
+					}
+					break;
+
+
+				case 52065:
+					_SysInfo._PopupStatus = MAIN_STATUS.NG;
+					_BcdReader.strReadBarcode = "";
+					_SysInfo.nTL_Beep = 3;
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						_SysInfo.strBcdPopupContent = "Please scan the correct RBMS barcode.";
+					}
+					else
+					{
+						_SysInfo.strBcdPopupContent = "올바른 RBMS 바코드를 스캔하여 주세요.";
+					}
+					_BcdReader.bReadOk = false;
+					ShowBcdPopUpWindow();
+					nProcessStep[nStepIndex] = 52061;
+					break;
+
+				case 52070:
 					TestResultSet(_SysInfo.nMainWorkStep, "OK", "OK");
 					_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
+
+
 
 
 				// 검사 종료 스텝
@@ -5835,7 +6028,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					});
 
 					tMainTimer[nStepIndex].Start(500);
-					_SysInfo2.eMainStatus = MAIN_STATUS.ING;
+					_SysInfo2.eMainStatus = MAIN_STATUS2.ING;
 					nProcessStep[nStepIndex] = 2500;
 					break;
 
@@ -5854,13 +6047,29 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						if (_SysInfo2.nMainWorkStep > 0)
 						{
-							if (_TestData2[_SysInfo2.nMainWorkStep - 1].strResult == "NG")
+							//if (_TestData2[_SysInfo2.nMainWorkStep - 1].strResult == "NG")
+							//{
+							//	// 불량 발생시 PopUp 발생
+							//	AppendLogMsg("11111", MSG_TYPE.LOG);
+							//	_SysInfo2.bTestNG = false;
+							//	nProcessStep[nStepIndex] = 3100;
+							//}
+							//else
+							//{
+							//	AppendLogMsg("2222", MSG_TYPE.LOG);
+							//	nProcessStep[nStepIndex] = 4000;
+							//}
+
+							if (_SysInfo2.bTestNG)
 							{
 								// 불량 발생시 PopUp 발생
+
+								_SysInfo2.bTestNG = false;
 								nProcessStep[nStepIndex] = 3100;
 							}
 							else
 							{
+
 								nProcessStep[nStepIndex] = 4000;
 							}
 						}
@@ -5873,31 +6082,31 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 3100:
 					_SysInfo2.strPopupContent = _ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep - 1].strTestName + " NG";
-					_SysInfo2._SwStatus = MAIN_STATUS.READY;
-					_SysInfo2._PopupStatus = MAIN_STATUS.NG;
-					ShowPopUpWindow2();
+					_SysInfo2._SwStatus = MAIN_STATUS2.READY;
+					_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
+					ShowNGPopUpWindow2();
 					nProcessStep[nStepIndex]++;
 					break;
 
 				case 3101:
-					if (_SysInfo2._SwStatus == MAIN_STATUS.OK)
+					if (_SysInfo2._SwStatus == MAIN_STATUS2.OK)
 					{
 						nProcessStep[nStepIndex] = 4000;
 					}
-					else if (_SysInfo2._SwStatus == MAIN_STATUS.NG)
+					else if (_SysInfo2._SwStatus == MAIN_STATUS2.NG)
 					{
 						nProcessStep[nStepIndex] = 80000;
 					}
 					if (GetDIOPort(DI.START_SW1))
 					{
-						ClosePopUpWindow2();
-						_SysInfo2._SwStatus = MAIN_STATUS.OK;
+						CloseNGPopUpWindow2();
+						_SysInfo2._SwStatus = MAIN_STATUS2.OK;
 						nProcessStep[nStepIndex] = 3102;
 					}
 					else if (GetDIOPort(DI.START_SW2))
 					{
-						ClosePopUpWindow2();
-						_SysInfo2._SwStatus = MAIN_STATUS.NG;
+						CloseNGPopUpWindow2();
+						_SysInfo2._SwStatus = MAIN_STATUS2.NG;
 						nProcessStep[nStepIndex] = 3102;
 					}
 					break;
@@ -5910,11 +6119,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 3103:
-					if (_SysInfo2._SwStatus == MAIN_STATUS.OK)
+					if (_SysInfo2._SwStatus == MAIN_STATUS2.OK)
 					{
 						nProcessStep[nStepIndex] = 4000;
 					}
-					else if (_SysInfo2._SwStatus == MAIN_STATUS.NG)
+					else if (_SysInfo2._SwStatus == MAIN_STATUS2.NG)
 					{
 						nProcessStep[nStepIndex] = 80000;
 					}
@@ -6177,6 +6386,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.bEolNg)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, "", "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						else
 						{
@@ -7127,6 +7337,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax || _SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
 					{
 						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F" + _SysInfo2.nDispLen.ToString()), "NG");
+						_SysInfo2.bTestNG = true;
 					}
 					else
 					{
@@ -7292,6 +7503,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_SysInfo2.dbCommReadData > _SysInfo2.dbSpecMax || _SysInfo2.dbCommReadData < _SysInfo2.dbSpecMin)
 					{
 						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCommReadData.ToString(), "NG");
+						_SysInfo2.bTestNG = true;
 					}
 					else
 					{
@@ -7464,6 +7676,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_SysInfo2.dbCommReadData > _SysInfo2.dbSpecMax || _SysInfo2.dbCommReadData < _SysInfo2.dbSpecMin)
 					{
 						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCommReadData.ToString(), "NG");
+						_SysInfo2.bTestNG = true;
 					}
 					else
 					{
@@ -7710,6 +7923,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax || _SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						else
 						{
@@ -7721,6 +7935,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						else
 						{
@@ -7732,6 +7947,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						else
 						{
@@ -7859,6 +8075,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax || _SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						else
 						{
@@ -7870,6 +8087,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						else
 						{
@@ -7881,6 +8099,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						else
 						{
@@ -8075,6 +8294,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax || _SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
 							{
 								TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+								_SysInfo2.bTestNG = true;
 							}
 							else
 							{
@@ -8086,6 +8306,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							if (_SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
 							{
 								TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+								_SysInfo2.bTestNG = true;
 							}
 							else
 							{
@@ -8097,6 +8318,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax)
 							{
 								TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+								_SysInfo2.bTestNG = true;
 							}
 							else
 							{
@@ -8123,23 +8345,24 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				//PopUp 행정
 				case 37000:
 					_SysInfo2.strPopupContent = _ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strTestName;
-					_SysInfo2._SwStatus = MAIN_STATUS.READY;
-					_SysInfo2._PopupStatus = MAIN_STATUS.READY;
+					_SysInfo2._SwStatus = MAIN_STATUS2.READY;
+					_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
 					_SysInfo.nTL_Beep = 1;
 					ShowPopUpWindow2();
 					nProcessStep[nStepIndex]++;
 					break;
 
 				case 37001:
-					if (_SysInfo2._SwStatus == MAIN_STATUS.OK)
+					if (_SysInfo2._SwStatus == MAIN_STATUS2.OK)
 					{
 						TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
 						nProcessStep[nStepIndex] = 37002;
 					}
-					else if (_SysInfo2._SwStatus == MAIN_STATUS.NG)
+					else if (_SysInfo2._SwStatus == MAIN_STATUS2.NG)
 					{
 						TestResultSet2(_SysInfo2.nMainWorkStep, "", "NG");
-						nProcessStep[nStepIndex] = 37002;
+						_SysInfo2.bTestNG = true;
+						nProcessStep[nStepIndex] = 80000;
 					}
 					else if (GetDIOPort(DI.START_SW3))
 					{
@@ -8150,8 +8373,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					else if (GetDIOPort(DI.START_SW4))
 					{
 						TestResultSet2(_SysInfo2.nMainWorkStep, "", "NG");
+						_SysInfo2.bTestNG = true;
 						ClosePopUpWindow2();
-						nProcessStep[nStepIndex] = 37002;
+						nProcessStep[nStepIndex] = 80000;
 					}
 					break;
 
@@ -8196,6 +8420,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					else if (_SysInfo2.bPingTestResult == MAIN_STATUS.NG)
 					{
 						TestResultSet2(_SysInfo2.nMainWorkStep, "", "NG");
+						_SysInfo2.bTestNG = true;
 						nProcessStep[nStepIndex] = 38012;
 					}
 					break;
@@ -8255,11 +8480,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							else
 							{
 								TestResultSet2(_SysInfo2.nMainWorkStep, strVesion, "NG");
+								_SysInfo2.bTestNG = true;
 							}
 						}
 						else
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, strVesion, "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						nProcessStep[nStepIndex]++;
 					}
@@ -8301,11 +8528,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							else
 							{
 								TestResultSet2(_SysInfo2.nMainWorkStep, strVesion, "NG");
+								_SysInfo2.bTestNG = true;
 							}
 						}
 						else
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, strVesion, "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						nProcessStep[nStepIndex]++;
 					}
@@ -8317,20 +8546,27 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 41000:
+					_CellSimulator3.Send("*RST", true);
+					nProcessStep[nStepIndex] = 41005;
+					break;
+
+				case 41005:
+					_CellSimulator3.Send("*CLS", true);
 					nProcessStep[nStepIndex] = 41010;
 					break;
 
 				case 41010:
 					_CellSimulator3.Send("*IDN?", true);
+					tMainTimer[nStepIndex].Start(10000);
 					nProcessStep[nStepIndex]++;
 					break;
 
 				case 41011:
-					//if (tMainTimer[nStepIndex].Verify())
-					//{
-					//	AppendLogMsg2("파워서플라이 초기화 실패", MSG_TYPE.ERROR);
-					//	nProcessStep[nStepIndex] = 90000;
-					//}
+					if (tMainTimer[nStepIndex].Verify())
+					{
+						AppendLogMsg("Cell Simulator #1 initialization failed", MSG_TYPE.ERROR);
+						nProcessStep[nStepIndex] = 90000;
+					}
 
 					if (_CellSimulator3.IsReadData())
 					{
@@ -8499,7 +8735,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 41102:
-					if (_CellSimulator3.strReadMessage == "1")
+					if (_SysInfo2.dbCellVolt == 0)
 					{
 						TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
 						_SysInfo2.nMainWorkStep++;
@@ -8507,27 +8743,46 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 					else
 					{
-						TestResultSet2(_SysInfo2.nMainWorkStep, "", "NG");
-						_SysInfo2.nMainWorkStep++;
-						nProcessStep[nStepIndex] = 3000;
+						if (_CellSimulator3.strReadMessage == "1")
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
+							_SysInfo2.nMainWorkStep++;
+							nProcessStep[nStepIndex] = 3000;
+						}
+						else
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, "", "NG");
+							_SysInfo2.bTestNG = true;
+							_SysInfo2.nMainWorkStep++;
+							nProcessStep[nStepIndex] = 3000;
+						}
 					}
+					
 					break;
 
+
 				case 42000:
+					_CellSimulator4.Send("*RST", true);
+					nProcessStep[nStepIndex] = 42005;
+					break;
+
+				case 42005:
+					_CellSimulator4.Send("*CLS", true);
 					nProcessStep[nStepIndex] = 42010;
 					break;
 
 				case 42010:
 					_CellSimulator4.Send("*IDN?", true);
+					tMainTimer[nStepIndex].Start(10000);
 					nProcessStep[nStepIndex]++;
 					break;
 
 				case 42011:
-					//if (tMainTimer[nStepIndex].Verify())
-					//{
-					//	AppendLogMsg2("셀시뮬레이터 #2 초기화 실패", MSG_TYPE.ERROR);
-					//	nProcessStep[nStepIndex] = 0;
-					//}
+					if (tMainTimer[nStepIndex].Verify())
+					{
+						AppendLogMsg("Cell Simulator #2 initialization failed", MSG_TYPE.ERROR);
+						nProcessStep[nStepIndex] = 90000;
+					}
 
 					if (_CellSimulator4.IsReadData())
 					{
@@ -8699,7 +8954,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 42102:
-					if (_CellSimulator4.strReadMessage == "1")
+					if (_SysInfo2.dbCellVolt2 == 0)
 					{
 						TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
 						_SysInfo2.nMainWorkStep++;
@@ -8707,10 +8962,21 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 					else
 					{
-						TestResultSet2(_SysInfo2.nMainWorkStep, "", "NG");
-						_SysInfo2.nMainWorkStep++;
-						nProcessStep[nStepIndex] = 3000;
+						if (_CellSimulator4.strReadMessage == "1")
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
+							_SysInfo2.nMainWorkStep++;
+							nProcessStep[nStepIndex] = 3000;
+						}
+						else
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, "", "NG");
+							_SysInfo2.bTestNG = true;
+							_SysInfo2.nMainWorkStep++;
+							nProcessStep[nStepIndex] = 3000;
+						}
 					}
+					
 					break;
 
 				case 43000:
@@ -8801,6 +9067,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						//else
 						//{
 						_KeysiteDmmEtc2.Send($"ROUTe:CLOSe (@{_SysInfo2.nDmmCh})", true);
+						AppendDebugMsg($"Curr M #2 검사 시작", "CURR");
 						//}
 					}
 					else
@@ -8812,6 +9079,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						//else
 						//{
 						KeysiteDmm2.Send($"ROUTe:CLOSe (@{_SysInfo2.nDmmCh})");
+						AppendDebugMsg($"Curr M #2 검사 시작", "CURR");
 						//}
 					}
 
@@ -8965,6 +9233,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.nCurrNGRetryCount > 5)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						else
 						{
@@ -9240,6 +9509,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.dbRMSCommReadData > _SysInfo2.dbSpecMax || _SysInfo2.dbRMSCommReadData < _SysInfo2.dbSpecMin)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						else
 						{
@@ -9251,6 +9521,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.dbRMSCommReadData < _SysInfo2.dbSpecMin)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						else
 						{
@@ -9262,6 +9533,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.dbRMSCommReadData > _SysInfo2.dbSpecMax)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						else
 						{
@@ -9742,6 +10014,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_SysInfo2.dbRMSCommReadData > _SysInfo2.dbSpecMax || _SysInfo2.dbRMSCommReadData < _SysInfo2.dbSpecMin)
 					{
 						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F" + _SysInfo2.nDispLen.ToString()), "NG");
+						_SysInfo2.bTestNG = true;
 					}
 					else
 					{
@@ -9840,6 +10113,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						//else
 						//{
 						_KeysiteDmmEtc2.Send($"ROUTe:CLOSe (@{_SysInfo2.nDmmCh})", true);
+						AppendDebugMsg($"Curr A #2  검사 시작", "CURR");
 						//}
 					}
 					else
@@ -9851,6 +10125,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						//else
 						//{
 						KeysiteDmm2.Send($"ROUTe:CLOSe (@{_SysInfo2.nDmmCh})");
+						AppendDebugMsg($"Curr A #2 검사 시작", "CURR");
 						//}
 					}
 
@@ -10004,6 +10279,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.nCurrNGRetryCount > 5)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
 						}
 						else
 						{
@@ -10188,6 +10464,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						else
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.strCyclonFileName, "NG");
+							_SysInfo2.bTestNG = true;
 							_SysInfo2.nMainWorkStep++;
 							nProcessStep[nStepIndex] = 3000;
 							break;
@@ -10216,6 +10493,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						else
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.strCyclonFileName, "NG");
+							_SysInfo2.bTestNG = true;
 
 							nProcessStep[nStepIndex] = 51050;
 						}
@@ -10236,7 +10514,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 					else
 					{
-						_SysInfo2._PopupStatus = MAIN_STATUS.READY;
+						_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
 						_BcdReader2.strReadBarcode = "";
 						if (_Config.strLanguage == "ENGLISH")
 						{
@@ -10275,7 +10553,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 52008:
-					_SysInfo2._PopupStatus = MAIN_STATUS.NG;
+					_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
 					_SysInfo.nTL_Beep = 3;
 					if (_Config.strLanguage == "ENGLISH")
 					{
@@ -10291,7 +10569,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 52010:
-					_SysInfo2._PopupStatus = MAIN_STATUS.READY;
+					_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
 					_BcdReader2.strReadBarcode = "";
 					if (_Config.strLanguage == "ENGLISH")
 					{
@@ -10325,7 +10603,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 52018:
-					_SysInfo2._PopupStatus = MAIN_STATUS.NG;
+					_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
 					_BcdReader2.strReadBarcode = "";
 					_SysInfo.nTL_Beep = 3;
 					if (_Config.strLanguage == "ENGLISH")
@@ -10343,7 +10621,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 				case 52020:
-					_SysInfo2._PopupStatus = MAIN_STATUS.READY;
+					_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
 					_BcdReader2.strReadBarcode = "";
 					if (_Config.strLanguage == "ENGLISH")
 					{
@@ -10377,7 +10655,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 52028:
-					_SysInfo2._PopupStatus = MAIN_STATUS.NG;
+					_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
 					_BcdReader2.strReadBarcode = "";
 					_SysInfo.nTL_Beep = 3;
 					if (_Config.strLanguage == "ENGLISH")
@@ -10408,9 +10686,61 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_BarcodePrint2.bPrintStart = true;
 					//SaveModelProductCount2(theApp._LotCount2, theApp._ModelInfo2.strModelName);
 					SaveBarcodeInfo2();
-					nProcessStep[nStepIndex] = 52040;
+					nProcessStep[nStepIndex] = 52033;
 					break;
-					
+
+				case 52033:
+					_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
+					_BcdReader2.strReadBarcode = "";
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						_SysInfo2.strBcdPopupContent = "Please attach the Support Bracket barcode and scan it.";
+					}
+					else
+					{
+						_SysInfo2.strBcdPopupContent = "Support Bracket 바코드를 부착 후 스캔하여 주세요.";
+					}
+					_BcdReader2.bReadOk = false;
+					ShowBcdPopUpWindow2();
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 52034:
+					if (_BcdReader2.bReadOk)
+					{
+						_BcdReader2.bReadOk = false;
+						CloseBcdPopUpWindow2();
+
+						if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strSBBarcodSymbol))
+						{
+
+							nProcessStep[nStepIndex] = 52040;
+						}
+						else
+						{
+							nProcessStep[nStepIndex] = 52035;
+						}
+					}
+					break;
+
+
+				case 52035:
+					_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
+					_BcdReader2.strReadBarcode = "";
+					_SysInfo2.nTL_Beep = 3;
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						_SysInfo2.strBcdPopupContent = "Please scan the correct Support Bracket barcode.";
+					}
+					else
+					{
+						_SysInfo2.strBcdPopupContent = "올바른 Support Bracket 바코드를 스캔하여 주세요.";
+					}
+					_BcdReader2.bReadOk = false;
+					ShowBcdPopUpWindow2();
+					nProcessStep[nStepIndex] = 52034;
+					break;
+
 				case 52040:
 					TestResultSet2(_SysInfo2.nMainWorkStep, "OK", "OK");
 					_SysInfo2.nMainWorkStep++;
@@ -10440,10 +10770,65 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 52060:
+					_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
+					_BcdReader2.strReadBarcode = "";
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						_SysInfo2.strBcdPopupContent = "Please attach the RBMS barcode and scan it.";
+
+					}
+					else
+					{
+						_SysInfo2.strBcdPopupContent = "RBMS 바코드를 부착 후 스캔하여 주세요.";
+					}
+					_BcdReader2.bReadOk = false;
+					ShowBcdPopUpWindow2();
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 52061:
+					if (_BcdReader2.bReadOk)
+					{
+						_BcdReader2.bReadOk = false;
+						CloseBcdPopUpWindow2();
+
+						if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strRBMSBarcodSymbol))
+						{
+
+							nProcessStep[nStepIndex] = 52070;
+						}
+						else
+						{
+							nProcessStep[nStepIndex] = 52065;
+						}
+					}
+					break;
+
+
+				case 52065:
+					_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
+					_BcdReader2.strReadBarcode = "";
+					_SysInfo.nTL_Beep = 3;
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						_SysInfo2.strBcdPopupContent = "Please scan the correct RBMS barcode.";
+					}
+					else
+					{
+						_SysInfo2.strBcdPopupContent = "올바른 RBMS 바코드를 스캔하여 주세요.";
+					}
+					_BcdReader2.bReadOk = false;
+					ShowBcdPopUpWindow2();
+					nProcessStep[nStepIndex] = 52061;
+					break;
+
+				case 52070:
 					TestResultSet2(_SysInfo2.nMainWorkStep, "OK", "OK");
 					_SysInfo2.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
+
+
 
 
 
@@ -10487,7 +10872,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					if (_SysInfo2.bEMGStop)
 					{
-						_SysInfo2.eMainStatus = MAIN_STATUS.EMG_STOP;
+						_SysInfo2.eMainStatus = MAIN_STATUS2.EMG_STOP;
 						_SysInfo.nTL_Beep = 5;
 						_LotCount2.nNGCount++;
 						SaveModelProductCount2(_LotCount2, _ModelInfo2.strModelName);
@@ -10500,7 +10885,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						if (bTestResult)
 						{
-							_SysInfo2.eMainStatus = MAIN_STATUS.OK;
+							_SysInfo2.eMainStatus = MAIN_STATUS2.OK;
 							_SysInfo.nTL_Beep = 2;
 							_LotCount2.nOkCount++;
 							SaveModelProductCount2(_LotCount2, _ModelInfo2.strModelName);
@@ -10511,7 +10896,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						}
 						else
 						{
-							_SysInfo2.eMainStatus = MAIN_STATUS.NG;
+							_SysInfo2.eMainStatus = MAIN_STATUS2.NG;
 							_SysInfo.nTL_Beep = 5;
 							_LotCount2.nNGCount++;
 							SaveModelProductCount2(_LotCount2, _ModelInfo2.strModelName);
@@ -10532,11 +10917,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 								_MasterTestInfo.bMasterOkSampleTestFinish = true;
 								_MasterTestInfo.dtMasterOkSampleTestTime = DateTime.Now;
 								SaveMasterTestInfo(_MasterTestInfo, _ModelInfo2.strModelName);
-								_SysInfo2.eMainStatus = MAIN_STATUS.OK_MASTER_OK;
+								_SysInfo2.eMainStatus = MAIN_STATUS2.OK_MASTER_OK;
 							}
 							else
 							{
-								_SysInfo2.eMainStatus = MAIN_STATUS.OK_MASTER_NG;
+								_SysInfo2.eMainStatus = MAIN_STATUS2.OK_MASTER_NG;
 							}
 						}
 						else if (_SysInfo2.bNgMasterSampleTestIng)
@@ -10547,11 +10932,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 								_MasterTestInfo.bMasterNgSampleTestFinish = true;
 								_MasterTestInfo.dtMasterNgSampleTestTime = DateTime.Now;
 								SaveMasterTestInfo(_MasterTestInfo, _ModelInfo2.strModelName);
-								_SysInfo2.eMainStatus = MAIN_STATUS.NG_MASTER_OK;
+								_SysInfo2.eMainStatus = MAIN_STATUS2.NG_MASTER_OK;
 							}
 							else
 							{
-								_SysInfo2.eMainStatus = MAIN_STATUS.NG_MASTER_NG;
+								_SysInfo2.eMainStatus = MAIN_STATUS2.NG_MASTER_NG;
 							}
 						}
 					}
@@ -14483,6 +14868,25 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			
 		}
 
+		public static void ShowNGPopUpWindow()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowNGPopupMessage();
+			});
+
+		}
+
+		public static void ShowNGPopUpWindow2()
+		{
+
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowNGPopupMessage2();
+			});
+
+		}
+
 		// 팝업 열기 및 동작
 
 		public static void ShowMasterPopUpWindow()
@@ -14569,6 +14973,31 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
 			{
 				((MainWindow)App.Current.MainWindow).HidePopupMessage2();
+			});
+
+		}
+
+		public static void CloseNGPopUpWindow()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HideNGPopupMessage();
+			});
+			//App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			//{
+			//	if (_PopUpWindow != null && _PopUpWindow.IsActive)
+			//	{
+			//		_PopUpWindow.Hide();
+			//	}
+
+			//});
+		}
+
+		public static void CloseNGPopUpWindow2()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HideNGPopupMessage2();
 			});
 
 		}
@@ -15778,6 +16207,12 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				File.WriteAllText(strSaveFilePath, strPrintBcd);
 
 
+				string strMESSaveFolderPath = String.Format("{0}\\", _Config.strBCDMesDir);
+				DirectoryInfo SaveMESdir = new DirectoryInfo(strMESSaveFolderPath);
+				if (SaveMESdir.Exists == false) { SaveMESdir.Create(); }
+
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, _SysInfo.strSaveFileName.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, strPrintBcd);
 
 				//========================== ERP 데이터 저장
 				//strSaveFolderPath = String.Format(@"{0}\\", _Config.strMESDir);
@@ -15861,7 +16296,12 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				strSaveFilePath = String.Format(@"{0}{1}{2}.txt", strSaveFolderPath, theApp._LotCount2.tProductClearTime.ToString("yyMMdd"), _SysInfo2.strSaveFileName.Replace(':', '_'));
 				File.WriteAllText(strSaveFilePath, strPrintBcd);
 
+				string strMESSaveFolderPath = String.Format("{0}\\", _Config.strBCDMesDir2);
+				DirectoryInfo SaveMESdir = new DirectoryInfo(strMESSaveFolderPath);
+				if (SaveMESdir.Exists == false) { SaveMESdir.Create(); }
 
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, _SysInfo2.strSaveFileName.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, strPrintBcd);
 
 				//========================== ERP 데이터 저장
 				//strSaveFolderPath = String.Format(@"{0}\\", _Config.strMESDir);
@@ -15909,6 +16349,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 			}
 			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }
+			SaveWorkPageInI(_ModelInfo.strModelName);
 			TestUIClearSet();
 
 		}
@@ -15953,6 +16394,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 			}
 			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }
+			SaveWorkPageInI2(_ModelInfo.strModelName);
 			TestUIClearSet2();
 
 		}
@@ -16219,6 +16661,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 			_IniFile.IniWriteValue("DIR", "strSaveMesDir", _Config.strSaveMesDir.ToString(), strPath);
 			_IniFile.IniWriteValue("DIR", "strSaveMesDir2", _Config.strSaveMesDir2.ToString(), strPath);
+			_IniFile.IniWriteValue("DIR", "strBCDMesDir", _Config.strBCDMesDir.ToString(), strPath);
+			_IniFile.IniWriteValue("DIR", "strBCDMesDir2", _Config.strBCDMesDir2.ToString(), strPath);
 
 		}
 
@@ -16300,6 +16744,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			
 			_Config.strSaveMesDir = _IniFile.IniReadValue("DIR", "strSaveMesDir", "D:\\", strPath);
 			_Config.strSaveMesDir2 = _IniFile.IniReadValue("DIR", "strSaveMesDir2", "D:\\", strPath);
+			_Config.strBCDMesDir = _IniFile.IniReadValue("DIR", "strBCDMesDir", "D:\\", strPath);
+			_Config.strBCDMesDir2 = _IniFile.IniReadValue("DIR", "strBCDMesDir2", "D:\\", strPath);
 
 		
 

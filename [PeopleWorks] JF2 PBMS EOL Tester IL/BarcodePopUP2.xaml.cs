@@ -59,11 +59,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			lbMainStatus.Content = _SysInfo2.strBcdPopupContent;
 
-			if (_SysInfo2._PopupStatus == MAIN_STATUS.READY)
+			if (_SysInfo2._PopupStatus == MAIN_STATUS2.READY)
 			{
 				lbMainStatus.Background = Brushes.LightBlue;
 			}
-			else if (_SysInfo2._PopupStatus == MAIN_STATUS.NG)
+			else if (_SysInfo2._PopupStatus == MAIN_STATUS2.NG)
 			{
 				lbMainStatus.Background = Brushes.LightPink;
 			}

@@ -124,6 +124,12 @@
     <Compile Include="NewNameSave2.xaml.cs">
       <DependentUpon>NewNameSave2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NGPopUp.xaml.cs">
+      <DependentUpon>NGPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NGPopUp2.xaml.cs">
+      <DependentUpon>NGPopUp2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NutRetryPopUp.xaml.cs">
       <DependentUpon>NutRetryPopUp.xaml</DependentUpon>
     </Compile>
@@ -261,6 +267,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NewNameSave2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NGPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NGPopUp2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

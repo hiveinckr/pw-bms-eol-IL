@@ -147,6 +147,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public string strBarcodSymbol = "";
 		public string strFuseBarcodSymbol = "";
 		public string strCaseBarcodSymbol = "";
+		public string strSBBarcodSymbol = "";
+		public string strRBMSBarcodSymbol = "";
 		public int nSerailNumIndex = 0;
 		public bool bUseRMDTestMode = false;
 		public bool bUseQRCode = false;
@@ -192,6 +194,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public string strBarcodSymbol = "";
 		public string strFuseBarcodSymbol = "";
 		public string strCaseBarcodSymbol = "";
+		public string strSBBarcodSymbol = "";
+		public string strRBMSBarcodSymbol = "";
 		public int nSerailNumIndex = 0;
 		public bool bUseRMDTestMode = false;
 		public bool bUseQRCode = false;
@@ -566,6 +570,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public static string strSaveMesDir = "";
 		public static string strSaveMesDir2 = "";
+		public static string strBCDMesDir = "";
+		public static string strBCDMesDir2 = "";
 
 		public static int strMasterCheckDateTime = 0;
 		public static bool bUseMasterCheck = false;
@@ -585,6 +591,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static string strLanguage;
 		
 		public static string strCyclonDll;
+
 
 
 
@@ -788,6 +795,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static CyclonFileName_RESULT _FileNameResult = new CyclonFileName_RESULT();
 
 		public static string strTitleName;
+		public static bool bTestNG;
 
 	}
 
@@ -871,7 +879,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static ObservableCollection<NgInfoList>[] _listNgInfo = new ObservableCollection<NgInfoList>[1000];
 
 
-		public static MAIN_STATUS eMainStatus = new MAIN_STATUS();
+		public static MAIN_STATUS2 eMainStatus = new MAIN_STATUS2();
 
 
 		public static int nPingRetryCount = 0;
@@ -896,8 +904,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static string strTotalResult = "";
 		public static bool bEMGStop = false;
 
-		public static MAIN_STATUS _SwStatus = new MAIN_STATUS();
-		public static MAIN_STATUS _PopupStatus = new MAIN_STATUS();
+		public static MAIN_STATUS2 _SwStatus = new MAIN_STATUS2();
+		public static MAIN_STATUS2 _PopupStatus = new MAIN_STATUS2();
 
 		public static string strRMDCommData = "";
 		public static bool bRMDDataRead1 = false;
@@ -978,6 +986,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static bool bNutRetry;
 		public static bool bNutNext;
 		public static bool bNutRetryCheckOK;
+		public static bool bTestNG;
 
 		public static string strTitleName;
 
@@ -993,6 +1002,20 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 	}
 
 	public enum MAIN_STATUS
+	{
+		READY,
+		ING,
+		OK,
+		NG,
+		EMG_STOP,
+		OK_MASTER_OK,
+		OK_MASTER_NG,
+		NG_MASTER_OK,
+		NG_MASTER_NG,
+
+	}
+
+	public enum MAIN_STATUS2
 	{
 		READY,
 		ING,

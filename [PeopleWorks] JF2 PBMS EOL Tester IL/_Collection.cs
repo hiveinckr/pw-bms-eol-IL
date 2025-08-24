@@ -83,6 +83,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				workInfoView.Add(new SpecView() { strName = "Barcode Symbol", strValue = _mInfo.strBarcodSymbol });
 				workInfoView.Add(new SpecView() { strName = "FUSE Barcode Symbol", strValue = _mInfo.strFuseBarcodSymbol });
 				workInfoView.Add(new SpecView() { strName = "CASE Barcode Symbol", strValue = _mInfo.strCaseBarcodSymbol });
+				workInfoView.Add(new SpecView() { strName = "Support Bracket Barcode Symbol", strValue = _mInfo.strSBBarcodSymbol });
+				workInfoView.Add(new SpecView() { strName = "RBMS Barcode Symbol", strValue = _mInfo.strRBMSBarcodSymbol });
 				workInfoView.Add(new SpecView() { strName = "Serial Number Index", strValue = _mInfo.nSerailNumIndex.ToString() });
 				workInfoView.Add(new SpecView() { strName = "Master Sample Barcode(OK)", strValue = _mInfo.strMasterOkSampleBarcode });
 				workInfoView.Add(new SpecView() { strName = "Master Sample Barcode(NG)", strValue = _mInfo.strMasterNgSampleBarcode });
@@ -109,6 +111,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				workInfoView.Add(new SpecView() { strName = "바코드 구분자", strValue = _mInfo.strBarcodSymbol });
 				workInfoView.Add(new SpecView() { strName = "FUSE 바코드 구분자", strValue = _mInfo.strFuseBarcodSymbol });
 				workInfoView.Add(new SpecView() { strName = "CASE 바코드 구분자", strValue = _mInfo.strCaseBarcodSymbol });
+				workInfoView.Add(new SpecView() { strName = "Support Bracket 바코드 구분자", strValue = _mInfo.strSBBarcodSymbol });
+				workInfoView.Add(new SpecView() { strName = "RBMS 바코드 구분자", strValue = _mInfo.strRBMSBarcodSymbol });
 				workInfoView.Add(new SpecView() { strName = "시리얼 넘버 시작위치", strValue = _mInfo.nSerailNumIndex.ToString() });
 				workInfoView.Add(new SpecView() { strName = "마스터 샘플 바코드(OK)", strValue = _mInfo.strMasterOkSampleBarcode });
 				workInfoView.Add(new SpecView() { strName = "마스터 샘플 바코드(NG)", strValue = _mInfo.strMasterNgSampleBarcode });
@@ -197,6 +201,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			_mInfo.strBarcodSymbol = workInfoView[nSpecIndex++].strValue;
 			_mInfo.strFuseBarcodSymbol = workInfoView[nSpecIndex++].strValue;
 			_mInfo.strCaseBarcodSymbol = workInfoView[nSpecIndex++].strValue;
+			_mInfo.strSBBarcodSymbol = workInfoView[nSpecIndex++].strValue;
+			_mInfo.strRBMSBarcodSymbol = workInfoView[nSpecIndex++].strValue;
 			int.TryParse(workInfoView[nSpecIndex++].strValue, out _mInfo.nSerailNumIndex);
 			_mInfo.strMasterOkSampleBarcode = workInfoView[nSpecIndex++].strValue;
 			_mInfo.strMasterNgSampleBarcode = workInfoView[nSpecIndex++].strValue;
@@ -236,6 +242,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				workInfoView2.Add(new SpecView() { strName = "Barcode Symbol", strValue = _mInfo.strBarcodSymbol });
 				workInfoView2.Add(new SpecView() { strName = "FUSE Barcode Symbol", strValue = _mInfo.strFuseBarcodSymbol });
 				workInfoView2.Add(new SpecView() { strName = "CASE Barcode Symbol", strValue = _mInfo.strCaseBarcodSymbol });
+				workInfoView2.Add(new SpecView() { strName = "Support Bracket Barcode Symbol", strValue = _mInfo.strSBBarcodSymbol });
+				workInfoView2.Add(new SpecView() { strName = "RBMS Barcode Symbol", strValue = _mInfo.strRBMSBarcodSymbol });
 				workInfoView2.Add(new SpecView() { strName = "Serial Number Index", strValue = _mInfo.nSerailNumIndex.ToString() });
 				workInfoView2.Add(new SpecView() { strName = "Master Sample Barcode(OK)", strValue = _mInfo.strMasterOkSampleBarcode });
 				workInfoView2.Add(new SpecView() { strName = "Master Sample Barcode(NG)", strValue = _mInfo.strMasterNgSampleBarcode });
@@ -264,6 +272,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				workInfoView2.Add(new SpecView() { strName = "바코드 구분자", strValue = _mInfo.strBarcodSymbol });
 				workInfoView2.Add(new SpecView() { strName = "FUSE 바코드 구분자", strValue = _mInfo.strFuseBarcodSymbol });
 				workInfoView2.Add(new SpecView() { strName = "CASE 바코드 구분자", strValue = _mInfo.strCaseBarcodSymbol });
+				workInfoView2.Add(new SpecView() { strName = "Support Bracket 바코드 구분자", strValue = _mInfo.strSBBarcodSymbol });
+				workInfoView2.Add(new SpecView() { strName = "RBMS 바코드 구분자", strValue = _mInfo.strRBMSBarcodSymbol });
 				workInfoView2.Add(new SpecView() { strName = "시리얼 넘버 시작위치", strValue = _mInfo.nSerailNumIndex.ToString() });
 				workInfoView2.Add(new SpecView() { strName = "마스터 샘플 바코드(OK)", strValue = _mInfo.strMasterOkSampleBarcode });
 				workInfoView2.Add(new SpecView() { strName = "마스터 샘플 바코드(NG)", strValue = _mInfo.strMasterNgSampleBarcode });
@@ -299,6 +309,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			_mInfo.strBarcodSymbol = workInfoView2[nSpecIndex++].strValue;
 			_mInfo.strFuseBarcodSymbol = workInfoView2[nSpecIndex++].strValue;
 			_mInfo.strCaseBarcodSymbol = workInfoView2[nSpecIndex++].strValue;
+			_mInfo.strSBBarcodSymbol = workInfoView2[nSpecIndex++].strValue;
+			_mInfo.strRBMSBarcodSymbol = workInfoView2[nSpecIndex++].strValue;
 			int.TryParse(workInfoView2[nSpecIndex++].strValue, out _mInfo.nSerailNumIndex);
 			_mInfo.strMasterOkSampleBarcode = workInfoView2[nSpecIndex++].strValue;
 			_mInfo.strMasterNgSampleBarcode = workInfoView2[nSpecIndex++].strValue;

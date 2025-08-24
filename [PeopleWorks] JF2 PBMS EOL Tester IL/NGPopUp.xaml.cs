@@ -16,13 +16,13 @@ using System.Windows.Threading;
 namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 {
 	/// <summary>
-	/// PopUp.xaml에 대한 상호 작용 논리
+	/// NGPopUp.xaml에 대한 상호 작용 논리
 	/// </summary>
-	public partial class PopUp : Window
+	public partial class NGPopUp : Window
 	{
 		DispatcherTimer _timer = new DispatcherTimer();
 
-		public PopUp()
+		public NGPopUp()
 		{
 			InitializeComponent();
 
@@ -61,11 +61,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		private void btStop_Click(object sender, RoutedEventArgs e)
 		{
 			_SysInfo._SwStatus = MAIN_STATUS.NG;
-			_SysInfo.bEMGStop = true;
 			theApp.nProcessStep[(int)PROC_LIST.MAIN] = 80000;
 			this.Hide();
 		}
 	}
 }
-
 
