@@ -2998,11 +2998,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax || _SysInfo.dbCalcData < _SysInfo.dbSpecMin)
 							{
 								TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
-								_SysInfo.bTestNG = true;
+								nProcessStep[nStepIndex] = 36045;
+								break;
 							}
 							else
 							{
 								TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "OK");
+								nProcessStep[nStepIndex] = 36050;
+								break;
 							}
 						}
 						else if (_SysInfo.nBuffIndex == 1)
@@ -3010,11 +3013,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							if (_SysInfo.dbCalcData < _SysInfo.dbSpecMin)
 							{
 								TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
-								_SysInfo.bTestNG = true;
+								nProcessStep[nStepIndex] = 36045;
+								break;
 							}
 							else
 							{
 								TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "OK");
+								nProcessStep[nStepIndex] = 36050;
+								break;
 							}
 						}
 						else if (_SysInfo.nBuffIndex == 2)
@@ -3022,21 +3028,73 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax)
 							{
 								TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
-								_SysInfo.bTestNG = true;
+								nProcessStep[nStepIndex] = 36045;
+								break;
 							}
 							else
 							{
 								TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "OK");
+								nProcessStep[nStepIndex] = 36050;
+								break;
 							}
 						}
 
-						nProcessStep[nStepIndex] = 36050;
-						break;
+						
 
 					}
 		
 
 
+					break;
+
+
+				case 36045:
+					_SysInfo.strPopupContent = _ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strTestName;
+					_SysInfo._SwStatus = MAIN_STATUS.READY;
+					_SysInfo._PopupStatus = MAIN_STATUS.READY;
+					_SysInfo.nTL_Beep = 1;
+					ShowRetryPopUpWindow();
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 36046:
+					if (_SysInfo._SwStatus == MAIN_STATUS.OK)
+					{
+						nProcessStep[nStepIndex] = 36048;
+					}
+					else if (_SysInfo._SwStatus == MAIN_STATUS.NG)
+					{
+
+						_SysInfo.bTestNG = true;
+						nProcessStep[nStepIndex] = 36047;
+					}
+					else if (GetDIOPort(DI.START_SW1))
+					{
+
+						CloseRetryPopUpWindow();
+						nProcessStep[nStepIndex] = 36048;
+					}
+					else if (GetDIOPort(DI.START_SW2))
+					{
+
+						_SysInfo.bTestNG = true;
+						CloseRetryPopUpWindow();
+						nProcessStep[nStepIndex] = 36047;
+					}
+					break;
+
+				case 36047:
+					if (!GetDIOPort(DI.START_SW1) && !GetDIOPort(DI.START_SW2))
+					{
+						nProcessStep[nStepIndex] = 36050;
+					}
+					break;
+
+				case 36048:
+					if (!GetDIOPort(DI.START_SW1) && !GetDIOPort(DI.START_SW2))
+					{
+						nProcessStep[nStepIndex] = 36022;
+					}
 					break;
 
 				case 36050:
@@ -8294,11 +8352,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax || _SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
 							{
 								TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
-								_SysInfo2.bTestNG = true;
+								nProcessStep[nStepIndex] = 36045;
+								break;
 							}
 							else
 							{
 								TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "OK");
+								nProcessStep[nStepIndex] = 36050;
+								break;
 							}
 						}
 						else if (_SysInfo2.nBuffIndex == 1)
@@ -8306,11 +8367,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							if (_SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
 							{
 								TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
-								_SysInfo2.bTestNG = true;
+								nProcessStep[nStepIndex] = 36045;
+								break;
 							}
 							else
 							{
 								TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "OK");
+								nProcessStep[nStepIndex] = 36050;
+								break;
 							}
 						}
 						else if (_SysInfo2.nBuffIndex == 2)
@@ -8318,22 +8382,76 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax)
 							{
 								TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
-								_SysInfo2.bTestNG = true;
+								nProcessStep[nStepIndex] = 36045;
+								break;
+
 							}
 							else
 							{
 								TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "OK");
+								nProcessStep[nStepIndex] = 36050;
+								break;
 							}
 						}
 
-						nProcessStep[nStepIndex] = 36050;
-						break;
+					
 					}
 
 
 
 						
 					break;
+
+				case 36045:
+					_SysInfo2.strPopupContent = _ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strTestName;
+					_SysInfo2._SwStatus = MAIN_STATUS2.READY;
+					_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
+					_SysInfo.nTL_Beep = 1;
+					ShowRetryPopUpWindow2();
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 36046:
+					if (_SysInfo2._SwStatus == MAIN_STATUS2.OK)
+					{
+						nProcessStep[nStepIndex] = 36048;
+					}
+					else if (_SysInfo2._SwStatus == MAIN_STATUS2.NG)
+					{
+						
+						_SysInfo2.bTestNG = true;
+						nProcessStep[nStepIndex] = 36047;
+					}
+					else if (GetDIOPort(DI.START_SW3))
+					{
+
+						CloseRetryPopUpWindow2();
+						nProcessStep[nStepIndex] = 36048;
+					}
+					else if (GetDIOPort(DI.START_SW4))
+					{
+					
+						_SysInfo2.bTestNG = true;
+						CloseRetryPopUpWindow2();
+						nProcessStep[nStepIndex] = 36047;
+					}
+					break;
+
+				case 36047:
+					if (!GetDIOPort(DI.START_SW3) && !GetDIOPort(DI.START_SW4))
+					{
+						nProcessStep[nStepIndex] = 36050;
+					}
+					break;
+
+				case 36048:
+					if (!GetDIOPort(DI.START_SW3) && !GetDIOPort(DI.START_SW4))
+					{
+						nProcessStep[nStepIndex] = 36022;
+					}
+					break;
+
+
 
 				case 36050:
 					_SysInfo2.nMainWorkStep++;
@@ -14868,6 +14986,25 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			
 		}
 
+		public static void ShowRetryPopUpWindow()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowRetryPopupMessage();
+			});
+
+		}
+
+		public static void ShowRetryPopUpWindow2()
+		{
+
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowRetryPopupMessage2();
+			});
+
+		}
+
 		public static void ShowNGPopUpWindow()
 		{
 			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
@@ -14993,6 +15130,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			//});
 		}
 
+
 		public static void CloseNGPopUpWindow2()
 		{
 			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
@@ -15000,6 +15138,38 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				((MainWindow)App.Current.MainWindow).HideNGPopupMessage2();
 			});
 
+		}
+
+		public static void CloseRetryPopUpWindow()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HideRetryPopupMessage();
+			});
+			//App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			//{
+			//	if (_PopUpWindow != null && _PopUpWindow.IsActive)
+			//	{
+			//		_PopUpWindow.Hide();
+			//	}
+
+			//});
+		}
+
+		public static void CloseRetryPopUpWindow2()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HideRetryPopupMessage2();
+			});
+			//App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			//{
+			//	if (_PopUpWindow != null && _PopUpWindow.IsActive)
+			//	{
+			//		_PopUpWindow.Hide();
+			//	}
+
+			//});
 		}
 
 		static void ShowUserStartMessege()

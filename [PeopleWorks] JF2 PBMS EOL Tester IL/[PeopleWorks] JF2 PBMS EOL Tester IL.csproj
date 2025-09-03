@@ -145,6 +145,12 @@
     <Compile Include="PopUp2.xaml.cs">
       <DependentUpon>PopUp2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReTryPopup.xaml.cs">
+      <DependentUpon>ReTryPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ReTryPopup2.xaml.cs">
+      <DependentUpon>ReTryPopup2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="StepMonitor.xaml.cs">
       <DependentUpon>StepMonitor.xaml</DependentUpon>
     </Compile>
@@ -291,6 +297,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PopUp2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReTryPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReTryPopup2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

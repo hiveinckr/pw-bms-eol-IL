@@ -37,6 +37,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static PopUp2 _PopUp2;
 		public static NGPopUp _NGPopUp;
 		public static NGPopUp2 _NGPopUp2;
+		public static ReTryPopup _ReTryPopup;
+		public static ReTryPopup2 _ReTryPopup2;
 		public static UserTitleMassage _UserTitleMassage;
 		public static UserTitleMassage2 _UserTitleMassage2;
 		public static NutRetryPopUp _NutRetryPopUp;
@@ -1296,6 +1298,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		}
 
+
+
 		public void HideNGPopupMessage()
 		{
 			//System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
@@ -1333,6 +1337,140 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 		}
+
+		public void ShowRetryPopupMessage()
+		{
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_ReTryPopup == null)
+				{
+					_ReTryPopup = new ReTryPopup();
+					_ReTryPopup.Show();
+					// Show 메소드와 속성 설정의 순서가 중요하다.
+					_ReTryPopup.WindowStartupLocation = WindowStartupLocation.Manual;
+					_ReTryPopup.Left = left;
+					_ReTryPopup.Top = top;
+					_ReTryPopup.Width = popupWidth;
+					_ReTryPopup.Height = popupHeight;
+					_ReTryPopup.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_ReTryPopup.Show();
+					_ReTryPopup.Activate();
+					_ReTryPopup.WindowStartupLocation = WindowStartupLocation.Manual;
+					_ReTryPopup.Left = left;
+					_ReTryPopup.Top = top;
+					_ReTryPopup.Width = popupWidth;
+					_ReTryPopup.Height = popupHeight;
+					_ReTryPopup.WindowState = System.Windows.WindowState.Normal;
+				}
+
+			}
+			//if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			//{
+			//	System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+			//	PopUp window = new PopUp();
+			//	window.Show();
+			//	// Show 메소드와 속성 설정의 순서가 중요하다.
+			//	window.WindowStartupLocation = WindowStartupLocation.Manual;
+			//	window.Left = secondaryScreenRectangle.Left;
+			//	window.Top = secondaryScreenRectangle.Top;
+			//	window.Width = secondaryScreenRectangle.Width;
+			//	window.Height = secondaryScreenRectangle.Height;
+			//	window.WindowState = System.Windows.WindowState.Maximized;
+
+			//}
+		}
+
+		public void ShowRetryPopupMessage2()
+		{
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+
+
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[0].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 250;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+				if (_ReTryPopup2 == null)
+				{
+					_ReTryPopup2 = new ReTryPopup2();
+					_ReTryPopup2.Show();
+					// Show 메소드와 속성 설정의 순서가 중요하다.
+					_ReTryPopup2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_ReTryPopup2.Left = left;
+					_ReTryPopup2.Top = top;
+					_ReTryPopup2.Width = popupWidth;
+					_ReTryPopup2.Height = popupHeight;
+					_ReTryPopup2.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_ReTryPopup2.Show();
+					_ReTryPopup2.Activate();
+					_ReTryPopup2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_ReTryPopup2.Left = left;
+					_ReTryPopup2.Top = top;
+					_ReTryPopup2.Width = popupWidth;
+					_ReTryPopup2.Height = popupHeight;
+					_ReTryPopup2.WindowState = System.Windows.WindowState.Normal;
+				}
+
+			}
+
+
+		}
+
+		public void HideRetryPopupMessage()
+		{
+			//System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+			//UserStartMassage2 window = new UserStartMassage2();
+			//window.Hide();
+			//// Show 메소드와 속성 설정의 순서가 중요하다.
+			//window.WindowStartupLocation = WindowStartupLocation.Manual;
+			//window.Left = secondaryScreenRectangle.Left;
+			//window.Top = secondaryScreenRectangle.Top;
+			//window.Width = secondaryScreenRectangle.Width;
+			//window.Height = secondaryScreenRectangle.Height;
+			//window.WindowState = System.Windows.WindowState.Maximized;
+			if (_ReTryPopup == null)
+				_ReTryPopup = new ReTryPopup();
+			_ReTryPopup.Hide();
+
+
+		}
+
+		public void HideRetryPopupMessage2()
+		{
+			//System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+			//UserStartMassage2 window = new UserStartMassage2();
+			//window.Hide();
+			//// Show 메소드와 속성 설정의 순서가 중요하다.
+			//window.WindowStartupLocation = WindowStartupLocation.Manual;
+			//window.Left = secondaryScreenRectangle.Left;
+			//window.Top = secondaryScreenRectangle.Top;
+			//window.Width = secondaryScreenRectangle.Width;
+			//window.Height = secondaryScreenRectangle.Height;
+			//window.WindowState = System.Windows.WindowState.Maximized;
+			if (_ReTryPopup2 == null)
+				_ReTryPopup2 = new ReTryPopup2();
+			_ReTryPopup2.Hide();
+
+
+		}
+
 
 		public void ShowUserNutMsgMessege()
 		{
