@@ -684,8 +684,25 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		private void btBarcodeReprint_Click(object sender, RoutedEventArgs e)
 		{
-			BarcodeRePrint2 _window = new BarcodeRePrint2();
-			_window.ShowDialog();
+			AdminPass _pwWindow = new AdminPass();
+
+			if (_pwWindow.ShowDialog() == true)
+			{
+				BarcodeRePrint2 _window = new BarcodeRePrint2();
+				_window.Show();
+			}
+			else
+			{
+				if (_Config.strLanguage == "ENGLISH")
+				{
+					System.Windows.MessageBox.Show("Password does not match.");
+				}
+				else
+				{
+					System.Windows.MessageBox.Show("비밀번호가 일치하지 않습니다.");
+				}
+			}
+
 		}
 
 		public void ShowPopUpMessage()

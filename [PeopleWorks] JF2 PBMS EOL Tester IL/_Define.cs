@@ -728,6 +728,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public static string strDispBarcode = "";
 		public static string strDispMac = "";
+		public static string strMacAdress = "";
 		public static string strPBMSBcd = "";
 		public static string strFuseBcd = "";
 		public static string strCaseBcd = "";
@@ -929,6 +930,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public static string strDispBarcode = "";
 		public static string strDispMac = "";
+		public static string strMacAdress = "";
 
 		public static string strDispBarcodeFront = "";
 		public static string strDispBarcodeBack = "";

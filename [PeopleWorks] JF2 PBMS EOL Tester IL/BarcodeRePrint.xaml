@@ -14,7 +14,7 @@
                 <ContentControl Content="BCD_Print" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="13" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <TextBox x:Name="tbABCD1" Height="30" TextWrapping="Wrap" Text="0" FontSize="20" FontWeight="Medium" Margin="10,10,159,45"/>
-        <TextBox x:Name="tbABCD2" Height="30" TextWrapping="Wrap" Text="0" FontSize="20" FontWeight="Medium" Margin="10,45,159,10"/>
+        <TextBox x:Name="tbABCD1" Height="30" TextWrapping="Wrap" Text="" FontSize="20" FontWeight="Medium" Margin="10,10,159,45"/>
+        <TextBox x:Name="tbABCD2" Height="30" TextWrapping="Wrap" Text="" FontSize="20" FontWeight="Medium" Margin="10,45,159,10"/>
     </Grid>
 </Window>

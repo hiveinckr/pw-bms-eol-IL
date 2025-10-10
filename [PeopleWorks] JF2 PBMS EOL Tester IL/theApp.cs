@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -465,6 +466,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 								_SysInfo.bReadMacOk = true;
 								_SysInfo.nReadMacHigh = 0;
 								_SysInfo.nReadMacLow = 0;
+
+								_SysInfo.strMacAdress = _SysInfo.strReadBarcode;
 
 								_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadBarcode.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
 								_SysInfo.nReadMacHigh = _SysInfo.nReadMac * 0x100;
@@ -980,6 +983,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo.strDispBarcodeBack = "";
 							nProcessStep[nStepIndex] = 52000;
 						}
+						//else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 26)
+						//{
+
+						//	nProcessStep[nStepIndex] = 53000;
+						//}
+						//else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 27)
+						//{
+						//	nProcessStep[nStepIndex] = 54000;
+						//}
 					}
 					else
 					{
@@ -5442,7 +5454,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						_BcdReader.bReadOk = false;
 						CloseBcdPopUpWindow();
 
-						if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strSBBarcodSymbol))
+						if (_BcdReader.strReadBarcode == (_ModelInfo.strComment1 + _SysInfo.strDispBarcodeBack))
 						{
 							
 							nProcessStep[nStepIndex] = 52040;
@@ -5526,7 +5538,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strRBMSBarcodSymbol))
 						{
 
-							nProcessStep[nStepIndex] = 52070;
+							nProcessStep[nStepIndex] = 52067;
 						}
 						else
 						{
@@ -5550,11 +5562,63 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 					_BcdReader.bReadOk = false;
 					ShowBcdPopUpWindow();
-					nProcessStep[nStepIndex] = 52061;
+					nProcessStep[nStepIndex] = 52067;
+					break;
+
+				case 52067:
+					_SysInfo._PopupStatus = MAIN_STATUS.READY;
+					_BcdReader.strReadBarcode = "";
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						_SysInfo.strBcdPopupContent = "Please scan the Mac Address barcode.";
+
+					}
+					else
+					{
+						_SysInfo.strBcdPopupContent = "Mac Adress 바코드를 스캔하여 주세요.";
+					}
+					_BcdReader.bReadOk = false;
+					ShowBcdPopUpWindow();
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 52068:
+					if (_BcdReader.bReadOk)
+					{
+						_BcdReader.bReadOk = false;
+						CloseBcdPopUpWindow();
+
+						if (_BcdReader.strReadBarcode == _SysInfo.strMacAdress)
+						{
+							nProcessStep[nStepIndex] = 52070;
+						}
+						else
+						{
+							nProcessStep[nStepIndex] = 52069;
+						}
+					}
+					break;
+					
+
+				case 52069:
+					_SysInfo._PopupStatus = MAIN_STATUS.NG;
+					_BcdReader.strReadBarcode = "";
+					_SysInfo.nTL_Beep = 3;
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						_SysInfo.strBcdPopupContent = "Please scan the correct Mac Adress barcode.";
+					}
+					else
+					{
+						_SysInfo.strBcdPopupContent = "올바른 Mac Adress 바코드를 스캔하여 주세요.";
+					}
+					_BcdReader.bReadOk = false;
+					ShowBcdPopUpWindow();
+					nProcessStep[nStepIndex] = 52068;
 					break;
 
 				case 52070:
-					TestResultSet(_SysInfo.nMainWorkStep, "OK", "OK");
+					TestResultSet(_SysInfo.nMainWorkStep, $"{_SysInfo.strMacAdress}", "OK");
 					_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
@@ -5576,6 +5640,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					HideUserStartMessege();
 					_SysInfo.bSubEolStart = false;
 					_SysInfo.bTiteIngStart = false;
+					_SysInfo.strMacAdress = "";
 					SetNutRunnerSch(50);
 					theApp.nProcessStep[(int)PROC_LIST.SUB_EOL] = 30000;
 					theApp.nProcessStep[(int)PROC_LIST.SUB_TITE1] = 0;
@@ -5824,6 +5889,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 								_SysInfo2.bReadMacOk = true;
 								_SysInfo2.nReadMacHigh = 0;
 								_SysInfo2.nReadMacLow = 0;
+
+								_SysInfo2.strMacAdress = _SysInfo2.strReadBarcode;
 
 								_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadBarcode.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
 								_SysInfo2.nReadMacHigh = _SysInfo2.nReadMac * 0x100;
@@ -6155,13 +6222,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						nProcessStep[nStepIndex] = 80000;
 					}
-					if (GetDIOPort(DI.START_SW1))
+					if (GetDIOPort(DI.START_SW3))
 					{
 						CloseNGPopUpWindow2();
 						_SysInfo2._SwStatus = MAIN_STATUS2.OK;
 						nProcessStep[nStepIndex] = 3102;
 					}
-					else if (GetDIOPort(DI.START_SW2))
+					else if (GetDIOPort(DI.START_SW4))
 					{
 						CloseNGPopUpWindow2();
 						_SysInfo2._SwStatus = MAIN_STATUS2.NG;
@@ -6170,7 +6237,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 3102:
-					if (!GetDIOPort(DI.START_SW1) && !GetDIOPort(DI.START_SW2))
+					if (!GetDIOPort(DI.START_SW3) && !GetDIOPort(DI.START_SW4))
 					{
 						nProcessStep[nStepIndex]++;
 					}
@@ -10829,7 +10896,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						_BcdReader2.bReadOk = false;
 						CloseBcdPopUpWindow2();
 
-						if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strSBBarcodSymbol))
+						if (_BcdReader2.strReadBarcode == (_ModelInfo2.strComment1 + _SysInfo2.strDispBarcodeBack))
 						{
 
 							nProcessStep[nStepIndex] = 52040;
@@ -10913,7 +10980,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strRBMSBarcodSymbol))
 						{
 
-							nProcessStep[nStepIndex] = 52070;
+							nProcessStep[nStepIndex] = 52067;
 						}
 						else
 						{
@@ -10940,8 +11007,61 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					nProcessStep[nStepIndex] = 52061;
 					break;
 
+				case 52067:
+					_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
+					_BcdReader2.strReadBarcode = "";
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						_SysInfo2.strBcdPopupContent = "Please scan the Mac Address barcode.";
+
+					}
+					else
+					{
+						_SysInfo2.strBcdPopupContent = "Mac Adress 바코드를 스캔하여 주세요.";
+					}
+					_BcdReader2.bReadOk = false;
+					ShowBcdPopUpWindow2();
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 52068:
+					if (_BcdReader2.bReadOk)
+					{
+						_BcdReader2.bReadOk = false;
+						CloseBcdPopUpWindow2();
+
+						if (_BcdReader2.strReadBarcode == _SysInfo2.strMacAdress)
+						{
+
+							nProcessStep[nStepIndex] = 52070;
+						}
+						else
+						{
+							nProcessStep[nStepIndex] = 52069;
+						}
+					}
+					break;
+
+
+				case 52069:
+					_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
+					_BcdReader2.strReadBarcode = "";
+					_SysInfo2.nTL_Beep = 3;
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						_SysInfo2.strBcdPopupContent = "Please scan the correct Mac Adress barcode.";
+					}
+					else
+					{
+						_SysInfo2.strBcdPopupContent = "올바른 Mac Adress 바코드를 스캔하여 주세요.";
+					}
+					_BcdReader2.bReadOk = false;
+					ShowBcdPopUpWindow2();
+					nProcessStep[nStepIndex] = 52068;
+					break;
+
 				case 52070:
-					TestResultSet2(_SysInfo2.nMainWorkStep, "OK", "OK");
+					TestResultSet2(_SysInfo2.nMainWorkStep, $"{_SysInfo2.strMacAdress}", "OK");
 					_SysInfo2.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
@@ -16381,7 +16501,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				DirectoryInfo SaveMESdir = new DirectoryInfo(strMESSaveFolderPath);
 				if (SaveMESdir.Exists == false) { SaveMESdir.Create(); }
 
-				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, _SysInfo.strSaveFileName.Replace(':', '_'));
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strMESSaveFolderPath, _SysInfo.strSaveFileName.Replace(':', '_'));
 				File.WriteAllText(strSaveFilePath, strPrintBcd);
 
 				//========================== ERP 데이터 저장
@@ -16464,13 +16584,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				if (Savedir.Exists == false) { Savedir.Create(); }
 
 				strSaveFilePath = String.Format(@"{0}{1}{2}.txt", strSaveFolderPath, theApp._LotCount2.tProductClearTime.ToString("yyMMdd"), _SysInfo2.strSaveFileName.Replace(':', '_'));
-				File.WriteAllText(strSaveFilePath, strPrintBcd);
+				File.WriteAllText(strSaveFilePath, strPrintBcd);;
 
 				string strMESSaveFolderPath = String.Format("{0}\\", _Config.strBCDMesDir2);
 				DirectoryInfo SaveMESdir = new DirectoryInfo(strMESSaveFolderPath);
 				if (SaveMESdir.Exists == false) { SaveMESdir.Create(); }
 
-				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, _SysInfo2.strSaveFileName.Replace(':', '_'));
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strMESSaveFolderPath, _SysInfo2.strSaveFileName.Replace(':', '_'));
 				File.WriteAllText(strSaveFilePath, strPrintBcd);
 
 				//========================== ERP 데이터 저장

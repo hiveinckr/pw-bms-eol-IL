@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_PeopleWorks__JF2_PBMS_EOL_Tester_IL"
         mc:Ignorable="d"
-                    Title="BarcodeRePrint"  Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
+                    Title="BarcodeRePrint2"  Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
         SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStyle="ToolWindow">
     <Grid Height="85" Width="393">
         <Button x:Name="btABCDPrint" HorizontalAlignment="Left" Height="66" Margin="239,10,0,0" VerticalAlignment="Top" Width="144" Style="{DynamicResource MyImgButton}" Click="btControl_Click">
@@ -14,8 +14,8 @@
                 <ContentControl Content="BCD_Print" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="13" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <TextBox x:Name="tbABCD1" Height="30" TextWrapping="Wrap" Text="0" FontSize="20" FontWeight="Medium" Margin="10,10,159,45"/>
-        <TextBox x:Name="tbABCD2" Height="30" TextWrapping="Wrap" Text="0" FontSize="20" FontWeight="Medium" Margin="10,45,159,10"/>
+        <TextBox x:Name="tbABCD1" Height="30" TextWrapping="Wrap" Text="" FontSize="20" FontWeight="Medium" Margin="10,10,159,45"/>
+        <TextBox x:Name="tbABCD2" Height="30" TextWrapping="Wrap" Text="" FontSize="20" FontWeight="Medium" Margin="10,45,159,10"/>
     </Grid>
 </Window>
 

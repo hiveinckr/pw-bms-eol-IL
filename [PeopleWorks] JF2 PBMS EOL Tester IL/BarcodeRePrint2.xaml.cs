@@ -22,8 +22,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public BarcodeRePrint2()
 		{
 			InitializeComponent();
-			tbABCD1.Text = theApp._ModelInfo2.strComment1 + theApp._ModelInfo2.strComment2;
-			tbABCD2.Text = ":" + theApp._LotCount2.tProductClearTime.ToString("yyMMdd") /*+ theApp._ModelInfo.strBCDSymbol */+ (theApp._LotCount2.nLotCount /*+ theApp._ModelInfo.nStartLotNum*/).ToString("D4") + "Z";
+			//tbABCD1.Text = theApp._ModelInfo2.strComment1 + theApp._ModelInfo2.strComment2;
+			//tbABCD2.Text = ":" + theApp._LotCount2.tProductClearTime.ToString("yyMMdd") /*+ theApp._ModelInfo.strBCDSymbol */+ (theApp._LotCount2.nLotCount /*+ theApp._ModelInfo.nStartLotNum*/).ToString("D4") + "Z";
 		}
 
 		private void btControl_Click(object sender, RoutedEventArgs e)

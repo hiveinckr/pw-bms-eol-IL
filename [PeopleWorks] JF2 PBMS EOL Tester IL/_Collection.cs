@@ -50,6 +50,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			PsetNameList.Add(new SchName { nSchID = 23, strSchName = "Bolt Tight" });
 			PsetNameList.Add(new SchName { nSchID = 24, strSchName = "Firmware Update" });
 			PsetNameList.Add(new SchName { nSchID = 25, strSchName = "Barcode Save" });
+			//PsetNameList.Add(new SchName { nSchID = 26, strSchName = "RBMS Check" });
+			//PsetNameList.Add(new SchName { nSchID = 27, strSchName = "MAC Adress Check" });
 
 
 
