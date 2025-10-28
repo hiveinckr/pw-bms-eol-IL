@@ -5029,13 +5029,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 49040:
 					
-					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo.dbCommReadMinData}{_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo.dbCalcData);
+					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo.dbCommReadMinData}{_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo.dbCalcAvgData);
 					double.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMin, out _SysInfo.dbSpecMin);
 					double.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMax, out _SysInfo.dbSpecMax);
 
 					// 0은 양쪽다 비교 , 1은 Min만 비교, 2는 Max만 비교
 					//if (_SysInfo.nBuffIndex == 0)
 					//{
+					_SysInfo.dbCalcData = _SysInfo.dbCalcAvgData - _SysInfo.nDmmTime;
 					if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax || _SysInfo.dbCalcData < _SysInfo.dbSpecMin)
 					{
 						if (_SysInfo.nCurrNGRetryCount > 5)
@@ -9413,6 +9414,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					// 0은 양쪽다 비교 , 1은 Min만 비교, 2는 Max만 비교
 					//if (_SysInfo2.nBuffIndex == 0)
 					//{
+				
 					if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax || _SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
 					{
 						if (_SysInfo2.nCurrNGRetryCount > 5)
@@ -10451,14 +10453,17 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					//theApp.AppendLogMsg2(_SysInfo2.dbCommReadData.ToString(), MSG_TYPE.INFO);
 					//int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue3, out _SysInfo2.nBuffIndex);
-					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo2.dbCommReadMinData}{_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo2.dbCalcData);
+					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo2.dbCommReadMinData}{_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo2.dbCalcAvgData);
 					//theApp.AppendLogMsg2(_SysInfo2.dbCalcData.ToString(), MSG_TYPE.INFO);
 					double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMin, out _SysInfo2.dbSpecMin);
 					double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMax, out _SysInfo2.dbSpecMax);
 
 					// 0은 양쪽다 비교 , 1은 Min만 비교, 2는 Max만 비교
 					//if (_SysInfo2.nBuffIndex == 0)
+
+
 					//{
+					_SysInfo2.dbCalcData = _SysInfo2.dbCalcAvgData - _SysInfo2.nDmmTime;
 					if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax || _SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
 					{
 						if (_SysInfo2.nCurrNGRetryCount > 5)

@@ -669,6 +669,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public static double dbVoltData = 0.0;
 		public static double dbCalcData = 0.0;
+		public static double dbCalcAvgData = 0.0;
 		public static double dbCurrCalcData = 0.0;
 		public static double dbSubCalcData = 0.0;
 
@@ -872,6 +873,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public static double dbVoltData = 0.0;
 		public static double dbCalcData = 0.0;
+		public static double dbCalcAvgData = 0.0;
 		public static double dbCurrCalcData = 0.0;
 		public static double dbSubCalcData = 0.0;
 
