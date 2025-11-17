@@ -485,8 +485,19 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 								if (_SysInfo.bReadMacOk)
 								{
 									_SysInfo.strDispMac = _SysInfo.nReadMacHigh.ToString("X4") + _SysInfo.nReadMacMid.ToString("X4") + _SysInfo.nReadMacLow.ToString("X4");
-									_SysInfo.bReadMacBcd = true;
-									if (!_SysInfo.bReadMainBcd) { _SysInfo.strDispBarcode = ""; }
+									
+									if(CheckMacBcdDuplicate(_SysInfo.strDispMac))
+									{
+										theApp.AppendLogMsg("MacAdress barcode is duplicated.", MSG_TYPE.ERROR);
+										_SysInfo.nTL_Beep = 3;
+									}
+									else
+									{
+										SaveMacBcdDuplicate(_SysInfo.strDispMac);
+										_SysInfo.bReadMacBcd = true;
+										if (!_SysInfo.bReadMainBcd) { _SysInfo.strDispBarcode = ""; }
+									}
+									
 								}
 								else
 								{
@@ -785,6 +796,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo.strPopupContent = _ModelInfo._TestInfo[_SysInfo.nMainWorkStep - 1].strTestName + " NG";
 					_SysInfo._SwStatus = MAIN_STATUS.READY;
 					_SysInfo._PopupStatus = MAIN_STATUS.NG;
+					SetDIOPort(DO.TOWER_LAMP_BUZZER, true);
 					ShowNGPopUpWindow();
 					nProcessStep[nStepIndex]++;
 					break;
@@ -792,10 +804,12 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 3101:
 					if (_SysInfo._SwStatus == MAIN_STATUS.OK)
 					{
+						SetDIOPort(DO.TOWER_LAMP_BUZZER, false);
 						nProcessStep[nStepIndex] = 4000;
 					}
 					else if (_SysInfo._SwStatus == MAIN_STATUS.NG)
 					{
+						SetDIOPort(DO.TOWER_LAMP_BUZZER, false);
 						nProcessStep[nStepIndex] = 80000;
 					}
 
@@ -808,6 +822,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					else if (GetDIOPort(DI.START_SW2))
 					{
 						CloseNGPopUpWindow();
+						
 						_SysInfo._SwStatus = MAIN_STATUS.NG;
 						nProcessStep[nStepIndex] = 3102;
 					}
@@ -816,6 +831,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 3102:
 					if (!GetDIOPort(DI.START_SW1) && !GetDIOPort(DI.START_SW2))
 					{
+						SetDIOPort(DO.TOWER_LAMP_BUZZER, false);
 						nProcessStep[nStepIndex]++;
 					}
 					break;
@@ -5909,8 +5925,18 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 								if (_SysInfo2.bReadMacOk)
 								{
 									_SysInfo2.strDispMac = _SysInfo2.nReadMacHigh.ToString("X4") + _SysInfo2.nReadMacMid.ToString("X4") + _SysInfo2.nReadMacLow.ToString("X4");
-									_SysInfo2.bReadMacBcd = true;
-									if (!_SysInfo2.bReadMainBcd) { _SysInfo2.strDispBarcode = ""; }
+									
+									if (CheckMacBcdDuplicate2(_SysInfo2.strDispMac))
+									{
+										theApp.AppendLogMsg2("MacAdress barcode is duplicated.", MSG_TYPE.ERROR);
+										_SysInfo2.nTL_Beep = 3;
+									}
+									else
+									{
+										SaveMacBcdDuplicate2(_SysInfo2.strDispMac);
+										_SysInfo2.bReadMacBcd = true;
+										if (!_SysInfo2.bReadMainBcd) { _SysInfo2.strDispBarcode = ""; }
+									}
 
 								}
 								else
@@ -6210,6 +6236,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo2.strPopupContent = _ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep - 1].strTestName + " NG";
 					_SysInfo2._SwStatus = MAIN_STATUS2.READY;
 					_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
+					SetDIOPort(DO.TOWER_LAMP_BUZZER, true);
 					ShowNGPopUpWindow2();
 					nProcessStep[nStepIndex]++;
 					break;
@@ -6217,10 +6244,12 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 3101:
 					if (_SysInfo2._SwStatus == MAIN_STATUS2.OK)
 					{
+						SetDIOPort(DO.TOWER_LAMP_BUZZER, false);
 						nProcessStep[nStepIndex] = 4000;
 					}
 					else if (_SysInfo2._SwStatus == MAIN_STATUS2.NG)
 					{
+						SetDIOPort(DO.TOWER_LAMP_BUZZER, false);
 						nProcessStep[nStepIndex] = 80000;
 					}
 					if (GetDIOPort(DI.START_SW3))
@@ -6240,6 +6269,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 3102:
 					if (!GetDIOPort(DI.START_SW3) && !GetDIOPort(DI.START_SW4))
 					{
+						SetDIOPort(DO.TOWER_LAMP_BUZZER, false);
 						nProcessStep[nStepIndex]++;
 					}
 					break;
@@ -11095,6 +11125,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_CellSimulator4.Send("SIM:OUTP OFF", true);
 					_SysInfo2.bSubEolStart = false;
 					_SysInfo2.bTiteIngStart = false;
+					_SysInfo2.strMacAdress = "";
 					SetNutRunnerSch2(50);
 					theApp.nProcessStep[(int)PROC_LIST.SUB_EOL2] = 30000;
 					nProcessStep[nStepIndex] = 85000;
@@ -15625,6 +15656,86 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		}
 		//===========================================================
+		static void SaveMacBcdDuplicate(string strBCD)
+		{
+			// Hipot 중복 생성
+			string strSaveFolderPath = String.Format(@"Duplicate\\MacAdress\\");
+			DirectoryInfo Savedir = new DirectoryInfo(strSaveFolderPath);
+			if (Savedir.Exists == false) { Savedir.Create(); }
+
+
+			string strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD);
+			File.WriteAllText(strSaveFilePath, "");
+
+			// 저장하면서 오래된 파일 삭제
+			string[] files = Directory.GetFiles(strSaveFolderPath);
+
+			foreach (string file in files)
+			{
+				FileInfo fi = new FileInfo(file);
+				if (fi.LastAccessTime < DateTime.Now.AddMonths(-1))
+					fi.Delete();
+			}
+
+
+
+		}
+
+
+		static bool CheckMacBcdDuplicate(string strBCD)
+		{
+
+			string strSaveFolderPath = String.Format(@"Duplicate\\MacAdress\\");
+			DirectoryInfo Savedir = new DirectoryInfo(strSaveFolderPath);
+			if (Savedir.Exists == false) { Savedir.Create(); }
+
+			string strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD);
+			FileInfo _file = new FileInfo(strSaveFilePath);
+
+			return _file.Exists;            // 파일 존재여부 확인
+
+		}
+		static void SaveMacBcdDuplicate2(string strBCD)
+		{
+			// Hipot 중복 생성
+			string strSaveFolderPath = String.Format(@"Duplicate\\MacAdress2\\");
+			DirectoryInfo Savedir = new DirectoryInfo(strSaveFolderPath);
+			if (Savedir.Exists == false) { Savedir.Create(); }
+
+
+			string strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD);
+			File.WriteAllText(strSaveFilePath, "");
+
+			// 저장하면서 오래된 파일 삭제
+			string[] files = Directory.GetFiles(strSaveFolderPath);
+
+			foreach (string file in files)
+			{
+				FileInfo fi = new FileInfo(file);
+				if (fi.LastAccessTime < DateTime.Now.AddMonths(-1))
+					fi.Delete();
+			}
+
+
+
+		}
+
+
+		static bool CheckMacBcdDuplicate2(string strBCD)
+		{
+
+			string strSaveFolderPath = String.Format(@"Duplicate\\MacAdress2\\");
+			DirectoryInfo Savedir = new DirectoryInfo(strSaveFolderPath);
+			if (Savedir.Exists == false) { Savedir.Create(); }
+
+			string strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD);
+			FileInfo _file = new FileInfo(strSaveFilePath);
+
+			return _file.Exists;            // 파일 존재여부 확인
+
+		}
+
+
 
 		#region 타워램프
 		public static void TowerLampProcess()
