@@ -572,6 +572,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static string strSaveMesDir2 = "";
 		public static string strBCDMesDir = "";
 		public static string strBCDMesDir2 = "";
+		public static string strMacBCDMesDir = "";
+		public static string strMacBCDMesDir2 = "";
 
 		public static int strMasterCheckDateTime = 0;
 		public static bool bUseMasterCheck = false;

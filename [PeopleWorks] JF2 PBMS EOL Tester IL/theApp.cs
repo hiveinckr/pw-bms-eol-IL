@@ -493,7 +493,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 									}
 									else
 									{
-										SaveMacBcdDuplicate(_SysInfo.strDispMac);
+									
 										_SysInfo.bReadMacBcd = true;
 										if (!_SysInfo.bReadMainBcd) { _SysInfo.strDispBarcode = ""; }
 									}
@@ -5636,6 +5636,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 52070:
 					TestResultSet(_SysInfo.nMainWorkStep, $"{_SysInfo.strMacAdress}", "OK");
+					SaveMacBarcodeInfo();
 					_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
@@ -5657,7 +5658,6 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					HideUserStartMessege();
 					_SysInfo.bSubEolStart = false;
 					_SysInfo.bTiteIngStart = false;
-					_SysInfo.strMacAdress = "";
 					SetNutRunnerSch(50);
 					theApp.nProcessStep[(int)PROC_LIST.SUB_EOL] = 30000;
 					theApp.nProcessStep[(int)PROC_LIST.SUB_TITE1] = 0;
@@ -5674,6 +5674,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							bTestResult = false;
 						}
 					}
+					
 					if (_SysInfo.bEMGStop)
 					{
 						_SysInfo.eMainStatus = MAIN_STATUS.EMG_STOP;
@@ -5695,6 +5696,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							SaveModelProductCount(_LotCount, _ModelInfo.strModelName);
 							_LotCount.nTotalCount++;
 							SaveProductCount();
+							SaveMacBcdDuplicate(_SysInfo.strDispMac);
 							_SysInfo.strTotalResult = "OK";
 							//_LotCount.nLotCount++;
 						}
@@ -5785,7 +5787,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				// 데이터 저장 스텝
 				case 86000:
-
+					_SysInfo.strMacAdress = "";
+					_SysInfo.strDispMac = "";
 					nProcessStep[nStepIndex] = 100000;
 					break;
 
@@ -5933,7 +5936,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 									}
 									else
 									{
-										SaveMacBcdDuplicate2(_SysInfo2.strDispMac);
+							
 										_SysInfo2.bReadMacBcd = true;
 										if (!_SysInfo2.bReadMainBcd) { _SysInfo2.strDispBarcode = ""; }
 									}
@@ -11097,6 +11100,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 52070:
 					TestResultSet2(_SysInfo2.nMainWorkStep, $"{_SysInfo2.strMacAdress}", "OK");
+					SaveMacBarcodeInfo2();
 					_SysInfo2.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
@@ -11125,7 +11129,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_CellSimulator4.Send("SIM:OUTP OFF", true);
 					_SysInfo2.bSubEolStart = false;
 					_SysInfo2.bTiteIngStart = false;
-					_SysInfo2.strMacAdress = "";
+				
 					SetNutRunnerSch2(50);
 					theApp.nProcessStep[(int)PROC_LIST.SUB_EOL2] = 30000;
 					nProcessStep[nStepIndex] = 85000;
@@ -11163,6 +11167,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo.nTL_Beep = 2;
 							_LotCount2.nOkCount++;
 							SaveModelProductCount2(_LotCount2, _ModelInfo2.strModelName);
+							SaveMacBcdDuplicate2(_SysInfo2.strDispMac);
 							_LotCount2.nTotalCount++;
 							SaveProductCount2();
 							_SysInfo2.strTotalResult = "OK";
@@ -11254,6 +11259,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				// 데이터 저장 스텝
 				case 86000:
+					_SysInfo2.strMacAdress = "";
+					_SysInfo2.strDispMac = "";
 					nProcessStep[nStepIndex] = 100000;
 					break;
 
@@ -16739,6 +16746,194 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		}
 
+		static void SaveMacBarcodeInfo()
+		{
+			string strOutputBCD = "";
+
+
+			strOutputBCD = _SysInfo.strDispBarcode;
+			string strDaySave = strOutputBCD + "," + theApp._ModelInfo.strComment2 + "," + DateTime.Now.ToString("yyyy'.'MM'.'dd") + " " + DateTime.Now.ToString("HH':'mm':'ss") + ",";
+			string strPrintBcd = strOutputBCD + "\t" + theApp._ModelInfo.strComment2 + "\t" + DateTime.Now.ToString("yyyy'.'MM'.'dd") + " " + DateTime.Now.ToString("HH':'mm':'ss") + "\r\n";
+
+
+			//// CMA
+			//DataRow[] _cmaRow = _dtBCDInfo.Select("[Type] = 'CMA'");
+			//for (int i = 0; i < _cmaRow.Count(); i++) { strPrintBcd += String.Format("{0}\tCMA\r\n", _cmaRow[i][0].ToString()); }
+
+			//// BMS
+			//DataRow[] _bmsRow = _dtBCDInfo.Select("[Type] = 'BMS'");
+			//for (int i = 0; i < _bmsRow.Count(); i++) { strPrintBcd += String.Format("{0}\tBMS\r\n", _bmsRow[i][0].ToString()); }
+
+			//// FUSE
+			//DataRow[] _FuseRow = _dtBCDInfo.Select("[Type] = 'FUSE'");
+			//for (int i = 0; i < _FuseRow.Count(); i++) { strPrintBcd += String.Format("{0}\tFUSE\r\n", _FuseRow[i][0].ToString()); }
+
+
+			//for (int i = 0; i < 10; i++)
+			//{
+			//	strDaySave += _MC_Status.str_ST1_CMABarcode[i] + ",";
+			//	strPrintBcd += _MC_Status.str_ST1_CMABarcode[i] + "\t" + "CMA" + "\r\n";
+			//}
+
+
+
+			strPrintBcd += _SysInfo.strDispBarcode + "\t" + "RBMS" + "\r\n";
+			strPrintBcd += _SysInfo.strDispMac + "\t" + "MACADRESS" + "\r\n";
+
+
+
+
+			try
+			{
+				//===============우리쪽 임시데이터 저장 =========
+				// 바코드 파일
+				string strSaveFolderPath = String.Format(@"DATA\\MACBCD\\{0}\\{1}\\", theApp._ModelInfo.strModelName, theApp._LotCount.tProductClearTime.ToString("yyMMdd"));
+				DirectoryInfo Savedir = new DirectoryInfo(strSaveFolderPath);
+				if (Savedir.Exists == false) { Savedir.Create(); }
+
+				string strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, _SysInfo.strSaveFileName.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, strPrintBcd);
+
+
+				//=============== 마스터 데이터 저장 =========
+				// 바코드 파일
+				strSaveFolderPath = String.Format(@"MASTER\\MACBCD{0}\\", theApp._ModelInfo.strModelName);
+				Savedir = new DirectoryInfo(strSaveFolderPath);
+				if (Savedir.Exists == false) { Savedir.Create(); }
+
+				strSaveFilePath = String.Format(@"{0}{1}{2}.txt", strSaveFolderPath, theApp._LotCount.tProductClearTime.ToString("yyMMdd"), _SysInfo.strSaveFileName.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, strPrintBcd);
+
+
+				string strMESSaveFolderPath = String.Format("{0}\\", _Config.strMacBCDMesDir);
+				DirectoryInfo SaveMESdir = new DirectoryInfo(strMESSaveFolderPath);
+				if (SaveMESdir.Exists == false) { SaveMESdir.Create(); }
+
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strMESSaveFolderPath, _SysInfo.strSaveFileName.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, strPrintBcd);
+
+				//========================== ERP 데이터 저장
+				//strSaveFolderPath = String.Format(@"{0}\\", _Config.strMESDir);
+				//Savedir = new DirectoryInfo(strSaveFolderPath);
+				//if (Savedir.Exists == false) { Savedir.Create(); }
+
+				//strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strOutputBCD);
+				//File.WriteAllText(strSaveFilePath, strPrintBcd);
+
+
+				//========================== BackUp 데이터 저장
+				strSaveFolderPath = String.Format(@"BACKUP\\MACBCD\\{0}\\{1}\\", theApp._ModelInfo.strModelName, theApp._LotCount.tProductClearTime.ToString("yyMMdd"));
+				Savedir = new DirectoryInfo(strSaveFolderPath);
+				if (Savedir.Exists == false) { Savedir.Create(); }
+
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, _SysInfo.strSaveFileName.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, strPrintBcd);
+
+				//================= 일일 데이터 저장 ==================
+				// CSV 파일로 열거형으로 저장
+
+
+			}
+			catch { }
+
+
+
+		}
+
+		static void SaveMacBarcodeInfo2()
+		{
+			string strOutputBCD = "";
+
+
+			strOutputBCD = _SysInfo2.strDispBarcode;
+			string strDaySave = strOutputBCD + "," + theApp._ModelInfo2.strComment2 + "," + DateTime.Now.ToString("yyyy'.'MM'.'dd") + " " + DateTime.Now.ToString("HH':'mm':'ss") + ",";
+			string strPrintBcd = strOutputBCD + "\t" + theApp._ModelInfo2.strComment2 + "\t" + DateTime.Now.ToString("yyyy'.'MM'.'dd") + " " + DateTime.Now.ToString("HH':'mm':'ss") + "\r\n";
+
+
+			//// CMA
+			//DataRow[] _cmaRow = _dtBCDInfo.Select("[Type] = 'CMA'");
+			//for (int i = 0; i < _cmaRow.Count(); i++) { strPrintBcd += String.Format("{0}\tCMA\r\n", _cmaRow[i][0].ToString()); }
+
+			//// BMS
+			//DataRow[] _bmsRow = _dtBCDInfo.Select("[Type] = 'BMS'");
+			//for (int i = 0; i < _bmsRow.Count(); i++) { strPrintBcd += String.Format("{0}\tBMS\r\n", _bmsRow[i][0].ToString()); }
+
+			//// FUSE
+			//DataRow[] _FuseRow = _dtBCDInfo.Select("[Type] = 'FUSE'");
+			//for (int i = 0; i < _FuseRow.Count(); i++) { strPrintBcd += String.Format("{0}\tFUSE\r\n", _FuseRow[i][0].ToString()); }
+
+
+			//for (int i = 0; i < 10; i++)
+			//{
+			//	strDaySave += _MC_Status.str_ST1_CMABarcode[i] + ",";
+			//	strPrintBcd += _MC_Status.str_ST1_CMABarcode[i] + "\t" + "CMA" + "\r\n";
+			//}
+
+
+
+			strPrintBcd += _SysInfo2.strDispBarcode + "\t" + "RBMS" + "\r\n";
+			strPrintBcd += _SysInfo2.strDispMac + "\t" + "MACADRESS" + "\r\n";
+
+
+
+
+			try
+			{
+				//===============우리쪽 임시데이터 저장 =========
+				// 바코드 파일
+				string strSaveFolderPath = String.Format(@"DATA2\\MACBCD\\{0}\\{1}\\", theApp._ModelInfo2.strModelName, theApp._LotCount2.tProductClearTime.ToString("yyMMdd"));
+				DirectoryInfo Savedir = new DirectoryInfo(strSaveFolderPath);
+				if (Savedir.Exists == false) { Savedir.Create(); }
+
+				string strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, _SysInfo2.strSaveFileName.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, strPrintBcd);
+
+
+				//=============== 마스터 데이터 저장 =========
+				// 바코드 파일
+				strSaveFolderPath = String.Format(@"MASTER2\\MACBCD{0}\\", theApp._ModelInfo2.strModelName);
+				Savedir = new DirectoryInfo(strSaveFolderPath);
+				if (Savedir.Exists == false) { Savedir.Create(); }
+
+				strSaveFilePath = String.Format(@"{0}{1}{2}.txt", strSaveFolderPath, theApp._LotCount2.tProductClearTime.ToString("yyMMdd"), _SysInfo2.strSaveFileName.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, strPrintBcd);
+
+
+				string strMESSaveFolderPath = String.Format("{0}\\", _Config.strMacBCDMesDir2);
+				DirectoryInfo SaveMESdir = new DirectoryInfo(strMESSaveFolderPath);
+				if (SaveMESdir.Exists == false) { SaveMESdir.Create(); }
+
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strMESSaveFolderPath, _SysInfo2.strSaveFileName.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, strPrintBcd);
+
+				//========================== ERP 데이터 저장
+				//strSaveFolderPath = String.Format(@"{0}\\", _Config.strMESDir);
+				//Savedir = new DirectoryInfo(strSaveFolderPath);
+				//if (Savedir.Exists == false) { Savedir.Create(); }
+
+				//strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strOutputBCD);
+				//File.WriteAllText(strSaveFilePath, strPrintBcd);
+
+
+				//========================== BackUp 데이터 저장
+				strSaveFolderPath = String.Format(@"BACKUP2\\MACBCD\\{0}\\{1}\\", theApp._ModelInfo2.strModelName, theApp._LotCount2.tProductClearTime.ToString("yyMMdd"));
+				Savedir = new DirectoryInfo(strSaveFolderPath);
+				if (Savedir.Exists == false) { Savedir.Create(); }
+
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, _SysInfo2.strSaveFileName.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, strPrintBcd);
+
+				//================= 일일 데이터 저장 ==================
+				// CSV 파일로 열거형으로 저장
+
+
+			}
+			catch { }
+
+
+
+		}
+
 
 
 		//====== 모델 정보 저장
@@ -17068,7 +17263,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			_IniFile.IniWriteValue("DIR", "strSaveMesDir", _Config.strSaveMesDir.ToString(), strPath);
 			_IniFile.IniWriteValue("DIR", "strSaveMesDir2", _Config.strSaveMesDir2.ToString(), strPath);
 			_IniFile.IniWriteValue("DIR", "strBCDMesDir", _Config.strBCDMesDir.ToString(), strPath);
-			_IniFile.IniWriteValue("DIR", "strBCDMesDir2", _Config.strBCDMesDir2.ToString(), strPath);
+			_IniFile.IniWriteValue("DIR", "strBCDMesDir2", _Config.strBCDMesDir2.ToString(), strPath);			
+			_IniFile.IniWriteValue("DIR", "strMacBCDMesDir", _Config.strMacBCDMesDir.ToString(), strPath);
+			_IniFile.IniWriteValue("DIR", "strMacBCDMesDir2", _Config.strMacBCDMesDir2.ToString(), strPath);
 
 		}
 
@@ -17151,7 +17348,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			_Config.strSaveMesDir = _IniFile.IniReadValue("DIR", "strSaveMesDir", "D:\\", strPath);
 			_Config.strSaveMesDir2 = _IniFile.IniReadValue("DIR", "strSaveMesDir2", "D:\\", strPath);
 			_Config.strBCDMesDir = _IniFile.IniReadValue("DIR", "strBCDMesDir", "D:\\", strPath);
-			_Config.strBCDMesDir2 = _IniFile.IniReadValue("DIR", "strBCDMesDir2", "D:\\", strPath);
+			_Config.strBCDMesDir2 = _IniFile.IniReadValue("DIR", "strBCDMesDir2", "D:\\", strPath);			
+			_Config.strMacBCDMesDir = _IniFile.IniReadValue("DIR", "strMacBCDMesDir", "D:\\", strPath);
+			_Config.strMacBCDMesDir2 = _IniFile.IniReadValue("DIR", "strMacBCDMesDir2", "D:\\", strPath);
 
 		
 
