@@ -642,6 +642,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static int nCanData;
 		public static int nBuffIndex;
 		public static bool bEolNg;
+		public static int nPlcRetry = 0;
 		public static int nMaskingData = 0;
 		public static int nCompData = 0;
 		public static int nBuffCount = 0;
@@ -988,6 +989,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static double dbNutData;
 
 		public static int nVoltCount;
+		public static int nPlcRetry;
 
 		public static bool bNutRetry;
 		public static bool bNutNext;

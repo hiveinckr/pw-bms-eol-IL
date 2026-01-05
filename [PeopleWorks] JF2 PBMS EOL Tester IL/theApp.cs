@@ -856,6 +856,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						{
 							_SysInfo.nSubWorkStep = 0;
 							_SysInfo.bEolNg = false;
+							_SysInfo.nPlcRetry = 0;
 							nProcessStep[nStepIndex] = 20000;
 						}
 						else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 1)
@@ -1112,14 +1113,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						if (_SysInfo.bEolNg)
 						{
-							TestResultSet(_SysInfo.nMainWorkStep, "", "NG");
-							_SysInfo.bTestNG = true;
+							
+							nProcessStep[nStepIndex] = 20010;
 						}
 						else
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
+							nProcessStep[nStepIndex] = 29000;
 						}
-						nProcessStep[nStepIndex] = 29000;
+						
 					}
 					else
 					{
@@ -1127,6 +1129,21 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 					break;
 
+				case 20010:
+					if( _SysInfo.nPlcRetry > 4)
+					{
+						TestResultSet(_SysInfo.nMainWorkStep, "", "NG");
+						_SysInfo.bTestNG = true;
+						nProcessStep[nStepIndex] = 29000;
+					}
+					else
+					{
+						_SysInfo.nSubWorkStep = 0;
+						_SysInfo.nPlcRetry++;
+						_SysInfo.bEolNg = false;
+						nProcessStep[nStepIndex] = 20000;
+					}
+					break;
 
 				case 21000:
 					if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].nTestType == 0)
@@ -6297,6 +6314,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						{
 							_SysInfo2.nSubWorkStep = 0;
 							_SysInfo2.bEolNg = false;
+							_SysInfo2.nPlcRetry = 0;
 							nProcessStep[nStepIndex] = 20000;
 						}
 						else if (_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].nTestItem == 1)
@@ -6544,18 +6562,36 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						if (_SysInfo2.bEolNg)
 						{
-							TestResultSet2(_SysInfo2.nMainWorkStep, "", "NG");
-							_SysInfo2.bTestNG = true;
+							
+							nProcessStep[nStepIndex] = 20010;
 						}
 						else
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
+							nProcessStep[nStepIndex] = 29000;
 						}
-						nProcessStep[nStepIndex] = 29000;
+						
 					}
 					else
 					{
 						nProcessStep[nStepIndex] = 21000;
+					}
+					break;
+
+
+				case 20010:
+					if (_SysInfo2.nPlcRetry > 4)
+					{
+						TestResultSet2(_SysInfo2.nMainWorkStep, "", "NG");
+						_SysInfo2.bTestNG = true;
+						nProcessStep[nStepIndex] = 29000;
+					}
+					else
+					{
+						_SysInfo2.nSubWorkStep = 0;
+						_SysInfo2.nPlcRetry++;
+						_SysInfo2.bEolNg = false;
+						nProcessStep[nStepIndex] = 20000;
 					}
 					break;
 
