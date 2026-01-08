@@ -702,6 +702,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static uint nWriteSerialNum2 = 0;
 
 		public static string strSaveFileName = "";
+		public static string strSaveCheckFileName = "";
 		public static DateTime dtTestStartTime = new DateTime();
 		public static DateTime dtTestEndTime = new DateTime();
 		public static string strTotalResult = "";
@@ -905,6 +906,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static uint nWriteSerialNum2 = 0;
 
 		public static string strSaveFileName = "";
+		public static string strSaveCheckFileName = "";
 		public static DateTime dtTestStartTime = new DateTime();
 		public static DateTime dtTestEndTime = new DateTime();
 		public static string strTotalResult = "";

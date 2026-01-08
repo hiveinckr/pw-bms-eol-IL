@@ -707,6 +707,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo.bEMGStop = false;	
 					_SysInfo.dtTestStartTime = DateTime.Now;
 					_SysInfo.strSaveFileName = _SysInfo.strDispBarcode + DateTime.Now.ToString("_HHmmss");
+					_SysInfo.strSaveCheckFileName = _SysInfo.strDispBarcode;
 
 					_tTackTimer.Restart();
 					NgDataClear();
@@ -6167,7 +6168,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo2.nVoltCount = 0;
 					_SysInfo2.dtTestStartTime = DateTime.Now;
 					_SysInfo2.strSaveFileName = _SysInfo2.strDispBarcode + DateTime.Now.ToString("_HHmmss");
-
+					_SysInfo2.strSaveCheckFileName = _SysInfo2.strDispBarcode;
 					_tTackTimer2.Restart();
 					NgDataClear2();
 
@@ -14290,6 +14291,19 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				strMesSaveFilePath = String.Format(@"{0}{1}_EOL.csv", strMESSaveFolderPath, _SysInfo.strSaveFileName.Replace(':', '_'));
 				File.WriteAllText(strMesSaveFilePath, strSaveMessage, Encoding.UTF8);
 
+				if (_SysInfo.strTotalResult == "OK")
+				{
+
+					strMESSaveFolderPath = String.Format(@"D:\\PBMSTest\\");
+					SaveMESdir = new DirectoryInfo(strMESSaveFolderPath);
+					if (SaveMESdir.Exists == false) { SaveMESdir.Create(); }
+
+					strMesSaveFilePath = String.Format(@"{0}{1}.txt", strMESSaveFolderPath, _SysInfo.strSaveCheckFileName.Replace(':', '_'));
+					File.WriteAllText(strMesSaveFilePath, strSaveMessage, Encoding.UTF8);
+
+				}
+
+
 			}
 			catch (Exception ex)
 			{
@@ -14638,6 +14652,17 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				strMesSaveFilePath = String.Format(@"{0}{1}_EOL.csv", strMESSaveFolderPath, _SysInfo2.strSaveFileName.Replace(':', '_'));
 				File.WriteAllText(strMesSaveFilePath, strSaveMessage, Encoding.UTF8);
 
+				if (_SysInfo2.strTotalResult == "OK")
+				{
+					strMESSaveFolderPath = String.Format(@"D:\\PBMSTest\\");
+					SaveMESdir = new DirectoryInfo(strMESSaveFolderPath);
+					if (SaveMESdir.Exists == false) { SaveMESdir.Create(); }
+
+					strMesSaveFilePath = String.Format(@"{0}{1}.txt", strMESSaveFolderPath, _SysInfo2.strSaveCheckFileName.Replace(':', '_'));
+					File.WriteAllText(strMesSaveFilePath, strSaveMessage, Encoding.UTF8);
+
+				}
+			
 			}
 			catch (Exception ex)
 			{
