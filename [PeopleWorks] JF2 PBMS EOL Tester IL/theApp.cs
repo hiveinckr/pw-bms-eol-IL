@@ -5319,9 +5319,17 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 						if (CheckBarcode( _BcdReader.strReadBarcode, _ModelInfo.strBarcodSymbol))
 						{
-							_SysInfo.strPBMSBcd = _BcdReader.strReadBarcode;							
-							_SysInfo.strDispBarcodeBack = _SysInfo.strPBMSBcd.Substring(10, 12);
-							nProcessStep[nStepIndex] = 52010;
+							if(_SysInfo.strDispBarcode == _BcdReader.strReadBarcode)
+							{
+								_SysInfo.strPBMSBcd = _BcdReader.strReadBarcode;
+								_SysInfo.strDispBarcodeBack = _SysInfo.strPBMSBcd.Substring(10, 12);
+								nProcessStep[nStepIndex] = 52010;
+							}
+							else
+							{
+								nProcessStep[nStepIndex] = 52008;
+							}
+						
 						}
 						else
 						{
@@ -10801,9 +10809,18 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						
 						if (CheckBarcode( _BcdReader2.strReadBarcode,_ModelInfo2.strBarcodSymbol))
 						{
-							_SysInfo2.strPBMSBcd = _BcdReader2.strReadBarcode;
-							_SysInfo2.strDispBarcodeBack = _SysInfo2.strPBMSBcd.Substring(10, 12);
-							nProcessStep[nStepIndex] = 52010;
+
+							if (_SysInfo2.strDispBarcode == _BcdReader2.strReadBarcode)
+							{
+								_SysInfo2.strPBMSBcd = _BcdReader2.strReadBarcode;
+								_SysInfo2.strDispBarcodeBack = _SysInfo2.strPBMSBcd.Substring(10, 12);
+								nProcessStep[nStepIndex] = 52010;
+							}
+							else
+							{
+								nProcessStep[nStepIndex] = 52008;
+							}
+							
 						}
 						else
 						{
