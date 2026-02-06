@@ -153,6 +153,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public bool bUseRMDTestMode = false;
 		public bool bUseQRCode = false;
 		public bool bUseRbmsTest = false;
+		public bool bUseAutoBCSScan = false;
 
 
 		public string strMasterOkSampleBarcode = "";
@@ -200,6 +201,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public bool bUseRMDTestMode = false;
 		public bool bUseQRCode = false;
 		public bool bUseRbmsTest = false;
+		public bool bUseAutoBCSScan = false;
 
 
 		public string strMasterOkSampleBarcode = "";
@@ -522,6 +524,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static int nBCDScanner1BaudRate;
 		public static int nBCDScanner2Port;
 		public static int nBCDScanner2BaudRate;
+		public static int nAutoScanner1Port;
+		public static int nAutoScanner1BaudRate;
+		public static int nAutoScanner2Port;
+		public static int nAutoScanner2BaudRate;
+		public static int nAutoScanner3Port;
+		public static int nAutoScanner3BaudRate;
+		public static int nAutoScanner4Port;
+		public static int nAutoScanner4BaudRate;
 
 		public static int nDMM1Port;
 		public static int nDMM1BaudRate;
@@ -697,7 +707,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static string strSpecMin;
 
 		public static string strReadBarcode = "";
+		public static string strReadMacBarcode = "";
 		public static string strReadBarcode2 = "";
+		public static string strReadMacBarcode2 = "";
 		public static uint nWriteSerialNum = 0;
 		public static uint nWriteSerialNum2 = 0;
 
@@ -862,6 +874,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static string strPBMSBcd = "";
 		public static string strFuseBcd = "";
 		public static string strCaseBcd = "";
+		public static string strReadMacBarcode = "";
 
 		public static int nSubCanStartAddr;
 		public static int nSubCanMultiCount;

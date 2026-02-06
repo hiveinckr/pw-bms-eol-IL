@@ -52,6 +52,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static OPE_PS KeysiteDmm2 = new OPE_PS();
 		public static BarcodeReader _BcdReader = new BarcodeReader();
 		public static BarcodeReader _BcdReader2 = new BarcodeReader();
+		public static HoneyWell _BcdAoutoReader = new HoneyWell();
+		public static HoneyWell _BcdAoutoReader2 = new HoneyWell();
+		public static HoneyWell _BcdAoutoReader3 = new HoneyWell();
+		public static HoneyWell _BcdAoutoReader4 = new HoneyWell();
 
 		public static ClientSoket _CellSimulator1 = new ClientSoket();
 		public static ClientSoket _CellSimulator2 = new ClientSoket();
@@ -194,7 +198,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				//PowerSupply[3].Process();
 				_BcdReader.Process();
 				//_BcdReader2.Process();
-				_Nutrunner.Process();
+				//_Nutrunner.Process();
 				//_Nutrunner2.Process();
 
 				_CanComm[0].ReadMessage();
@@ -206,7 +210,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				_CanComm[6].ReadMessage();
 				_CanComm[7].ReadMessage();
 
-				_BarcodePrint.Process();
+				//_BarcodePrint.Process();
+				_BcdAoutoReader.Process();
+				_BcdAoutoReader2.Process();
 				//_BarcodePrint2.Process();
 
 
@@ -229,8 +235,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				//}
 
 
-				_CellSimulator1.Process();
-				_CellSimulator2.Process();
+				//_CellSimulator1.Process();
+				//_CellSimulator2.Process();
 				//_CellSimulator3.Process();
 				//_CellSimulator4.Process();
 				//_Cyclone.Process();
@@ -246,7 +252,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				LotCountInfoUpdate();
 				//LotCountInfoUpdate2();
 				PROC_MANUAL();
-				SUB_TITE_PROC();
+				//SUB_TITE_PROC();
 				//SUB_TITE_PROC2();
 				
 				if (nThreadCount > 100)
@@ -311,9 +317,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				PowerSupply[2].Process();
 				PowerSupply[3].Process();
 				_BcdReader2.Process();
-				_Nutrunner2.Process();
+				//_Nutrunner2.Process();
 
-				_BarcodePrint2.Process();
+				//_BarcodePrint2.Process();
+				_BcdAoutoReader3.Process();
+				_BcdAoutoReader4.Process();
 
 				if (_Config.bDmmEtcMode)
 				{
@@ -324,8 +332,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					KeysiteDmm2.Process();
 				}
 
-				_CellSimulator3.Process();
-				_CellSimulator4.Process();
+				//_CellSimulator3.Process();
+				//_CellSimulator4.Process();
+				
 				//_Cyclone.Process();
 
 
@@ -333,7 +342,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				SUB_EOL2();
 				PingTest2();
 				LotCountInfoUpdate2();
-				SUB_TITE_PROC2();
+				//SUB_TITE_PROC2();
 
 				if (nThreadCount > 100)
 				{
@@ -386,190 +395,172 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			{
 
 				case 0:
-					if (_BcdReader.bReadOk)
+					if (!_ModelInfo.bUseRbmsTest)
 					{
-						_BcdReader.bReadOk = false;
+						ShowPbmsStartMessege();
+						HideUserStartMessege();
+					}
+					nProcessStep[nStepIndex] ++;
+					break;
 
-						_SysInfo.strReadBarcode = _BcdReader.strReadBarcode;
+				case 1:
+
+					if (_ModelInfo.bUseAutoBCSScan && _ModelInfo.bUseRbmsTest && !_ModelInfo.bUseRMDTestMode)
+					{
+						ShowUserStartMessege();
+						HidePbmsStartMessege();
+						nProcessStep[nStepIndex] = 200;
+					}
+					else
+					{
 						
-						if(_ModelInfo.bUseRbmsTest && !_ModelInfo.bUseRMDTestMode)
+						if (_BcdReader.bReadOk)
 						{
+							_BcdReader.bReadOk = false;
+							HideResultMessege();
+							_SysInfo.strReadBarcode = _BcdReader.strReadBarcode;
 
-							uint nReadSerialNum = 0;
-
-
-							if (CheckBarcode(_SysInfo.strReadBarcode, _ModelInfo.strBarcodSymbol))
+							if (_ModelInfo.bUseRbmsTest && !_ModelInfo.bUseRMDTestMode)
 							{
-								if (uint.TryParse(_SysInfo.strReadBarcode.Substring(_ModelInfo.nSerailNumIndex, 10), out nReadSerialNum))
+
+								uint nReadSerialNum = 0;
+
+
+								if (CheckBarcode(_SysInfo.strReadBarcode, _ModelInfo.strBarcodSymbol))
 								{
-
-									// Mater 바코드 여부 판별
-									if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strMasterOkSampleBarcode))
+									if (uint.TryParse(_SysInfo.strReadBarcode.Substring(_ModelInfo.nSerailNumIndex, 10), out nReadSerialNum))
 									{
-										// 마스터 바코드일 경우 마스터 검사 루틴 진행
-										_SysInfo.bOkMasterSampleTestIng = true;
-										_SysInfo.bNgMasterSampleTestIng = false;
-										_SysInfo.nWriteSerialNum = nReadSerialNum;
-										_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
-										_SysInfo.bReadMainBcd = true;
 
-										if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
-
-									}
-									else if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strMasterNgSampleBarcode))
-									{
-										// 마스터 바코드일 경우 마스터 검사 루틴 진행
-										_SysInfo.bOkMasterSampleTestIng = false;
-										_SysInfo.bNgMasterSampleTestIng = true;
-										_SysInfo.nWriteSerialNum = nReadSerialNum;
-										_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
-										_SysInfo.bReadMainBcd = true;
-
-										if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
-									}
-									else
-									{
-										// 마스터 검사 진행여부 체크하는 루틴 추가
-										if (_Config.bUseMasterCheck && !CheckMasterTestFinish(_ModelInfo.strModelName))
+										// Mater 바코드 여부 판별
+										if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strMasterOkSampleBarcode))
 										{
-
-											// 마스터 팝업 발생
-
-											_SysInfo.nTL_Beep = 3;
-											ShowMasterPopUpWindow();
-
-
-
-										}
-										else
-										{
-											_SysInfo.bOkMasterSampleTestIng = false;
+											// 마스터 바코드일 경우 마스터 검사 루틴 진행
+											_SysInfo.bOkMasterSampleTestIng = true;
 											_SysInfo.bNgMasterSampleTestIng = false;
 											_SysInfo.nWriteSerialNum = nReadSerialNum;
 											_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
 											_SysInfo.bReadMainBcd = true;
 
 											if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
+
+										}
+										else if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strMasterNgSampleBarcode))
+										{
+											// 마스터 바코드일 경우 마스터 검사 루틴 진행
+											_SysInfo.bOkMasterSampleTestIng = false;
+											_SysInfo.bNgMasterSampleTestIng = true;
+											_SysInfo.nWriteSerialNum = nReadSerialNum;
+											_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
+											_SysInfo.bReadMainBcd = true;
+
+											if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
+										}
+										else
+										{
+											// 마스터 검사 진행여부 체크하는 루틴 추가
+											if (_Config.bUseMasterCheck && !CheckMasterTestFinish(_ModelInfo.strModelName))
+											{
+
+												// 마스터 팝업 발생
+
+												_SysInfo.nTL_Beep = 3;
+												ShowMasterPopUpWindow();
+
+
+
+											}
+											else
+											{
+												_SysInfo.bOkMasterSampleTestIng = false;
+												_SysInfo.bNgMasterSampleTestIng = false;
+												_SysInfo.nWriteSerialNum = nReadSerialNum;
+												_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
+												_SysInfo.bReadMainBcd = true;
+
+												if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
+											}
+
 										}
 
 									}
-
-								}
-								else
-								{
-									theApp.AppendLogMsg("Serial number format does not match", MSG_TYPE.ERROR);
-									_SysInfo.nTL_Beep = 3;
-								}
-							}
-							else if (_SysInfo.strReadBarcode.Length == 12)
-							{
-								_SysInfo.bReadMacOk = true;
-								_SysInfo.nReadMacHigh = 0;
-								_SysInfo.nReadMacLow = 0;
-
-								_SysInfo.strMacAdress = _SysInfo.strReadBarcode;
-
-								_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadBarcode.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
-								_SysInfo.nReadMacHigh = _SysInfo.nReadMac * 0x100;
-								_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadBarcode.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
-								_SysInfo.nReadMacHigh += _SysInfo.nReadMac;
-								_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadBarcode.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
-								_SysInfo.nReadMacMid = _SysInfo.nReadMac * 0x100;
-								_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadBarcode.Substring(6, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
-								_SysInfo.nReadMacMid += _SysInfo.nReadMac;
-								_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadBarcode.Substring(8, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
-								_SysInfo.nReadMacLow = _SysInfo.nReadMac * 0x100;
-								_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadBarcode.Substring(10, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
-								_SysInfo.nReadMacLow += _SysInfo.nReadMac;
-
-								if (_SysInfo.bReadMacOk)
-								{
-									_SysInfo.strDispMac = _SysInfo.nReadMacHigh.ToString("X4") + _SysInfo.nReadMacMid.ToString("X4") + _SysInfo.nReadMacLow.ToString("X4");
-									
-									if(CheckMacBcdDuplicate(_SysInfo.strDispMac))
+									else
 									{
-										theApp.AppendLogMsg("MacAdress barcode is duplicated.", MSG_TYPE.ERROR);
+										theApp.AppendLogMsg("Serial number format does not match", MSG_TYPE.ERROR);
 										_SysInfo.nTL_Beep = 3;
+									}
+								}
+								else if (_SysInfo.strReadBarcode.Length == 12)
+								{
+									_SysInfo.bReadMacOk = true;
+									_SysInfo.nReadMacHigh = 0;
+									_SysInfo.nReadMacLow = 0;
+
+									_SysInfo.strMacAdress = _SysInfo.strReadBarcode;
+
+									_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadBarcode.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
+									_SysInfo.nReadMacHigh = _SysInfo.nReadMac * 0x100;
+									_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadBarcode.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
+									_SysInfo.nReadMacHigh += _SysInfo.nReadMac;
+									_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadBarcode.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
+									_SysInfo.nReadMacMid = _SysInfo.nReadMac * 0x100;
+									_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadBarcode.Substring(6, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
+									_SysInfo.nReadMacMid += _SysInfo.nReadMac;
+									_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadBarcode.Substring(8, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
+									_SysInfo.nReadMacLow = _SysInfo.nReadMac * 0x100;
+									_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadBarcode.Substring(10, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
+									_SysInfo.nReadMacLow += _SysInfo.nReadMac;
+
+									if (_SysInfo.bReadMacOk)
+									{
+										_SysInfo.strDispMac = _SysInfo.nReadMacHigh.ToString("X4") + _SysInfo.nReadMacMid.ToString("X4") + _SysInfo.nReadMacLow.ToString("X4");
+
+										if (CheckMacBcdDuplicate(_SysInfo.strDispMac))
+										{
+											theApp.AppendLogMsg("MacAdress barcode is duplicated.", MSG_TYPE.ERROR);
+											_SysInfo.nTL_Beep = 3;
+										}
+										else
+										{
+
+											_SysInfo.bReadMacBcd = true;
+											if (!_SysInfo.bReadMainBcd) { _SysInfo.strDispBarcode = ""; }
+										}
+
 									}
 									else
 									{
-									
-										_SysInfo.bReadMacBcd = true;
-										if (!_SysInfo.bReadMainBcd) { _SysInfo.strDispBarcode = ""; }
+										theApp.AppendLogMsg("Pbms Mac format does not match.", MSG_TYPE.ERROR);
+										_SysInfo.nTL_Beep = 3;
 									}
-									
 								}
 								else
 								{
-									theApp.AppendLogMsg("Pbms Mac format does not match.", MSG_TYPE.ERROR);
+									theApp.AppendLogMsg("Rbms Barcode format does not match.", MSG_TYPE.ERROR);
 									_SysInfo.nTL_Beep = 3;
+								}
+
+								if (_SysInfo.bReadMainBcd && _SysInfo.bReadMacBcd)
+								{
+									ShowUserStartMessege();
+									nProcessStep[nStepIndex] = 2;
 								}
 							}
 							else
 							{
-								theApp.AppendLogMsg("Rbms Barcode format does not match.", MSG_TYPE.ERROR);
-								_SysInfo.nTL_Beep = 3;
-							}
+								uint nReadSerialNum = 0;
 
-							if (_SysInfo.bReadMainBcd && _SysInfo.bReadMacBcd)
-							{
-								ShowUserStartMessege();
-								nProcessStep[nStepIndex] = 2;
-							}
-						}
-						else
-						{
-							uint nReadSerialNum = 0;
-
-							if (CheckBarcode(_SysInfo.strReadBarcode, _ModelInfo.strBarcodSymbol))
-							{
-
-
-								if (uint.TryParse(_SysInfo.strReadBarcode.Substring(_ModelInfo.nSerailNumIndex, 10), out nReadSerialNum))
+								if (CheckBarcode(_SysInfo.strReadBarcode, _ModelInfo.strBarcodSymbol))
 								{
 
-									// Mater 바코드 여부 판별
-									if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strMasterOkSampleBarcode))
-									{
-										// 마스터 바코드일 경우 마스터 검사 루틴 진행
-										_SysInfo.bOkMasterSampleTestIng = true;
-										_SysInfo.bNgMasterSampleTestIng = false;
-										_SysInfo.nWriteSerialNum = nReadSerialNum;
-										_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
-										_SysInfo.bReadMainBcd = true;
-										ShowUserStartMessege();
-										if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
-										nProcessStep[nStepIndex] = 2;
 
-									}
-									else if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strMasterNgSampleBarcode))
+									if (uint.TryParse(_SysInfo.strReadBarcode.Substring(_ModelInfo.nSerailNumIndex, 10), out nReadSerialNum))
 									{
-										// 마스터 바코드일 경우 마스터 검사 루틴 진행
-										_SysInfo.bOkMasterSampleTestIng = false;
-										_SysInfo.bNgMasterSampleTestIng = true;
-										_SysInfo.nWriteSerialNum = nReadSerialNum;
-										_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
-										_SysInfo.bReadMainBcd = true;
-										ShowUserStartMessege();
-										if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
-										nProcessStep[nStepIndex] = 2;
-									}
-									else
-									{
-										// 마스터 검사 진행여부 체크하는 루틴 추가
-										if (_Config.bUseMasterCheck && !CheckMasterTestFinish(_ModelInfo.strModelName))
+
+										// Mater 바코드 여부 판별
+										if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strMasterOkSampleBarcode))
 										{
-
-											// 마스터 팝업 발생
-
-											_SysInfo.nTL_Beep = 3;
-											ShowMasterPopUpWindow();
-											nProcessStep[nStepIndex] = 2;
-
-										}
-										else
-										{
-											_SysInfo.bOkMasterSampleTestIng = false;
+											// 마스터 바코드일 경우 마스터 검사 루틴 진행
+											_SysInfo.bOkMasterSampleTestIng = true;
 											_SysInfo.bNgMasterSampleTestIng = false;
 											_SysInfo.nWriteSerialNum = nReadSerialNum;
 											_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
@@ -577,28 +568,68 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 											ShowUserStartMessege();
 											if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
 											nProcessStep[nStepIndex] = 2;
+
+										}
+										else if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strMasterNgSampleBarcode))
+										{
+											// 마스터 바코드일 경우 마스터 검사 루틴 진행
+											_SysInfo.bOkMasterSampleTestIng = false;
+											_SysInfo.bNgMasterSampleTestIng = true;
+											_SysInfo.nWriteSerialNum = nReadSerialNum;
+											_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
+											_SysInfo.bReadMainBcd = true;
+											ShowUserStartMessege();
+											if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
+											nProcessStep[nStepIndex] = 2;
+										}
+										else
+										{
+											// 마스터 검사 진행여부 체크하는 루틴 추가
+											if (_Config.bUseMasterCheck && !CheckMasterTestFinish(_ModelInfo.strModelName))
+											{
+
+												// 마스터 팝업 발생
+
+												_SysInfo.nTL_Beep = 3;
+												ShowMasterPopUpWindow();
+												nProcessStep[nStepIndex] = 2;
+
+											}
+											else
+											{
+												_SysInfo.bOkMasterSampleTestIng = false;
+												_SysInfo.bNgMasterSampleTestIng = false;
+												_SysInfo.nWriteSerialNum = nReadSerialNum;
+												_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
+												_SysInfo.bReadMainBcd = true;
+												HidePbmsStartMessege();
+												ShowUserStartMessege();
+												if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
+												nProcessStep[nStepIndex] = 2;
+											}
+
 										}
 
 									}
-
+									else
+									{
+										theApp.AppendLogMsg("Pbms Serial number format does not match.", MSG_TYPE.ERROR);
+										_SysInfo.nTL_Beep = 3;
+									}
 								}
 								else
 								{
-									theApp.AppendLogMsg("Pbms Serial number format does not match.", MSG_TYPE.ERROR);
+									theApp.AppendLogMsg("Pbms Barcode format does not match.", MSG_TYPE.ERROR);
 									_SysInfo.nTL_Beep = 3;
 								}
 							}
-							else
-							{
-								theApp.AppendLogMsg("Pbms Barcode format does not match.", MSG_TYPE.ERROR);
-								_SysInfo.nTL_Beep = 3;
-							}
+
+
+
+
 						}
-						
-
-
-
 					}
+				
 
 					break;
 
@@ -624,19 +655,220 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 100:
+
+					break;
+
+
+				case 200:
+					if (GetDIOPort(DI.START_SW1) && GetDIOPort(DI.START_SW2))
+					{
+						tMainTimer[nStepIndex].Start(50);
+						nProcessStep[nStepIndex]++;
+
+					}
+					break;
+
+				case 201:
+					if (GetDIOPort(DI.START_SW1) && GetDIOPort(DI.START_SW2) && tMainTimer[nStepIndex].Verify())
+					{
+						HideUserStartMessege();
+						nProcessStep[nStepIndex] = 250;
+					}
+					else if (!GetDIOPort(DI.START_SW1) || !GetDIOPort(DI.START_SW2))
+					{
+						nProcessStep[nStepIndex] = 200;
+					}
+					break;
+
+				case 250:
+					_BcdAoutoReader.bReadOk = false;
+					_BcdAoutoReader.TriggerOn();
+					tMainTimer[nStepIndex].Start(3000);
+					nProcessStep[nStepIndex] = 255;
+					break;
+
+				case 255:
+					if (tMainTimer[nStepIndex].Verify())
+					{
+						theApp.AppendLogMsg("RBMS Barcode scan failed.", MSG_TYPE.ERROR);
+						_SysInfo.nTL_Beep = 3;
+						_BcdAoutoReader.TriggerOff();
+						nProcessStep[nStepIndex] = 0;
+					}
+
+					if (_BcdAoutoReader.bReadOk)
+					{
+						_BcdAoutoReader.bReadOk = false;
+
+						_SysInfo.strReadBarcode = _BcdAoutoReader.strReadBarcode;
+
+						uint nReadSerialNum = 0;
+
+
+						if (CheckBarcode(_SysInfo.strReadBarcode, _ModelInfo.strBarcodSymbol))
+						{
+							if (uint.TryParse(_SysInfo.strReadBarcode.Substring(_ModelInfo.nSerailNumIndex, 10), out nReadSerialNum))
+							{
+
+								// Mater 바코드 여부 판별
+								if (CheckBarcode(_BcdAoutoReader.strReadBarcode, _ModelInfo.strMasterOkSampleBarcode))
+								{
+									// 마스터 바코드일 경우 마스터 검사 루틴 진행
+									_SysInfo.bOkMasterSampleTestIng = true;
+									_SysInfo.bNgMasterSampleTestIng = false;
+									_SysInfo.nWriteSerialNum = nReadSerialNum;
+									_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
+									_SysInfo.bReadMainBcd = true;
+
+									if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
+									tMainTimer[nStepIndex].Start(200);
+									nProcessStep[nStepIndex] = 260;
+
+								}
+								else if (CheckBarcode(_BcdAoutoReader.strReadBarcode, _ModelInfo.strMasterNgSampleBarcode))
+								{
+									// 마스터 바코드일 경우 마스터 검사 루틴 진행
+									_SysInfo.bOkMasterSampleTestIng = false;
+									_SysInfo.bNgMasterSampleTestIng = true;
+									_SysInfo.nWriteSerialNum = nReadSerialNum;
+									_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
+									_SysInfo.bReadMainBcd = true;
+
+									if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
+									tMainTimer[nStepIndex].Start(200);
+									nProcessStep[nStepIndex] = 260;
+								}
+								else
+								{
+									// 마스터 검사 진행여부 체크하는 루틴 추가
+									if (_Config.bUseMasterCheck && !CheckMasterTestFinish(_ModelInfo.strModelName))
+									{
+
+										// 마스터 팝업 발
+										_SysInfo.nTL_Beep = 3;
+										ShowMasterPopUpWindow();
+
+									}
+									else
+									{
+										_SysInfo.bOkMasterSampleTestIng = false;
+										_SysInfo.bNgMasterSampleTestIng = false;
+										_SysInfo.nWriteSerialNum = nReadSerialNum;
+										_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
+										_SysInfo.bReadMainBcd = true;
+
+										if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
+										tMainTimer[nStepIndex].Start(200);
+										nProcessStep[nStepIndex] = 260;
+									}
+
+								}
+
+							}
+							else
+							{
+								theApp.AppendLogMsg("Serial number format does not match", MSG_TYPE.ERROR);
+								_SysInfo.nTL_Beep = 3;
+								_BcdAoutoReader.TriggerOff();
+								nProcessStep[nStepIndex] = 0;
+
+							}
+						}
+						else
+						{
+							theApp.AppendLogMsg("Rbms Barcode format does not match.", MSG_TYPE.ERROR);
+							_SysInfo.nTL_Beep = 3;
+							_BcdAoutoReader.TriggerOff();
+							nProcessStep[nStepIndex] = 0;
+						}
+					}
+					break;
+
+				case 260:
+					if (!tMainTimer[nStepIndex].Verify()) { break; }
+
+					_BcdAoutoReader2.bReadOk = false;
+					_BcdAoutoReader2.TriggerOn();
+					tMainTimer[nStepIndex].Start(4000);
+					nProcessStep[nStepIndex] = 265;
+					break;
+
+				case 265:
+					if (tMainTimer[nStepIndex].Verify())
+					{
+						theApp.AppendLogMsg("Mac Barcode scan failed.", MSG_TYPE.ERROR);
+						_SysInfo.nTL_Beep = 3;
+						_BcdAoutoReader2.TriggerOff();
+						nProcessStep[nStepIndex] = 0;
+					}
+
+					if (_BcdAoutoReader2.bReadOk)
+					{
+						_BcdAoutoReader2.bReadOk = false;
+
+						_SysInfo.strReadMacBarcode = _BcdAoutoReader2.strReadBarcode;
+						
+						if (_SysInfo.strReadMacBarcode.Length == 12)
+						{
+							_SysInfo.bReadMacOk = true;
+							_SysInfo.nReadMacHigh = 0;
+							_SysInfo.nReadMacLow = 0;
+
+							_SysInfo.strMacAdress = _SysInfo.strReadMacBarcode;
+
+							_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadMacBarcode.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
+							_SysInfo.nReadMacHigh = _SysInfo.nReadMac * 0x100;
+							_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadMacBarcode.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
+							_SysInfo.nReadMacHigh += _SysInfo.nReadMac;
+							_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadMacBarcode.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
+							_SysInfo.nReadMacMid = _SysInfo.nReadMac * 0x100;
+							_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadMacBarcode.Substring(6, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
+							_SysInfo.nReadMacMid += _SysInfo.nReadMac;
+							_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadMacBarcode.Substring(8, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
+							_SysInfo.nReadMacLow = _SysInfo.nReadMac * 0x100;
+							_SysInfo.bReadMacOk &= int.TryParse(_SysInfo.strReadMacBarcode.Substring(10, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo.nReadMac);
+							_SysInfo.nReadMacLow += _SysInfo.nReadMac;
+
+							if (_SysInfo.bReadMacOk)
+							{
+								_SysInfo.strDispMac = _SysInfo.nReadMacHigh.ToString("X4") + _SysInfo.nReadMacMid.ToString("X4") + _SysInfo.nReadMacLow.ToString("X4");
+
+								if (CheckMacBcdDuplicate(_SysInfo.strDispMac))
+								{
+									theApp.AppendLogMsg("MacAdress barcode is duplicated.", MSG_TYPE.ERROR);
+									_SysInfo.nTL_Beep = 3;
+								}
+								else
+								{
+									_SysInfo.bReadMacBcd = true;
+									if (!_SysInfo.bReadMainBcd) { _SysInfo.strDispBarcode = ""; }
+									nProcessStep[nStepIndex] = 1000;
+								}
+
+							}
+							else
+							{
+								theApp.AppendLogMsg("Rbms Mac format does not match.", MSG_TYPE.ERROR);
+								_BcdAoutoReader2.TriggerOff();
+								_SysInfo.nTL_Beep = 3;
+								nProcessStep[nStepIndex] = 0;
+							}
+						}
+						else
+						{
+							theApp.AppendLogMsg("Rbms Barcode format does not match.", MSG_TYPE.ERROR);
+							_BcdAoutoReader2.TriggerOff();
+							_SysInfo.nTL_Beep = 3;
+							nProcessStep[nStepIndex] = 0;
+						}
+
+					}
 					break;
 
 
 
-				//// Soket Test
-				//case 50:
-				//	tcpClient.Connect("127.0.0.1", 502)
-				//	nProcessStep[nStepIndex]++;
-				//	break;
 
-				//case 51:
-				//	if(_ModbusSoket.)
-				//	break;
+
 
 
 				// 작업 시작
@@ -1001,11 +1233,12 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo.strDispBarcodeBack = "";
 							nProcessStep[nStepIndex] = 52000;
 						}
-						//else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 26)
-						//{
-
-						//	nProcessStep[nStepIndex] = 53000;
-						//}
+						else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 26)
+						{
+							_SysInfo.nCurrNGRetryCount = 0;
+							cellT.Clear();
+							nProcessStep[nStepIndex] = 53000;
+						}
 						//else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 27)
 						//{
 						//	nProcessStep[nStepIndex] = 54000;
@@ -3355,15 +3588,19 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 41000:
 					_CellSimulator1.Send("*RST", true);
+					tMainTimer[nStepIndex].Start(500);
 					nProcessStep[nStepIndex] = 41005;
 					break;
 
 				case 41005:
+					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator1.Send("*CLS", true);
+					tMainTimer[nStepIndex].Start(500);
 					nProcessStep[nStepIndex] = 41010;
 					break;
 
 				case 41010:
+					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator1.Send("*IDN?", true);
 					tMainTimer[nStepIndex].Start(10000);
 					nProcessStep[nStepIndex]++;
@@ -3571,17 +3808,19 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 42000:
 					_CellSimulator2.Send("*RST", true);
-					tMainTimer[nStepIndex].Start(200);
+					tMainTimer[nStepIndex].Start(500);
 					nProcessStep[nStepIndex] = 42005;
 					break;
 
 				case 42005:
+					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator2.Send("*CLS", true);
-
+					tMainTimer[nStepIndex].Start(500);
 					nProcessStep[nStepIndex] = 42010;
 					break;
 
 				case 42010:
+					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator2.Send("*IDN?", true);
 					tMainTimer[nStepIndex].Start(10000);
 					nProcessStep[nStepIndex]++;
@@ -5660,6 +5899,298 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 
+				case 53000:
+					_SysInfo.dbCalcData = 0.0;
+					_SysInfo.dbCommReadData = 0.0;
+					nProcessStep[nStepIndex] = 53005;
+					break;
+
+				case 53005:
+					if (_Config.bDmmEtcMode)
+					{
+						_KeysiteDmmEtc.Send("*RST", true);
+						nProcessStep[nStepIndex] = 53010;
+					}
+					else
+					{
+						KeysiteDmm.Send("*RST");
+						nProcessStep[nStepIndex] = 53010;
+					}
+
+					break;
+
+				// 1번 채널 Power Supply 설정
+				case 53010:
+					if (_Config.bDmmEtcMode)
+					{
+						_KeysiteDmmEtc.Send("*IDN?", true);
+						nProcessStep[nStepIndex]++;
+					}
+					else
+					{
+						KeysiteDmm.Send("*IDN?");
+						nProcessStep[nStepIndex]++;
+					}
+					break;
+
+				case 53011:
+					_SysInfo.bFirstCheck = true;
+					if (_Config.bDmmEtcMode)
+					{
+						if (_KeysiteDmmEtc.IsReadData())
+						{
+							//tMainTimer[nStepIndex].Start(200);
+							nProcessStep[nStepIndex] = 53020;
+						}
+					}
+					else
+					{
+						if (KeysiteDmm.IsReadData())
+						{
+							//tMainTimer[nStepIndex].Start(200);
+							nProcessStep[nStepIndex] = 53020;
+						}
+					}
+					break;
+
+				case 53020:
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nDmmCh);
+					if (_Config.bDmmEtcMode)
+					{
+						//if (_SysInfo.nDmmCh == 1)
+						//{
+						//	_KeysiteDmmEtc.Send($"CONF:CURR:DC (@122)",true);
+						//}
+						//else
+						//{
+						_KeysiteDmmEtc.Send($"SENSe:FUNCtion \"CURRent\", (@{_SysInfo.nDmmCh})", true);
+						//}
+					}
+					else
+					{
+
+						KeysiteDmm.Send($"SENSe:FUNCtion \"CURRent\", (@{_SysInfo.nDmmCh})");
+
+					}
+
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 53021:
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nDmmCh);
+					if (_Config.bDmmEtcMode)
+					{
+						//if (_SysInfo.nDmmCh == 1)
+						//{
+						//	_KeysiteDmmEtc.Send($"ROUT:SCAN (@{_SysInfo.nDmmCh})",true);
+						//}
+						//else
+						//{
+						_KeysiteDmmEtc.Send($"ROUTe:CLOSe (@{_SysInfo.nDmmCh})", true);
+						AppendDebugMsg($"Curr A  검사 시작", "CURR");
+						//}
+					}
+					else
+					{
+						//if (_SysInfo.nDmmCh == 1)
+						//{
+						//	KeysiteDmm.Send($"ROUT:SCAN (@{_SysInfo.nDmmCh})");
+						//}
+						//else
+						//{
+						KeysiteDmm.Send($"ROUTe:CLOSe (@{_SysInfo.nDmmCh})");
+						AppendDebugMsg($"Curr A  검사 시작", "CURR");
+						//}
+					}
+
+
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 53022:
+
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nDmmCh);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue3, out _SysInfo.nDmmTime);
+
+					//if(_SysInfo.nDmmTime == 1)
+					//{
+					//	nProcessStep[nStepIndex] = 43023;
+					//}
+					//else
+					//{
+					//if (_Config.bDmmEtcMode)
+					//{
+					//	//if (_SysInfo.nDmmCh == 1)
+					//	//{
+					//	//	_KeysiteDmmEtc.Send($"SENS:CURR:APER {_ModelInfo.dbDmmAScanSpeed},(@{_SysInfo.nDmmCh})", true);
+					//	//}
+					//	//else
+					//	//{
+					//	_KeysiteDmmEtc.Send($"SENS:CURR:APER {_ModelInfo.dbDmmMScanSpeed},(@{_SysInfo.nDmmCh})", true);
+					//	//}
+					//}
+					//else
+					//{
+					//	//if (_SysInfo.nDmmCh == 1)
+					//	//{
+					//	//	KeysiteDmm.Send($"SENS:CURR:APER {_ModelInfo.dbDmmAScanSpeed},(@{_SysInfo.nDmmCh})");
+					//	//}
+					//	//else
+					//	//{
+					//	KeysiteDmm.Send($"SENS:CURR:APER {_ModelInfo.dbDmmMScanSpeed},(@{_SysInfo.nDmmCh})");
+					//	//}
+					//}
+					//tMainTimer[nStepIndex].Start(3000);
+					nProcessStep[nStepIndex] = 53023;
+
+					//}
+					break;
+
+
+				case 53023:
+					//if (!tMainTimer[nStepIndex].Verify()) { break; }
+					if (_Config.bDmmEtcMode)
+					{
+						_KeysiteDmmEtc.Send($"READ?", true);
+					}
+					else
+					{
+						KeysiteDmm.Send($"READ?");
+					}
+
+					//KeysiteDmm.Send($"MEAS:VOLT:DC? (@{_SysInfo.strDmmCh})");
+					nProcessStep[nStepIndex] = 53024;
+					break;
+
+				case 53024:
+
+
+					if (_Config.bDmmEtcMode)
+					{
+						if (_KeysiteDmmEtc.IsReadData())
+						{
+							nProcessStep[nStepIndex] = 53025;
+
+							if (_SysInfo.bFirstCheck)
+							{
+								tMainTimer[nStepIndex].Start(5000);
+								_SysInfo.bFirstCheck = false;
+							}
+						}
+					}
+					else
+					{
+						if (KeysiteDmm.IsReadData())
+						{
+							nProcessStep[nStepIndex] = 53025;
+							if (_SysInfo.bFirstCheck)
+							{
+								tMainTimer[nStepIndex].Start(5000);
+								_SysInfo.bFirstCheck = false;
+							}
+						}
+					}
+					break;
+
+				case 53025:
+
+					if (_Config.bDmmEtcMode)
+					{
+						double.TryParse(_KeysiteDmmEtc.strReadMessage, out _SysInfo.dbCommReadData);
+						AppendDebugMsg($"Curr AVG : {_SysInfo.dbCommReadData}", "CURR");
+						cellT.Add(_SysInfo.dbCommReadData);
+						nProcessStep[nStepIndex] = 53026;
+					}
+					else
+					{
+						double.TryParse(KeysiteDmm.GetReadData(), out _SysInfo.dbCommReadData);
+						AppendDebugMsg($"Curr AVG : {_SysInfo.dbCommReadData}", "CURR");
+						cellT.Add(_SysInfo.dbCommReadData);
+						nProcessStep[nStepIndex] = 53026;
+
+					}
+
+					break;
+
+				case 53026:
+					if (!tMainTimer[nStepIndex].Verify())
+					{
+						nProcessStep[nStepIndex] = 53023;
+
+					}
+					else
+					{
+						_SysInfo.dbCommReadMinData = cellT.Average();
+						nProcessStep[nStepIndex] = 53040;
+
+					}
+					break;
+
+				case 53040:
+
+					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo.dbCommReadMinData}{_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo.dbCalcAvgData);
+					double.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMin, out _SysInfo.dbSpecMin);
+					double.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMax, out _SysInfo.dbSpecMax);
+
+					// 0은 양쪽다 비교 , 1은 Min만 비교, 2는 Max만 비교
+					//if (_SysInfo.nBuffIndex == 0)
+					//{
+					_SysInfo.dbCalcData = _SysInfo.dbCalcAvgData - _SysInfo.nDmmTime;
+					if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax || _SysInfo.dbCalcData < _SysInfo.dbSpecMin)
+					{
+						if (_SysInfo.nCurrNGRetryCount > 5)
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
+						}
+						else
+						{
+							_SysInfo.nCurrNGRetryCount++;
+							AppendDebugMsg($"Curr NG {_SysInfo.dbCalcData}", "CURR");
+							nProcessStep[nStepIndex] = 53000;
+							break;
+						}
+
+
+					}
+					else
+					{
+						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "OK");
+					}
+					//}
+					//else if (_SysInfo.nBuffIndex == 1)
+					//{
+					//	if (_SysInfo.dbCalcData < _SysInfo.dbSpecMin)
+					//	{
+					//		TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+					//	}
+					//	else
+					//	{
+					//		TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "OK");
+					//	}
+					//}
+					//else if (_SysInfo.nBuffIndex == 2)
+					//{
+					//	if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax)
+					//	{
+					//		TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "NG");
+					//	}
+					//	else
+					//	{
+					//		TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString("F4"), "OK");
+					//	}
+					//}
+
+					nProcessStep[nStepIndex] = 53050;
+					break;
+
+				case 53050:
+					_SysInfo.nCurrNGRetryCount = 0;
+					_SysInfo.nMainWorkStep++;
+					nProcessStep[nStepIndex] = 3000;
+					break;
+
+
 
 
 				// 검사 종료 스텝
@@ -5807,6 +6338,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 86000:
 					_SysInfo.strMacAdress = "";
 					_SysInfo.strDispMac = "";
+					ShowResultMessege();
 					nProcessStep[nStepIndex] = 100000;
 					break;
 
@@ -5847,190 +6379,170 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			{
 
 				case 0:
-					if (_BcdReader2.bReadOk)
+					if (!_ModelInfo2.bUseRbmsTest)
 					{
-						_BcdReader2.bReadOk = false;
+						ShowPbmsStartMessege2();
+					}
+					nProcessStep[nStepIndex]++;
+					break;
 
-						_SysInfo2.strReadBarcode = _BcdReader2.strReadBarcode;
+				case 1:
 
-						if (_ModelInfo2.bUseRbmsTest && !_ModelInfo2.bUseRMDTestMode)
+					if (_ModelInfo2.bUseAutoBCSScan && _ModelInfo2.bUseRbmsTest && !_ModelInfo2.bUseRMDTestMode)
+					{
+						ShowUserStartMessege2();
+						nProcessStep[nStepIndex] = 200;
+					}
+					else
+					{
+						if (_BcdReader2.bReadOk)
 						{
+							HideResultMessege2();
+							_BcdReader2.bReadOk = false;
 
-							uint nReadSerialNum = 0;
+							_SysInfo2.strReadBarcode = _BcdReader2.strReadBarcode;
 
-
-							if (CheckBarcode(_SysInfo2.strReadBarcode, _ModelInfo2.strBarcodSymbol))
+							if (_ModelInfo2.bUseRbmsTest && !_ModelInfo2.bUseRMDTestMode)
 							{
-								if (uint.TryParse(_SysInfo2.strReadBarcode.Substring(_ModelInfo2.nSerailNumIndex, 10), out nReadSerialNum))
+
+								uint nReadSerialNum = 0;
+
+
+								if (CheckBarcode(_SysInfo2.strReadBarcode, _ModelInfo2.strBarcodSymbol))
 								{
-
-									// Mater 바코드 여부 판별
-									if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strMasterOkSampleBarcode))
+									if (uint.TryParse(_SysInfo2.strReadBarcode.Substring(_ModelInfo2.nSerailNumIndex, 10), out nReadSerialNum))
 									{
-										// 마스터 바코드일 경우 마스터 검사 루틴 진행
-										_SysInfo2.bOkMasterSampleTestIng = true;
-										_SysInfo2.bNgMasterSampleTestIng = false;
-										_SysInfo2.nWriteSerialNum = nReadSerialNum;
-										_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
-										_SysInfo2.bReadMainBcd = true;
 
-										if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
-
-									}
-									else if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strMasterNgSampleBarcode))
-									{
-										// 마스터 바코드일 경우 마스터 검사 루틴 진행
-										_SysInfo2.bOkMasterSampleTestIng = false;
-										_SysInfo2.bNgMasterSampleTestIng = true;
-										_SysInfo2.nWriteSerialNum = nReadSerialNum;
-										_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
-										_SysInfo2.bReadMainBcd = true;
-
-										if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
-									}
-									else
-									{
-										// 마스터 검사 진행여부 체크하는 루틴 추가
-										if (_Config.bUseMasterCheck && !CheckMasterTestFinish(_ModelInfo2.strModelName))
+										// Mater 바코드 여부 판별
+										if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strMasterOkSampleBarcode))
 										{
-
-											// 마스터 팝업 발생
-
-											_SysInfo2.nTL_Beep = 3;
-											ShowMasterPopUpWindow();
-
-
-
-										}
-										else
-										{
-											_SysInfo2.bOkMasterSampleTestIng = false;
+											// 마스터 바코드일 경우 마스터 검사 루틴 진행
+											_SysInfo2.bOkMasterSampleTestIng = true;
 											_SysInfo2.bNgMasterSampleTestIng = false;
 											_SysInfo2.nWriteSerialNum = nReadSerialNum;
 											_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
 											_SysInfo2.bReadMainBcd = true;
 
 											if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
+
+										}
+										else if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strMasterNgSampleBarcode))
+										{
+											// 마스터 바코드일 경우 마스터 검사 루틴 진행
+											_SysInfo2.bOkMasterSampleTestIng = false;
+											_SysInfo2.bNgMasterSampleTestIng = true;
+											_SysInfo2.nWriteSerialNum = nReadSerialNum;
+											_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
+											_SysInfo2.bReadMainBcd = true;
+
+											if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
+										}
+										else
+										{
+											// 마스터 검사 진행여부 체크하는 루틴 추가
+											if (_Config.bUseMasterCheck && !CheckMasterTestFinish(_ModelInfo2.strModelName))
+											{
+
+												// 마스터 팝업 발생
+
+												_SysInfo2.nTL_Beep = 3;
+												ShowMasterPopUpWindow();
+
+
+
+											}
+											else
+											{
+												_SysInfo2.bOkMasterSampleTestIng = false;
+												_SysInfo2.bNgMasterSampleTestIng = false;
+												_SysInfo2.nWriteSerialNum = nReadSerialNum;
+												_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
+												_SysInfo2.bReadMainBcd = true;
+
+												if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
+											}
+
 										}
 
 									}
-
-								}
-								else
-								{
-									theApp.AppendLogMsg2("Serial number format does not match.", MSG_TYPE.ERROR);
-									_SysInfo2.nTL_Beep = 3;
-								}
-							}
-							else if (_SysInfo2.strReadBarcode.Length == 12)
-							{
-								_SysInfo2.bReadMacOk = true;
-								_SysInfo2.nReadMacHigh = 0;
-								_SysInfo2.nReadMacLow = 0;
-
-								_SysInfo2.strMacAdress = _SysInfo2.strReadBarcode;
-
-								_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadBarcode.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
-								_SysInfo2.nReadMacHigh = _SysInfo2.nReadMac * 0x100;
-								_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadBarcode.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
-								_SysInfo2.nReadMacHigh += _SysInfo2.nReadMac;
-								_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadBarcode.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
-								_SysInfo2.nReadMacMid = _SysInfo2.nReadMac * 0x100;
-								_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadBarcode.Substring(6, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
-								_SysInfo2.nReadMacMid += _SysInfo2.nReadMac;
-								_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadBarcode.Substring(8, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
-								_SysInfo2.nReadMacLow = _SysInfo2.nReadMac * 0x100;
-								_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadBarcode.Substring(10, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
-								_SysInfo2.nReadMacLow += _SysInfo2.nReadMac;
-
-								if (_SysInfo2.bReadMacOk)
-								{
-									_SysInfo2.strDispMac = _SysInfo2.nReadMacHigh.ToString("X4") + _SysInfo2.nReadMacMid.ToString("X4") + _SysInfo2.nReadMacLow.ToString("X4");
-									
-									if (CheckMacBcdDuplicate2(_SysInfo2.strDispMac))
+									else
 									{
-										theApp.AppendLogMsg2("MacAdress barcode is duplicated.", MSG_TYPE.ERROR);
+										theApp.AppendLogMsg2("Serial number format does not match.", MSG_TYPE.ERROR);
 										_SysInfo2.nTL_Beep = 3;
+									}
+								}
+								else if (_SysInfo2.strReadBarcode.Length == 12)
+								{
+									_SysInfo2.bReadMacOk = true;
+									_SysInfo2.nReadMacHigh = 0;
+									_SysInfo2.nReadMacLow = 0;
+
+									_SysInfo2.strMacAdress = _SysInfo2.strReadBarcode;
+
+									_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadBarcode.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
+									_SysInfo2.nReadMacHigh = _SysInfo2.nReadMac * 0x100;
+									_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadBarcode.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
+									_SysInfo2.nReadMacHigh += _SysInfo2.nReadMac;
+									_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadBarcode.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
+									_SysInfo2.nReadMacMid = _SysInfo2.nReadMac * 0x100;
+									_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadBarcode.Substring(6, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
+									_SysInfo2.nReadMacMid += _SysInfo2.nReadMac;
+									_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadBarcode.Substring(8, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
+									_SysInfo2.nReadMacLow = _SysInfo2.nReadMac * 0x100;
+									_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadBarcode.Substring(10, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
+									_SysInfo2.nReadMacLow += _SysInfo2.nReadMac;
+
+									if (_SysInfo2.bReadMacOk)
+									{
+										_SysInfo2.strDispMac = _SysInfo2.nReadMacHigh.ToString("X4") + _SysInfo2.nReadMacMid.ToString("X4") + _SysInfo2.nReadMacLow.ToString("X4");
+
+										if (CheckMacBcdDuplicate2(_SysInfo2.strDispMac))
+										{
+											theApp.AppendLogMsg2("MacAdress barcode is duplicated.", MSG_TYPE.ERROR);
+											_SysInfo2.nTL_Beep = 3;
+										}
+										else
+										{
+
+											_SysInfo2.bReadMacBcd = true;
+											if (!_SysInfo2.bReadMainBcd) { _SysInfo2.strDispBarcode = ""; }
+										}
+
 									}
 									else
 									{
-							
-										_SysInfo2.bReadMacBcd = true;
-										if (!_SysInfo2.bReadMainBcd) { _SysInfo2.strDispBarcode = ""; }
+										theApp.AppendLogMsg2("Pbms Mac format does not match.", MSG_TYPE.ERROR);
+										_SysInfo2.nTL_Beep = 3;
 									}
-
 								}
 								else
 								{
-									theApp.AppendLogMsg2("Pbms Mac format does not match.", MSG_TYPE.ERROR);
+									theApp.AppendLogMsg2("Rbms Barcode format does not match.", MSG_TYPE.ERROR);
 									_SysInfo2.nTL_Beep = 3;
+								}
+
+								if (_SysInfo2.bReadMainBcd && _SysInfo2.bReadMacBcd)
+								{
+									ShowUserStartMessege2();
+									nProcessStep[nStepIndex] = 2;
 								}
 							}
 							else
 							{
-								theApp.AppendLogMsg2("Rbms Barcode format does not match.", MSG_TYPE.ERROR);
-								_SysInfo2.nTL_Beep = 3;
-							}
+								uint nReadSerialNum = 0;
 
-							if(_SysInfo2.bReadMainBcd && _SysInfo2.bReadMacBcd)
-							{
-								ShowUserStartMessege2();
-								nProcessStep[nStepIndex] = 2;
-							}
-						}
-						else
-						{
-							uint nReadSerialNum = 0;
-
-							if (CheckBarcode(_SysInfo2.strReadBarcode, _ModelInfo2.strBarcodSymbol))
-							{
-
-
-								if (uint.TryParse(_SysInfo2.strReadBarcode.Substring(_ModelInfo2.nSerailNumIndex, 10), out nReadSerialNum))
+								if (CheckBarcode(_SysInfo2.strReadBarcode, _ModelInfo2.strBarcodSymbol))
 								{
 
-									// Mater 바코드 여부 판별
-									if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strMasterOkSampleBarcode))
-									{
-										// 마스터 바코드일 경우 마스터 검사 루틴 진행
-										_SysInfo2.bOkMasterSampleTestIng = true;
-										_SysInfo2.bNgMasterSampleTestIng = false;
-										_SysInfo2.nWriteSerialNum = nReadSerialNum;
-										_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
-										_SysInfo2.bReadMainBcd = true;
-										ShowUserStartMessege2();
-										if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
-										nProcessStep[nStepIndex] = 2;
 
-									}
-									else if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strMasterNgSampleBarcode))
+									if (uint.TryParse(_SysInfo2.strReadBarcode.Substring(_ModelInfo2.nSerailNumIndex, 10), out nReadSerialNum))
 									{
-										// 마스터 바코드일 경우 마스터 검사 루틴 진행
-										_SysInfo2.bOkMasterSampleTestIng = false;
-										_SysInfo2.bNgMasterSampleTestIng = true;
-										_SysInfo2.nWriteSerialNum = nReadSerialNum;
-										_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
-										_SysInfo2.bReadMainBcd = true;
-										ShowUserStartMessege2();
-										if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
-										nProcessStep[nStepIndex] = 2;
-									}
-									else
-									{
-										// 마스터 검사 진행여부 체크하는 루틴 추가
-										if (_Config.bUseMasterCheck && !CheckMasterTestFinish(_ModelInfo2.strModelName))
+
+										// Mater 바코드 여부 판별
+										if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strMasterOkSampleBarcode))
 										{
-
-											// 마스터 팝업 발생
-
-											_SysInfo.nTL_Beep = 3;
-											ShowMasterPopUpWindow();
-											nProcessStep[nStepIndex] = 2;
-
-										}
-										else
-										{
-											_SysInfo2.bOkMasterSampleTestIng = false;
+											// 마스터 바코드일 경우 마스터 검사 루틴 진행
+											_SysInfo2.bOkMasterSampleTestIng = true;
 											_SysInfo2.bNgMasterSampleTestIng = false;
 											_SysInfo2.nWriteSerialNum = nReadSerialNum;
 											_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
@@ -6038,28 +6550,68 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 											ShowUserStartMessege2();
 											if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
 											nProcessStep[nStepIndex] = 2;
+
+										}
+										else if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strMasterNgSampleBarcode))
+										{
+											// 마스터 바코드일 경우 마스터 검사 루틴 진행
+											_SysInfo2.bOkMasterSampleTestIng = false;
+											_SysInfo2.bNgMasterSampleTestIng = true;
+											_SysInfo2.nWriteSerialNum = nReadSerialNum;
+											_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
+											_SysInfo2.bReadMainBcd = true;
+											ShowUserStartMessege2();
+											if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
+											nProcessStep[nStepIndex] = 2;
+										}
+										else
+										{
+											// 마스터 검사 진행여부 체크하는 루틴 추가
+											if (_Config.bUseMasterCheck && !CheckMasterTestFinish(_ModelInfo2.strModelName))
+											{
+
+												// 마스터 팝업 발생
+
+												_SysInfo.nTL_Beep = 3;
+												ShowMasterPopUpWindow();
+												nProcessStep[nStepIndex] = 2;
+
+											}
+											else
+											{
+												_SysInfo2.bOkMasterSampleTestIng = false;
+												_SysInfo2.bNgMasterSampleTestIng = false;
+												_SysInfo2.nWriteSerialNum = nReadSerialNum;
+												_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
+												_SysInfo2.bReadMainBcd = true;
+												HidePbmsStartMessege2();
+												ShowUserStartMessege2();
+												if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
+												nProcessStep[nStepIndex] = 2;
+											}
+
 										}
 
 									}
-
+									else
+									{
+										theApp.AppendLogMsg2("Serial number format does not match.", MSG_TYPE.ERROR);
+										_SysInfo.nTL_Beep = 3;
+									}
 								}
 								else
 								{
-									theApp.AppendLogMsg2("Serial number format does not match.", MSG_TYPE.ERROR);
+									theApp.AppendLogMsg2("Barcode format does not match.", MSG_TYPE.ERROR);
 									_SysInfo.nTL_Beep = 3;
 								}
 							}
-							else
-							{
-								theApp.AppendLogMsg2("Barcode format does not match.", MSG_TYPE.ERROR);
-								_SysInfo.nTL_Beep = 3;
-							}
+
+
+
+
 						}
-						
-
-
-
 					}
+					
 
 					break;
 
@@ -6089,16 +6641,212 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 
+				case 200:
+					if (GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4))
+					{
+						tMainTimer[nStepIndex].Start(50);
+						nProcessStep[nStepIndex]++;
 
-				//// Soket Test
-				//case 50:
-				//	tcpClient.Connect("127.0.0.1", 502)
-				//	nProcessStep[nStepIndex]++;
-				//	break;
+					}
+					break;
 
-				//case 51:
-				//	if(_ModbusSoket.)
-				//	break;
+				case 201:
+					if (GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4) && tMainTimer[nStepIndex].Verify())
+					{
+						HideUserStartMessege2();
+						nProcessStep[nStepIndex] = 250;
+					}
+					else if (!GetDIOPort(DI.START_SW3) || !GetDIOPort(DI.START_SW4))
+					{
+
+						nProcessStep[nStepIndex] = 200;
+					}
+					break;
+
+				case 250:
+					_BcdAoutoReader3.bReadOk = false;
+					_BcdAoutoReader3.TriggerOn();
+					tMainTimer[nStepIndex].Start(3000);
+					nProcessStep[nStepIndex] = 255;
+					break;
+
+				case 255:
+					if (tMainTimer[nStepIndex].Verify())
+					{
+						theApp.AppendLogMsg2("RBMS Barcode scan failed.", MSG_TYPE.ERROR);
+						_SysInfo.nTL_Beep = 3;
+						_BcdAoutoReader3.TriggerOff();
+						nProcessStep[nStepIndex] = 0;
+					}
+
+					if (_BcdAoutoReader3.bReadOk)
+					{
+						_BcdAoutoReader3.bReadOk = false;
+
+						_SysInfo2.strReadBarcode = _BcdAoutoReader3.strReadBarcode;
+
+						uint nReadSerialNum = 0;
+
+
+						if (CheckBarcode(_SysInfo2.strReadBarcode, _ModelInfo2.strBarcodSymbol))
+						{
+							if (uint.TryParse(_SysInfo2.strReadBarcode.Substring(_ModelInfo2.nSerailNumIndex, 10), out nReadSerialNum))
+							{
+
+								// Mater 바코드 여부 판별
+								if (CheckBarcode(_BcdAoutoReader3.strReadBarcode, _ModelInfo2.strMasterOkSampleBarcode))
+								{
+									// 마스터 바코드일 경우 마스터 검사 루틴 진행
+									_SysInfo2.bOkMasterSampleTestIng = true;
+									_SysInfo2.bNgMasterSampleTestIng = false;
+									_SysInfo2.nWriteSerialNum = nReadSerialNum;
+									_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
+									_SysInfo2.bReadMainBcd = true;
+
+									if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
+									tMainTimer[nStepIndex].Start(200);
+									nProcessStep[nStepIndex] = 260;
+
+								}
+								else if (CheckBarcode(_BcdAoutoReader3.strReadBarcode, _ModelInfo2.strMasterNgSampleBarcode))
+								{
+									// 마스터 바코드일 경우 마스터 검사 루틴 진행
+									_SysInfo2.bOkMasterSampleTestIng = false;
+									_SysInfo2.bNgMasterSampleTestIng = true;
+									_SysInfo2.nWriteSerialNum = nReadSerialNum;
+									_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
+									_SysInfo2.bReadMainBcd = true;
+
+									if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
+									tMainTimer[nStepIndex].Start(200);
+									nProcessStep[nStepIndex] = 260;
+								}
+								else
+								{
+									// 마스터 검사 진행여부 체크하는 루틴 추가
+									if (_Config.bUseMasterCheck && !CheckMasterTestFinish(_ModelInfo2.strModelName))
+									{
+
+										// 마스터 팝업 발
+										_SysInfo.nTL_Beep = 3;
+										ShowMasterPopUpWindow();
+
+									}
+									else
+									{
+										_SysInfo2.bOkMasterSampleTestIng = false;
+										_SysInfo2.bNgMasterSampleTestIng = false;
+										_SysInfo2.nWriteSerialNum = nReadSerialNum;
+										_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
+										_SysInfo2.bReadMainBcd = true;
+
+										if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
+										tMainTimer[nStepIndex].Start(200);
+										nProcessStep[nStepIndex] = 260;
+									}
+
+								}
+
+							}
+							else
+							{
+								theApp.AppendLogMsg2("Serial number format does not match", MSG_TYPE.ERROR);
+								_SysInfo.nTL_Beep = 3;
+								_BcdAoutoReader3.TriggerOff();
+								nProcessStep[nStepIndex] = 0;
+
+							}
+						}
+						else
+						{
+							theApp.AppendLogMsg2("Rbms Barcode format does not match.", MSG_TYPE.ERROR);
+							_SysInfo.nTL_Beep = 3;
+							_BcdAoutoReader3.TriggerOff();
+							nProcessStep[nStepIndex] = 0;
+						}
+					}
+					break;
+
+				case 260:
+					if (!tMainTimer[nStepIndex].Verify()) { break; }
+
+					_BcdAoutoReader4.bReadOk = false;
+					_BcdAoutoReader4.TriggerOn();
+					tMainTimer[nStepIndex].Start(3000);
+					nProcessStep[nStepIndex] = 265;
+					break;
+
+				case 265:
+					if (tMainTimer[nStepIndex].Verify())
+					{
+						theApp.AppendLogMsg2("Mac Barcode scan failed.", MSG_TYPE.ERROR);
+						_SysInfo.nTL_Beep = 3;
+						_BcdAoutoReader4.TriggerOff();
+						nProcessStep[nStepIndex] = 0;
+					}
+
+					if (_BcdAoutoReader4.bReadOk)
+					{
+						_BcdAoutoReader4.bReadOk = false;
+
+						_SysInfo2.strReadMacBarcode = _BcdAoutoReader4.strReadBarcode;
+
+						if (_SysInfo2.strReadMacBarcode.Length == 12)
+						{
+							_SysInfo2.bReadMacOk = true;
+							_SysInfo2.nReadMacHigh = 0;
+							_SysInfo2.nReadMacLow = 0;
+
+							_SysInfo2.strMacAdress = _SysInfo2.strReadMacBarcode;
+
+							_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadMacBarcode.Substring(0, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
+							_SysInfo2.nReadMacHigh = _SysInfo2.nReadMac * 0x100;
+							_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadMacBarcode.Substring(2, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
+							_SysInfo2.nReadMacHigh += _SysInfo2.nReadMac;
+							_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadMacBarcode.Substring(4, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
+							_SysInfo2.nReadMacMid = _SysInfo2.nReadMac * 0x100;
+							_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadMacBarcode.Substring(6, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
+							_SysInfo2.nReadMacMid += _SysInfo2.nReadMac;
+							_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadMacBarcode.Substring(8, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
+							_SysInfo2.nReadMacLow = _SysInfo2.nReadMac * 0x100;
+							_SysInfo2.bReadMacOk &= int.TryParse(_SysInfo2.strReadMacBarcode.Substring(10, 2), System.Globalization.NumberStyles.HexNumber, null, out _SysInfo2.nReadMac);
+							_SysInfo2.nReadMacLow += _SysInfo2.nReadMac;
+
+							if (_SysInfo2.bReadMacOk)
+							{
+								_SysInfo2.strDispMac = _SysInfo2.nReadMacHigh.ToString("X4") + _SysInfo2.nReadMacMid.ToString("X4") + _SysInfo2.nReadMacLow.ToString("X4");
+
+								if (CheckMacBcdDuplicate2(_SysInfo2.strDispMac))
+								{
+									theApp.AppendLogMsg2("MacAdress barcode is duplicated.", MSG_TYPE.ERROR);
+									_SysInfo.nTL_Beep = 3;
+								}
+								else
+								{
+									_SysInfo2.bReadMacBcd = true;
+									if (!_SysInfo2.bReadMainBcd) { _SysInfo2.strDispBarcode = ""; }
+									nProcessStep[nStepIndex] = 1000;
+								}
+
+							}
+							else
+							{
+								theApp.AppendLogMsg2("Rbms Mac format does not match.", MSG_TYPE.ERROR);
+								_BcdAoutoReader4.TriggerOff();
+								_SysInfo.nTL_Beep = 3;
+								nProcessStep[nStepIndex] = 0;
+							}
+						}
+						else
+						{
+							theApp.AppendLogMsg2("Rbms Barcode format does not match.", MSG_TYPE.ERROR);
+							_BcdAoutoReader4.TriggerOff();
+							_SysInfo.nTL_Beep = 3;
+							nProcessStep[nStepIndex] = 0;
+						}
+
+					}
+					break;
 
 
 				// 작업 시작
@@ -6457,6 +7205,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo2.strDispBarcodeFront = "";
 							_SysInfo2.strDispBarcodeBack = "";
 							nProcessStep[nStepIndex] = 52000;
+						}
+						else if (_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].nTestItem == 26)
+						{
+							// Barcode Save
+							_SysInfo2.nCurrNGRetryCount = 0;
+							cellT2.Clear();
+							nProcessStep[nStepIndex] = 53000;
 						}
 
 					}
@@ -8803,15 +9558,19 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 41000:
 					_CellSimulator3.Send("*RST", true);
+					tMainTimer[nStepIndex].Start(500);
 					nProcessStep[nStepIndex] = 41005;
 					break;
 
 				case 41005:
+					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator3.Send("*CLS", true);
+					tMainTimer[nStepIndex].Start(500);
 					nProcessStep[nStepIndex] = 41010;
 					break;
 
 				case 41010:
+					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator3.Send("*IDN?", true);
 					tMainTimer[nStepIndex].Start(10000);
 					nProcessStep[nStepIndex]++;
@@ -9019,15 +9778,19 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 42000:
 					_CellSimulator4.Send("*RST", true);
+					tMainTimer[nStepIndex].Start(500);
 					nProcessStep[nStepIndex] = 42005;
 					break;
 
 				case 42005:
+					if (!tMainTimer[nStepIndex].Verify()) { break; }
+					tMainTimer[nStepIndex].Start(500);
 					_CellSimulator4.Send("*CLS", true);
 					nProcessStep[nStepIndex] = 42010;
 					break;
 
 				case 42010:
+					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator4.Send("*IDN?", true);
 					tMainTimer[nStepIndex].Start(10000);
 					nProcessStep[nStepIndex]++;
@@ -10556,29 +11319,6 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "OK");
 					}
-					//}
-					//else if (_SysInfo2.nBuffIndex == 1)
-					//{
-					//	if (_SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
-					//	{
-					//		TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
-					//	}
-					//	else
-					//	{
-					//		TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "OK");
-					//	}
-					//}
-					//else if (_SysInfo2.nBuffIndex == 2)
-					//{
-					//	if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax)
-					//	{
-					//		TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
-					//	}
-					//	else
-					//	{
-					//		TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "OK");
-					//	}
-					//}
 
 					nProcessStep[nStepIndex] = 49050;
 					break;
@@ -11143,6 +11883,291 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 
+				case 53000:
+					_SysInfo2.dbCalcData = 0.0;
+					_SysInfo2.dbCommReadData = 0.0;
+					nProcessStep[nStepIndex] = 53005;
+					break;
+
+				case 53005:
+					if (_Config.bDmmEtcMode)
+					{
+						_KeysiteDmmEtc2.Send("*RST", true);
+						nProcessStep[nStepIndex] = 53010;
+					}
+					else
+					{
+						KeysiteDmm2.Send("*RST");
+						nProcessStep[nStepIndex] = 53010;
+					}
+
+					break;
+
+				// 1번 채널 Power Supply 설정
+				case 53010:
+					if (_Config.bDmmEtcMode)
+					{
+						_KeysiteDmmEtc2.Send("*IDN?", true);
+						nProcessStep[nStepIndex]++;
+					}
+					else
+					{
+						KeysiteDmm2.Send("*IDN?");
+						nProcessStep[nStepIndex]++;
+					}
+					break;
+
+				case 53011:
+					_SysInfo2.bFirstCheck = true;
+					if (_Config.bDmmEtcMode)
+					{
+						if (_KeysiteDmmEtc2.IsReadData())
+						{
+							//tMainTimer[nStepIndex].Start(200);
+							nProcessStep[nStepIndex] = 53020;
+						}
+					}
+					else
+					{
+						if (KeysiteDmm2.IsReadData())
+						{
+							//tMainTimer[nStepIndex].Start(200);
+							nProcessStep[nStepIndex] = 53020;
+						}
+					}
+					break;
+
+				case 53020:
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nDmmCh);
+					if (_Config.bDmmEtcMode)
+					{
+						//if (_SysInfo2.nDmmCh == 1)
+						//{
+						//	_KeysiteDmmEtc2.Send($"CONF:CURR:DC (@122)",true);
+						//}
+						//else
+						//{
+						_KeysiteDmmEtc2.Send($"SENSe:FUNCtion \"CURRent\", (@{_SysInfo2.nDmmCh})", true);
+						//}
+					}
+					else
+					{
+
+						KeysiteDmm2.Send($"SENSe:FUNCtion \"CURRent\", (@{_SysInfo2.nDmmCh})");
+
+					}
+
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 53021:
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nDmmCh);
+					if (_Config.bDmmEtcMode)
+					{
+						//if (_SysInfo2.nDmmCh == 1)
+						//{
+						//	_KeysiteDmmEtc2.Send($"ROUT:SCAN (@{_SysInfo2.nDmmCh})",true);
+						//}
+						//else
+						//{
+						_KeysiteDmmEtc2.Send($"ROUTe:CLOSe (@{_SysInfo2.nDmmCh})", true);
+						AppendDebugMsg($"Curr A #2  검사 시작", "CURR");
+						//}
+					}
+					else
+					{
+						//if (_SysInfo2.nDmmCh == 1)
+						//{
+						//	KeysiteDmm2.Send($"ROUT:SCAN (@{_SysInfo2.nDmmCh})");
+						//}
+						//else
+						//{
+						KeysiteDmm2.Send($"ROUTe:CLOSe (@{_SysInfo2.nDmmCh})");
+						AppendDebugMsg($"Curr A #2 검사 시작", "CURR");
+						//}
+					}
+
+
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 53022:
+
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nDmmCh);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue3, out _SysInfo2.nDmmTime);
+
+					//if(_SysInfo2.nDmmTime == 1)
+					//{
+					//	nProcessStep[nStepIndex] = 43023;
+					//}
+					//else
+					//{
+					//if (_Config.bDmmEtcMode)
+					//{
+					//	//if (_SysInfo2.nDmmCh == 1)
+					//	//{
+					//	//	_KeysiteDmmEtc2.Send($"SENS:CURR:APER {_ModelInfo2.dbDmmAScanSpeed},(@{_SysInfo2.nDmmCh})", true);
+					//	//}
+					//	//else
+					//	//{
+					//	_KeysiteDmmEtc2.Send($"SENS:CURR:APER {_ModelInfo2.dbDmmMScanSpeed},(@{_SysInfo2.nDmmCh})", true);
+					//	//}
+					//}
+					//else
+					//{
+					//	//if (_SysInfo2.nDmmCh == 1)
+					//	//{
+					//	//	KeysiteDmm2.Send($"SENS:CURR:APER {_ModelInfo2.dbDmmAScanSpeed},(@{_SysInfo2.nDmmCh})");
+					//	//}
+					//	//else
+					//	//{
+					//	KeysiteDmm2.Send($"SENS:CURR:APER {_ModelInfo2.dbDmmMScanSpeed},(@{_SysInfo2.nDmmCh})");
+					//	//}
+					//}
+					//tMainTimer[nStepIndex].Start(3000);
+					nProcessStep[nStepIndex] = 53023;
+
+					//}
+					break;
+
+
+				case 53023:
+					//if (!tMainTimer[nStepIndex].Verify()) { break; }
+					if (_Config.bDmmEtcMode)
+					{
+						_KeysiteDmmEtc2.Send($"READ?", true);
+					}
+					else
+					{
+						KeysiteDmm2.Send($"READ?");
+					}
+
+					//KeysiteDmm2.Send($"MEAS:VOLT:DC? (@{_SysInfo2.strDmmCh})");
+					nProcessStep[nStepIndex] = 53024;
+					break;
+
+				case 53024:
+
+
+					if (_Config.bDmmEtcMode)
+					{
+						if (_KeysiteDmmEtc2.IsReadData())
+						{
+							nProcessStep[nStepIndex] = 53025;
+							if (_SysInfo2.bFirstCheck)
+							{
+								tMainTimer[nStepIndex].Start(5000);
+								_SysInfo2.bFirstCheck = false;
+							}
+						}
+					}
+					else
+					{
+						if (KeysiteDmm2.IsReadData())
+						{
+							nProcessStep[nStepIndex] = 53025;
+							if (_SysInfo2.bFirstCheck)
+							{
+								tMainTimer[nStepIndex].Start(5000);
+								_SysInfo2.bFirstCheck = false;
+							}
+						}
+					}
+					break;
+
+				case 53025:
+
+					if (_Config.bDmmEtcMode)
+					{
+						double.TryParse(_KeysiteDmmEtc2.strReadMessage, out _SysInfo2.dbCommReadData);
+						AppendDebugMsg($"Curr AVG #2 {_SysInfo2.dbCommReadData}", "CURR");
+						cellT2.Add(_SysInfo2.dbCommReadData);
+						nProcessStep[nStepIndex] = 53026;
+					}
+					else
+					{
+						double.TryParse(KeysiteDmm2.GetReadData(), out _SysInfo2.dbCommReadData);
+						AppendDebugMsg($"Curr AVG #2 {_SysInfo2.dbCommReadData}", "CURR");
+						cellT2.Add(_SysInfo2.dbCommReadData);
+						nProcessStep[nStepIndex] = 53026;
+
+					}
+
+					break;
+
+				case 53026:
+					if (!tMainTimer[nStepIndex].Verify())
+					{
+
+						nProcessStep[nStepIndex] = 53023;
+
+					}
+					else
+					{
+						_SysInfo2.dbCommReadMinData = cellT2.Average();
+						nProcessStep[nStepIndex] = 53040;
+
+					}
+					break;
+
+
+				case 53040:
+					//theApp.AppendLogMsg2(KeysiteDmm2.GetReadData(), MSG_TYPE.INFO);
+					//if (_Config.bDmmEtcMode)
+					//{
+					//	double.TryParse(_KeysiteDmmEtc2.strReadMessage, out _SysInfo2.dbCommReadData);
+					//}
+					//else
+					//{
+					//	double.TryParse(KeysiteDmm2.GetReadData(), out _SysInfo2.dbCommReadData);
+					//}
+
+					//theApp.AppendLogMsg2(_SysInfo2.dbCommReadData.ToString(), MSG_TYPE.INFO);
+					//int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue3, out _SysInfo2.nBuffIndex);
+					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo2.dbCommReadMinData}{_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo2.dbCalcAvgData);
+					//theApp.AppendLogMsg2(_SysInfo2.dbCalcData.ToString(), MSG_TYPE.INFO);
+					double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMin, out _SysInfo2.dbSpecMin);
+					double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMax, out _SysInfo2.dbSpecMax);
+
+					// 0은 양쪽다 비교 , 1은 Min만 비교, 2는 Max만 비교
+					//if (_SysInfo2.nBuffIndex == 0)
+
+
+					//{
+					_SysInfo2.dbCalcData = _SysInfo2.dbCalcAvgData - _SysInfo2.nDmmTime;
+					if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax || _SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
+					{
+						if (_SysInfo2.nCurrNGRetryCount > 5)
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
+						}
+						else
+						{
+							_SysInfo2.nCurrNGRetryCount++;
+							AppendDebugMsg($"Curr NG {_SysInfo2.dbCalcData}", "CURR");
+							nProcessStep[nStepIndex] = 53000;
+							break;
+						}
+
+
+					}
+					else
+					{
+
+						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString("F4"), "OK");
+					}
+
+					nProcessStep[nStepIndex] = 53050;
+					break;
+
+				case 53050:
+					_SysInfo2.nCurrNGRetryCount = 0;
+					_SysInfo2.nMainWorkStep++;
+					nProcessStep[nStepIndex] = 3000;
+					break;
+
+
 
 
 
@@ -11298,6 +12323,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 86000:
 					_SysInfo2.strMacAdress = "";
 					_SysInfo2.strDispMac = "";
+					ShowResultMessege2();
 					nProcessStep[nStepIndex] = 100000;
 					break;
 
@@ -15511,6 +16537,65 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				((MainWindow)App.Current.MainWindow).HideNutRetryMessege2();
 			});
 		}
+		static void ShowPbmsStartMessege()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowPbmsStartMessege();
+			});
+		}
+		static void HidePbmsStartMessege()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HidePbmsStartMessege();
+			});
+		}
+
+		static void ShowPbmsStartMessege2()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowPbmsStartMessege2();
+			});
+		}
+		static void HidePbmsStartMessege2()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HidePbmsStartMessege2();
+			});
+		}
+
+		static void ShowResultMessege()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowResultMessege();
+			});
+		}
+		static void HideResultMessege()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HideResultMessege();
+			});
+		}
+
+		static void ShowResultMessege2()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).ShowResultMessege2();
+			});
+		}
+		static void HideResultMessege2()
+		{
+			App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE         // Log Clear
+			{
+				((MainWindow)App.Current.MainWindow).HideResultMessege2();
+			});
+		}
 
 
 		public static UInt16 ModRTU_CRC(byte[] buf, int len)
@@ -15766,7 +16851,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		static void SaveMacBcdDuplicate2(string strBCD)
 		{
 			// Hipot 중복 생성
-			string strSaveFolderPath = String.Format(@"Duplicate\\MacAdress2\\");
+			string strSaveFolderPath = String.Format(@"Duplicate\\MacAdress\\");
 			DirectoryInfo Savedir = new DirectoryInfo(strSaveFolderPath);
 			if (Savedir.Exists == false) { Savedir.Create(); }
 
@@ -15792,7 +16877,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		static bool CheckMacBcdDuplicate2(string strBCD)
 		{
 
-			string strSaveFolderPath = String.Format(@"Duplicate\\MacAdress2\\");
+			string strSaveFolderPath = String.Format(@"Duplicate\\MacAdress\\");
 			DirectoryInfo Savedir = new DirectoryInfo(strSaveFolderPath);
 			if (Savedir.Exists == false) { Savedir.Create(); }
 
@@ -15994,23 +17079,64 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			if (_BcdReader.PortOpen())
 			{
 				_BcdReader.nStation = 1;
-				AppendLogMsg(String.Format("<COM{0}>  Hand BCR #1 Port Open Success", _Config.nBCDScanner1Port), MSG_TYPE.INFO);
+				AppendLogMsg(String.Format("<COM{0}> Hand BCD #1 Port Open Success", _Config.nBCDScanner1Port), MSG_TYPE.INFO);
 			}
 			else
 			{
-				AppendLogMsg(String.Format("<COM{0}> Hand BCR #1 Port Open Fail", _Config.nBCDScanner1Port), MSG_TYPE.ERROR);
+				AppendLogMsg(String.Format("<COM{0}> Hand BCD #1 Port Open Fail", _Config.nBCDScanner1Port), MSG_TYPE.ERROR);
 			}
 
 			_BcdReader2.SetPort(String.Format("COM{0}", _Config.nBCDScanner2Port), _Config.nBCDScanner2BaudRate, Parity.None, 8, StopBits.One, "바코드리더 #2");
 			if (_BcdReader2.PortOpen())
 			{
 				_BcdReader2.nStation = 2;
-				AppendLogMsg(String.Format("<COM{0}> Hand BCR #2 Port Open Success", _Config.nBCDScanner2Port), MSG_TYPE.INFO);
+				AppendLogMsg(String.Format("<COM{0}> Hand BCD #2 Port Open Success", _Config.nBCDScanner2Port), MSG_TYPE.INFO);
 			}
 			else
 			{
-				AppendLogMsg(String.Format("<COM{0}> Hand BCR #2 Port Open Fail", _Config.nBCDScanner2Port), MSG_TYPE.ERROR);
+				AppendLogMsg(String.Format("<COM{0}> Hand BCD #2 Port Open Fail", _Config.nBCDScanner2Port), MSG_TYPE.ERROR);
 			}
+
+			_BcdAoutoReader.SetPort(String.Format("COM{0}", _Config.nAutoScanner1Port), _Config.nAutoScanner1BaudRate, Parity.None, 8, StopBits.Two);
+			if (_BcdAoutoReader.PortOpen())
+			{
+				AppendLogMsg(String.Format("<COM{0}> Auto BCD #1 Port Open Success", _Config.nAutoScanner1Port), MSG_TYPE.INFO);
+			}
+			else
+			{
+				AppendLogMsg(String.Format("<COM{0}> Auto BCD #1 Port Open Fail", _Config.nAutoScanner1Port), MSG_TYPE.ERROR);
+			}
+
+			_BcdAoutoReader2.SetPort(String.Format("COM{0}", _Config.nAutoScanner2Port), _Config.nAutoScanner2BaudRate, Parity.None, 8, StopBits.Two);
+			if (_BcdAoutoReader2.PortOpen())
+			{
+				AppendLogMsg(String.Format("<COM{0}> Auto BCD #2 Port Open Success", _Config.nAutoScanner2Port), MSG_TYPE.INFO);
+			}
+			else
+			{
+				AppendLogMsg(String.Format("<COM{0}> Auto BCD #2 Port Open Fail", _Config.nAutoScanner2Port), MSG_TYPE.ERROR);
+			}
+			
+			_BcdAoutoReader3.SetPort(String.Format("COM{0}", _Config.nAutoScanner3Port), _Config.nAutoScanner3BaudRate, Parity.None, 8, StopBits.Two);
+			if (_BcdAoutoReader3.PortOpen())
+			{
+				AppendLogMsg(String.Format("<COM{0}> Auto BCD #3 Port Open Success", _Config.nAutoScanner3Port), MSG_TYPE.INFO);
+			}
+			else
+			{
+				AppendLogMsg(String.Format("<COM{0}> Auto BCD #3 Port Open Fail", _Config.nAutoScanner3Port), MSG_TYPE.ERROR);
+			}
+
+			_BcdAoutoReader4.SetPort(String.Format("COM{0}", _Config.nAutoScanner4Port), _Config.nAutoScanner4BaudRate, Parity.None, 8, StopBits.Two);
+			if (_BcdAoutoReader4.PortOpen())
+			{
+				AppendLogMsg(String.Format("<COM{0}> Auto BCD #4 Port Open Success", _Config.nAutoScanner4Port), MSG_TYPE.INFO);
+			}
+			else
+			{
+				AppendLogMsg(String.Format("<COM{0}> Auto BCD #4 Port Open Fail", _Config.nAutoScanner4Port), MSG_TYPE.ERROR);
+			}
+
 
 			_BarcodePrint.SetPort(String.Format("COM{0}", _Config.nBcdPrinterPort), 9600, Parity.None, 8, StopBits.One);
 			if (_BarcodePrint.PortOpen())
@@ -16111,15 +17237,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				_CellSimulator4.nPort = _Config.nCellSimulator4Port;
 				_CellSimulator4.SetPort();
 
-				_Nutrunner.strIP = _Config.strToolIP;
-				_Nutrunner.nPort = _Config.nToolPort;
-				_Nutrunner.nStation = 1;
-				_Nutrunner.SetPort();
+				//_Nutrunner.strIP = _Config.strToolIP;
+				//_Nutrunner.nPort = _Config.nToolPort;
+				//_Nutrunner.nStation = 1;
+				//_Nutrunner.SetPort();
 
-				_Nutrunner2.strIP = _Config.strToolIP2;
-				_Nutrunner2.nPort = _Config.nToolPort2;
-				_Nutrunner2.nStation = 2;
-				_Nutrunner2.SetPort();
+				//_Nutrunner2.strIP = _Config.strToolIP2;
+				//_Nutrunner2.nPort = _Config.nToolPort2;
+				//_Nutrunner2.nStation = 2;
+				//_Nutrunner2.SetPort();
 
 
 
@@ -17288,6 +18414,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			_IniFile.IniWriteValue("COMM", "nRBMSPort", _Config.nRBMSPort.ToString(), strPath);
 			_IniFile.IniWriteValue("COMM", "strRBMSIP2", _Config.strRBMSIP2.ToString(), strPath);
 			_IniFile.IniWriteValue("COMM", "nRBMSPort2", _Config.nRBMSPort2.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nBCDScanner2Port", _Config.nBCDScanner2Port.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nAutoScanner1Port", _Config.nAutoScanner1Port.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nAutoScanner1BaudRate", _Config.nAutoScanner1BaudRate.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nAutoScanner2Port", _Config.nAutoScanner2Port.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nAutoScanner2BaudRate", _Config.nAutoScanner2BaudRate.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nAutoScanner3Port", _Config.nAutoScanner3Port.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nAutoScanner3BaudRate", _Config.nAutoScanner3BaudRate.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nAutoScanner4Port", _Config.nAutoScanner4Port.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nAutoScanner4BaudRate", _Config.nAutoScanner4BaudRate.ToString(), strPath);
 
 
 			// 마지막 작업모델
@@ -17367,7 +18502,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			int.TryParse(_IniFile.IniReadValue("COMM", "nCycloneMyPort", "5001", strPath), out _Config.nCycloneMyPort);
 			_Config.strCycloneMyIP2 = _IniFile.IniReadValue("COMM", "strCycloneMyIP2", "192.168.0.1", strPath);
 			int.TryParse(_IniFile.IniReadValue("COMM", "nCycloneMyPort2", "5001", strPath), out _Config.nCycloneMyPort2);
-	
+			int.TryParse(_IniFile.IniReadValue("COMM", "nAutoScanner1Port", "-1", strPath), out _Config.nAutoScanner1Port);
+			int.TryParse(_IniFile.IniReadValue("COMM", "nAutoScanner1BaudRate", "115200", strPath), out _Config.nAutoScanner1BaudRate);
+			int.TryParse(_IniFile.IniReadValue("COMM", "nAutoScanner2Port", "-1", strPath), out _Config.nAutoScanner2Port);
+			int.TryParse(_IniFile.IniReadValue("COMM", "nAutoScanner2BaudRate", "115200", strPath), out _Config.nAutoScanner2BaudRate);
+			int.TryParse(_IniFile.IniReadValue("COMM", "nAutoScanner3Port", "-1", strPath), out _Config.nAutoScanner3Port);
+			int.TryParse(_IniFile.IniReadValue("COMM", "nAutoScanner3BaudRate", "115200", strPath), out _Config.nAutoScanner3BaudRate);
+			int.TryParse(_IniFile.IniReadValue("COMM", "nAutoScanner4Port", "-1", strPath), out _Config.nAutoScanner4Port);
+			int.TryParse(_IniFile.IniReadValue("COMM", "nAutoScanner4BaudRate", "115200", strPath), out _Config.nAutoScanner4BaudRate);
+
 
 			_Config.strCounterMyIP = _IniFile.IniReadValue("COMM", "strCounterMyIP", "192.168.0.1", strPath);
 			int.TryParse(_IniFile.IniReadValue("COMM", "nCounterMyPort", "5001", strPath), out _Config.nCounterMyPort);

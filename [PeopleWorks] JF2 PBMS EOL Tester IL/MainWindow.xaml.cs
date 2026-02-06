@@ -45,10 +45,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static NutRetryPopUp2 _NutRetryPopUp2;
 		public static BarcodePopUP _BarcodePopUP;
 		public static BarcodePopUP2 _BarcodePopUP2;
+		public static PbmsStartMassege _PbmsStartMassege;
+		public static PbmsStartMassege2 _PbmsStartMassege2;
+		public static ResultMassage _ResultMassage;
+		public static ResultMassage2 _ResultMassage2;
 		public MainWindow()
 		{
-			//this.Title = "[PeopleWorks] JF2 RBMS BBMS EOL Tester IL (Ver. 20250613.1)";
-			//Duplicate_execution(Title);   // 중복실행 방지
+			this.Title = "[PeopleWorks] JF2 RBMS PBMS EOL Tester IL (Ver. 202500723.1)";
+			Duplicate_execution(Title);   // 중복실행 방지
 
 			InitializeComponent();
 
@@ -526,7 +530,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			VersionInfo _Window = new VersionInfo();
 			_Window.ShowDialog();
 
-			theApp.SaveResultData();
+			//theApp.SaveResultData();
 		}
 
 		// 모델 설정
@@ -951,7 +955,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
 
 				double popupWidth = 1200;
-				double popupHeight = 250;
+				double popupHeight = 650;
 				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
 				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
 
@@ -1021,7 +1025,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[0].WorkingArea;
 
 				double popupWidth = 1200;
-				double popupHeight = 250;
+				double popupHeight = 650;
 				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
 				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
 
@@ -1803,6 +1807,210 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			if (_BarcodePopUP2 == null)
 				_BarcodePopUP2 = new BarcodePopUP2();
 			_BarcodePopUP2.Hide();
+
+		}
+
+		public void ShowPbmsStartMessege()
+		{
+			//StartCBCheck startCB = new StartCBCheck();
+			//            startCB.Close();
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 650;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_PbmsStartMassege == null)
+				{
+					_PbmsStartMassege = new PbmsStartMassege();
+					_PbmsStartMassege.Show();
+					_PbmsStartMassege.WindowStartupLocation = WindowStartupLocation.Manual;
+					_PbmsStartMassege.Left = left;
+					_PbmsStartMassege.Top = top;
+					_PbmsStartMassege.Width = popupWidth;
+					_PbmsStartMassege.Height = popupHeight;
+					_PbmsStartMassege.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_PbmsStartMassege.Show();
+					_PbmsStartMassege.Activate();
+					_PbmsStartMassege.WindowStartupLocation = WindowStartupLocation.Manual;
+					_PbmsStartMassege.Left = left;
+					_PbmsStartMassege.Top = top;
+					_PbmsStartMassege.Width = popupWidth;
+					_PbmsStartMassege.Height = popupHeight;
+					_PbmsStartMassege.WindowState = System.Windows.WindowState.Normal;
+
+				}
+			}
+
+
+		}
+
+		public void HidePbmsStartMessege()
+		{
+
+			if (_PbmsStartMassege == null)
+				_PbmsStartMassege = new PbmsStartMassege();
+			_PbmsStartMassege.Hide();
+
+		}
+
+		public void ShowPbmsStartMessege2()
+		{
+			//StartCBCheck startCB = new StartCBCheck();
+			//            startCB.Close();
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[0].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 650;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_PbmsStartMassege2 == null)
+				{
+					_PbmsStartMassege2 = new PbmsStartMassege2();
+					_PbmsStartMassege2.Show();
+					_PbmsStartMassege2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_PbmsStartMassege2.Left = left;
+					_PbmsStartMassege2.Top = top;
+					_PbmsStartMassege2.Width = popupWidth;
+					_PbmsStartMassege2.Height = popupHeight;
+					_PbmsStartMassege2.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_PbmsStartMassege2.Show();
+					_PbmsStartMassege2.Activate();
+					_PbmsStartMassege2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_PbmsStartMassege2.Left = left;
+					_PbmsStartMassege2.Top = top;
+					_PbmsStartMassege2.Width = popupWidth;
+					_PbmsStartMassege2.Height = popupHeight;
+					_PbmsStartMassege2.WindowState = System.Windows.WindowState.Normal;
+
+				}
+			}
+
+
+		}
+
+		public void HidePbmsStartMessege2()
+		{
+
+			if (_PbmsStartMassege2 == null)
+				_PbmsStartMassege2 = new PbmsStartMassege2();
+			_PbmsStartMassege2.Hide();
+
+		}
+
+		public void ShowResultMessege()
+		{
+			//StartCBCheck startCB = new StartCBCheck();
+			//            startCB.Close();
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[1].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 500;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_ResultMassage == null)
+				{
+					_ResultMassage = new ResultMassage();
+					_ResultMassage.Show();
+					_ResultMassage.WindowStartupLocation = WindowStartupLocation.Manual;
+					_ResultMassage.Left = left;
+					_ResultMassage.Top = top;
+					_ResultMassage.Width = popupWidth;
+					_ResultMassage.Height = popupHeight;
+					_ResultMassage.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_ResultMassage.Show();
+					_ResultMassage.Activate();
+					_ResultMassage.WindowStartupLocation = WindowStartupLocation.Manual;
+					_ResultMassage.Left = left;
+					_ResultMassage.Top = top;
+					_ResultMassage.Width = popupWidth;
+					_ResultMassage.Height = popupHeight;
+					_ResultMassage.WindowState = System.Windows.WindowState.Normal;
+
+				}
+			}
+
+
+		}
+
+		public void HideResultMessege()
+		{
+
+			if (_ResultMassage == null)
+				_ResultMassage = new ResultMassage();
+			_ResultMassage.Hide();
+
+		}
+
+		public void ShowResultMessege2()
+		{
+			//StartCBCheck startCB = new StartCBCheck();
+			//            startCB.Close();
+
+			if (System.Windows.Forms.SystemInformation.MonitorCount > 1)
+			{
+				System.Drawing.Rectangle secondaryScreenRectangle = Screen.AllScreens[0].WorkingArea;
+
+				double popupWidth = 1200;
+				double popupHeight = 500;
+				double left = secondaryScreenRectangle.Left + (secondaryScreenRectangle.Width - popupWidth) / 2;
+				double top = secondaryScreenRectangle.Top + (secondaryScreenRectangle.Height - popupHeight) / 2;
+
+				if (_ResultMassage2 == null)
+				{
+					_ResultMassage2 = new ResultMassage2();
+					_ResultMassage2.Show();
+					_ResultMassage2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_ResultMassage2.Left = left;
+					_ResultMassage2.Top = top;
+					_ResultMassage2.Width = popupWidth;
+					_ResultMassage2.Height = popupHeight;
+					_ResultMassage2.WindowState = System.Windows.WindowState.Normal;
+				}
+				else
+				{
+					_ResultMassage2.Show();
+					_ResultMassage2.Activate();
+					_ResultMassage2.WindowStartupLocation = WindowStartupLocation.Manual;
+					_ResultMassage2.Left = left;
+					_ResultMassage2.Top = top;
+					_ResultMassage2.Width = popupWidth;
+					_ResultMassage2.Height = popupHeight;
+					_ResultMassage2.WindowState = System.Windows.WindowState.Normal;
+
+				}
+			}
+
+
+		}
+
+		public void HideResultMessege2()
+		{
+
+			if (_ResultMassage2 == null)
+				_ResultMassage2 = new ResultMassage2();
+			_ResultMassage2.Hide();
 
 		}
 	}

@@ -110,6 +110,7 @@
     <Compile Include="cyclone_control_api2.cs" />
     <Compile Include="DmmEtc.cs" />
     <Compile Include="HIVE_Timer.cs" />
+    <Compile Include="HoneyWell.cs" />
     <Compile Include="KvaserCanComm.cs" />
     <Compile Include="MainWindow2.xaml.cs">
       <DependentUpon>MainWindow2.xaml</DependentUpon>
@@ -139,11 +140,23 @@
     <Compile Include="NutrunnerEth.cs" />
     <Compile Include="NutrunnerEth2.cs" />
     <Compile Include="OPE_PS.cs" />
+    <Compile Include="PbmsStartMassege.xaml.cs">
+      <DependentUpon>PbmsStartMassege.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PbmsStartMassege2.xaml.cs">
+      <DependentUpon>PbmsStartMassege2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PCANBasic.cs" />
     <Compile Include="PcanComm.cs" />
     <Compile Include="PingTester.cs" />
     <Compile Include="PopUp2.xaml.cs">
       <DependentUpon>PopUp2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ResultMassage.xaml.cs">
+      <DependentUpon>ResultMassage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ResultMassage2.xaml.cs">
+      <DependentUpon>ResultMassage2.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReTryPopup.xaml.cs">
       <DependentUpon>ReTryPopup.xaml</DependentUpon>
@@ -292,11 +305,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PbmsStartMassege.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PbmsStartMassege2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PopUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PopUp2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResultMassage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ResultMassage2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

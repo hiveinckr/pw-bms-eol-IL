@@ -57,6 +57,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			{
 				theApp.LoadModelInfo2(ref theApp._ModelInfo2, lstModel[gdCMABCD.SelectedIndex].strBCD);
 				theApp.LoadModelProductCount2(ref theApp._LotCount2, lstModel[gdCMABCD.SelectedIndex].strBCD);
+				theApp.nProcessStep[(int)PROC_LIST.MAIN2] = 0;
 				this.DialogResult = true;
 			}
 		}
@@ -67,6 +68,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			{
 				theApp.LoadModelInfo2(ref theApp._ModelInfo2, lstModel[gdCMABCD.SelectedIndex].strBCD);
 				theApp.LoadModelProductCount2(ref theApp._LotCount2, lstModel[gdCMABCD.SelectedIndex].strBCD);
+				theApp.nProcessStep[(int)PROC_LIST.MAIN2] = 0;
 				this.DialogResult = true;
 			}
 		}

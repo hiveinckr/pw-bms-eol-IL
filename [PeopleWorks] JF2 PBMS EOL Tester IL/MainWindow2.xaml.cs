@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,6 +31,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static PopUp2 _PopUp2;
 		public MainWindow2()
 		{
+			this.Title = "[PeopleWorks] JF2 RBMS PBMS EOL Tester IL2";
+			Duplicate_execution(Title);   // 중복실행 방지
+
 			InitializeComponent();
 			gdLogView.ItemsSource = theApp.MainLogMessage2;
 			gdWorkList.ItemsSource = theApp._TestData2;
@@ -365,7 +369,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			VersionInfo _Window = new VersionInfo();
 			_Window.ShowDialog();
 
-			theApp.SaveResultData();
+			//theApp.SaveResultData();
 		}
 
 		public void TestLogSet2(int nIndex, string strData, string strResult)
@@ -726,6 +730,32 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			//if (_PopUp2 == null)
 			//	_PopUp2 = new PopUp2();
 			//_PopUp2.Show();
+		}
+		Mutex mutex = null;
+		private void Duplicate_execution(string mutexName)
+		{
+			try
+			{
+				mutex = new Mutex(false, mutexName);
+			}
+			catch (Exception ex)
+			{
+				//                MessageBox.Show(ex.Message + "\n\n" + ex.StackTrace + "\n\n" + "Application Exiting…", "Exception thrown");
+				_SysInfo.bMainProcessStop = true;
+				System.Windows.Application.Current.Shutdown();
+
+			}
+			if (mutex.WaitOne(0, false))
+			{
+				InitializeComponent();
+			}
+			else
+			{
+				//                MessageBox.Show("Application already startet.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+				_SysInfo.bMainProcessStop = true;
+				System.Windows.Application.Current.Shutdown();
+
+			}
 		}
 	}
 	

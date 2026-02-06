@@ -50,6 +50,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			PsetNameList.Add(new SchName { nSchID = 23, strSchName = "Bolt Tight" });
 			PsetNameList.Add(new SchName { nSchID = 24, strSchName = "Firmware Update" });
 			PsetNameList.Add(new SchName { nSchID = 25, strSchName = "Barcode Save" });
+			PsetNameList.Add(new SchName { nSchID = 26, strSchName = "DMM(Curr.A JF2S)" });
 			//PsetNameList.Add(new SchName { nSchID = 26, strSchName = "RBMS Check" });
 			//PsetNameList.Add(new SchName { nSchID = 27, strSchName = "MAC Adress Check" });
 
@@ -106,6 +107,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				workOptionView.Add(new SpecView() { bUseSpec = _mInfo.bUseRMDTestMode, strName = "RMD Test Mode" });
 				workOptionView.Add(new SpecView() { bUseSpec = _mInfo.bUseQRCode, strName = "Use QR Code Print" });
 				workOptionView.Add(new SpecView() { bUseSpec = _mInfo.bUseRbmsTest, strName = "Use RBMS Test" });
+				workOptionView.Add(new SpecView() { bUseSpec = _mInfo.bUseAutoBCSScan, strName = "Use auto BCD scan" });
 			}
 			else
 			{
@@ -134,6 +136,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				workOptionView.Add(new SpecView() { bUseSpec = _mInfo.bUseRMDTestMode, strName = "RMD 테스트 모드" });
 				workOptionView.Add(new SpecView() { bUseSpec = _mInfo.bUseQRCode, strName = "Use QR Code Print" });
 				workOptionView.Add(new SpecView() { bUseSpec = _mInfo.bUseRbmsTest, strName = "Use RBMS Test" });
+				workOptionView.Add(new SpecView() { bUseSpec = _mInfo.bUseAutoBCSScan, strName = "Use auto BCD scan" });
+
+
 			}
 
 		
@@ -229,6 +234,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			_mInfo.bUseRMDTestMode = workOptionView[nSpecIndex++].bUseSpec;
 			_mInfo.bUseQRCode = workOptionView[nSpecIndex++].bUseSpec;
 			_mInfo.bUseRbmsTest = workOptionView[nSpecIndex++].bUseSpec;
+			_mInfo.bUseAutoBCSScan = workOptionView[nSpecIndex++].bUseSpec;
 			//int.TryParse(workOptionView[nSpecIndex++].strValue, out nReadData);
 			//_mInfo.nJumpCount = nReadData;
 
@@ -265,6 +271,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				workOptionView2.Add(new SpecView() { bUseSpec = _mInfo.bUseRMDTestMode, strName = "RMD Test Mode" });
 				workOptionView2.Add(new SpecView() { bUseSpec = _mInfo.bUseQRCode, strName = "Use QR Code Print" });
 				workOptionView2.Add(new SpecView() { bUseSpec = _mInfo.bUseRbmsTest, strName = "Use RBMS Test" });
+				workOptionView2.Add(new SpecView() { bUseSpec = _mInfo.bUseAutoBCSScan, strName = "Use auto BCD scan" });
 
 
 			}
@@ -296,8 +303,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				workOptionView2.Add(new SpecView() { bUseSpec = _mInfo.bUseRMDTestMode, strName = "RMD 테스트 모드" });
 				workOptionView2.Add(new SpecView() { bUseSpec = _mInfo.bUseQRCode, strName = "Use QR Code Print" });
 				workOptionView2.Add(new SpecView() { bUseSpec = _mInfo.bUseRbmsTest, strName = "Use RBMS Test" });
+				workOptionView2.Add(new SpecView() { bUseSpec = _mInfo.bUseAutoBCSScan, strName = "Use auto BCD scan" });
+
 			}
-		
+
 
 		}
 
@@ -337,6 +346,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			_mInfo.bUseRMDTestMode = workOptionView2[nSpecIndex++].bUseSpec;
 			_mInfo.bUseQRCode = workOptionView2[nSpecIndex++].bUseSpec;
 			_mInfo.bUseRbmsTest = workOptionView2[nSpecIndex++].bUseSpec;
+			_mInfo.bUseAutoBCSScan = workOptionView2[nSpecIndex++].bUseSpec;
 			//int.TryParse(workOptionView[nSpecIndex++].strValue, out nReadData);
 			//_mInfo.nJumpCount = nReadData;
 
