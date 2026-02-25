@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 {
-	internal class DmmEtc
+	public class DmmEtc
 	{
 		public bool bPortStat = false;
 		public bool bPrintStart = false;

@@ -188,16 +188,6 @@
                 <ContentControl x:Name="btModelSetupContent" Content="모델 설정" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Button x:Name="btNutCountM" HorizontalAlignment="Left" Height="60" Margin="-195,733,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountM_Click" >
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ContentControl Content="TITLE COUNT -" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
-            </StackPanel>
-        </Button>
-        <Button x:Name="btNutCountP" HorizontalAlignment="Left" Height="60" Margin="-345,733,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountP_Click" >
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ContentControl Content="TITLE COUNT +" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
-            </StackPanel>
-        </Button>
         <DataGrid x:Name="gdWorkList" HorizontalAlignment="Left" Height="550" Margin="320,126,0,0" VerticalAlignment="Top" Width="1169" Background="White"  AutoGenerateColumns="False" CanUserAddRows="False" GridLinesVisibility="None" CanUserResizeRows="False" RowHeaderWidth="0" FontSize="12" LoadingRow="gdWorkList_LoadingRow" SelectedCellsChanged="gdWorkList_SelectedCellsChanged" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ScrollViewer.CanContentScroll="True" ScrollViewer.IsDeferredScrollingEnabled="True">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridCell}">
@@ -275,6 +265,16 @@
 
 
         </ToolBar>
+        <Button x:Name="btNutCountM" HorizontalAlignment="Left" Height="60" Margin="552,740,0,0" VerticalAlignment="Top" Width="225" Style="{DynamicResource MyImgButton}" Click="btNutCountM_Click" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ContentControl Content="Reconnect Simulator #2" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="btNutCountP" HorizontalAlignment="Left" Height="60" Margin="320,740,0,0" VerticalAlignment="Top" Width="225" Style="{DynamicResource MyImgButton}" Click="btNutCountP_Click" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ContentControl Content="Reconnect Simulator #1" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
     </Grid>
 </Window>
 

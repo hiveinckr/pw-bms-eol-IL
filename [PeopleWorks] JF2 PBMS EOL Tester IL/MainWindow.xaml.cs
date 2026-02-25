@@ -759,22 +759,32 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		private void btNutCountP_Click(object sender, RoutedEventArgs e)
 		{
-			if(_SysInfo.nTipNowCount < _SysInfo.nTipMaxCount && _SysInfo.bTiteIngStart)
+
+			try
 			{
-				_SysInfo.nTipNowCount++;
-				TestLogSet(_SysInfo.nMainWorkStep, _SysInfo.nTipNowCount.ToString(), "");
-			}
+				theApp._CellSimulator1.strIP = _Config.strCellSimulator1IP;
+				theApp._CellSimulator1.nPort = _Config.nCellSimulator1Port;
+				theApp._CellSimulator1.SetPort();
+
 			
+			}
+			catch (Exception _e) { theApp.AppendLogMsg(_e.Message, MSG_TYPE.INFO); }
+
+
 		}
 
 		private void btNutCountM_Click(object sender, RoutedEventArgs e)
 		{
-			if(_SysInfo.nTipNowCount > 0 && _SysInfo.bTiteIngStart)
+			try
 			{
-				_SysInfo.nTipNowCount--;
-				TestLogSet(_SysInfo.nMainWorkStep, _SysInfo.nTipNowCount.ToString(), "");
+				theApp._CellSimulator2.strIP = _Config.strCellSimulator2IP;
+				theApp._CellSimulator2.nPort = _Config.nCellSimulator2Port;
+				theApp._CellSimulator2.SetPort();
+
+
 			}
-			
+			catch (Exception _e) { theApp.AppendLogMsg(_e.Message, MSG_TYPE.INFO); }
+
 		}
 
 		private void btCyclontestFile_Click(object sender, RoutedEventArgs e)

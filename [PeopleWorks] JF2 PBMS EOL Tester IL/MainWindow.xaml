@@ -252,14 +252,14 @@
                 <ContentControl Content="Reset counter" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="10" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Button x:Name="btNutCountM" HorizontalAlignment="Left" Height="60" Margin="-190,750,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountM_Click" >
+        <Button x:Name="btNutCountM" HorizontalAlignment="Left" Height="60" Margin="552,740,0,0" VerticalAlignment="Top" Width="225" Style="{DynamicResource MyImgButton}" Click="btNutCountM_Click" >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ContentControl Content="TITLE COUNT -" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
+                <ContentControl Content="Reconnect Simulator #2" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Button x:Name="btNutCountP" HorizontalAlignment="Left" Height="60" Margin="-340,750,0,0" VerticalAlignment="Top" Width="145" Style="{DynamicResource MyImgButton}" Click="btNutCountP_Click" >
+        <Button x:Name="btNutCountP" HorizontalAlignment="Left" Height="60" Margin="320,740,0,0" VerticalAlignment="Top" Width="225" Style="{DynamicResource MyImgButton}" Click="btNutCountP_Click" >
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ContentControl Content="TITLE COUNT +" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
+                <ContentControl Content="Reconnect Simulator #1" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="18" FontWeight="Medium"/>
             </StackPanel>
         </Button>
         <Button x:Name="btCyclontest" HorizontalAlignment="Left" Height="60" Margin="714,1069,0,0" VerticalAlignment="Top" Width="126" Style="{DynamicResource MyImgButton}" Click="btCyclontest_Click" >

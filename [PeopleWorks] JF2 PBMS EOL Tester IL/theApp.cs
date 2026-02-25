@@ -235,8 +235,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				//}
 
 
-				//_CellSimulator1.Process();
-				//_CellSimulator2.Process();
+				_CellSimulator1.Process();
+				_CellSimulator2.Process();
 				//_CellSimulator3.Process();
 				//_CellSimulator4.Process();
 				//_Cyclone.Process();
@@ -332,9 +332,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					KeysiteDmm2.Process();
 				}
 
-				//_CellSimulator3.Process();
-				//_CellSimulator4.Process();
-				
+				_CellSimulator3.Process();
+				_CellSimulator4.Process();
+
 				//_Cyclone.Process();
 
 

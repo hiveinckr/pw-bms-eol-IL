@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 {
-	class ClientSoket
+	public class ClientSoket
 	{
 
 		public bool bPortStat = false;
