@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -316,17 +317,30 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			if (gdPoinInfo.SelectedIndex >= 0)
 			{
-				_mInfo._TestInfo.Move(gdPoinInfo.SelectedIndex, gdPoinInfo.SelectedIndex - 1);
-				//_mInfo._TestInfo.RemoveAt(gdPoinInfo.SelectedIndex);
+				int nSelectIndex = gdPoinInfo.SelectedIndex;
+
+				for (int i = 0; i < gdPoinInfo.SelectedItems.Count; i++)
+				{
+					_mInfo._TestInfo.Move(nSelectIndex + i, nSelectIndex + i - 1);
+				}
+
 			}
+			
+			
 		}
 
 		private void btDownSch_Click(object sender, RoutedEventArgs e)
 		{
+
+			//_mInfo._TestInfo.RemoveAt(gdPoinInfo.SelectedIndex);
 			if (gdPoinInfo.SelectedIndex >= 0)
 			{
-				_mInfo._TestInfo.Move(gdPoinInfo.SelectedIndex, gdPoinInfo.SelectedIndex + 1);
-				//_mInfo._TestInfo.RemoveAt(gdPoinInfo.SelectedIndex);
+				int nSelectIndex = gdPoinInfo.SelectedIndex + gdPoinInfo.SelectedItems.Count - 1;
+
+				for (int i = 0; i < gdPoinInfo.SelectedItems.Count; i++)
+				{
+					_mInfo._TestInfo.Move(nSelectIndex - i, nSelectIndex - i + 1);
+				}
 			}
 		}
 

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Reflection;
@@ -521,7 +522,6 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 										}
 										else
 										{
-
 											_SysInfo.bReadMacBcd = true;
 											if (!_SysInfo.bReadMainBcd) { _SysInfo.strDispBarcode = ""; }
 										}
@@ -547,6 +547,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							}
 							else
 							{
+								if (_ModelInfo.bUseRbmsTest && _ModelInfo.bUseRMDTestMode)
+								{
+									theApp.AppendLogMsg("Please change the RMD test mode to disabled.", MSG_TYPE.ERROR);
+									_SysInfo.nTL_Beep = 3;
+									break;
+								}
+								
+								
 								uint nReadSerialNum = 0;
 
 								if (CheckBarcode(_SysInfo.strReadBarcode, _ModelInfo.strBarcodSymbol))
@@ -789,7 +797,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					_BcdAoutoReader2.bReadOk = false;
 					_BcdAoutoReader2.TriggerOn();
-					tMainTimer[nStepIndex].Start(4000);
+					tMainTimer[nStepIndex].Start(3000);
 					nProcessStep[nStepIndex] = 265;
 					break;
 
@@ -971,7 +979,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						TestUIClearSet();
 					});
 
-					tMainTimer[nStepIndex].Start(500);
+					tMainTimer[nStepIndex].Start(100);
 					_SysInfo.eMainStatus = MAIN_STATUS.ING;
 					nProcessStep[nStepIndex] = 2500;
 					break;
@@ -2339,7 +2347,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				// 1번 채널 Power Supply 설정
 				case 31010:
 					PowerSupply[0].SendData("*IDN?");
-					tMainTimer[nStepIndex].Start(2000);
+					//tMainTimer[nStepIndex].Start(2000);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -2435,7 +2443,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				// 1번 채널 Power Supply 설정
 				case 31210:
 					PowerSupply[0].SendData("*IDN?");
-					tMainTimer[nStepIndex].Start(2000);
+					//tMainTimer[nStepIndex].Start(2000);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -2458,7 +2466,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					double.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMax, out _SysInfo.dbSpecMax);
 
 					PowerSupply[0].SendData($"MEAS:CURR?");
-					tMainTimer[nStepIndex].Start(2000);
+					//tMainTimer[nStepIndex].Start(2000);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -2514,7 +2522,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				// 1번 채널 Power Supply 설정
 				case 32010:
 					PowerSupply[1].SendData("*IDN?");
-					tMainTimer[nStepIndex].Start(2000);
+					//tMainTimer[nStepIndex].Start(2000);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -2548,7 +2556,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 32030:
 					PowerSupply[1].SendData("VOLT?");
-					tMainTimer[nStepIndex].Start(2000);
+					//tMainTimer[nStepIndex].Start(2000);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -2608,7 +2616,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				// 1번 채널 Power Supply 설정
 				case 32210:
 					PowerSupply[1].SendData("*IDN?");
-					tMainTimer[nStepIndex].Start(2000);
+					//tMainTimer[nStepIndex].Start(2000);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -2631,7 +2639,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					double.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMax, out _SysInfo.dbSpecMax);
 
 					PowerSupply[1].SendData($"MEAS:CURR?");
-					tMainTimer[nStepIndex].Start(2000);
+					//tMainTimer[nStepIndex].Start(2000);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -2838,7 +2846,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						}
 					}
 
-					tMainTimer[nStepIndex].Start(200);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -2855,7 +2863,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						KeysiteDmm.Send($"READ?");
 					}
 
-					tMainTimer[nStepIndex].Start(1000);
+					tMainTimer[nStepIndex].Start(300);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -3223,7 +3231,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						KeysiteDmm.Send($"READ?");
 					}
 
-					tMainTimer[nStepIndex].Start(1000);
+					//tMainTimer[nStepIndex].Start(1000);
 					nProcessStep[nStepIndex] = 36030;
 					break;
 
@@ -3588,14 +3596,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 41000:
 					_CellSimulator1.Send("*RST", true);
-					tMainTimer[nStepIndex].Start(500);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41005;
 					break;
 
 				case 41005:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator1.Send("*CLS", true);
-					tMainTimer[nStepIndex].Start(500);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41010;
 					break;
 
@@ -3675,7 +3683,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 41016:
 					_CellSimulator1.Send("SIM:CONF:BMS:NUMB 1", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41018;
 					break;
 
@@ -3689,14 +3697,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 41018:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator1.Send("SIM:CONF:CELL:NUMB 1,16", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex]++;
 					break;
 
 				case 41019:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator1.Send("SIM:CONF:CELL:PARA 1,1,16,1,2", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41030;
 					break;
 
@@ -3708,14 +3716,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 					_CellSimulator1.Send($"SIM:PROG:CELL 1,1,{_SysInfo.dbCellStartCH1},{_SysInfo.dbCellEndCH1},{_SysInfo.dbCellVolt},3", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41040;
 					break;
 
 				case 41040:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator1.Send("SIM:OUTP ON", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					//TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
 					//_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 41100;
@@ -3726,7 +3734,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					//double.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue3, out _SysInfo.dbCellStates);
 					//if (_SysInfo.dbCellStates == 0)
 					//{
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41060;
 					//}
 					//else
@@ -3746,14 +3754,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 					_CellSimulator1.Send($"SIM:PROG:CELL 1,1,{_SysInfo.dbCellStartCH1},{_SysInfo.dbCellEndCH1},{_SysInfo.dbCellVolt},3", true);
-					tMainTimer[nStepIndex].Start(200);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41070;
 					break;
 
 				case 41070:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator1.Send("SIM:OUTP:IMM", true);
-					tMainTimer[nStepIndex].Start(200);
+					tMainTimer[nStepIndex].Start(100);
 					//TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
 					//_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 41100;
@@ -3808,14 +3816,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 42000:
 					_CellSimulator2.Send("*RST", true);
-					tMainTimer[nStepIndex].Start(500);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42005;
 					break;
 
 				case 42005:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator2.Send("*CLS", true);
-					tMainTimer[nStepIndex].Start(500);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42010;
 					break;
 
@@ -3875,7 +3883,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					//if (_SysInfo.dbCellStates2 == 0)
 					//{
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42016;
 					//}
 					//else
@@ -3897,7 +3905,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 42016:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator2.Send("SIM:CONF:BMS:NUMB 1", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42018;
 					break;
 
@@ -3911,14 +3919,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 42018:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator2.Send("SIM:CONF:CELL:NUMB 1,16", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex]++;
 					break;
 
 				case 42019:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator2.Send("SIM:CONF:CELL:PARA 1,1,16,1,2", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42030;
 					break;
 
@@ -3930,14 +3938,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 					_CellSimulator2.Send($"SIM:PROG:CELL 1,1,{_SysInfo.dbCellStartCH2},{_SysInfo.dbCellEndCH2},{_SysInfo.dbCellVolt2},3", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42040;
 					break;
 
 				case 42040:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator2.Send("SIM:OUTP ON", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					//TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
 					//_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 42100;
@@ -3947,7 +3955,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					//double.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue3, out _SysInfo.dbCellStates);
 					//if (_SysInfo.dbCellStates == 0)
 					//{
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42060;
 					//}
 					//else
@@ -3967,14 +3975,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 					_CellSimulator2.Send($"SIM:PROG:CELL 1,1,{_SysInfo.dbCellStartCH2},{_SysInfo.dbCellEndCH2},{_SysInfo.dbCellVolt2},3", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42070;
 					break;
 
 				case 42070:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator2.Send("SIM:OUTP:IMM", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					//TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
 					//_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 42100;
@@ -5494,7 +5502,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 51009:
 					CyclonInFirWare(_SysInfo.nCyclonHandle);
-					tMainTimer[nStepIndex].Start(2000);
+					tMainTimer[nStepIndex].Start(1000);
 					nProcessStep[nStepIndex] = 51010;
 					break;
 
@@ -6537,6 +6545,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							}
 							else
 							{
+								if (_ModelInfo2.bUseRbmsTest && _ModelInfo2.bUseRMDTestMode)
+								{
+									theApp.AppendLogMsg2("Please change the RMD test mode to disabled.", MSG_TYPE.ERROR);
+									_SysInfo.nTL_Beep = 3;
+									break;
+								}
+
+
 								uint nReadSerialNum = 0;
 
 								if (CheckBarcode(_SysInfo2.strReadBarcode, _ModelInfo2.strBarcodSymbol))
@@ -6712,7 +6728,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 									_SysInfo2.bReadMainBcd = true;
 
 									if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
-									tMainTimer[nStepIndex].Start(200);
+									tMainTimer[nStepIndex].Start(100);
 									nProcessStep[nStepIndex] = 260;
 
 								}
@@ -6726,7 +6742,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 									_SysInfo2.bReadMainBcd = true;
 
 									if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
-									tMainTimer[nStepIndex].Start(200);
+									tMainTimer[nStepIndex].Start(100);
 									nProcessStep[nStepIndex] = 260;
 								}
 								else
@@ -6749,7 +6765,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 										_SysInfo2.bReadMainBcd = true;
 
 										if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
-										tMainTimer[nStepIndex].Start(200);
+										tMainTimer[nStepIndex].Start(100);
 										nProcessStep[nStepIndex] = 260;
 									}
 
@@ -6956,7 +6972,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						TestUIClearSet2();
 					});
 
-					tMainTimer[nStepIndex].Start(500);
+					tMainTimer[nStepIndex].Start(100);
 					_SysInfo2.eMainStatus = MAIN_STATUS2.ING;
 					nProcessStep[nStepIndex] = 2500;
 					break;
@@ -8320,7 +8336,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				// 1번 채널 Power Supply 설정
 				case 31010:
 					PowerSupply[2].SendData("*IDN?");
-					tMainTimer[nStepIndex].Start(2000);
+		
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -8342,7 +8358,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.dbCommSendData);
 
 					PowerSupply[2].SendData($"VOLT {_SysInfo2.dbCommSendData}");
-					tMainTimer[nStepIndex].Start(200);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -8354,7 +8370,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 31030:
 					PowerSupply[2].SendData("VOLT?");
-					tMainTimer[nStepIndex].Start(2000);
+	
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -8439,7 +8455,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMax, out _SysInfo2.dbSpecMax);
 
 					PowerSupply[2].SendData($"MEAS:CURR?");
-					tMainTimer[nStepIndex].Start(2000);
+
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -8495,7 +8511,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				// 1번 채널 Power Supply 설정
 				case 32010:
 					PowerSupply[3].SendData("*IDN?");
-					tMainTimer[nStepIndex].Start(2000);
+
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -8517,7 +8533,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.dbCommSendData);
 
 					PowerSupply[3].SendData($"VOLT {_SysInfo2.dbCommSendData}");
-					tMainTimer[nStepIndex].Start(200);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -8612,7 +8628,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMax, out _SysInfo2.dbSpecMax);
 
 					PowerSupply[3].SendData($"MEAS:CURR?");
-					tMainTimer[nStepIndex].Start(2000);
+		
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -8817,7 +8833,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						}
 					}
 
-					tMainTimer[nStepIndex].Start(200);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -8834,7 +8850,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						KeysiteDmm2.Send($"READ?");
 					}
 
-					tMainTimer[nStepIndex].Start(1000);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -9184,7 +9200,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						}
 					}
 
-					tMainTimer[nStepIndex].Start(200);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -9201,7 +9217,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						KeysiteDmm2.Send($"READ?");
 					}
 
-					tMainTimer[nStepIndex].Start(1000);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 36030;
 					break;
 
@@ -9566,14 +9582,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 41000:
 					_CellSimulator3.Send("*RST", true);
-					tMainTimer[nStepIndex].Start(500);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41005;
 					break;
 
 				case 41005:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator3.Send("*CLS", true);
-					tMainTimer[nStepIndex].Start(500);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41010;
 					break;
 
@@ -9653,7 +9669,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 41016:
 					_CellSimulator3.Send("SIM:CONF:BMS:NUMB 1", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41018;
 					break;
 
@@ -9667,14 +9683,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 41018:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator3.Send("SIM:CONF:CELL:NUMB 1,16", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex]++;
 					break;
 
 				case 41019:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator3.Send("SIM:CONF:CELL:PARA 1,1,16,1,2", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41030;
 					break;
 
@@ -9686,14 +9702,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 					_CellSimulator3.Send($"SIM:PROG:CELL 1,1,{_SysInfo2.dbCellStartCH1},{_SysInfo2.dbCellEndCH1},{_SysInfo2.dbCellVolt},3", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41040;
 					break;
 
 				case 41040:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator3.Send("SIM:OUTP ON", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					//TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
 					//_SysInfo2.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 41100;
@@ -9704,7 +9720,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					//double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue3, out _SysInfo2.dbCellStates);
 					//if (_SysInfo2.dbCellStates == 0)
 					//{
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41060;
 					//}
 					//else
@@ -9724,14 +9740,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 					_CellSimulator3.Send($"SIM:PROG:CELL 1,1,{_SysInfo2.dbCellStartCH1},{_SysInfo2.dbCellEndCH1},{_SysInfo2.dbCellVolt},3", true);
-					tMainTimer[nStepIndex].Start(200);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 41070;
 					break;
 
 				case 41070:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator3.Send("SIM:OUTP:IMM", true);
-					tMainTimer[nStepIndex].Start(200);
+					tMainTimer[nStepIndex].Start(100);
 					//TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
 					//_SysInfo2.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 41100;
@@ -9786,13 +9802,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 42000:
 					_CellSimulator4.Send("*RST", true);
-					tMainTimer[nStepIndex].Start(500);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42005;
 					break;
 
 				case 42005:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
-					tMainTimer[nStepIndex].Start(500);
+					tMainTimer[nStepIndex].Start(100);
 					_CellSimulator4.Send("*CLS", true);
 					nProcessStep[nStepIndex] = 42010;
 					break;
@@ -9855,7 +9871,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					//if (_SysInfo2.dbCellStates2 == 0)
 					//{
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42016;
 					//}
 					//else
@@ -9877,7 +9893,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 42016:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator4.Send("SIM:CONF:BMS:NUMB 1", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42018;
 					break;
 
@@ -9891,14 +9907,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 42018:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator4.Send("SIM:CONF:CELL:NUMB 1,16", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex]++;
 					break;
 
 				case 42019:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator4.Send("SIM:CONF:CELL:PARA 1,1,16,1,2", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42030;
 					break;
 
@@ -9910,14 +9926,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 					_CellSimulator4.Send($"SIM:PROG:CELL 1,1,{_SysInfo2.dbCellStartCH2},{_SysInfo2.dbCellEndCH2},{_SysInfo2.dbCellVolt2},3", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42040;
 					break;
 
 				case 42040:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator4.Send("SIM:OUTP ON", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					//TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
 					//_SysInfo2.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 42100;
@@ -9927,7 +9943,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					//double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue3, out _SysInfo2.dbCellStates);
 					//if (_SysInfo2.dbCellStates == 0)
 					//{
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42060;
 					//}
 					//else
@@ -9947,14 +9963,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 					_CellSimulator4.Send($"SIM:PROG:CELL 1,1,{_SysInfo2.dbCellStartCH2},{_SysInfo2.dbCellEndCH2},{_SysInfo2.dbCellVolt2},3", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 42070;
 					break;
 
 				case 42070:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_CellSimulator4.Send("SIM:OUTP:IMM", true);
-					tMainTimer[nStepIndex].Start(300);
+					tMainTimer[nStepIndex].Start(100);
 					//TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
 					//_SysInfo2.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 42100;
@@ -11483,7 +11499,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 51009:
 					CyclonInFirWare2(_SysInfo2.nCyclonHandle);
-					tMainTimer[nStepIndex].Start(2000);
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 51010;
 					break;
 
@@ -18375,7 +18391,107 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }
 		}
 
-		
+		public static void SaveFTP(string localFilePath, string ftpBasePath, string ftpId, string ftpPw, string fileName)
+		{
+			// localFilePath : 결과 데이터 경로
+			// ftpBasePath : 년 월 일 이전까지의 경로
+			// ftpId : 아이디
+			// ftpPw : 비밀번호
+			// fileName : 저장할 파일 명
+
+			// ftpBasePath = ftp://10.95.249.110/INSPECTION/LINK/PMS01/PL420/W1LESSINF03-003
+			// ftpBasePath = ftp://10.95.249.110/INSPECTION/LINK/PMS01/[공정명]/[장비명]/ 이렇게 설정해야 됨
+
+			try
+			{
+				if (string.IsNullOrWhiteSpace(localFilePath) || !File.Exists(localFilePath))
+				{
+					AppendLogMsg($"FTP : 로컬 파일이 존재하지 않습니다.", MSG_TYPE.ERROR);
+				}
+
+				// 폴더 명 지정
+				string year = DateTime.Now.ToString("yyyy");            // 년도 폴더 명
+				string month = DateTime.Now.ToString("MM");             // 월 폴더 명
+				string day = DateTime.Now.ToString("dd");               // 일 폴더 명
+
+				ftpBasePath = ftpBasePath.TrimEnd('/');
+
+				// 년/월/일 폴더 경로 설정
+				string yearPath = ftpBasePath + "/" + year;             // 년도 폴더 경로
+				string monthPath = yearPath + "/" + month;              // 월 폴더 경로
+				string dayPath = monthPath + "/" + day;                 // 일 폴더 경로
+
+				// 년/월/일 폴더 생성
+				EnsureFtpDirectory(yearPath, ftpId, ftpPw);             // 년도 폴더 생성
+				EnsureFtpDirectory(monthPath, ftpId, ftpPw);            // 월 폴더 생성
+				EnsureFtpDirectory(dayPath, ftpId, ftpPw);              // 일 폴더 생성
+
+				// 최종 파일 업로드
+				string ftpFilePath = dayPath + "/" + fileName;
+
+				AppendLogMsg($"MES Path - {ftpFilePath}", MSG_TYPE.INFO);
+				// ftp 설정
+				FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpFilePath);
+				request.Method = WebRequestMethods.Ftp.UploadFile;
+				request.Credentials = new NetworkCredential(ftpId, ftpPw);
+				request.UseBinary = true;
+				request.UsePassive = true;
+				request.KeepAlive = false;
+
+				// 결과 데이터 읽기
+				byte[] fileBytes = File.ReadAllBytes(localFilePath);
+				request.ContentLength = fileBytes.Length;
+
+				// 결과 데이터 쓰기
+				using (Stream requestStream = request.GetRequestStream())
+				{
+					requestStream.Write(fileBytes, 0, fileBytes.Length);
+				}
+
+				// 응답 확인 (FTP : 226 Transfer complete. 이면 성공)
+				using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
+				{
+					AppendLogMsg($"FTP : {response.StatusDescription.Trim()}", MSG_TYPE.INFO);
+				}
+			}
+			catch (Exception ex)
+			{
+				AppendLogMsg($"FTP : {ex.Message}", MSG_TYPE.ERROR);
+			}
+		}
+
+		// FTP 폴더 생성
+		private static void EnsureFtpDirectory(string ftpFolderPath, string ftpId, string ftpPw)
+		{
+			try
+			{
+				FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpFolderPath);
+				request.Method = WebRequestMethods.Ftp.MakeDirectory;
+				request.Credentials = new NetworkCredential(ftpId, ftpPw);
+				request.UseBinary = true;
+				request.UsePassive = true;
+				request.KeepAlive = false;
+
+				using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
+				{
+				}
+			}
+			catch (WebException ex)
+			{
+				// 이미 폴더가 있는 경우도 예외로 떨어질 수 있으므로 무시
+				FtpWebResponse response = ex.Response as FtpWebResponse;
+
+				if (response != null)
+				{
+					// 서버마다 코드가 다를 수 있어서 "이미 존재" 계열은 통과
+					// 보통 550이 많이 옴
+					if (response.StatusCode == FtpStatusCode.ActionNotTakenFileUnavailable)
+						return;
+				}
+
+				throw;
+			}
+		}
 
 
 

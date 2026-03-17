@@ -315,7 +315,7 @@
                             <ContentControl Content="Up" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
                         </StackPanel>
                     </Button>
-                    <Button x:Name="btDownSch" HorizontalAlignment="Left" Height="44" Margin="1225,515,0,0" VerticalAlignment="Top" Width="135" Style="{DynamicResource MyImgButton}" Click="btDownSch_Click">
+                    <Button x:Name="btDownSch" Height="44" Margin="1225,515,10,0" VerticalAlignment="Top" Style="{DynamicResource MyImgButton}" Click="btDownSch_Click">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Image Source="Resource/icons8-down-arrow-64.png" Width="32" Height="32"/>
                             <ContentControl Content="Down" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
