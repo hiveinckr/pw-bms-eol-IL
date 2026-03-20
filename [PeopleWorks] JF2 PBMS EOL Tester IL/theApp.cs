@@ -65,7 +65,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static DmmEtc _KeysiteDmmEtc = new DmmEtc();
 		public static DmmEtc _KeysiteDmmEtc2 = new DmmEtc();
 		public static NutrunnerEth _Nutrunner = new NutrunnerEth();
-		public static NutrunnerEth _Nutrunner2 = new NutrunnerEth();
+		public static NutrunnerEth2 _Nutrunner2 = new NutrunnerEth2();
 
 
 		 public static BarcodePrint _BarcodePrint = new BarcodePrint();
@@ -199,7 +199,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				//PowerSupply[3].Process();
 				_BcdReader.Process();
 				//_BcdReader2.Process();
-				//_Nutrunner.Process();
+				_Nutrunner.Process();
 				//_Nutrunner2.Process();
 
 				_CanComm[0].ReadMessage();
@@ -211,7 +211,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				_CanComm[6].ReadMessage();
 				_CanComm[7].ReadMessage();
 
-				//_BarcodePrint.Process();
+				_BarcodePrint.Process();
 				_BcdAoutoReader.Process();
 				_BcdAoutoReader2.Process();
 				//_BarcodePrint2.Process();
@@ -253,9 +253,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				LotCountInfoUpdate();
 				//LotCountInfoUpdate2();
 				PROC_MANUAL();
-				//SUB_TITE_PROC();
+				SUB_TITE_PROC();
 				//SUB_TITE_PROC2();
-				
+
 				if (nThreadCount > 100)
 				{
 					nThreadCount = 0;
@@ -318,9 +318,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				PowerSupply[2].Process();
 				PowerSupply[3].Process();
 				_BcdReader2.Process();
-				//_Nutrunner2.Process();
+				_Nutrunner2.Process();
 
-				//_BarcodePrint2.Process();
+				_BarcodePrint2.Process();
 				_BcdAoutoReader3.Process();
 				_BcdAoutoReader4.Process();
 
@@ -343,7 +343,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				SUB_EOL2();
 				PingTest2();
 				LotCountInfoUpdate2();
-				//SUB_TITE_PROC2();
+				SUB_TITE_PROC2();
 
 				if (nThreadCount > 100)
 				{
@@ -11381,18 +11381,25 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo2.bTiteIngStart = true;
 					_SysInfo2.bNutRetry = false;
 					_SysInfo2.bNutNext = false;
-					//_SysInfo2.nVoltCount++;
+					tMainTimer[nStepIndex].Start(5000);
 					ShowUserNutMessege2();
 					nProcessStep[nStepIndex] = 50020;
 					break;
 
 				case 50020:
+					if (tMainTimer[nStepIndex].Verify())
+					{
+						//nProcessStep[(int)PROC_LIST.SUB_TITE2] = 0;
+						SetNutRunnerSch2(_SysInfo2.nSetNutSch);   // 너트러너 스케줄 설정
+						nProcessStep[nStepIndex] = 50001;
+					}
+
 					if (_SysInfo2.bTiteOk)
 					{
 					
 						HideUserNutMessege2();
 						_SysInfo2.bNutRetryCheckOK = false;
-						_SysInfo2.bTiteIngStart = false;
+						//_SysInfo2.bTiteIngStart = false;
 						SetNutRunnerSch2(50);
 						//_SysInfo2.dbNutData = _Nutrunner2.dbTorqueData * 0.01;
 						//TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbNutData.ToString("F2"), "OK");
@@ -14593,8 +14600,6 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_SysInfo.nTipNowCount < _SysInfo.nTipMaxCount)
 					{
 
-
-
 						// 체결작업 진행
 						if (GetTiteStatus() == TITE_STATUS.OK)
 						{
@@ -14780,8 +14785,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public static void SetNutRunnerSch(int nIndex)
 		{
-			theApp._Nutrunner.nPSet = nIndex;
-			theApp._Nutrunner.bPSet = true;
+			if (_SysInfo.nPsetOldIndex != nIndex)
+			{
+				theApp._Nutrunner.nPSet = nIndex;
+				theApp._Nutrunner.bPSet = true;
+				_SysInfo.nPsetOldIndex = nIndex;
+			}
+			
 		}
 
 
@@ -14797,8 +14807,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public static void SetNutRunnerSch2(int nIndex)
 		{
-			theApp._Nutrunner2.nPSet = nIndex;
-			theApp._Nutrunner2.bPSet = true;
+			if (_SysInfo2.nPsetOldIndex != nIndex)
+			{
+				theApp._Nutrunner2.nPSet = nIndex;
+				theApp._Nutrunner2.bPSet = true;
+				_SysInfo2.nPsetOldIndex = nIndex;
+			}
+			
 		}					 
 
 
@@ -17270,15 +17285,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				_CellSimulator4.nPort = _Config.nCellSimulator4Port;
 				_CellSimulator4.SetPort();
 
-				//_Nutrunner.strIP = _Config.strToolIP;
-				//_Nutrunner.nPort = _Config.nToolPort;
-				//_Nutrunner.nStation = 1;
-				//_Nutrunner.SetPort();
+				_Nutrunner.strIP = _Config.strToolIP;
+				_Nutrunner.nPort = _Config.nToolPort;
+				_Nutrunner.nStation = 1;
+				_Nutrunner.SetPort();
 
-				//_Nutrunner2.strIP = _Config.strToolIP2;
-				//_Nutrunner2.nPort = _Config.nToolPort2;
-				//_Nutrunner2.nStation = 2;
-				//_Nutrunner2.SetPort();
+				_Nutrunner2.strIP = _Config.strToolIP2;
+				_Nutrunner2.nPort = _Config.nToolPort2;
+				_Nutrunner2.nStation = 2;
+				_Nutrunner2.SetPort();
 
 
 
