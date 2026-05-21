@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 {
 	/// <summary>
-	/// AdminPass.xaml에 대한 상호 작용 논리
+	/// MasterPass.xaml에 대한 상호 작용 논리
 	/// </summary>
-	public partial class AdminPass : Window
+	public partial class MasterPass : Window
 	{
-		public AdminPass()
+		public MasterPass()
 		{
 			InitializeComponent();
 
@@ -39,7 +39,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		private void btOK_Click(object sender, RoutedEventArgs e)
 		{
 			// 패스워드 일치시
-			if (_Config.strAdminPass == tbPassWord.Password )
+			if (_Config.strMasterPass == tbPassWord.Password)
 			{
 				this.DialogResult = true;
 			}
@@ -54,7 +54,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			if (e.Key == Key.Enter)
 			{
-				if (_Config.strAdminPass == tbPassWord.Password)
+				if (_Config.strMasterPass == tbPassWord.Password)
 				{
 					this.DialogResult = true;
 				}

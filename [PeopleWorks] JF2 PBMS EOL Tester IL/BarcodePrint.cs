@@ -69,6 +69,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public void Process()
 		{
+
 			if (!_Port.IsOpen) { return; }
 			//while (!bWorkStop)
 			{

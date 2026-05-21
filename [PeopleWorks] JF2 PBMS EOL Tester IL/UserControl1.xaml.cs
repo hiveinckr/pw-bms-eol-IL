@@ -46,9 +46,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			set
 			{
-				if (value.Substring(0, 1) == "Y") { lbIndex.Foreground = Brushes.Red; }
-				if (value.Substring(0, 1) == "X") { lbIndex.Foreground = Brushes.Blue; }
-				lbIndex.Content = value;
+				try
+				{
+					if (value.Substring(0, 1) == "Y") { lbIndex.Foreground = Brushes.Red; }
+					if (value.Substring(0, 1) == "X") { lbIndex.Foreground = Brushes.Blue; }
+					lbIndex.Content = value;
+				}
+				catch { }
+			
 			}
 		}
 

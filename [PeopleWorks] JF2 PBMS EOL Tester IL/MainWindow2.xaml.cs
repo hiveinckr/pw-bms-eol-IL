@@ -698,7 +698,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		private void btBarcodeReprint_Click(object sender, RoutedEventArgs e)
 		{
-			AdminPass _pwWindow = new AdminPass();
+			MasterPass _pwWindow = new MasterPass();
 
 			if (_pwWindow.ShowDialog() == true)
 			{

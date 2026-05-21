@@ -38,7 +38,17 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		private void _timer_Tick(object sender, EventArgs e)
 		{
-		
+			if(_SysInfo.bTitleSpecOK)
+			{
+				lbMainStatus.Content = "(Stasion #1) Are you sure you want to complete the bolt tightening? \r\n OK";
+				lbMainStatus.Background = Brushes.LightGreen;
+			}
+			else
+			{
+				lbMainStatus.Content = "(Stasion #1) Are you sure you want to complete the bolt tightening? \r\n NG";
+				lbMainStatus.Background = Brushes.LightPink;
+			
+			}
 
 		}
 

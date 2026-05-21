@@ -73,7 +73,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		private void y_MouseDown(object sender, MouseButtonEventArgs e)
 		{
-			theApp.SetDIOPort((DO)(int.Parse(((UserControl1)sender).Name.Substring(2, 2)) - 33 + (tabY.SelectedIndex * 32)), !((UserControl1)sender).bStat);
+			try
+			{
+				theApp.SetDIOPort((DO)(int.Parse(((UserControl1)sender).Name.Substring(2, 2)) - 33 + (tabY.SelectedIndex * 32)), !((UserControl1)sender).bStat);
+			}
+			catch
+			{
+
+			}
+			
 		}
 	}
 }

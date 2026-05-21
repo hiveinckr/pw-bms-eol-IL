@@ -71,13 +71,20 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public void SetPort()
 		{
-			IPEndPoint remoteEP = new IPEndPoint(IPAddress.Parse(strIP), nPort);
-			// Create a TCP/IP socket.  
-
-			bConnecting = true;
-			client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-			client.BeginConnect(remoteEP, new AsyncCallback(ConnectCallback), client);
-
+			try
+			{
+				IPEndPoint remoteEP = new IPEndPoint(IPAddress.Parse(strIP), nPort);
+				// Create a TCP/IP socket.  
+				bConnecting = true;
+				client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+				client.BeginConnect(remoteEP, new AsyncCallback(ConnectCallback), client);
+			}
+			catch (Exception e)
+			{
+				bConnecting = false;
+				//theApp.AppendLogMsg(e.ToString(), MSG_TYPE.INFO);
+				Console.WriteLine(e.ToString());
+			}
 		}
 
 

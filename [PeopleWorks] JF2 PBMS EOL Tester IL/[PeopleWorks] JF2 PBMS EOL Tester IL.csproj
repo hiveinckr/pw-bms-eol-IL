@@ -115,6 +115,9 @@
     <Compile Include="MainWindow2.xaml.cs">
       <DependentUpon>MainWindow2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MasterPass.xaml.cs">
+      <DependentUpon>MasterPass.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ModbusTCP.cs" />
     <Compile Include="ModelList2.xaml.cs">
       <DependentUpon>ModelList2.xaml</DependentUpon>
@@ -258,6 +261,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MainWindow2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MasterPass.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

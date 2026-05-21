@@ -644,6 +644,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static string strDmmCh;
 
 		public static bool bFirstCheck = false;
+		public static bool bTitleSpecOK = false;
 
 		public static string strDmmReadData;
 
@@ -744,6 +745,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static bool bSubEolStart = false;
 
 		public static string strDispBarcode = "";
+		public static string strScanBarcode = "";
 		public static string strDispMac = "";
 		public static string strMacAdress = "";
 		public static string strPBMSBcd = "";
@@ -801,9 +803,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		
 		public static int nCyclonHandle;
 		public static string strCyclonFileName;
-		public static double dbNutData;
+		public static double dbNutData = 0;
 
 		public static int nVoltCount;
+		public static int nEolTestCOunt;
 
 		public static bool bNutRetry;
 		public static bool bNutNext;
@@ -814,6 +817,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public static string strTitleName;
 		public static bool bTestNG;
+
+		public static string strBarcodeFront;
+		public static string strBarcodeBack;
 
 	}
 
@@ -830,7 +836,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static TOWER_LAMP TL_Buzzer;
 
 		public static int nTL_Beep;
-
+		public static int nEolTestCOunt;
 		public static int nMainWorkStep;
 		public static int nSubMainWorkStep;
 		public static int nSubWorkStep;
@@ -849,6 +855,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static string strDmmCh;
 
 		public static bool bFirstCheck = false;
+		public static bool bTitleSpecOK = false;
 
 		public static string strDmmReadData;
 
@@ -915,6 +922,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public static string strReadBarcode = "";
 		public static string strReadBarcode2 = "";
+		public static string strScanBarcode = "";
 		public static uint nWriteSerialNum = 0;
 		public static uint nWriteSerialNum2 = 0;
 
@@ -1012,6 +1020,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static bool bTestNG;
 
 		public static string strTitleName;
+		public static string strBarcodeFront;
+		public static string strBarcodeBack;
 
 
 		public static CyclonFileName_RESULT2 _FileNameResult = new CyclonFileName_RESULT2();

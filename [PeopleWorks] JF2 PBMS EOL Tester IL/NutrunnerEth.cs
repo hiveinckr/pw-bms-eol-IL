@@ -110,6 +110,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			// PROCESS
 			switch (nCurrentStep)
 			{
+
 				case 0:
 					nCurrentStep = 10;
 					break;
@@ -131,14 +132,16 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						bReciveData = false;
 						//strReadData = Encoding.Default.GetString(buff);
-					
-						if (strReadData.Length > 8)
-						{
-							if (strReadData.Substring(4, 4) == "0002" || strReadData.Substring(4, 4) == "0004")
+						
+							if (strReadData.Length > 8)
 							{
-								nCurrentStep = 20;
+								if (strReadData.Substring(4, 4) == "0002" || strReadData.Substring(4, 4) == "0004")
+								{
+									nCurrentStep = 20;
+								}
 							}
-						}
+						
+						
 
 					}
 					break;
@@ -159,13 +162,16 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (bReciveData)
 					{
 						bReciveData = false;
-				
+
 						//strReadData = Encoding.Default.GetString(buff);
-						if (strReadData.Substring(4, 4) == "0005" || strReadData.Substring(4, 4) == "0004")
-						{
 						
-							nCurrentStep = 30;
-						}
+							if (strReadData.Substring(4, 4) == "0005" || strReadData.Substring(4, 4) == "0004")
+							{
+
+								nCurrentStep = 30;
+							}
+					
+						
 					}
 					break;
 
@@ -196,66 +202,68 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 					
 						bReciveData = false;
-
-						if (strReadData.Substring(4, 4) == "9999")
-						{
 						
-
-							AliveTimer.Restart();
-							bAlive = true;
-						}
-						else if (strReadData.Substring(4, 4) == "0061")
-						{
-							
-							
-							try
+							if (strReadData.Substring(4, 4) == "9999")
 							{
 
-								strReadTorqueData = strReadData.Replace("\0", String.Empty);
-								//theApp.AppendLogMsg(strReadTorqueData, MSG_TYPE.LOG);
-								bReadData = true;
-				
-								strPramID = strReadData.Substring(92, 3);                          // Parameter Sst ID
-								strTorqueMin = strReadData.Substring(159, 6);                         // Torque Min
-								strTorqueMax = strReadData.Substring(167, 6);                         // Torque Max
-								strTorque = strReadData.Substring(183, 6);                         // Torque
 
-								strAngleMin = strReadData.Substring(191, 5);                          // Angle Min
-								strAngleMax = strReadData.Substring(196, 5);                          // Angle Max
-								strAngle = strReadData.Substring(212, 5);                          // Angle
-
-
-								strResult = strReadData.Substring(120, 1);
-								strTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");         // 현재 시간 기준으로 저장
-
-
-								strRundownAngleMin = strReadData.Substring(219, 5);                   // Rundown Angle [ Torque 를 적용받지않는 Angle값 ]
-								strRundownAngleMax = strReadData.Substring(226, 5);                   // Rundown Angle [ Torque 를 적용받지않는 Angle값 ]
-								strRundownAngle = strReadData.Substring(233, 5);                   // Rundown Angle [ Torque 를 적용받지않는 Angle값 ]
-																								   // ㄴ 요청사유 : 원자재 불량으로 인한 사회불량 발생
-
-								if (strResult == "0") strSaveResult = "NG";
-								else if (strResult == "1") strSaveResult = "OK";
-								else strSaveResult = "N/A";
-
-								double.TryParse(strTorque, out dbTorqueData);           // 토크값 변환
-								int.TryParse(strAngle, out nAngleData);                 // 앵글값 변환
-
-
-								// 이더넷 체결 정보 전송
-								if (strResult == "0") { _Status = TITE_STATUS.NG; }
-								else if (strResult == "1") { _Status = TITE_STATUS.OK; }
-								else { _Status = TITE_STATUS.NG; }
-
-								bReadData = true;
+								AliveTimer.Restart();
+								bAlive = true;
 							}
-							catch { }
+							else if (strReadData.Substring(4, 4) == "0061")
+							{
+
+
+								try
+								{
+
+									strReadTorqueData = strReadData.Replace("\0", String.Empty);
+									//theApp.AppendLogMsg(strReadTorqueData, MSG_TYPE.LOG);
+									bReadData = true;
+
+									strPramID = strReadData.Substring(92, 3);                          // Parameter Sst ID
+									strTorqueMin = strReadData.Substring(159, 6);                         // Torque Min
+									strTorqueMax = strReadData.Substring(167, 6);                         // Torque Max
+									strTorque = strReadData.Substring(183, 6);                         // Torque
+
+									strAngleMin = strReadData.Substring(191, 5);                          // Angle Min
+									strAngleMax = strReadData.Substring(196, 5);                          // Angle Max
+									strAngle = strReadData.Substring(212, 5);                          // Angle
+
+
+									strResult = strReadData.Substring(120, 1);
+									strTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");         // 현재 시간 기준으로 저장
+
+
+									strRundownAngleMin = strReadData.Substring(219, 5);                   // Rundown Angle [ Torque 를 적용받지않는 Angle값 ]
+									strRundownAngleMax = strReadData.Substring(226, 5);                   // Rundown Angle [ Torque 를 적용받지않는 Angle값 ]
+									strRundownAngle = strReadData.Substring(233, 5);                   // Rundown Angle [ Torque 를 적용받지않는 Angle값 ]
+																									   // ㄴ 요청사유 : 원자재 불량으로 인한 사회불량 발생
+
+									if (strResult == "0") strSaveResult = "NG";
+									else if (strResult == "1") strSaveResult = "OK";
+									else strSaveResult = "N/A";
+
+									double.TryParse(strTorque, out dbTorqueData);           // 토크값 변환
+									int.TryParse(strAngle, out nAngleData);                 // 앵글값 변환
+
+
+									// 이더넷 체결 정보 전송
+									if (strResult == "0") { _Status = TITE_STATUS.NG; }
+									else if (strResult == "1") { _Status = TITE_STATUS.OK; }
+									else { _Status = TITE_STATUS.NG; }
+
+									bReadData = true;
+								}
+								catch { nCurrentStep = 0; }
 
 
 
-							nCurrentStep = 40;
-							break;
-						}
+								nCurrentStep = 40;
+								break;
+							}
+						
+					
 					}
 
 					if (bPSet)
