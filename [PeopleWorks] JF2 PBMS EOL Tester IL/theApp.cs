@@ -1204,7 +1204,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						
 							nProcessStep[nStepIndex] = 4000;
 						}
-					}
+					} 
 					break;
 
 				case 3100:
@@ -2583,7 +2583,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 31030:
 					PowerSupply[0].SendData("VOLT?");
-					tMainTimer[nStepIndex].Start(2000);
+					//tMainTimer[nStepIndex].Start(2000);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -4542,229 +4542,19 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
-
+				
 				case 44000:
-					nProcessStep[nStepIndex] = 44005;
-					break;
-
-				case 44005:
-					if (_Config.bDmmEtcMode)
-					{
-						_KeysiteDmmEtc.Send("*RST", true);
-						nProcessStep[nStepIndex] = 44010;
-					}
-					else
-					{
-						KeysiteDmm.Send("*RST");
-						nProcessStep[nStepIndex] = 44010;
-					}
-
-					break;
-
-				// 1번 채널 Power Supply 설정
-				case 44010:
-					if (_Config.bDmmEtcMode)
-					{
-
-						_KeysiteDmmEtc.Send("*IDN?", true);
-						nProcessStep[nStepIndex]++;
-					}
-					else
-					{
-						KeysiteDmm.Send("*IDN?");
-						nProcessStep[nStepIndex]++;
-					}
-
-					break;
-
-				case 44011:
-					if (_Config.bDmmEtcMode)
-					{
-
-						if (_KeysiteDmmEtc.IsReadData())
-						{
-							nProcessStep[nStepIndex] = 44020;
-						}
-					}
-					else
-					{
-						if (KeysiteDmm.IsReadData())
-						{
-							nProcessStep[nStepIndex] = 44020;
-						}
-					}
-
-					break;
-
-				// 전압설정
-				case 44020:
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nDmmCh);
-					if (_Config.bDmmEtcMode)
-					{
-
-						if (_SysInfo.nDmmCh > 20)
-						{
-							_KeysiteDmmEtc.Send($"SENSe:FUNCtion \"VOLTage\", (@{200 + _SysInfo.nDmmCh - 20})", true);
-						}
-						else
-						{
-							_KeysiteDmmEtc.Send($"SENSe:FUNCtion \"VOLTage\", (@{100 + _SysInfo.nDmmCh})", true);
-						}
-					}
-					else
-					{
-						if (_SysInfo.nDmmCh > 20)
-						{
-							KeysiteDmm.Send($"SENSe:FUNCtion \"VOLTage\", (@{200 + _SysInfo.nDmmCh - 20})");
-						}
-						else
-						{
-							KeysiteDmm.Send($"SENSe:FUNCtion \"VOLTage\", (@{100 + _SysInfo.nDmmCh})");
-						}
-					}
-					nProcessStep[nStepIndex] = 44021;
-					break;
-
-				case 44021:
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nDmmCh);
-					if (_Config.bDmmEtcMode)
-					{
-
-						if (_SysInfo.nDmmCh > 20)
-						{
-							_KeysiteDmmEtc.Send($"ROUT:SCAN (@{200 + _SysInfo.nDmmCh - 20})", true);
-						}
-						else
-						{
-							_KeysiteDmmEtc.Send($"ROUT:SCAN (@{100 + _SysInfo.nDmmCh})", true);
-						}
-					}
-					else
-					{
-						if (_SysInfo.nDmmCh > 20)
-						{
-							KeysiteDmm.Send($"ROUT:SCAN (@{200 + _SysInfo.nDmmCh - 20})");
-						}
-						else
-						{
-							KeysiteDmm.Send($"ROUT:SCAN (@{100 + _SysInfo.nDmmCh})");
-						}
-					}
-					nProcessStep[nStepIndex] = 44026;
-					break;
-
-				//case 44025:
-
-				//	int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nDmmCh);
-				//	if (_Config.bDmmEtcMode)
-				//	{
-
-				//		if (_SysInfo.nDmmCh > 20)
-				//		{
-				//			_KeysiteDmmEtc.Send($"SENS:VOLT:APER {_ModelInfo.dbDmmScanSpeed},(@{200 + _SysInfo.nDmmCh - 20})", true);
-				//		}
-				//		else
-				//		{
-				//			_KeysiteDmmEtc.Send($"SENS:VOLT:APER {_ModelInfo.dbDmmScanSpeed},(@{100 + _SysInfo.nDmmCh})", true);
-				//		}
-				//	}
-				//	else
-				//	{
-				//		if (_SysInfo.nDmmCh > 20)
-				//		{
-				//			KeysiteDmm.Send($"SENS:VOLT:APER {_ModelInfo.dbDmmScanSpeed},(@{200 + _SysInfo.nDmmCh - 20})");
-				//		}
-				//		else
-				//		{
-				//			KeysiteDmm.Send($"SENS:VOLT:APER {_ModelInfo.dbDmmScanSpeed},(@{100 + _SysInfo.nDmmCh})");
-				//		}
-				//	}
-				//	nProcessStep[nStepIndex] = 44030;
-				//	break;
-
-				case 44026:
-
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nDmmCh);
-					if (_Config.bDmmEtcMode)
-					{
-
-						if (_SysInfo.nDmmCh > 20)
-						{
-							_KeysiteDmmEtc.Send($"ROUTe:CLOSe (@{200 + _SysInfo.nDmmCh - 20})", true);
-						}
-						else
-						{
-							_KeysiteDmmEtc.Send($"ROUTe:CLOSe (@{100 + _SysInfo.nDmmCh})", true);
-						}
-					}
-					else
-					{
-						if (_SysInfo.nDmmCh > 20)
-						{
-							KeysiteDmm.Send($"ROUTe:CLOSe (@{200 + _SysInfo.nDmmCh - 20})");
-						}
-						else
-						{
-							KeysiteDmm.Send($"ROUTe:CLOSe (@{100 + _SysInfo.nDmmCh})");
-						}
-					}
-					nProcessStep[nStepIndex] = 44030;
-					break;
-
-				case 44030:
-					//KeysiteDmm.Send($"MEAS:VOLT:DC? (@{_SysInfo.strDmmCh}");
-					if (_Config.bDmmEtcMode)
-					{
-						_KeysiteDmmEtc.Send($"READ?", true);
-					}
-					else
-					{
-						KeysiteDmm.Send($"READ?");
-					}
-					nProcessStep[nStepIndex]++;
-					break;
-
-				case 44031:
-					if (_Config.bDmmEtcMode)
-					{
-
-						if (_KeysiteDmmEtc.IsReadData())
-						{
-							nProcessStep[nStepIndex] = 44040;
-						}
-					}
-					else
-					{
-						if (KeysiteDmm.IsReadData())
-						{
-							nProcessStep[nStepIndex] = 44040;
-						}
-					}
-					break;
-
-				case 44040:
-
-					//theApp.AppendLogMsg(KeysiteDmm.GetReadData(), MSG_TYPE.INFO);
-					if (_Config.bDmmEtcMode)
-					{
-						double.TryParse(_KeysiteDmmEtc.strReadMessage, out _SysInfo.dbCommReadData);
-					}
-					else
-					{
-						double.TryParse(KeysiteDmm.GetReadData(), out _SysInfo.dbCommReadData);
-					}
-
-					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue3, out _SysInfo.nBuffIndex);
-					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo.dbCommReadData}{_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo.dbCalcData);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nBuffIndex);
+					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo.dbDmmReadDataBuff[_SysInfo.nBuffIndex]}{_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo.dbCalcData);
+					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue3, out _SysInfo.nDispLen);
 
 					double.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMin, out _SysInfo.dbSpecMin);
 					double.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMax, out _SysInfo.dbSpecMax);
 
-					//AppendLogMsg($"_SysInfo.dbCalcData = {_SysInfo.dbCalcData.ToString("F10")}", MSG_TYPE.LOG);
 
-					_SysInfo.dbRMSCommReadData = (_SysInfo.dbCalcData / _ModelInfo.dbResistance) * 1000;
-					// 0은 양쪽다 비교 , 1은 Min만 비교, 2는 Max만 비교
-					if (_SysInfo.nBuffIndex == 0)
+					_SysInfo.dbRMSCommReadData = (_SysInfo.dbCalcData) * 1000;
+
+					if (_SysInfo.nDispLen == 0)
 					{
 						if (_SysInfo.dbRMSCommReadData > _SysInfo.dbSpecMax || _SysInfo.dbRMSCommReadData < _SysInfo.dbSpecMin)
 						{
@@ -4776,7 +4566,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F4"), "OK");
 						}
 					}
-					else if (_SysInfo.nBuffIndex == 1)
+					else if (_SysInfo.nDispLen == 1)
 					{
 						if (_SysInfo.dbRMSCommReadData < _SysInfo.dbSpecMin)
 						{
@@ -4788,7 +4578,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F4"), "OK");
 						}
 					}
-					else if (_SysInfo.nBuffIndex == 2)
+					else if (_SysInfo.nDispLen == 2)
 					{
 						if (_SysInfo.dbRMSCommReadData > _SysInfo.dbSpecMax)
 						{
@@ -4800,11 +4590,6 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F4"), "OK");
 						}
 					}
-
-					nProcessStep[nStepIndex] = 44050;
-					break;
-
-				case 44050:
 					_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
@@ -5271,14 +5056,41 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					_SysInfo.dbRMSCommReadData = (_SysInfo.dbCalcData / _ModelInfo.dbResistance) * 1000;
 
-					if (_SysInfo.dbRMSCommReadData > _SysInfo.dbSpecMax || _SysInfo.dbRMSCommReadData < _SysInfo.dbSpecMin)
+					if (_SysInfo.nDispLen == 0)
 					{
-						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F" + _SysInfo.nDispLen.ToString()), "NG");
-						_SysInfo.bTestNG = true;
+						if (_SysInfo.dbRMSCommReadData > _SysInfo.dbSpecMax || _SysInfo.dbRMSCommReadData < _SysInfo.dbSpecMin)
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
+						}
+						else
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F4"), "OK");
+						}
 					}
-					else
+					else if (_SysInfo.nDispLen == 1)
 					{
-						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F" + _SysInfo.nDispLen.ToString()), "OK");
+						if (_SysInfo.dbRMSCommReadData < _SysInfo.dbSpecMin)
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
+						}
+						else
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F4"), "OK");
+						}
+					}
+					else if (_SysInfo.nDispLen == 2)
+					{
+						if (_SysInfo.dbRMSCommReadData > _SysInfo.dbSpecMax)
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F4"), "NG");
+							_SysInfo.bTestNG = true;
+						}
+						else
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbRMSCommReadData.ToString("F4"), "OK");
+						}
 					}
 					_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
@@ -8915,7 +8727,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				// 1번 채널 Power Supply 설정
 				case 31210:
 					PowerSupply[2].SendData("*IDN?");
-					tMainTimer[nStepIndex].Start(2000);
+					//tMainTimer[nStepIndex].Start(2000);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -9028,7 +8840,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 32030:
 					PowerSupply[3].SendData("VOLT?");
-					tMainTimer[nStepIndex].Start(2000);
+					//tMainTimer[nStepIndex].Start(2000);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -9088,7 +8900,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				// 1번 채널 Power Supply 설정
 				case 32210:
 					PowerSupply[3].SendData("*IDN?");
-					tMainTimer[nStepIndex].Start(2000);
+					//tMainTimer[nStepIndex].Start(2000);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -10810,228 +10622,20 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					nProcessStep[nStepIndex] = 3000;
 					break;
 
+			
+
 				case 44000:
-					nProcessStep[nStepIndex] = 44005;
-					break;
-
-				case 44005:
-					if (_Config.bDmmEtcMode)
-					{
-						_KeysiteDmmEtc2.Send("*RST", true);
-						nProcessStep[nStepIndex] = 44010;
-					}
-					else
-					{
-						KeysiteDmm2.Send("*RST");
-						nProcessStep[nStepIndex] = 44010;
-					}
-
-					break;
-
-				// 1번 채널 Power Supply 설정
-				case 44010:
-					if (_Config.bDmmEtcMode)
-					{
-
-						_KeysiteDmmEtc2.Send("*IDN?", true);
-						nProcessStep[nStepIndex]++;
-					}
-					else
-					{
-						KeysiteDmm2.Send("*IDN?");
-						nProcessStep[nStepIndex]++;
-					}
-
-					break;
-
-				case 44011:
-					if (_Config.bDmmEtcMode)
-					{
-
-						if (_KeysiteDmmEtc2.IsReadData())
-						{
-							nProcessStep[nStepIndex] = 44020;
-						}
-					}
-					else
-					{
-						if (KeysiteDmm2.IsReadData())
-						{
-							nProcessStep[nStepIndex] = 44020;
-						}
-					}
-
-					break;
-
-				// 전압설정
-				case 44020:
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nDmmCh);
-					if (_Config.bDmmEtcMode)
-					{
-
-						if (_SysInfo2.nDmmCh > 20)
-						{
-							_KeysiteDmmEtc2.Send($"SENSe:FUNCtion \"VOLTage\", (@{200 + _SysInfo2.nDmmCh - 20})", true);
-						}
-						else
-						{
-							_KeysiteDmmEtc2.Send($"SENSe:FUNCtion \"VOLTage\", (@{100 + _SysInfo2.nDmmCh})", true);
-						}
-					}
-					else
-					{
-						if (_SysInfo2.nDmmCh > 20)
-						{
-							KeysiteDmm2.Send($"SENSe:FUNCtion \"VOLTage\", (@{200 + _SysInfo2.nDmmCh - 20})");
-						}
-						else
-						{
-							KeysiteDmm2.Send($"SENSe:FUNCtion \"VOLTage\", (@{100 + _SysInfo2.nDmmCh})");
-						}
-					}
-					nProcessStep[nStepIndex] = 44021;
-					break;
-
-				case 44021:
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nDmmCh);
-					if (_Config.bDmmEtcMode)
-					{
-
-						if (_SysInfo2.nDmmCh > 20)
-						{
-							_KeysiteDmmEtc2.Send($"ROUT:SCAN (@{200 + _SysInfo2.nDmmCh - 20})", true);
-						}
-						else
-						{
-							_KeysiteDmmEtc2.Send($"ROUT:SCAN (@{100 + _SysInfo2.nDmmCh})", true);
-						}
-					}
-					else
-					{
-						if (_SysInfo2.nDmmCh > 20)
-						{
-							KeysiteDmm2.Send($"ROUT:SCAN (@{200 + _SysInfo2.nDmmCh - 20})");
-						}
-						else
-						{
-							KeysiteDmm2.Send($"ROUT:SCAN (@{100 + _SysInfo2.nDmmCh})");
-						}
-					}
-					nProcessStep[nStepIndex] = 44026;
-					break;
-
-				//case 44025:
-
-				//	int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nDmmCh);
-				//	if (_Config.bDmmEtcMode)
-				//	{
-
-				//		if (_SysInfo2.nDmmCh > 20)
-				//		{
-				//			_KeysiteDmmEtc2.Send($"SENS:VOLT:APER {_ModelInfo2.dbDmmScanSpeed},(@{200 + _SysInfo2.nDmmCh - 20})", true);
-				//		}
-				//		else
-				//		{
-				//			_KeysiteDmmEtc2.Send($"SENS:VOLT:APER {_ModelInfo2.dbDmmScanSpeed},(@{100 + _SysInfo2.nDmmCh})", true);
-				//		}
-				//	}
-				//	else
-				//	{
-				//		if (_SysInfo2.nDmmCh > 20)
-				//		{
-				//			KeysiteDmm2.Send($"SENS:VOLT:APER {_ModelInfo2.dbDmmScanSpeed},(@{200 + _SysInfo2.nDmmCh - 20})");
-				//		}
-				//		else
-				//		{
-				//			KeysiteDmm2.Send($"SENS:VOLT:APER {_ModelInfo2.dbDmmScanSpeed},(@{100 + _SysInfo2.nDmmCh})");
-				//		}
-				//	}
-				//	nProcessStep[nStepIndex] = 44030;
-				//	break;
-
-				case 44026:
-
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nDmmCh);
-					if (_Config.bDmmEtcMode)
-					{
-
-						if (_SysInfo2.nDmmCh > 20)
-						{
-							_KeysiteDmmEtc2.Send($"ROUTe:CLOSe (@{200 + _SysInfo2.nDmmCh - 20})", true);
-						}
-						else
-						{
-							_KeysiteDmmEtc2.Send($"ROUTe:CLOSe (@{100 + _SysInfo2.nDmmCh})", true);
-						}
-					}
-					else
-					{
-						if (_SysInfo2.nDmmCh > 20)
-						{
-							KeysiteDmm2.Send($"ROUTe:CLOSe (@{200 + _SysInfo2.nDmmCh - 20})");
-						}
-						else
-						{
-							KeysiteDmm2.Send($"ROUTe:CLOSe (@{100 + _SysInfo2.nDmmCh})");
-						}
-					}
-					nProcessStep[nStepIndex] = 44030;
-					break;
-
-				case 44030:
-					//KeysiteDmm2.Send($"MEAS:VOLT:DC? (@{_SysInfo2.strDmmCh}");
-					if (_Config.bDmmEtcMode)
-					{
-						_KeysiteDmmEtc2.Send($"READ?", true);
-					}
-					else
-					{
-						KeysiteDmm2.Send($"READ?");
-					}
-					nProcessStep[nStepIndex]++;
-					break;
-
-				case 44031:
-					if (_Config.bDmmEtcMode)
-					{
-
-						if (_KeysiteDmmEtc2.IsReadData())
-						{
-							nProcessStep[nStepIndex] = 44040;
-						}
-					}
-					else
-					{
-						if (KeysiteDmm2.IsReadData())
-						{
-							nProcessStep[nStepIndex] = 44040;
-						}
-					}
-					break;
-
-				case 44040:
-
-					//theApp.AppendLogMsg2(KeysiteDmm2.GetReadData(), MSG_TYPE.INFO);
-					if (_Config.bDmmEtcMode)
-					{
-						double.TryParse(_KeysiteDmmEtc2.strReadMessage, out _SysInfo2.dbCommReadData);
-					}
-					else
-					{
-						double.TryParse(KeysiteDmm2.GetReadData(), out _SysInfo2.dbCommReadData);
-					}
-
-					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue3, out _SysInfo2.nBuffIndex);
-					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo2.dbCommReadData}{_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo2.dbCalcData);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nBuffIndex);
+					double.TryParse(new DataTable().Compute(string.Format($"{_SysInfo2.dbDmmReadDataBuff[_SysInfo2.nBuffIndex]}{_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue2}"), null).ToString(), out _SysInfo2.dbCalcData);
+					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue3, out _SysInfo2.nDispLen);
 
 					double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMin, out _SysInfo2.dbSpecMin);
 					double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMax, out _SysInfo2.dbSpecMax);
 
-					//AppendLogMsg2($"_SysInfo2.dbCalcData = {_SysInfo2.dbCalcData.ToString("F10")}", MSG_TYPE.LOG);
 
-					_SysInfo2.dbRMSCommReadData = (_SysInfo2.dbCalcData / _ModelInfo2.dbResistance) * 1000;
-					// 0은 양쪽다 비교 , 1은 Min만 비교, 2는 Max만 비교
-					if (_SysInfo2.nBuffIndex == 0)
+					_SysInfo2.dbRMSCommReadData = (_SysInfo2.dbCalcData) * 1000;
+
+					if (_SysInfo2.nDispLen == 0)
 					{
 						if (_SysInfo2.dbRMSCommReadData > _SysInfo2.dbSpecMax || _SysInfo2.dbRMSCommReadData < _SysInfo2.dbSpecMin)
 						{
@@ -11043,7 +10647,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F4"), "OK");
 						}
 					}
-					else if (_SysInfo2.nBuffIndex == 1)
+					else if (_SysInfo2.nDispLen == 1)
 					{
 						if (_SysInfo2.dbRMSCommReadData < _SysInfo2.dbSpecMin)
 						{
@@ -11055,7 +10659,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F4"), "OK");
 						}
 					}
-					else if (_SysInfo2.nBuffIndex == 2)
+					else if (_SysInfo2.nDispLen == 2)
 					{
 						if (_SysInfo2.dbRMSCommReadData > _SysInfo2.dbSpecMax)
 						{
@@ -11067,11 +10671,6 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F4"), "OK");
 						}
 					}
-
-					nProcessStep[nStepIndex] = 44050;
-					break;
-
-				case 44050:
 					_SysInfo2.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
@@ -11144,7 +10743,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					break;
 
-				// 1번 채널 Power Supply 설정
+				
 				case 47010:
 					if (_Config.bDmmEtcMode)
 					{
@@ -11538,14 +11137,41 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					_SysInfo2.dbRMSCommReadData = (_SysInfo2.dbCalcData / _ModelInfo2.dbResistance) * 1000;
 
-					if (_SysInfo2.dbRMSCommReadData > _SysInfo2.dbSpecMax || _SysInfo2.dbRMSCommReadData < _SysInfo2.dbSpecMin)
+					if (_SysInfo2.nDispLen == 0)
 					{
-						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F" + _SysInfo2.nDispLen.ToString()), "NG");
-						_SysInfo2.bTestNG = true;
+						if (_SysInfo2.dbRMSCommReadData > _SysInfo2.dbSpecMax || _SysInfo2.dbRMSCommReadData < _SysInfo2.dbSpecMin)
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
+						}
+						else
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F4"), "OK");
+						}
 					}
-					else
+					else if (_SysInfo2.nDispLen == 1)
 					{
-						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F" + _SysInfo2.nDispLen.ToString()), "OK");
+						if (_SysInfo2.dbRMSCommReadData < _SysInfo2.dbSpecMin)
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
+						}
+						else
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F4"), "OK");
+						}
+					}
+					else if (_SysInfo2.nDispLen == 2)
+					{
+						if (_SysInfo2.dbRMSCommReadData > _SysInfo2.dbSpecMax)
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F4"), "NG");
+							_SysInfo2.bTestNG = true;
+						}
+						else
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbRMSCommReadData.ToString("F4"), "OK");
+						}
 					}
 					_SysInfo2.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
