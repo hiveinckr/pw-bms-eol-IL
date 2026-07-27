@@ -65,7 +65,7 @@
                 <ContentControl x:Name="btModelChnageContent" Content="모델 변경" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Button x:Name="btModelSetup" HorizontalAlignment="Left" Height="70" Margin="572,24,0,0" VerticalAlignment="Top" Width="170" Style="{DynamicResource MyImgButton}" Click="btModelSetup_Click">
+        <Button x:Name="btModelSetup" HorizontalAlignment="Left" Height="70" Margin="988,-206,0,0" VerticalAlignment="Top" Width="170" Style="{DynamicResource MyImgButton}" Click="btModelSetup_Click">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Source="Resource/icons8-renew-64.png" Width="32" Height="32"/>
                 <ContentControl x:Name="btModelSetupContent" Content="모델 설정" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>

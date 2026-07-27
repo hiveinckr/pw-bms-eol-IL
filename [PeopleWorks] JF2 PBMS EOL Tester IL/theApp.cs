@@ -17615,21 +17615,21 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			_LoadCell.SetPort(String.Format("COM{0}", _Config.nLoadCellPort), _Config.nLoadCellBaudRate, Parity.None, 8, StopBits.One);
 			if (_LoadCell.PortOpen())
 			{
-				AppendLogMsg(String.Format("<COM{0}> 로드셀 포트 오픈 성공", _Config.nLoadCellPort), MSG_TYPE.INFO);
+				AppendLogMsg(String.Format("<COM{0}> Load cell port open successful", _Config.nLoadCellPort), MSG_TYPE.INFO);
 			}
 			else
 			{
-				AppendLogMsg(String.Format("<COM{0}> 로드셀 포트 오픈 실패", _Config.nLoadCellPort), MSG_TYPE.ERROR);
+				AppendLogMsg(String.Format("<COM{0}> Load cell port open Fail", _Config.nLoadCellPort), MSG_TYPE.ERROR);
 			}
 
 			_LoadCell2.SetPort(String.Format("COM{0}", _Config.nLoadCellPort2), _Config.nLoadCellBaudRate2, Parity.None, 8, StopBits.One);
 			if (_LoadCell.PortOpen())
 			{
-				AppendLogMsg(String.Format("<COM{0}> 로드셀 포트 오픈 성공", _Config.nLoadCellPort2), MSG_TYPE.INFO);
+				AppendLogMsg(String.Format("<COM{0}> Load cell port #2 open successful ", _Config.nLoadCellPort2), MSG_TYPE.INFO);
 			}
 			else
 			{
-				AppendLogMsg(String.Format("<COM{0}> 로드셀 포트 오픈 실패", _Config.nLoadCellPort2), MSG_TYPE.ERROR);
+				AppendLogMsg(String.Format("<COM{0}> Load cell port #2 open Fail", _Config.nLoadCellPort2), MSG_TYPE.ERROR);
 			}
 
 			for (int i = 0; i < 8; i++)
