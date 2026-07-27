@@ -8,8 +8,8 @@
                   Title="[PeopleWorks] JF2 RBMS PBMS EOL Tester IL2" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
         SizeToContent="WidthAndHeight">
     <Grid  Height="1010" Width="1920">
-        <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowTime" Content="0" HorizontalAlignment="Left" Height="40" Margin="1632,36,0,0" VerticalAlignment="Top" Width="278" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FF04C8E3" FontWeight="Bold" FontSize="20"/>
-        <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowDay" Content="--:--:--" HorizontalAlignment="Left" Height="28" Margin="1632,78,0,0" VerticalAlignment="Top" Width="278" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FFFFFFDC" FontSize="15"/>
+        <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowTime" Content="0" HorizontalAlignment="Left" Height="40" Margin="1458,36,0,0" VerticalAlignment="Top" Width="452" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FF04C8E3" FontWeight="Bold" FontSize="20"/>
+        <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowDay" Content="--:--:--" HorizontalAlignment="Left" Height="28" Margin="1458,78,0,0" VerticalAlignment="Top" Width="452" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FFFFFFDC" FontSize="15"/>
         <Label HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="959" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Foreground="Aqua" FontWeight="Medium" FontSize="25" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="320,36,0,0">
             <TextBlock x:Name="lbModelName2" Text="Model Name"/>
         </Label>
@@ -182,7 +182,7 @@
                 <ContentControl Content="Reset counter" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="10" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Button x:Name="btModelSetup2" HorizontalAlignment="Left" Height="70" Margin="1458,36,0,0" VerticalAlignment="Top" Width="169" Style="{DynamicResource MyImgButton}" Click="btModelSetup_Click">
+        <Button x:Name="btModelSetup2" HorizontalAlignment="Left" Height="70" Margin="-480,253,0,0" VerticalAlignment="Top" Width="170" Style="{DynamicResource MyImgButton}" Click="btModelSetup_Click">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Source="/Resource/icons8-renew-64.png" Width="32" Height="32"/>
                 <ContentControl x:Name="btModelSetupContent" Content="모델 설정" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>

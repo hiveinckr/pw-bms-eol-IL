@@ -61,6 +61,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		private void btStop_Click(object sender, RoutedEventArgs e)
 		{
 			_SysInfo._SwStatus = MAIN_STATUS.NG;
+			_SysInfo.bEMGStop = true;
 			theApp.nProcessStep[(int)PROC_LIST.MAIN] = 80000;
 			this.Hide();
 		}

@@ -55,7 +55,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		private void btStop_Click(object sender, RoutedEventArgs e)
 		{
 			_SysInfo2._SwStatus = MAIN_STATUS2.NG;
-
+			_SysInfo2.bEMGStop = true;
 			this.Hide();
 		}
 

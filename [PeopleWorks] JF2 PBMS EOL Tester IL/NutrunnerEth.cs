@@ -94,7 +94,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						SetPort();
 						ReConnetTimer.Restart();
-						theApp.AppendLogMsg("Retry connecting the nutrunner controller", MSG_TYPE.INFO);
+						//theApp.AppendLogMsg("Retry connecting the nutrunner controller", MSG_TYPE.INFO);
 					}
 				}
 				else
@@ -392,7 +392,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				if (nStation == 1)
 				{
 
-					theApp.AppendLogMsg("Nutrunner" + e.Message, MSG_TYPE.ERROR);
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 
 					Console.WriteLine(e.ToString());
 
@@ -400,7 +400,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				else
 				{
 
-					theApp.AppendLogMsg2("Nutrunner" + e.Message, MSG_TYPE.ERROR);
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 
 					Console.WriteLine(e.ToString());
 				}
@@ -427,7 +427,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				if (nStation == 1)
 				{
 
-					theApp.AppendLogMsg("너트러너" + e.Message, MSG_TYPE.ERROR);
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 
 					Console.WriteLine(e.ToString());
 
@@ -435,7 +435,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				else
 				{
 
-					theApp.AppendLogMsg2("너트러너" + e.Message, MSG_TYPE.ERROR);
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 
 					Console.WriteLine(e.ToString());
 				}
@@ -470,7 +470,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				if (nStation == 1)
 				{
 
-					theApp.AppendLogMsg("너트러너" + e.Message, MSG_TYPE.ERROR);
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 
 					Console.WriteLine(e.ToString());
 
@@ -478,7 +478,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				else
 				{
 
-					theApp.AppendLogMsg2("너트러너" + e.Message, MSG_TYPE.ERROR);
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 
 					Console.WriteLine(e.ToString());
 				}
@@ -501,7 +501,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				if (nStation == 1)
 				{
 
-					theApp.AppendLogMsg("너트러너" + e.Message, MSG_TYPE.ERROR);
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 
 					Console.WriteLine(e.ToString());
 
@@ -509,7 +509,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				else
 				{
 
-					theApp.AppendLogMsg2("너트러너" + e.Message, MSG_TYPE.ERROR);
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 
 					Console.WriteLine(e.ToString());
 				}
@@ -548,7 +548,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				if (nStation == 1)
 				{
 
-					theApp.AppendLogMsg("너트러너" + e.Message, MSG_TYPE.ERROR);
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 
 					Console.WriteLine(e.ToString());
 
@@ -556,7 +556,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				else
 				{
 
-					theApp.AppendLogMsg2("너트러너" + e.Message, MSG_TYPE.ERROR);
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 
 					Console.WriteLine(e.ToString());
 				}
@@ -591,15 +591,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				if (nStation == 1)
 				{
 
-					theApp.AppendLogMsg("너트러너" + e.Message, MSG_TYPE.ERROR);
-
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 					Console.WriteLine(e.ToString());
 
 				}
 				else
 				{
 
-					theApp.AppendLogMsg2("너트러너" + e.Message, MSG_TYPE.ERROR);
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 
 					Console.WriteLine(e.ToString());
 				}
@@ -625,7 +624,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				if (nStation == 1)
 				{
 
-					theApp.AppendLogMsg("너트러너" + e.Message, MSG_TYPE.ERROR);
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 
 					Console.WriteLine(e.ToString());
 
@@ -633,7 +632,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				else
 				{
 
-					theApp.AppendLogMsg2("너트러너" + e.Message, MSG_TYPE.ERROR);
+					theApp.AppendDebugMsg("Nutrunner" + e.Message, "MSG_TYPE.ERROR");
 
 					Console.WriteLine(e.ToString());
 				}

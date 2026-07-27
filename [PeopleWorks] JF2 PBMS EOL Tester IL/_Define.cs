@@ -174,6 +174,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public int nBCDtextOffsetX;
 		public int nBCDtextOffsetY;
 		public int nBCDPrintCount;
+		public bool bUseLoadCellTestMode = false;
 
 
 	}
@@ -224,6 +225,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public int nBCDtextOffsetX;
 		public int nBCDtextOffsetY;
 		public int nBCDPrintCount;
+		public bool bUseLoadCellTestMode = false;
 
 
 	}
@@ -532,6 +534,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static int nAutoScanner3BaudRate;
 		public static int nAutoScanner4Port;
 		public static int nAutoScanner4BaudRate;
+		public static int nLoadCellPort;
+		public static int nLoadCellBaudRate;
+		public static int nLoadCellPort2;
+		public static int nLoadCellBaudRate2;
 
 		public static int nDMM1Port;
 		public static int nDMM1BaudRate;
@@ -818,8 +824,17 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static string strTitleName;
 		public static bool bTestNG;
 
+
 		public static string strBarcodeFront;
 		public static string strBarcodeBack;
+
+		public static bool bLoadCellStart;
+		public static bool bLoadCellInitOK;
+		public static string strReadLoadCellData;
+		public static double dbLoadCellData;
+		public static double dbLoadCellData2;
+		public static double dbLoadCellMaxData;
+		public static double dbdigits;
 
 	}
 
@@ -1022,6 +1037,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static string strTitleName;
 		public static string strBarcodeFront;
 		public static string strBarcodeBack;
+
+		public static bool bLoadCellStart;
+		public static bool bLoadCellInitOK;
+		public static string strReadLoadCellData;
+		public static double dbLoadCellData;
+		public static double dbLoadCellData2;
+		public static double dbLoadCellMaxData;
+		public static double dbdigits;
 
 
 		public static CyclonFileName_RESULT2 _FileNameResult = new CyclonFileName_RESULT2();

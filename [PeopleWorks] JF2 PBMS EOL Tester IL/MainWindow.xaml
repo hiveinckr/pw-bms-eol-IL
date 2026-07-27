@@ -54,8 +54,8 @@
 
 
         </ToolBar>
-        <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowTime" Content="0" HorizontalAlignment="Left" Height="40" Margin="1632,36,0,0" VerticalAlignment="Top" Width="278" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FF04C8E3" FontWeight="Bold" FontSize="20"/>
-        <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowDay" Content="--:--:--" HorizontalAlignment="Left" Height="28" Margin="1632,78,0,0" VerticalAlignment="Top" Width="278" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FFFFFFDC" FontSize="15"/>
+        <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowTime" Content="0" HorizontalAlignment="Left" Height="40" Margin="1458,36,0,0" VerticalAlignment="Top" Width="452" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FF04C8E3" FontWeight="Bold" FontSize="20"/>
+        <Label Style="{StaticResource MyLabelStyle}" x:Name="lbNowDay" Content="--:--:--" HorizontalAlignment="Left" Height="28" Margin="1458,78,0,0" VerticalAlignment="Top" Width="452" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF404040" Foreground="#FFFFFFDC" FontSize="15"/>
         <Label HorizontalAlignment="Left" Height="70" VerticalAlignment="Top" Width="959" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Black" Foreground="Aqua" FontWeight="Medium" FontSize="25" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="320,36,0,0">
             <TextBlock x:Name="lbModelName" Text="Model Name"/>
         </Label>
@@ -65,7 +65,7 @@
                 <ContentControl x:Name="btModelChnageContent" Content="모델 변경" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Button x:Name="btModelSetup" HorizontalAlignment="Left" Height="70" Margin="1458,36,0,0" VerticalAlignment="Top" Width="169" Style="{DynamicResource MyImgButton}" Click="btModelSetup_Click">
+        <Button x:Name="btModelSetup" HorizontalAlignment="Left" Height="70" Margin="572,24,0,0" VerticalAlignment="Top" Width="170" Style="{DynamicResource MyImgButton}" Click="btModelSetup_Click">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Source="Resource/icons8-renew-64.png" Width="32" Height="32"/>
                 <ContentControl x:Name="btModelSetupContent" Content="모델 설정" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
@@ -155,7 +155,7 @@
                 <ContentControl x:Name="btStartContent" Content="시  작" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Margin="0,30,0,0" FontSize="20" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Button x:Name="btStop" HorizontalAlignment="Left" Height="182" Margin="1743,818,0,0" VerticalAlignment="Top" Width="167" Style="{DynamicResource MyImgButton}" Click="ControlButton_Click">
+        <Button x:Name="btStop" Height="182" Margin="1743,818,0,0" VerticalAlignment="Top" Style="{DynamicResource MyImgButton}" Click="ControlButton_Click" HorizontalAlignment="Left" Width="167">
             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Source="Resource/icons8-stop-96.png" Width="48" Height="48"/>
                 <ContentControl x:Name="btStopContent" Content="정  지" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Margin="0,30,0,0" FontSize="20" FontWeight="Medium"/>

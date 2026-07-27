@@ -153,9 +153,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			lbNowTime.Content = DateTime.Now.ToLongTimeString();
 			lbNowDay.Content = DateTime.Now.ToLongDateString();
 
-			lbTotalProductCount.Content = theApp._LotCount.nTotalCount.ToString();
-			lbModelName.Text = theApp._ModelInfo.strModelName;
 
+			lbModelName.Text = theApp._ModelInfo.strModelName;
+			
+			lbTotalProductCount.Content = theApp._LotCount.nTotalCount.ToString();
 			lbNowProductCount.Content = (theApp._LotCount.nOkCount + theApp._LotCount.nNGCount).ToString();
 			lbNowOKCount.Content = theApp._LotCount.nOkCount.ToString();
 			lbNowNGCount.Content = theApp._LotCount.nNGCount.ToString();
@@ -543,7 +544,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				if (_pwWindow.ShowDialog() == true)
 				{
 					ModelSetup _Window = new ModelSetup();
-					_Window.ShowDialog();
+					_Window.Show();
 				}
 				else
 				{

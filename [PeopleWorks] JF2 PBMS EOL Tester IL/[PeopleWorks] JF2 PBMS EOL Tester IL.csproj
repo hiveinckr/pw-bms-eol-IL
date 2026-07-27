@@ -167,6 +167,8 @@
     <Compile Include="ReTryPopup2.xaml.cs">
       <DependentUpon>ReTryPopup2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RoadCell.cs" />
+    <Compile Include="RoadCell2.cs" />
     <Compile Include="StepMonitor.xaml.cs">
       <DependentUpon>StepMonitor.xaml</DependentUpon>
     </Compile>

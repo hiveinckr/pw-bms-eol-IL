@@ -126,6 +126,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 		public static ModbusTCP _ModbusSoket = new ModbusTCP();
 		public static ModbusTCP _ModbusSoket2 = new ModbusTCP();
+		public static RoadCell _LoadCell = new RoadCell();
+		public static RoadCell2 _LoadCell2 = new RoadCell2();
 
 		public static List<myCanData> lstData = new List<myCanData>();
 		public static List<myCanData2> lstData2 = new List<myCanData2>();
@@ -200,6 +202,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					PowerSupply[1].Process();
 					_BcdReader.Process();
 					_Nutrunner.Process();
+					_LoadCell.Process();
 
 
 					_CanComm[0].ReadMessage();
@@ -310,6 +313,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					PowerSupply[3].Process();
 					_BcdReader2.Process();
 					_Nutrunner2.Process();
+					_LoadCell2.Process();
 
 					_BarcodePrint2.Process();
 					_BcdAoutoReader3.Process();
@@ -391,21 +395,53 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 			switch (nProcessStep[nStepIndex])
 			{
-
 				case 0:
+					ShowUserStartMessege();
+					_BcdReader.bReadOk = false;
+					nProcessStep[nStepIndex] = 10;
+					break;
+
+				case 10:
+					if (GetDIOPort(DI.START_SW1) && GetDIOPort(DI.START_SW2))
+					{
+						_BcdReader.bReadOk = false;
+						tMainTimer[nStepIndex].Start(50);
+						nProcessStep[nStepIndex]++;
+
+					}
+					break;
+
+				case 11:
+					if (GetDIOPort(DI.START_SW1) && GetDIOPort(DI.START_SW2) && tMainTimer[nStepIndex].Verify())
+					{
+						_BcdReader.bReadOk = false;
+						HideUserStartMessege();
+						HideResultMessege();
+						nProcessStep[nStepIndex] = 50;
+					}
+					else if (!GetDIOPort(DI.START_SW1) || !GetDIOPort(DI.START_SW2))
+					{
+						_BcdReader.bReadOk = false;
+						nProcessStep[nStepIndex] = 0;
+					}
+					break;
+
+
+				case 50:
 					if (!_ModelInfo.bUseRbmsTest)
 					{
 						ShowPbmsStartMessege();
 						HideUserStartMessege();
 					}
+					_BcdReader.bReadOk = false;
 					nProcessStep[nStepIndex] ++;
 					break;
 
-				case 1:
+				case 51:
 
 					if (_ModelInfo.bUseAutoBCSScan && _ModelInfo.bUseRbmsTest && !_ModelInfo.bUseRMDTestMode)
 					{
-						ShowUserStartMessege();
+						
 						HidePbmsStartMessege();
 						nProcessStep[nStepIndex] = 200;
 					}
@@ -417,7 +453,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_BcdReader.bReadOk = false;
 							
 
-							HideResultMessege();
+						
 							_SysInfo.strReadBarcode = _BcdReader.strReadBarcode;
 
 							try
@@ -615,8 +651,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 									if (_SysInfo.bReadMainBcd && _SysInfo.bReadMacBcd)
 									{
-										ShowUserStartMessege();
-										nProcessStep[nStepIndex] = 2;
+
+										nProcessStep[nStepIndex] = 1000;
 									}
 								}
 								else
@@ -649,9 +685,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 													_SysInfo.nWriteSerialNum = nReadSerialNum;
 													_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
 													_SysInfo.bReadMainBcd = true;
-													ShowUserStartMessege();
+												
 													if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
-													nProcessStep[nStepIndex] = 2;
+													nProcessStep[nStepIndex] = 1000;
 
 												}
 												else if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strMasterNgSampleBarcode))
@@ -662,9 +698,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 													_SysInfo.nWriteSerialNum = nReadSerialNum;
 													_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
 													_SysInfo.bReadMainBcd = true;
-													ShowUserStartMessege();
+												
 													if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
-													nProcessStep[nStepIndex] = 2;
+													nProcessStep[nStepIndex] = 1000;
 												}
 												else
 												{
@@ -675,7 +711,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 														// 마스터 팝업 발생
 														_SysInfo.nTL_Beep = 3;
 														ShowMasterPopUpWindow();
-														nProcessStep[nStepIndex] = 2;
+														nProcessStep[nStepIndex] = 1000;
 
 													}
 													else
@@ -686,9 +722,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 														_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
 														_SysInfo.bReadMainBcd = true;
 														HidePbmsStartMessege();
-														ShowUserStartMessege();
+													
 														if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
-														nProcessStep[nStepIndex] = 2;
+														nProcessStep[nStepIndex] = 1000;
 													}
 
 												}
@@ -708,9 +744,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 														_SysInfo.nWriteSerialNum = nReadSerialNum;
 														_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
 														_SysInfo.bReadMainBcd = true;
-														ShowUserStartMessege();
+														
 														if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
-														nProcessStep[nStepIndex] = 2;
+														nProcessStep[nStepIndex] = 1000;
 
 													}
 													else if (CheckBarcode(_BcdReader.strReadBarcode, _ModelInfo.strMasterNgSampleBarcode))
@@ -721,9 +757,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 														_SysInfo.nWriteSerialNum = nReadSerialNum;
 														_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
 														_SysInfo.bReadMainBcd = true;
-														ShowUserStartMessege();
+													
 														if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
-														nProcessStep[nStepIndex] = 2;
+														nProcessStep[nStepIndex] = 1000;
 													}
 													else
 													{
@@ -734,7 +770,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 															// 마스터 팝업 발생
 															_SysInfo.nTL_Beep = 3;
 															ShowMasterPopUpWindow();
-															nProcessStep[nStepIndex] = 2;
+															nProcessStep[nStepIndex] = 1000;
 
 														}
 														else
@@ -745,9 +781,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 															_SysInfo.strDispBarcode = _SysInfo.strReadBarcode;
 															_SysInfo.bReadMainBcd = true;
 															HidePbmsStartMessege();
-															ShowUserStartMessege();
+															
 															if (!_SysInfo.bReadMacBcd) { _SysInfo.strDispMac = ""; }
-															nProcessStep[nStepIndex] = 2;
+															nProcessStep[nStepIndex] = 1000;
 														}
 
 													}
@@ -792,26 +828,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					break;
 
-				case 2:
-					if (GetDIOPort(DI.START_SW1) && GetDIOPort(DI.START_SW2))
-					{
-						tMainTimer[nStepIndex].Start(50);
-						nProcessStep[nStepIndex]++;
-
-					}
-					break;
-
-				case 3:
-					if (GetDIOPort(DI.START_SW1) && GetDIOPort(DI.START_SW2) && tMainTimer[nStepIndex].Verify())
-					{
-						HideUserStartMessege();
-						nProcessStep[nStepIndex] = 1000;
-					}
-					else if (!GetDIOPort(DI.START_SW1) || !GetDIOPort(DI.START_SW2))
-					{
-						nProcessStep[nStepIndex] = 2;
-					}
-					break;
+				
 
 				case 100:
 
@@ -819,24 +836,24 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 				case 200:
-					if (GetDIOPort(DI.START_SW1) && GetDIOPort(DI.START_SW2))
-					{
-						tMainTimer[nStepIndex].Start(50);
+					//if (GetDIOPort(DI.START_SW1) && GetDIOPort(DI.START_SW2))
+					//{
+					//	tMainTimer[nStepIndex].Start(50);
 						nProcessStep[nStepIndex]++;
 
-					}
+					//}
 					break;
 
 				case 201:
-					if (GetDIOPort(DI.START_SW1) && GetDIOPort(DI.START_SW2) && tMainTimer[nStepIndex].Verify())
-					{
-						HideUserStartMessege();
+					//if (GetDIOPort(DI.START_SW1) && GetDIOPort(DI.START_SW2) && tMainTimer[nStepIndex].Verify())
+					//{
+					//	HideUserStartMessege();
 						nProcessStep[nStepIndex] = 250;
-					}
-					else if (!GetDIOPort(DI.START_SW1) || !GetDIOPort(DI.START_SW2))
-					{
-						nProcessStep[nStepIndex] = 200;
-					}
+					//}
+					//else if (!GetDIOPort(DI.START_SW1) || !GetDIOPort(DI.START_SW2))
+					//{
+					//	nProcessStep[nStepIndex] = 200;
+					//}
 					break;
 
 				case 250:
@@ -1160,6 +1177,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 2500:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
+					if (_ModelInfo.bUseLoadCellTestMode)
+					{
+						_SysInfo.bLoadCellStart = true;
+					}
 					nProcessStep[nStepIndex] = 3000;
 					break;
 
@@ -1448,10 +1469,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							cellT.Clear();
 							nProcessStep[nStepIndex] = 53000;
 						}
-						//else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 27)
-						//{
-						//	nProcessStep[nStepIndex] = 54000;
-						//}
+						else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 27)
+						{
+
+							nProcessStep[nStepIndex] = 54000;
+						}
 					}
 					else
 					{
@@ -2342,7 +2364,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo.nCanData = GetFuncData(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep]._DataInfo[_SysInfo.nSubWorkStep].strValue2.ToString());
 					SendTCPReadCommand(_SysInfo.nCanCh, _SysInfo.nCanAddr);
 
-					tMainTimer[nStepIndex].Start(5000);
+					tMainTimer[nStepIndex].Start(15000);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -5617,9 +5639,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							{
 								if (_SysInfo.strDispBarcode == _BcdReader.strReadBarcode)
 								{
-									_SysInfo.strPBMSBcd = _BcdReader.strReadBarcode;
-									_SysInfo.strDispBarcodeBack = _SysInfo.strPBMSBcd.Substring(10, 12);
-									nProcessStep[nStepIndex] = 52010;
+
+									nProcessStep[nStepIndex] = 52040;
 								}
 								else
 								{
@@ -5656,178 +5677,178 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					nProcessStep[nStepIndex] = 52005;
 					break;
 
-				case 52010:
-					_SysInfo._PopupStatus = MAIN_STATUS.READY;
-					_BcdReader.strReadBarcode = "";
-					if (_Config.strLanguage == "ENGLISH")
-					{
-						_SysInfo.strBcdPopupContent = "Please scan the Fuse barcode.";
-					}
-					else
-					{
-						_SysInfo.strBcdPopupContent = "Fuse 바코드를 스캔하여 주세요.";
-					}
-					_BcdReader.bReadOk = false;
-					ShowBcdPopUpWindow();
-					nProcessStep[nStepIndex] = 52015;
-					break;
+				//case 52010:
+				//	_SysInfo._PopupStatus = MAIN_STATUS.READY;
+				//	_BcdReader.strReadBarcode = "";
+				//	if (_Config.strLanguage == "ENGLISH")
+				//	{
+				//		_SysInfo.strBcdPopupContent = "Please scan the Fuse barcode.";
+				//	}
+				//	else
+				//	{
+				//		_SysInfo.strBcdPopupContent = "Fuse 바코드를 스캔하여 주세요.";
+				//	}
+				//	_BcdReader.bReadOk = false;
+				//	ShowBcdPopUpWindow();
+				//	nProcessStep[nStepIndex] = 52015;
+				//	break;
 
-				case 52015:
-					if (_BcdReader.bReadOk)
-					{
-						_BcdReader.bReadOk = false;
-						CloseBcdPopUpWindow();
+				//case 52015:
+				//	if (_BcdReader.bReadOk)
+				//	{
+				//		_BcdReader.bReadOk = false;
+				//		CloseBcdPopUpWindow();
 
-						if (CheckBarcode( _BcdReader.strReadBarcode, _ModelInfo.strFuseBarcodSymbol))
-						{
-							_SysInfo.strFuseBcd = _BcdReader.strReadBarcode;
-							nProcessStep[nStepIndex] = 52020;
-						}
-						else
-						{
-							nProcessStep[nStepIndex] = 52018;
-						}
-					}
-					break;
+				//		if (CheckBarcode( _BcdReader.strReadBarcode, _ModelInfo.strFuseBarcodSymbol))
+				//		{
+				//			_SysInfo.strFuseBcd = _BcdReader.strReadBarcode;
+				//			nProcessStep[nStepIndex] = 52020;
+				//		}
+				//		else
+				//		{
+				//			nProcessStep[nStepIndex] = 52018;
+				//		}
+				//	}
+				//	break;
 
-				case 52018:
-					_SysInfo._PopupStatus = MAIN_STATUS.NG;
-					_BcdReader.strReadBarcode = "";
-					_SysInfo.nTL_Beep = 3;
-					if (_Config.strLanguage == "ENGLISH")
-					{
-						_SysInfo.strBcdPopupContent = "Please scan the correct Fuse barcode.";
-					}
-					else
-					{
-						_SysInfo.strBcdPopupContent = "올바른 Fuse 바코드를 스캔하여 주세요.";
-					}
-					_BcdReader.bReadOk = false;
-					ShowBcdPopUpWindow();
-					nProcessStep[nStepIndex] = 52015;
-					break;
+				//case 52018:
+				//	_SysInfo._PopupStatus = MAIN_STATUS.NG;
+				//	_BcdReader.strReadBarcode = "";
+				//	_SysInfo.nTL_Beep = 3;
+				//	if (_Config.strLanguage == "ENGLISH")
+				//	{
+				//		_SysInfo.strBcdPopupContent = "Please scan the correct Fuse barcode.";
+				//	}
+				//	else
+				//	{
+				//		_SysInfo.strBcdPopupContent = "올바른 Fuse 바코드를 스캔하여 주세요.";
+				//	}
+				//	_BcdReader.bReadOk = false;
+				//	ShowBcdPopUpWindow();
+				//	nProcessStep[nStepIndex] = 52015;
+				//	break;
 
 
-				case 52020:
-					_SysInfo._PopupStatus = MAIN_STATUS.READY;
-					_BcdReader.strReadBarcode = "";
-					if (_Config.strLanguage == "ENGLISH")
-					{
-						_SysInfo.strBcdPopupContent = "Please scan the Case barcode.";
-					}
-					else
-					{
-						_SysInfo.strBcdPopupContent = "Case 바코드를 스캔하여 주세요.";
-					}
-					_BcdReader.bReadOk = false;
-					ShowBcdPopUpWindow();
-					nProcessStep[nStepIndex] = 52025;
-					break;
+				//case 52020:
+				//	_SysInfo._PopupStatus = MAIN_STATUS.READY;
+				//	_BcdReader.strReadBarcode = "";
+				//	if (_Config.strLanguage == "ENGLISH")
+				//	{
+				//		_SysInfo.strBcdPopupContent = "Please scan the Case barcode.";
+				//	}
+				//	else
+				//	{
+				//		_SysInfo.strBcdPopupContent = "Case 바코드를 스캔하여 주세요.";
+				//	}
+				//	_BcdReader.bReadOk = false;
+				//	ShowBcdPopUpWindow();
+				//	nProcessStep[nStepIndex] = 52025;
+				//	break;
 
-				case 52025:
-					if (_BcdReader.bReadOk)
-					{
-						_BcdReader.bReadOk = false;
-						CloseBcdPopUpWindow();
+				//case 52025:
+				//	if (_BcdReader.bReadOk)
+				//	{
+				//		_BcdReader.bReadOk = false;
+				//		CloseBcdPopUpWindow();
 
-						if (CheckBarcode(_BcdReader.strReadBarcode,_ModelInfo.strCaseBarcodSymbol))
-						{
-							_SysInfo.strCaseBcd = _BcdReader.strReadBarcode;
-							nProcessStep[nStepIndex] = 52030;
-						}
-						else
-						{
-							nProcessStep[nStepIndex] = 52028;
-						}
-					}
-					break;
+				//		if (CheckBarcode(_BcdReader.strReadBarcode,_ModelInfo.strCaseBarcodSymbol))
+				//		{
+				//			_SysInfo.strCaseBcd = _BcdReader.strReadBarcode;
+				//			nProcessStep[nStepIndex] = 52030;
+				//		}
+				//		else
+				//		{
+				//			nProcessStep[nStepIndex] = 52028;
+				//		}
+				//	}
+				//	break;
 
-				case 52028:
-					_SysInfo._PopupStatus = MAIN_STATUS.NG;
-					_BcdReader.strReadBarcode = "";
-					_SysInfo.nTL_Beep = 3;
-					if (_Config.strLanguage == "ENGLISH")
-					{
-						_SysInfo.strBcdPopupContent = "Please scan the correct Case barcode.";
-					}
-					else
-					{
-						_SysInfo.strBcdPopupContent = "올바른 Case 바코드를 스캔하여 주세요.";
-					}
-					_BcdReader.bReadOk = false;
-					ShowBcdPopUpWindow();
-					nProcessStep[nStepIndex] = 52025;
-					break;
+				//case 52028:
+				//	_SysInfo._PopupStatus = MAIN_STATUS.NG;
+				//	_BcdReader.strReadBarcode = "";
+				//	_SysInfo.nTL_Beep = 3;
+				//	if (_Config.strLanguage == "ENGLISH")
+				//	{
+				//		_SysInfo.strBcdPopupContent = "Please scan the correct Case barcode.";
+				//	}
+				//	else
+				//	{
+				//		_SysInfo.strBcdPopupContent = "올바른 Case 바코드를 스캔하여 주세요.";
+				//	}
+				//	_BcdReader.bReadOk = false;
+				//	ShowBcdPopUpWindow();
+				//	nProcessStep[nStepIndex] = 52025;
+				//	break;
 
-				case 52030:
-					//theApp._LotCount.nLotCount++;
-					theApp._BarcodePrint.nBCDsize = theApp._ModelInfo.nBCDsize;
-					theApp._BarcodePrint.nBCDStringHeight = theApp._ModelInfo.nBCDStringHeight;
-					theApp._BarcodePrint.nBCDStringWidth = theApp._ModelInfo.nBCDStringWidth;
-					theApp._BarcodePrint.nBCDbcdOffsetX = theApp._ModelInfo.nBCDbcdOffsetX;
-					theApp._BarcodePrint.nBCDbcdOffsetY = theApp._ModelInfo.nBCDbcdOffsetY;
-					theApp._BarcodePrint.nBCDtextOffsetX = theApp._ModelInfo.nBCDtextOffsetX;
-					theApp._BarcodePrint.nBCDtextOffsetY = theApp._ModelInfo.nBCDtextOffsetY;
-					theApp._BarcodePrint.strModelInfo = theApp._ModelInfo.strComment1;
-					theApp._BarcodePrint.strPrintBCD = _SysInfo.strDispBarcodeBack;
-					theApp._BarcodePrint.bManualMode = false;
-					theApp._BarcodePrint.bPrintStart = true;
-					//theApp.SaveModelProductCount(theApp._LotCount, theApp._ModelInfo.strModelName);
-					SaveBarcodeInfo();
-					nProcessStep[nStepIndex] = 52033;
-					break;
+				//case 52030:
+				//	//theApp._LotCount.nLotCount++;
+				//	theApp._BarcodePrint.nBCDsize = theApp._ModelInfo.nBCDsize;
+				//	theApp._BarcodePrint.nBCDStringHeight = theApp._ModelInfo.nBCDStringHeight;
+				//	theApp._BarcodePrint.nBCDStringWidth = theApp._ModelInfo.nBCDStringWidth;
+				//	theApp._BarcodePrint.nBCDbcdOffsetX = theApp._ModelInfo.nBCDbcdOffsetX;
+				//	theApp._BarcodePrint.nBCDbcdOffsetY = theApp._ModelInfo.nBCDbcdOffsetY;
+				//	theApp._BarcodePrint.nBCDtextOffsetX = theApp._ModelInfo.nBCDtextOffsetX;
+				//	theApp._BarcodePrint.nBCDtextOffsetY = theApp._ModelInfo.nBCDtextOffsetY;
+				//	theApp._BarcodePrint.strModelInfo = theApp._ModelInfo.strComment1;
+				//	theApp._BarcodePrint.strPrintBCD = _SysInfo.strDispBarcodeBack;
+				//	theApp._BarcodePrint.bManualMode = false;
+				//	theApp._BarcodePrint.bPrintStart = true;
+				//	//theApp.SaveModelProductCount(theApp._LotCount, theApp._ModelInfo.strModelName);
+				//	SaveBarcodeInfo();
+				//	nProcessStep[nStepIndex] = 52033;
+				//	break;
 				
-				case 52033:
-					_SysInfo._PopupStatus = MAIN_STATUS.READY;
-					_BcdReader.strReadBarcode = "";
-					if (_Config.strLanguage == "ENGLISH")
-					{
-						_SysInfo.strBcdPopupContent = "Please attach the Support Bracket barcode and scan it.";
-					}
-					else
-					{
-						_SysInfo.strBcdPopupContent = "Support Bracket 바코드를 부착 후 스캔하여 주세요.";
-					}
-					_BcdReader.bReadOk = false;
-					ShowBcdPopUpWindow();
-					nProcessStep[nStepIndex]++;
-					break;
+				//case 52033:
+				//	_SysInfo._PopupStatus = MAIN_STATUS.READY;
+				//	_BcdReader.strReadBarcode = "";
+				//	if (_Config.strLanguage == "ENGLISH")
+				//	{
+				//		_SysInfo.strBcdPopupContent = "Please attach the Support Bracket barcode and scan it.";
+				//	}
+				//	else
+				//	{
+				//		_SysInfo.strBcdPopupContent = "Support Bracket 바코드를 부착 후 스캔하여 주세요.";
+				//	}
+				//	_BcdReader.bReadOk = false;
+				//	ShowBcdPopUpWindow();
+				//	nProcessStep[nStepIndex]++;
+				//	break;
 
-				case 52034:
-					if (_BcdReader.bReadOk)
-					{
-						_BcdReader.bReadOk = false;
-						CloseBcdPopUpWindow();
+				//case 52034:
+				//	if (_BcdReader.bReadOk)
+				//	{
+				//		_BcdReader.bReadOk = false;
+				//		CloseBcdPopUpWindow();
 
-						if (_BcdReader.strReadBarcode == (_ModelInfo.strComment1 + _SysInfo.strDispBarcodeBack))
-						{
+				//		if (_BcdReader.strReadBarcode == (_ModelInfo.strComment1 + _SysInfo.strDispBarcodeBack))
+				//		{
 							
-							nProcessStep[nStepIndex] = 52040;
-						}
-						else
-						{
-							nProcessStep[nStepIndex] = 52035;
-						}
-					}
-					break;
+				//			nProcessStep[nStepIndex] = 52040;
+				//		}
+				//		else
+				//		{
+				//			nProcessStep[nStepIndex] = 52035;
+				//		}
+				//	}
+				//	break;
 
 
-				case 52035:
-					_SysInfo._PopupStatus = MAIN_STATUS.NG;
-					_BcdReader.strReadBarcode = "";
-					_SysInfo.nTL_Beep = 3;
-					if (_Config.strLanguage == "ENGLISH")
-					{
-						_SysInfo.strBcdPopupContent = "Please scan the correct Support Bracket barcode.";
-					}
-					else
-					{
-						_SysInfo.strBcdPopupContent = "올바른 Support Bracket 바코드를 스캔하여 주세요.";
-					}
-					_BcdReader.bReadOk = false;
-					ShowBcdPopUpWindow();
-					nProcessStep[nStepIndex] = 52034;
-					break;
+				//case 52035:
+				//	_SysInfo._PopupStatus = MAIN_STATUS.NG;
+				//	_BcdReader.strReadBarcode = "";
+				//	_SysInfo.nTL_Beep = 3;
+				//	if (_Config.strLanguage == "ENGLISH")
+				//	{
+				//		_SysInfo.strBcdPopupContent = "Please scan the correct Support Bracket barcode.";
+				//	}
+				//	else
+				//	{
+				//		_SysInfo.strBcdPopupContent = "올바른 Support Bracket 바코드를 스캔하여 주세요.";
+				//	}
+				//	_BcdReader.bReadOk = false;
+				//	ShowBcdPopUpWindow();
+				//	nProcessStep[nStepIndex] = 52034;
+				//	break;
 
 				case 52040:
 					TestResultSet(_SysInfo.nMainWorkStep, "OK", "OK");
@@ -6274,6 +6295,69 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					nProcessStep[nStepIndex] = 3000;
 					break;
 
+				case 54000:
+					int.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nBuffIndex);
+					double.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue2, out _SysInfo.dbdigits);
+					int.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue3, out _SysInfo.nDispLen);
+
+					double.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMin, out _SysInfo.dbSpecMin);
+					double.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMax, out _SysInfo.dbSpecMax);
+
+					_SysInfo.dbCalcData = 0;
+
+					_SysInfo.dbCalcData = _SysInfo.dbLoadCellMaxData;
+
+					if (_SysInfo.nDispLen == 0)
+					{
+						if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax || _SysInfo.dbCalcData < _SysInfo.dbSpecMin)
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "NG");
+						} 
+						else
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "OK");
+						}
+					}
+					else if (_SysInfo.nDispLen == 1)
+					{
+						if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax)
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "NG");
+						}
+						else
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "OK");
+						}
+					}
+					else if (_SysInfo.nDispLen == 2)
+					{
+						if (_SysInfo.dbCalcData < _SysInfo.dbSpecMin)
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "NG");
+						}
+						else
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "OK");
+						}
+					}
+					else if (_SysInfo.nDispLen == 3)
+					{
+
+						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "OK");
+
+					}
+
+
+					nProcessStep[nStepIndex] = 54010;
+					break;
+
+				case 54010:
+					//_SysInfo.bLoadCellStart = false; 
+					_SysInfo.nMainWorkStep++;
+					nProcessStep[nStepIndex] = 3000;
+					break;
+
+
 
 
 
@@ -6487,18 +6571,48 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			{
 
 				case 0:
+					ShowUserStartMessege2();
+					_BcdReader2.bReadOk = false;
+					nProcessStep[nStepIndex] = 10;
+					break;
+
+				case 10:
+					if (GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4))
+					{
+						tMainTimer[nStepIndex].Start(50);
+						_BcdReader2.bReadOk = false;
+						nProcessStep[nStepIndex]++;
+
+					}
+					break;
+
+				case 11:
+					if (GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4) && tMainTimer[nStepIndex].Verify())
+					{
+						HideUserStartMessege2();
+						_BcdReader2.bReadOk = false;
+						nProcessStep[nStepIndex] = 50;
+					}
+					else if (!GetDIOPort(DI.START_SW3) || !GetDIOPort(DI.START_SW4))
+					{
+						nProcessStep[nStepIndex] = 0;
+					}
+					break;
+
+				case 50:
 					if (!_ModelInfo2.bUseRbmsTest)
 					{
 						ShowPbmsStartMessege2();
 					}
+					_BcdReader2.bReadOk = false;
 					nProcessStep[nStepIndex]++;
 					break;
 
-				case 1:
+				case 51:
 
 					if (_ModelInfo2.bUseAutoBCSScan && _ModelInfo2.bUseRbmsTest && !_ModelInfo2.bUseRMDTestMode)
 					{
-						ShowUserStartMessege2();
+						HidePbmsStartMessege2();
 						nProcessStep[nStepIndex] = 200;
 					}
 					else
@@ -6705,8 +6819,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 									if (_SysInfo2.bReadMainBcd && _SysInfo2.bReadMacBcd)
 									{
-										ShowUserStartMessege2();
-										nProcessStep[nStepIndex] = 2;
+
+										nProcessStep[nStepIndex] = 1000;
 									}
 								}
 								else
@@ -6740,9 +6854,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 													_SysInfo2.nWriteSerialNum = nReadSerialNum;
 													_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
 													_SysInfo2.bReadMainBcd = true;
-													ShowUserStartMessege2();
+													
 													if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
-													nProcessStep[nStepIndex] = 2;
+													nProcessStep[nStepIndex] = 1000;
 
 												}
 												else if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strMasterNgSampleBarcode))
@@ -6753,9 +6867,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 													_SysInfo2.nWriteSerialNum = nReadSerialNum;
 													_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
 													_SysInfo2.bReadMainBcd = true;
-													ShowUserStartMessege2();
+												
 													if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
-													nProcessStep[nStepIndex] = 2;
+													nProcessStep[nStepIndex] = 1000;
 												}
 												else
 												{
@@ -6767,7 +6881,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 														_SysInfo.nTL_Beep = 3;
 														ShowMasterPopUpWindow();
-														nProcessStep[nStepIndex] = 2;
+														nProcessStep[nStepIndex] = 1000;
 
 													}
 													else
@@ -6778,9 +6892,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 														_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
 														_SysInfo2.bReadMainBcd = true;
 														HidePbmsStartMessege2();
-														ShowUserStartMessege2();
+												
 														if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
-														nProcessStep[nStepIndex] = 2;
+														nProcessStep[nStepIndex] = 1000;
 													}
 
 												}
@@ -6800,9 +6914,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 														_SysInfo2.nWriteSerialNum = nReadSerialNum;
 														_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
 														_SysInfo2.bReadMainBcd = true;
-														ShowUserStartMessege2();
+													
 														if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
-														nProcessStep[nStepIndex] = 2;
+														nProcessStep[nStepIndex] = 1000;
 
 													}
 													else if (CheckBarcode(_BcdReader2.strReadBarcode, _ModelInfo2.strMasterNgSampleBarcode))
@@ -6813,9 +6927,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 														_SysInfo2.nWriteSerialNum = nReadSerialNum;
 														_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
 														_SysInfo2.bReadMainBcd = true;
-														ShowUserStartMessege2();
+													
 														if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
-														nProcessStep[nStepIndex] = 2;
+														nProcessStep[nStepIndex] = 1000;
 													}
 													else
 													{
@@ -6827,7 +6941,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 															_SysInfo.nTL_Beep = 3;
 															ShowMasterPopUpWindow();
-															nProcessStep[nStepIndex] = 2;
+															nProcessStep[nStepIndex] = 1000;
 
 														}
 														else
@@ -6838,9 +6952,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 															_SysInfo2.strDispBarcode = _SysInfo2.strReadBarcode;
 															_SysInfo2.bReadMainBcd = true;
 															HidePbmsStartMessege2();
-															ShowUserStartMessege2();
+															
 															if (!_SysInfo2.bReadMacBcd) { _SysInfo2.strDispMac = ""; }
-															nProcessStep[nStepIndex] = 2;
+															nProcessStep[nStepIndex] = 1000;
 														}
 
 													}
@@ -6884,52 +6998,52 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					break;
 
-				case 2:
-					if (GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4))
-					{
-						tMainTimer[nStepIndex].Start(50);
-						nProcessStep[nStepIndex]++;
+				//case 2:
+				//	if (GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4))
+				//	{
+				//		tMainTimer[nStepIndex].Start(50);
+				//		nProcessStep[nStepIndex]++;
 
-					}
-					break;
+				//	}
+				//	break;
 
-				case 3:
-					if (GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4) && tMainTimer[nStepIndex].Verify())
-					{
-						HideUserStartMessege2();
-						nProcessStep[nStepIndex] = 1000;
-					}
-					else if (!GetDIOPort(DI.START_SW3) || !GetDIOPort(DI.START_SW4))
-					{
+				//case 3:
+				//	if (GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4) && tMainTimer[nStepIndex].Verify())
+				//	{
+				//		HideUserStartMessege2();
+				//		nProcessStep[nStepIndex] = 1000;
+				//	}
+				//	else if (!GetDIOPort(DI.START_SW3) || !GetDIOPort(DI.START_SW4))
+				//	{
 					
-						nProcessStep[nStepIndex] = 2;
-					}
-					break;
+				//		nProcessStep[nStepIndex] = 2;
+				//	}
+				//	break;
 
 				case 100:
 					break;
 
 
 				case 200:
-					if (GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4))
-					{
-						tMainTimer[nStepIndex].Start(50);
+					//if (GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4))
+					//{
+					//	tMainTimer[nStepIndex].Start(50);
 						nProcessStep[nStepIndex]++;
 
-					}
+					//}
 					break;
 
 				case 201:
-					if (GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4) && tMainTimer[nStepIndex].Verify())
-					{
-						HideUserStartMessege2();
+					//if (GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4) && tMainTimer[nStepIndex].Verify())
+					//{
+					//	HideUserStartMessege2();
 						nProcessStep[nStepIndex] = 250;
-					}
-					else if (!GetDIOPort(DI.START_SW3) || !GetDIOPort(DI.START_SW4))
-					{
+					//}
+					//else if (!GetDIOPort(DI.START_SW3) || !GetDIOPort(DI.START_SW4))
+					//{
 
-						nProcessStep[nStepIndex] = 200;
-					}
+					//	nProcessStep[nStepIndex] = 200;
+					//}
 					break;
 
 				case 250:
@@ -7246,6 +7360,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 2500:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
+					if (_ModelInfo2.bUseLoadCellTestMode)
+					{
+						_SysInfo2.bLoadCellStart = true;
+					}
 					nProcessStep[nStepIndex] = 3000;
 					break;
 
@@ -7530,6 +7648,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							_SysInfo2.nCurrNGRetryCount = 0;
 							cellT2.Clear();
 							nProcessStep[nStepIndex] = 53000;
+						}
+						else if (_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].nTestItem == 27)
+						{
+							nProcessStep[nStepIndex] = 54000;
 						}
 
 					}
@@ -8424,7 +8546,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo2.nCanData = GetFuncData2(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep]._DataInfo[_SysInfo2.nSubWorkStep].strValue2.ToString());
 					SendTCPReadCommand2(_SysInfo2.nCanCh, _SysInfo2.nCanAddr);
 
-					tMainTimer[nStepIndex].Start(5000);
+					tMainTimer[nStepIndex].Start(15000);
 					nProcessStep[nStepIndex]++;
 					break;
 
@@ -11711,9 +11833,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							{
 								if (_SysInfo2.strDispBarcode == _BcdReader2.strReadBarcode)
 								{
-									_SysInfo2.strPBMSBcd = _BcdReader2.strReadBarcode;
-									_SysInfo2.strDispBarcodeBack = _SysInfo2.strPBMSBcd.Substring(10, 12);
-									nProcessStep[nStepIndex] = 52010;
+
+									nProcessStep[nStepIndex] = 52040;
 								}
 								else
 								{
@@ -11750,178 +11871,178 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					nProcessStep[nStepIndex] = 52005;
 					break;
 
-				case 52010:
-					_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
-					_BcdReader2.strReadBarcode = "";
-					if (_Config.strLanguage == "ENGLISH")
-					{
-						_SysInfo2.strBcdPopupContent = "Please scan the Fuse barcode.";
-					}
-					else
-					{
-						_SysInfo2.strBcdPopupContent = "Fuse 바코드를 스캔하여 주세요.";
-					}
-					_BcdReader2.bReadOk = false;
-					ShowBcdPopUpWindow2();
-					nProcessStep[nStepIndex] = 52015;
-					break;
+				//case 52010:
+				//	_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
+				//	_BcdReader2.strReadBarcode = "";
+				//	if (_Config.strLanguage == "ENGLISH")
+				//	{
+				//		_SysInfo2.strBcdPopupContent = "Please scan the Fuse barcode.";
+				//	}
+				//	else
+				//	{
+				//		_SysInfo2.strBcdPopupContent = "Fuse 바코드를 스캔하여 주세요.";
+				//	}
+				//	_BcdReader2.bReadOk = false;
+				//	ShowBcdPopUpWindow2();
+				//	nProcessStep[nStepIndex] = 52015;
+				//	break;
 
-				case 52015:
-					if (_BcdReader2.bReadOk)
-					{
-						_BcdReader2.bReadOk = false;
-						CloseBcdPopUpWindow2();
+				//case 52015:
+				//	if (_BcdReader2.bReadOk)
+				//	{
+				//		_BcdReader2.bReadOk = false;
+				//		CloseBcdPopUpWindow2();
 
-						if (CheckBarcode( _BcdReader2.strReadBarcode,_ModelInfo2.strFuseBarcodSymbol))
-						{
-							_SysInfo2.strFuseBcd = _BcdReader2.strReadBarcode;
-							nProcessStep[nStepIndex] = 52020;
-						}
-						else
-						{
-							nProcessStep[nStepIndex] = 52018;
-						}
-					}
-					break;
+				//		if (CheckBarcode( _BcdReader2.strReadBarcode,_ModelInfo2.strFuseBarcodSymbol))
+				//		{
+				//			_SysInfo2.strFuseBcd = _BcdReader2.strReadBarcode;
+				//			nProcessStep[nStepIndex] = 52020;
+				//		}
+				//		else
+				//		{
+				//			nProcessStep[nStepIndex] = 52018;
+				//		}
+				//	}
+				//	break;
 
-				case 52018:
-					_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
-					_BcdReader2.strReadBarcode = "";
-					_SysInfo.nTL_Beep = 3;
-					if (_Config.strLanguage == "ENGLISH")
-					{
-						_SysInfo2.strBcdPopupContent = "Please scan the correct Fuse barcode.";
-					}
-					else
-					{
-						_SysInfo2.strBcdPopupContent = "올바른 Fuse 바코드를 스캔하여 주세요.";
-					}
-					_BcdReader2.bReadOk = false;
-					ShowBcdPopUpWindow2();
-					nProcessStep[nStepIndex] = 52015;
-					break;
-
-
-				case 52020:
-					_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
-					_BcdReader2.strReadBarcode = "";
-					if (_Config.strLanguage == "ENGLISH")
-					{
-						_SysInfo2.strBcdPopupContent = "Please scan the Case barcode.";
-					}
-					else
-					{
-						_SysInfo2.strBcdPopupContent = "Case 바코드를 스캔하여 주세요.";
-					}
-					_BcdReader2.bReadOk = false;
-					ShowBcdPopUpWindow2();
-					nProcessStep[nStepIndex] = 52025;
-					break;
-
-				case 52025:
-					if (_BcdReader2.bReadOk)
-					{
-						_BcdReader2.bReadOk = false;
-						CloseBcdPopUpWindow2();
-
-						if (CheckBarcode( _BcdReader2.strReadBarcode,_ModelInfo2.strCaseBarcodSymbol))
-						{
-							_SysInfo2.strCaseBcd = _BcdReader2.strReadBarcode;
-							nProcessStep[nStepIndex] = 52030;
-						}
-						else
-						{
-							nProcessStep[nStepIndex] = 52028;
-						}
-					}
-					break;
-
-				case 52028:
-					_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
-					_BcdReader2.strReadBarcode = "";
-					_SysInfo.nTL_Beep = 3;
-					if (_Config.strLanguage == "ENGLISH")
-					{
-						_SysInfo2.strBcdPopupContent = "Please scan the correct Case barcode.";
-					}
-					else
-					{
-						_SysInfo2.strBcdPopupContent = "올바른 Case 바코드를 스캔하여 주세요.";
-					}
-					_BcdReader2.bReadOk = false;
-					ShowBcdPopUpWindow2();
-					nProcessStep[nStepIndex] = 52025;
-					break;
-
-				case 52030:
-					//_LotCount2.nLotCount++;
-					_BarcodePrint2.nBCDsize = theApp._ModelInfo2.nBCDsize;
-					_BarcodePrint2.nBCDStringHeight = theApp._ModelInfo2.nBCDStringHeight;
-					_BarcodePrint2.nBCDStringWidth = theApp._ModelInfo2.nBCDStringWidth;
-					_BarcodePrint2.nBCDbcdOffsetX = theApp._ModelInfo2.nBCDbcdOffsetX;
-					_BarcodePrint2.nBCDbcdOffsetY = theApp._ModelInfo2.nBCDbcdOffsetY;
-					_BarcodePrint2.nBCDtextOffsetX = theApp._ModelInfo2.nBCDtextOffsetX;
-					_BarcodePrint2.nBCDtextOffsetY = theApp._ModelInfo2.nBCDtextOffsetY;
-					_BarcodePrint2.strModelInfo = theApp._ModelInfo2.strComment1;
-					_BarcodePrint2.strPrintBCD = _SysInfo2.strDispBarcodeBack;
-					_BarcodePrint2.bManualMode = false;
-					_BarcodePrint2.bPrintStart = true;
-					//SaveModelProductCount2(theApp._LotCount2, theApp._ModelInfo2.strModelName);
-					SaveBarcodeInfo2();
-					nProcessStep[nStepIndex] = 52033;
-					break;
-
-				case 52033:
-					_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
-					_BcdReader2.strReadBarcode = "";
-					if (_Config.strLanguage == "ENGLISH")
-					{
-						_SysInfo2.strBcdPopupContent = "Please attach the Support Bracket barcode and scan it.";
-					}
-					else
-					{
-						_SysInfo2.strBcdPopupContent = "Support Bracket 바코드를 부착 후 스캔하여 주세요.";
-					}
-					_BcdReader2.bReadOk = false;
-					ShowBcdPopUpWindow2();
-					nProcessStep[nStepIndex]++;
-					break;
-
-				case 52034:
-					if (_BcdReader2.bReadOk)
-					{
-						_BcdReader2.bReadOk = false;
-						CloseBcdPopUpWindow2();
-
-						if (_BcdReader2.strReadBarcode == (_ModelInfo2.strComment1 + _SysInfo2.strDispBarcodeBack))
-						{
-
-							nProcessStep[nStepIndex] = 52040;
-						}
-						else
-						{
-							nProcessStep[nStepIndex] = 52035;
-						}
-					}
-					break;
+				//case 52018:
+				//	_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
+				//	_BcdReader2.strReadBarcode = "";
+				//	_SysInfo.nTL_Beep = 3;
+				//	if (_Config.strLanguage == "ENGLISH")
+				//	{
+				//		_SysInfo2.strBcdPopupContent = "Please scan the correct Fuse barcode.";
+				//	}
+				//	else
+				//	{
+				//		_SysInfo2.strBcdPopupContent = "올바른 Fuse 바코드를 스캔하여 주세요.";
+				//	}
+				//	_BcdReader2.bReadOk = false;
+				//	ShowBcdPopUpWindow2();
+				//	nProcessStep[nStepIndex] = 52015;
+				//	break;
 
 
-				case 52035:
-					_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
-					_BcdReader2.strReadBarcode = "";
-					_SysInfo2.nTL_Beep = 3;
-					if (_Config.strLanguage == "ENGLISH")
-					{
-						_SysInfo2.strBcdPopupContent = "Please scan the correct Support Bracket barcode.";
-					}
-					else
-					{
-						_SysInfo2.strBcdPopupContent = "올바른 Support Bracket 바코드를 스캔하여 주세요.";
-					}
-					_BcdReader2.bReadOk = false;
-					ShowBcdPopUpWindow2();
-					nProcessStep[nStepIndex] = 52034;
-					break;
+				//case 52020:
+				//	_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
+				//	_BcdReader2.strReadBarcode = "";
+				//	if (_Config.strLanguage == "ENGLISH")
+				//	{
+				//		_SysInfo2.strBcdPopupContent = "Please scan the Case barcode.";
+				//	}
+				//	else
+				//	{
+				//		_SysInfo2.strBcdPopupContent = "Case 바코드를 스캔하여 주세요.";
+				//	}
+				//	_BcdReader2.bReadOk = false;
+				//	ShowBcdPopUpWindow2();
+				//	nProcessStep[nStepIndex] = 52025;
+				//	break;
+
+				//case 52025:
+				//	if (_BcdReader2.bReadOk)
+				//	{
+				//		_BcdReader2.bReadOk = false;
+				//		CloseBcdPopUpWindow2();
+
+				//		if (CheckBarcode( _BcdReader2.strReadBarcode,_ModelInfo2.strCaseBarcodSymbol))
+				//		{
+				//			_SysInfo2.strCaseBcd = _BcdReader2.strReadBarcode;
+				//			nProcessStep[nStepIndex] = 52030;
+				//		}
+				//		else
+				//		{
+				//			nProcessStep[nStepIndex] = 52028;
+				//		}
+				//	}
+				//	break;
+
+				//case 52028:
+				//	_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
+				//	_BcdReader2.strReadBarcode = "";
+				//	_SysInfo.nTL_Beep = 3;
+				//	if (_Config.strLanguage == "ENGLISH")
+				//	{
+				//		_SysInfo2.strBcdPopupContent = "Please scan the correct Case barcode.";
+				//	}
+				//	else
+				//	{
+				//		_SysInfo2.strBcdPopupContent = "올바른 Case 바코드를 스캔하여 주세요.";
+				//	}
+				//	_BcdReader2.bReadOk = false;
+				//	ShowBcdPopUpWindow2();
+				//	nProcessStep[nStepIndex] = 52025;
+				//	break;
+
+				//case 52030:
+				//	//_LotCount2.nLotCount++;
+				//	_BarcodePrint2.nBCDsize = theApp._ModelInfo2.nBCDsize;
+				//	_BarcodePrint2.nBCDStringHeight = theApp._ModelInfo2.nBCDStringHeight;
+				//	_BarcodePrint2.nBCDStringWidth = theApp._ModelInfo2.nBCDStringWidth;
+				//	_BarcodePrint2.nBCDbcdOffsetX = theApp._ModelInfo2.nBCDbcdOffsetX;
+				//	_BarcodePrint2.nBCDbcdOffsetY = theApp._ModelInfo2.nBCDbcdOffsetY;
+				//	_BarcodePrint2.nBCDtextOffsetX = theApp._ModelInfo2.nBCDtextOffsetX;
+				//	_BarcodePrint2.nBCDtextOffsetY = theApp._ModelInfo2.nBCDtextOffsetY;
+				//	_BarcodePrint2.strModelInfo = theApp._ModelInfo2.strComment1;
+				//	_BarcodePrint2.strPrintBCD = _SysInfo2.strDispBarcodeBack;
+				//	_BarcodePrint2.bManualMode = false;
+				//	_BarcodePrint2.bPrintStart = true;
+				//	//SaveModelProductCount2(theApp._LotCount2, theApp._ModelInfo2.strModelName);
+				//	SaveBarcodeInfo2();
+				//	nProcessStep[nStepIndex] = 52033;
+				//	break;
+
+				//case 52033:
+				//	_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
+				//	_BcdReader2.strReadBarcode = "";
+				//	if (_Config.strLanguage == "ENGLISH")
+				//	{
+				//		_SysInfo2.strBcdPopupContent = "Please attach the Support Bracket barcode and scan it.";
+				//	}
+				//	else
+				//	{
+				//		_SysInfo2.strBcdPopupContent = "Support Bracket 바코드를 부착 후 스캔하여 주세요.";
+				//	}
+				//	_BcdReader2.bReadOk = false;
+				//	ShowBcdPopUpWindow2();
+				//	nProcessStep[nStepIndex]++;
+				//	break;
+
+				//case 52034:
+				//	if (_BcdReader2.bReadOk)
+				//	{
+				//		_BcdReader2.bReadOk = false;
+				//		CloseBcdPopUpWindow2();
+
+				//		if (_BcdReader2.strReadBarcode == (_ModelInfo2.strComment1 + _SysInfo2.strDispBarcodeBack))
+				//		{
+
+				//			nProcessStep[nStepIndex] = 52040;
+				//		}
+				//		else
+				//		{
+				//			nProcessStep[nStepIndex] = 52035;
+				//		}
+				//	}
+				//	break;
+
+
+				//case 52035:
+				//	_SysInfo2._PopupStatus = MAIN_STATUS2.NG;
+				//	_BcdReader2.strReadBarcode = "";
+				//	_SysInfo2.nTL_Beep = 3;
+				//	if (_Config.strLanguage == "ENGLISH")
+				//	{
+				//		_SysInfo2.strBcdPopupContent = "Please scan the correct Support Bracket barcode.";
+				//	}
+				//	else
+				//	{
+				//		_SysInfo2.strBcdPopupContent = "올바른 Support Bracket 바코드를 스캔하여 주세요.";
+				//	}
+				//	_BcdReader2.bReadOk = false;
+				//	ShowBcdPopUpWindow2();
+				//	nProcessStep[nStepIndex] = 52034;
+				//	break;
 
 				case 52040:
 					TestResultSet2(_SysInfo2.nMainWorkStep, "OK", "OK");
@@ -12356,6 +12477,68 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 53050:
 					_SysInfo2.nCurrNGRetryCount = 0;
+					_SysInfo2.nMainWorkStep++;
+					nProcessStep[nStepIndex] = 3000;
+					break;
+
+				case 54000:
+					int.TryParse(theApp._ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nBuffIndex);
+					double.TryParse(theApp._ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue2, out _SysInfo2.dbdigits);
+					int.TryParse(theApp._ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue3, out _SysInfo2.nDispLen);
+
+					double.TryParse(theApp._ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMin, out _SysInfo2.dbSpecMin);
+					double.TryParse(theApp._ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMax, out _SysInfo2.dbSpecMax);
+
+					_SysInfo2.dbCalcData = 0;
+
+					_SysInfo2.dbCalcData = _SysInfo2.dbLoadCellMaxData;
+
+					if (_SysInfo2.nDispLen == 0)
+					{
+						if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax || _SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "NG");
+						}
+						else
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "OK");
+						}
+					}
+					else if (_SysInfo2.nDispLen == 1)
+					{
+						if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax)
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "NG");
+						}
+						else
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "OK");
+						}
+					}
+					else if (_SysInfo2.nDispLen == 2)
+					{
+						if (_SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "NG");
+						}
+						else
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "OK");
+						}
+					}
+					else if (_SysInfo2.nDispLen == 3)
+					{
+
+						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "OK");
+
+					}
+
+
+					nProcessStep[nStepIndex] = 54010;
+					break;
+
+				case 54010:
+					//_SysInfo.bLoadCellStart = false; 
 					_SysInfo2.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
@@ -17429,6 +17612,26 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				AppendLogMsg(String.Format("<COM{0}> Barcode Printer #2 Port Open Fail", _Config.nBcdPrinterPort2), MSG_TYPE.INFO);
 			}
 
+			_LoadCell.SetPort(String.Format("COM{0}", _Config.nLoadCellPort), _Config.nLoadCellBaudRate, Parity.None, 8, StopBits.One);
+			if (_LoadCell.PortOpen())
+			{
+				AppendLogMsg(String.Format("<COM{0}> 로드셀 포트 오픈 성공", _Config.nLoadCellPort), MSG_TYPE.INFO);
+			}
+			else
+			{
+				AppendLogMsg(String.Format("<COM{0}> 로드셀 포트 오픈 실패", _Config.nLoadCellPort), MSG_TYPE.ERROR);
+			}
+
+			_LoadCell2.SetPort(String.Format("COM{0}", _Config.nLoadCellPort2), _Config.nLoadCellBaudRate2, Parity.None, 8, StopBits.One);
+			if (_LoadCell.PortOpen())
+			{
+				AppendLogMsg(String.Format("<COM{0}> 로드셀 포트 오픈 성공", _Config.nLoadCellPort2), MSG_TYPE.INFO);
+			}
+			else
+			{
+				AppendLogMsg(String.Format("<COM{0}> 로드셀 포트 오픈 실패", _Config.nLoadCellPort2), MSG_TYPE.ERROR);
+			}
+
 			for (int i = 0; i < 8; i++)
 			{
 				if (_CanComm[i].CanInit(i))
@@ -17987,7 +18190,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				DebugMessage.Add(logMessage);
 
-
+				 
 				string strFolderPath = String.Format(@"DEBUG_LOG\\");
 				DirectoryInfo dir = new DirectoryInfo(strFolderPath);
 				if (dir.Exists == false) { dir.Create(); }
@@ -18675,6 +18878,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			_IniFile.IniWriteValue("COMM", "nAutoScanner3BaudRate", _Config.nAutoScanner3BaudRate.ToString(), strPath);
 			_IniFile.IniWriteValue("COMM", "nAutoScanner4Port", _Config.nAutoScanner4Port.ToString(), strPath);
 			_IniFile.IniWriteValue("COMM", "nAutoScanner4BaudRate", _Config.nAutoScanner4BaudRate.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nLoadCellPort", _Config.nLoadCellPort.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nLoadCellBaudRate", _Config.nLoadCellBaudRate.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nLoadCellPort2", _Config.nLoadCellPort2.ToString(), strPath);
+			_IniFile.IniWriteValue("COMM", "nLoadCellBaudRate2", _Config.nLoadCellBaudRate2.ToString(), strPath);
 
 
 			// 마지막 작업모델
@@ -18762,6 +18969,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			int.TryParse(_IniFile.IniReadValue("COMM", "nAutoScanner3BaudRate", "115200", strPath), out _Config.nAutoScanner3BaudRate);
 			int.TryParse(_IniFile.IniReadValue("COMM", "nAutoScanner4Port", "-1", strPath), out _Config.nAutoScanner4Port);
 			int.TryParse(_IniFile.IniReadValue("COMM", "nAutoScanner4BaudRate", "115200", strPath), out _Config.nAutoScanner4BaudRate);
+			int.TryParse(_IniFile.IniReadValue("COMM", "nLoadCellPort", "-1", strPath), out _Config.nLoadCellPort);
+			int.TryParse(_IniFile.IniReadValue("COMM", "nLoadCellBaudRate", "9600", strPath), out _Config.nLoadCellBaudRate);
+			int.TryParse(_IniFile.IniReadValue("COMM", "nLoadCellPort2", "-1", strPath), out _Config.nLoadCellPort2);
+			int.TryParse(_IniFile.IniReadValue("COMM", "nLoadCellBaudRate2", "9600", strPath), out _Config.nLoadCellBaudRate2);
 
 
 			_Config.strCounterMyIP = _IniFile.IniReadValue("COMM", "strCounterMyIP", "192.168.0.1", strPath);
