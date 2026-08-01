@@ -62,6 +62,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						}
 
 						port.Read(buff, nBufferIndex++, 1);
+						
 						if (nBufferIndex == 1 && buff[0] == 0x0D || nBufferIndex == 1 && buff[0] == 0x0A)
 						{
 							ClearReadBuffer();

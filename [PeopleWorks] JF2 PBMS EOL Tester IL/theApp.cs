@@ -201,8 +201,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					PowerSupply[0].Process();
 					PowerSupply[1].Process();
 					_BcdReader.Process();
-					_Nutrunner.Process();
-					_LoadCell.Process();
+					//_Nutrunner.Process();
+					//_LoadCell.Process();
 
 
 					_CanComm[0].ReadMessage();
@@ -214,7 +214,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_CanComm[6].ReadMessage();
 					_CanComm[7].ReadMessage();
 
-					_BarcodePrint.Process();
+					//_BarcodePrint.Process();
 					_BcdAoutoReader.Process();
 					_BcdAoutoReader2.Process();
 
@@ -241,7 +241,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					TowerLampProcess();
 					LotCountInfoUpdate();
 					PROC_MANUAL();
-					SUB_TITE_PROC();
+					//SUB_TITE_PROC();
 
 					if (nThreadCount > 100)
 					{
@@ -312,10 +312,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					PowerSupply[2].Process();
 					PowerSupply[3].Process();
 					_BcdReader2.Process();
-					_Nutrunner2.Process();
-					_LoadCell2.Process();
+					//_Nutrunner2.Process();
+					//_LoadCell2.Process();
 
-					_BarcodePrint2.Process();
+					//_BarcodePrint2.Process();
 					_BcdAoutoReader3.Process();
 					_BcdAoutoReader4.Process();
 
@@ -338,7 +338,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					SUB_EOL2();
 					PingTest2();
 					LotCountInfoUpdate2();
-					SUB_TITE_PROC2();
+					//SUB_TITE_PROC2();
 
 					if (nThreadCount > 100)
 					{
@@ -6303,6 +6303,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					double.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMin, out _SysInfo.dbSpecMin);
 					double.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMax, out _SysInfo.dbSpecMax);
 
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 54008:
 					_SysInfo.dbCalcData = 0;
 
 					_SysInfo.dbCalcData = _SysInfo.dbLoadCellMaxData;
@@ -6312,7 +6316,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax || _SysInfo.dbCalcData < _SysInfo.dbSpecMin)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "NG");
-						} 
+						}
 						else
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "OK");
@@ -6356,6 +6360,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
+
+				
 
 
 
@@ -7786,6 +7792,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					else
 					{
 						_SysInfo2.nSubWorkStep = 0;
+						for (int i = 0; i < _SysInfo2._listNgInfo.Length; i++)
+						{
+							_SysInfo2._listNgInfo[i].Clear();
+						}
 						_SysInfo2.nPlcRetry++;
 						_SysInfo2.bEolNg = false;
 						nProcessStep[nStepIndex] = 20000;
@@ -17623,13 +17633,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			}
 
 			_LoadCell2.SetPort(String.Format("COM{0}", _Config.nLoadCellPort2), _Config.nLoadCellBaudRate2, Parity.None, 8, StopBits.One);
-			if (_LoadCell.PortOpen())
+			if (_LoadCell2.PortOpen())
 			{
-				AppendLogMsg(String.Format("<COM{0}> Load cell port #2 open successful ", _Config.nLoadCellPort2), MSG_TYPE.INFO);
+				AppendLogMsg(String.Format("<COM{0}> Load cell #2 port open successful ", _Config.nLoadCellPort2), MSG_TYPE.INFO);
 			}
 			else
 			{
-				AppendLogMsg(String.Format("<COM{0}> Load cell port #2 open Fail", _Config.nLoadCellPort2), MSG_TYPE.ERROR);
+				AppendLogMsg(String.Format("<COM{0}> Load cell #2 port open Fail", _Config.nLoadCellPort2), MSG_TYPE.ERROR);
 			}
 
 			for (int i = 0; i < 8; i++)

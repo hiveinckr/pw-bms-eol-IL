@@ -62,6 +62,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						}
 
 						port.Read(buff, nBufferIndex++, 1);
+						
+						theApp.AppendLogMsg2($"LoadCell2 : {port.Read(buff, nBufferIndex++, 1)}" , MSG_TYPE.INFO);
+
 						if (nBufferIndex == 1 && buff[0] == 0x0D || nBufferIndex == 1 && buff[0] == 0x0A)
 						{
 							ClearReadBuffer();
@@ -238,9 +241,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				port.Write(strData);
 				port.Write(new byte[] { 0x0D }, 0, 1);
 				port.Write(new byte[] { 0x0A }, 0, 1);
-				//theApp.AppendDebugMsg(strData, "LOAD CELL S");
+				theApp.AppendDebugMsg(strData, "LOAD CELL S");
 			}
-			catch { }
+			catch {/* theApp.AppendLogMsg2("로드셀 통신 에러",MSG_TYPE.LOG);*/ }
 		}
 
 		public void ClearBuffer()

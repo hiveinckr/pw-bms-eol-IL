@@ -43,8 +43,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 			lb1.Content = theApp._Nutrunner.nCurrentStep.ToString();
 			lb2.Content = theApp._Nutrunner2.nCurrentStep.ToString();
-			lb3.Content = theApp._BarcodePrint.nCurrentStep.ToString();
-			lb4.Content = theApp._BarcodePrint2.nCurrentStep.ToString();
+			lb3.Content = theApp._LoadCell.nCurrentStep.ToString();
+			lb4.Content = theApp._LoadCell2.nCurrentStep.ToString();
 		}
 
 		public void SetStep()
