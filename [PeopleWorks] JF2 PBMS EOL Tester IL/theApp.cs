@@ -362,10 +362,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				while (KeysiteDmm2.PortIsAlive()) { Thread.Sleep(1); }
 
 				Thread.Sleep(1000);
-				App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE
-				{
-					App.Current.Shutdown();
-				});
+				//App.Current.Dispatcher.InvokeAsync((Action)delegate // <--- HERE
+				//{
+				//	App.Current.Shutdown();
+				//});
 			}
 			catch
 			{
@@ -6299,14 +6299,21 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					int.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nBuffIndex);
 					double.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue2, out _SysInfo.dbdigits);
 					int.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue3, out _SysInfo.nDispLen);
-
 					double.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMin, out _SysInfo.dbSpecMin);
 					double.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMax, out _SysInfo.dbSpecMax);
 
 					nProcessStep[nStepIndex]++;
 					break;
 
-				case 54008:
+
+
+
+
+
+
+
+
+				case 54090:
 					_SysInfo.dbCalcData = 0;
 
 					_SysInfo.dbCalcData = _SysInfo.dbLoadCellMaxData;
@@ -6352,10 +6359,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 
 
-					nProcessStep[nStepIndex] = 54010;
+					nProcessStep[nStepIndex] = 54095;
 					break;
 
-				case 54010:
+				case 54095:
 					//_SysInfo.bLoadCellStart = false; 
 					_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
@@ -6596,6 +6603,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (GetDIOPort(DI.START_SW3) && GetDIOPort(DI.START_SW4) && tMainTimer[nStepIndex].Verify())
 					{
 						HideUserStartMessege2();
+						HideResultMessege2();
 						_BcdReader2.bReadOk = false;
 						nProcessStep[nStepIndex] = 50;
 					}
@@ -6625,7 +6633,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						if (_BcdReader2.bReadOk)
 						{
-							HideResultMessege2();
+							
 							_BcdReader2.bReadOk = false;
 
 							_SysInfo2.strReadBarcode = _BcdReader2.strReadBarcode;
@@ -7792,10 +7800,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					else
 					{
 						_SysInfo2.nSubWorkStep = 0;
-						for (int i = 0; i < _SysInfo2._listNgInfo.Length; i++)
-						{
-							_SysInfo2._listNgInfo[i].Clear();
-						}
+						//for (int i = 0; i < _SysInfo2._listNgInfo.Length; i++)
+						//{
+						//	_SysInfo2._listNgInfo[i].Clear();
+						//}
 						_SysInfo2.nPlcRetry++;
 						_SysInfo2.bEolNg = false;
 						nProcessStep[nStepIndex] = 20000;
@@ -18734,18 +18742,19 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				File.WriteAllText(String.Format("Count\\{0}.cnt", strModelName), JsonConvert.SerializeObject(_Count));
 
 			}
-			catch { }
+			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }
 
 		}
 
 		// 카운터 로드
 		public static void LoadModelProductCount(ref LotCount _Count, string strModelName)
 		{
-			DirectoryInfo dir = new DirectoryInfo(@"Count\\");
-			if (dir.Exists == false) { dir.Create(); }
+			
 
 			try
 			{
+				DirectoryInfo dir = new DirectoryInfo(@"Count\\");
+				if (dir.Exists == false) { dir.Create(); }
 				_Count = JsonConvert.DeserializeObject<LotCount>(File.ReadAllText(String.Format("Count\\{0}.cnt", strModelName)));
 
 			}
@@ -18757,7 +18766,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			try
 			{
-				File.WriteAllText(String.Format("Count.cnt"), JsonConvert.SerializeObject(_LotCount));
+				File.WriteAllText(String.Format("Count.cnt"), JsonConvert.SerializeObject(_Count));
 
 			}
 			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }
@@ -18769,7 +18778,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			try
 			{
-				_LotCount = JsonConvert.DeserializeObject<LotCount>(File.ReadAllText(String.Format(@"Count.cnt")));
+				_Count = JsonConvert.DeserializeObject<ProductCount>(File.ReadAllText(String.Format(@"Count.cnt")));
 
 			}
 			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }
@@ -18786,7 +18795,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				File.WriteAllText(String.Format("Count2\\{0}.cnt", strModelName), JsonConvert.SerializeObject(_Count));
 
 			}
-			catch { }
+			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }
 
 		}
 
@@ -18809,7 +18818,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			try
 			{
-				File.WriteAllText(String.Format("Count2.cnt"), JsonConvert.SerializeObject(_LotCount2));
+
+				File.WriteAllText(String.Format("Count2.cnt"), JsonConvert.SerializeObject(_Count2));
 
 			}
 			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }
@@ -18821,7 +18831,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		{
 			try
 			{
-				_LotCount2 = JsonConvert.DeserializeObject<LotCount>(File.ReadAllText(String.Format(@"Count2.cnt")));
+				_Count2 = JsonConvert.DeserializeObject<ProductCount>(File.ReadAllText(String.Format(@"Count2.cnt")));
 
 			}
 			catch (Exception _e) { AppendDebugMsg(_e.Message, "System"); }

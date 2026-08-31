@@ -244,6 +244,18 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			catch { }
 		}
 
+		public void ReadData(string strData)
+		{
+			try
+			{
+				port.Write(strData);
+				port.Write(new byte[] { 0x0D }, 0, 1);
+				port.Write(new byte[] { 0x0A }, 0, 1);
+				//theApp.AppendDebugMsg(strData, "LOAD CELL S");
+			}
+			catch { }
+		}
+
 		public void ClearBuffer()
 		{
 			while (port.BytesToRead > 0)

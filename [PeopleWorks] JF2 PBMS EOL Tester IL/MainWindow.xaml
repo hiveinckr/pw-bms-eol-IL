@@ -65,7 +65,7 @@
                 <ContentControl x:Name="btModelChnageContent" Content="모델 변경" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
             </StackPanel>
         </Button>
-        <Button x:Name="btModelSetup" HorizontalAlignment="Left" Height="70" Margin="1104,-136,0,0" VerticalAlignment="Top" Width="170" Style="{DynamicResource MyImgButton}" Click="btModelSetup_Click">
+        <Button x:Name="btModelSetup" HorizontalAlignment="Left" Height="70" Margin="1126,-141,0,0" VerticalAlignment="Top" Width="170" Style="{DynamicResource MyImgButton}" Click="btModelSetup_Click">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Source="Resource/icons8-renew-64.png" Width="32" Height="32"/>
                 <ContentControl x:Name="btModelSetupContent" Content="모델 설정" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
@@ -112,7 +112,7 @@
         <Label x:Name="lbNowProduction"   Content="현재 검사 수량" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="14" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="10,160,0,0"/>
         <Label x:Name="lbNowProductCount" Content="0" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Background="White" Foreground="DarkBlue" FontWeight="Bold" FontSize="30" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,10,0" Margin="10,185,0,0" BorderBrush="Black" BorderThickness="1"/>
         <Label x:Name="lbAllProduction" Content="누적 검사 수량" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="14" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="10,382,0,0"/>
-        <Label x:Name="lbTotalProductCount" Content="1000" HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Background="White" Foreground="Black" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,10,0" Margin="10,407,0,0" BorderBrush="Black" BorderThickness="1"/>
+        <Label x:Name="lbTotalProductCount" Content="1000" HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="162" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Background="White" Foreground="Black" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,10,0" Margin="10,407,0,0" BorderBrush="Black" BorderThickness="1"/>
         <Label x:Name="lbProductionClearTime" Content="검사 수량 초기화 시간" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="DimGray" Foreground="LightGreen" FontWeight="Bold" FontSize="14" Template="{DynamicResource LabelControlTemplateNone}" Padding="0,0,0,0" Margin="10,447,0,0"/>
         <Label x:Name="lbProductCountClearTime" Content="--:--:--" HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="290" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White" Foreground="Black" FontWeight="Medium" FontSize="15" Template="{DynamicResource LabelControlTemplateBlack}" Padding="0,0,0,0" Margin="10,472,0,0" BorderBrush="Black" BorderThickness="1"/>
         <Button x:Name="btLotClear" HorizontalAlignment="Left" Height="55" Margin="10,512,0,0" VerticalAlignment="Top" Width="290" Style="{DynamicResource MyImgButton}" Click="btLotClear_Click">
@@ -281,6 +281,11 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Source="Resource/icons8-print-64.png" Width="32" Height="32"/>
                 <ContentControl x:Name="btBarcodeReprintContent" Content="Reprint barcode" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="10,0,0,0" FontSize="14" FontWeight="Medium"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="btTotalLotClear" HorizontalAlignment="Left" Height="35" Margin="177,407,0,0" VerticalAlignment="Top" Width="123" Style="{DynamicResource MyImgButton}" Click="btTotalLotClear_Click">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ContentControl x:Name="btProductCountClearContent1"  Content="Reset Count" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="0,0,0,0" FontSize="14" FontWeight="Medium"/>
             </StackPanel>
         </Button>
     </Grid>

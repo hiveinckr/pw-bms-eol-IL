@@ -642,6 +642,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							theApp._LotCount2.nProductCount = 0;
 							theApp._LotCount2.tProductClearTime = DateTime.Now;
 							theApp.SaveModelProductCount2(theApp._LotCount2, theApp._ModelInfo2.strModelName);
+						
 						}
 					}
 					else
@@ -679,6 +680,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						theApp._LotCount2.nOkCount = 0;
 						theApp._LotCount2.nNGCount = 0;
+						theApp._LotCount2.nLotCount = 0;
+						theApp._LotCount2.nProductCount = 0;
 						theApp._LotCount2.tProductClearTime = DateTime.Now;
 						theApp.SaveModelProductCount2(theApp._LotCount2, theApp._ModelInfo2.strModelName);
 					}
@@ -689,6 +692,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					{
 						theApp._LotCount2.nOkCount = 0;
 						theApp._LotCount2.nNGCount = 0;
+						theApp._LotCount2.nLotCount = 0;
+						theApp._LotCount2.nProductCount = 0;
 						theApp._LotCount2.tProductClearTime = DateTime.Now;
 						theApp.SaveModelProductCount2(theApp._LotCount2, theApp._ModelInfo2.strModelName);
 					}
@@ -767,7 +772,68 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 			}
 		}
+
+		private void btTotalLotClear_Click(object sender, RoutedEventArgs e)
+		{
+			if (_Config.bUseAdminPass)
+			{
+				AdminPass _pwWindow = new AdminPass();
+
+				if (_pwWindow.ShowDialog() == true)
+				{
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						if (System.Windows.MessageBox.Show("Do you want to reset the inspection quantity?", "Reset Inspection Quantity", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+						{
+							theApp._LotCount2.nTotalCount = 0;
+							theApp.SaveModelProductCount2(theApp._LotCount2, theApp._ModelInfo2.strModelName);
+						}
+					}
+					else
+					{
+						if (System.Windows.MessageBox.Show("검사 수량을 초기화 하시겠습니까?", "검사 수량 초기화", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+						{
+							theApp._LotCount2.nTotalCount = 0;
+							theApp.SaveModelProductCount2(theApp._LotCount2, theApp._ModelInfo2.strModelName);
+						}
+					}
+
+				}
+				else
+				{
+					if (_Config.strLanguage == "ENGLISH")
+					{
+						System.Windows.MessageBox.Show("Password does not match.");
+					}
+					else
+					{
+						System.Windows.MessageBox.Show("비밀번호가 일치하지 않습니다.");
+					}
+
+				}
+			}
+			else
+			{
+				if (_Config.strLanguage == "ENGLISH")
+				{
+					if (System.Windows.MessageBox.Show("Do you want to reset the inspection quantity?", "Reset Inspection Quantity", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+					{
+						theApp._LotCount2.nTotalCount = 0;
+						theApp.SaveModelProductCount2(theApp._LotCount2, theApp._ModelInfo2.strModelName);
+					}
+				}
+				else
+				{
+					if (System.Windows.MessageBox.Show("검사 수량을 초기화 하시겠습니까?", "검사 수량 초기화", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+					{
+						theApp._LotCount2.nTotalCount = 0;
+						theApp.SaveModelProductCount2(theApp._LotCount2, theApp._ModelInfo2.strModelName);
+					}
+				}
+			}
+		}
 	}
+    
 	
 }
 
