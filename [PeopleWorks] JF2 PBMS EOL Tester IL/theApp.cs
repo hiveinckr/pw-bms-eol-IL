@@ -17268,7 +17268,6 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				DirectoryInfo Savedir = new DirectoryInfo(strSaveFolderPath);
 				if (Savedir.Exists == false) { Savedir.Create(); }
 
-
 				string strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD.Replace(':', '_'));
 				File.WriteAllText(strSaveFilePath, "");
 
@@ -17276,9 +17275,32 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				Savedir = new DirectoryInfo(strSaveFolderPath);
 				if (Savedir.Exists == false) { Savedir.Create(); }
 
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, "");
+
+				strSaveFolderPath = String.Format(@"\\10.10.10.57\\BMSDuplicate1\\");
+				Savedir = new DirectoryInfo(strSaveFolderPath);
+				if (Savedir.Exists == false) { Savedir.Create(); }
 
 				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD.Replace(':', '_'));
 				File.WriteAllText(strSaveFilePath, "");
+
+				strSaveFolderPath = String.Format(@"\\10.10.10.58\\BMSDuplicate1\\");
+				Savedir = new DirectoryInfo(strSaveFolderPath);
+				if (Savedir.Exists == false) { Savedir.Create(); }
+
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, "");
+
+
+				strSaveFolderPath = String.Format(@"\\10.10.10.59\\BMSDuplicate1\\");
+				Savedir = new DirectoryInfo(strSaveFolderPath);
+				if (Savedir.Exists == false) { Savedir.Create(); }
+
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, "");
+
+
 			}
 			catch
 			{
@@ -17298,7 +17320,6 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				DirectoryInfo Savedir = new DirectoryInfo(strSaveFolderPath);
 				if (Savedir.Exists == false) { Savedir.Create(); }
 
-
 				string strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD.Replace(':', '_'));
 				File.WriteAllText(strSaveFilePath, "");
 
@@ -17306,6 +17327,26 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				Savedir = new DirectoryInfo(strSaveFolderPath);
 				if (Savedir.Exists == false) { Savedir.Create(); }
 
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, "");
+				
+				strSaveFolderPath = String.Format(@"\\10.10.10.57\\BMSDuplicate2\\");
+				Savedir = new DirectoryInfo(strSaveFolderPath);
+				if (Savedir.Exists == false) { Savedir.Create(); }
+
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, "");
+
+				strSaveFolderPath = String.Format(@"\\10.10.10.58\\BMSDuplicate2\\");
+				Savedir = new DirectoryInfo(strSaveFolderPath);
+				if (Savedir.Exists == false) { Savedir.Create(); }
+
+				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD.Replace(':', '_'));
+				File.WriteAllText(strSaveFilePath, "");
+
+				strSaveFolderPath = String.Format(@"\\10.10.10.59\\BMSDuplicate2\\");
+				Savedir = new DirectoryInfo(strSaveFolderPath);
+				if (Savedir.Exists == false) { Savedir.Create(); }
 
 				strSaveFilePath = String.Format(@"{0}{1}.txt", strSaveFolderPath, strBCD.Replace(':', '_'));
 				File.WriteAllText(strSaveFilePath, "");
