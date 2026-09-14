@@ -56,6 +56,50 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				lstStepMonitor.Add(new LogMessage() { strType = ((PROC_LIST)i).ToString(), strComment = theApp.nProcessStep[i].ToString() });
 			}
 		}
+
+		private void btModelSetup_Click(object sender, RoutedEventArgs e)
+		{
+			MakerPass _pwWindow = new MakerPass();
+
+			if (_pwWindow.ShowDialog() == true)
+			{
+				ModelSetup _Window = new ModelSetup();
+				_Window.ShowDialog();
+			}
+			else
+			{
+				if (_Config.strLanguage == "ENGLISH")
+				{
+					System.Windows.MessageBox.Show("Password does not match.");
+				}
+				else
+				{
+					System.Windows.MessageBox.Show("비밀번호가 일치하지 않습니다.");
+				}
+			}
+		}
+
+		private void btModelSetup2_Click(object sender, RoutedEventArgs e)
+		{
+			MakerPass2 _pwWindow = new MakerPass2();
+
+			if (_pwWindow.ShowDialog() == true)
+			{
+				ModelSetup2 _Window = new ModelSetup2();
+				_Window.ShowDialog();
+			}
+			else
+			{
+				if (_Config.strLanguage == "ENGLISH")
+				{
+					System.Windows.MessageBox.Show("Password does not match.");
+				}
+				else
+				{
+					System.Windows.MessageBox.Show("비밀번호가 일치하지 않습니다.");
+				}
+			}
+		}
 	}
 }
 

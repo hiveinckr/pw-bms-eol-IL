@@ -115,6 +115,12 @@
     <Compile Include="MainWindow2.xaml.cs">
       <DependentUpon>MainWindow2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MakerPass.xaml.cs">
+      <DependentUpon>MakerPass.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MakerPass2.xaml.cs">
+      <DependentUpon>MakerPass2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MasterPass.xaml.cs">
       <DependentUpon>MasterPass.xaml</DependentUpon>
     </Compile>
@@ -263,6 +269,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MainWindow2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MakerPass.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MakerPass2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

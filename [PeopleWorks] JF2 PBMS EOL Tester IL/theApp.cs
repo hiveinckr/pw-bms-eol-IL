@@ -1177,10 +1177,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 2500:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
-					if (_ModelInfo.bUseLoadCellTestMode)
-					{
-						_SysInfo.bLoadCellStart = true;
-					}
+					//if (_ModelInfo.bUseLoadCellTestMode)
+					//{
+					//	_SysInfo.bLoadCellStart = true;
+					//}
 					nProcessStep[nStepIndex] = 3000;
 					break;
 
@@ -1471,7 +1471,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						}
 						else if (_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].nTestItem == 27)
 						{
-
+							_SysInfo.nEolTestCOunt++;
 							nProcessStep[nStepIndex] = 54000;
 						}
 					}
@@ -6302,31 +6302,150 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					double.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMin, out _SysInfo.dbSpecMin);
 					double.TryParse(theApp._ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strSpecMax, out _SysInfo.dbSpecMax);
 
+					
 					nProcessStep[nStepIndex]++;
 					break;
 
+				case 54001:
+					_LoadCell.SendData("Z");
+					_LoadCell.bReadData = false;
+					_LoadCell.strReadData = "";
+					tMainTimer[nStepIndex].Start(10000);
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 54002:
+					if (tMainTimer[nStepIndex].Verify())
+					{
+						TestResultSet(_SysInfo.nMainWorkStep, "TIME_OUT", "NG");
+						_SysInfo.bTestNG = true;
+						_SysInfo.nMainWorkStep++;
+						nProcessStep[nStepIndex] = 3000;
+
+					}
+					
+					if(_LoadCell.bReadData)
+					{
+						if (_LoadCell.strReadData == "ZA")
+						{
+							_SysInfo.bLoadCellInitOK = true;
+							_SysInfo.strReadLoadCellData = "";
+							_SysInfo.dbLoadCellData = 0.00;
+							_SysInfo.dbLoadCellData2 = 0.00;
+							_LoadCell.bReadData = false;
+							nProcessStep[nStepIndex] = 54003;
+						}
+						else
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, "DATA_ERR", "NG");
+							_SysInfo.bTestNG = true;
+							_SysInfo.nMainWorkStep++;
+							nProcessStep[nStepIndex] = 3000;
+						}
+					}
+					break;
+
+				case 54003:
+					_SysInfo.strPopupContent = "SD Card installed";
+					_SysInfo._SwStatus = MAIN_STATUS.READY;
+					_SysInfo._PopupStatus = MAIN_STATUS.READY;
+					_SysInfo.nTL_Beep = 1;
+					ShowPopUpWindow();
+					if (!GetDIOPort(DI.START_SW1) && !GetDIOPort(DI.START_SW2))
+					{
+						nProcessStep[nStepIndex]++;
+					}
+					break;
+
+				case 54004:
+					if (_SysInfo._SwStatus == MAIN_STATUS.OK)
+					{
+					
+						nProcessStep[nStepIndex] = 54005;
+					}
+					else if (_SysInfo._SwStatus == MAIN_STATUS.NG)
+					{
+						TestResultSet(_SysInfo.nMainWorkStep, "User Stop", "NG");
+						_SysInfo.bTestNG = true;
+						_SysInfo.nMainWorkStep++;
+						nProcessStep[nStepIndex] = 3000;
+					}
+					else if (GetDIOPort(DI.START_SW1))
+					{
+						ClosePopUpWindow();
+						nProcessStep[nStepIndex] = 54005;
+					}
+					else if (GetDIOPort(DI.START_SW2))
+					{
+						TestResultSet(_SysInfo.nMainWorkStep, "User Stop", "NG");
+						nProcessStep[nStepIndex] = 54006;
+					}
+					break;
+
+				case 54005:
+					if (!GetDIOPort(DI.START_SW1) && !GetDIOPort(DI.START_SW2))
+					{
+						nProcessStep[nStepIndex] = 54010;
+					}
+					break;
+
+				case 54006:
+					if (!GetDIOPort(DI.START_SW1) && !GetDIOPort(DI.START_SW2))
+					{
+						ClosePopUpWindow();
+						_SysInfo.bTestNG = true;
+						_SysInfo.nMainWorkStep++;
+						nProcessStep[nStepIndex] = 3000;
+					}
+					break;
 
 
+				case 54010:
+					_LoadCell.SendData("I");
+					_LoadCell.bReadData = false;
+					tMainTimer[nStepIndex].Start(10000);
+					nProcessStep[nStepIndex] = 54015;
+				break;
 
+				case 54015:
+					if (tMainTimer[nStepIndex].Verify())
+					{
+						TestResultSet(_SysInfo.nMainWorkStep, "TIME_OUT", "NG");
+						_SysInfo.bTestNG = true;
+						_SysInfo.nMainWorkStep++;
+						nProcessStep[nStepIndex] = 3000;
 
+					}
 
+					if (_LoadCell.bReadData)
+					{
+						_SysInfo.strReadLoadCellData = _LoadCell.strReadData.Substring(3, 8);
+						double.TryParse(_SysInfo.strReadLoadCellData, out _SysInfo.dbLoadCellData);
+						_SysInfo.dbLoadCellData2 = _SysInfo.dbLoadCellData * 0.00981;
+						AppendDebugMsg($"RoadCell #1 {_SysInfo.dbLoadCellData2}", "ROADCELL");
+						nProcessStep[nStepIndex] = 54020;
+					}
+					break;
 
-
-
-				case 54090:
+				case 54020:
 					_SysInfo.dbCalcData = 0;
 
-					_SysInfo.dbCalcData = _SysInfo.dbLoadCellMaxData;
+					_SysInfo.dbCalcData = _SysInfo.dbLoadCellData2;
 
 					if (_SysInfo.nDispLen == 0)
 					{
 						if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax || _SysInfo.dbCalcData < _SysInfo.dbSpecMin)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "NG");
+							_SysInfo.bTestNG = true;
+							nProcessStep[nStepIndex] = 54030;
+							break;
 						}
 						else
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "OK");
+							nProcessStep[nStepIndex] = 54030;
+							break;
 						}
 					}
 					else if (_SysInfo.nDispLen == 1)
@@ -6334,10 +6453,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.dbCalcData > _SysInfo.dbSpecMax)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "NG");
+							_SysInfo.bTestNG = true;
+							nProcessStep[nStepIndex] = 54030;
+							break;
 						}
 						else
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "OK");
+							nProcessStep[nStepIndex] = 54020;
+							break;
 						}
 					}
 					else if (_SysInfo.nDispLen == 2)
@@ -6345,30 +6469,40 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo.dbCalcData < _SysInfo.dbSpecMin)
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "NG");
+							_SysInfo.bTestNG = true;
+							nProcessStep[nStepIndex] = 54030;
+							break;
 						}
 						else
 						{
 							TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "OK");
+							nProcessStep[nStepIndex] = 54030;
+							break;
 						}
 					}
 					else if (_SysInfo.nDispLen == 3)
 					{
 
 						TestResultSet(_SysInfo.nMainWorkStep, _SysInfo.dbCalcData.ToString(), "OK");
+						nProcessStep[nStepIndex] = 54030;
+						break;
 
 					}
-
-
-					nProcessStep[nStepIndex] = 54095;
+					
 					break;
 
-				case 54095:
+				case 54030:
 					//_SysInfo.bLoadCellStart = false; 
 					_SysInfo.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
 
-				
+				//case 54050:
+				//	if(_)
+				//	break;
+
+
+
 
 
 
@@ -7374,10 +7508,10 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 2500:
 					if (!tMainTimer[nStepIndex].Verify()) { break; }
-					if (_ModelInfo2.bUseLoadCellTestMode)
-					{
-						_SysInfo2.bLoadCellStart = true;
-					}
+					//if (_ModelInfo2.bUseLoadCellTestMode)
+					//{
+					//	_SysInfo2.bLoadCellStart = true;
+					//}
 					nProcessStep[nStepIndex] = 3000;
 					break;
 
@@ -7665,6 +7799,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						}
 						else if (_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].nTestItem == 27)
 						{
+							_SysInfo2.nEolTestCOunt++;
 							nProcessStep[nStepIndex] = 54000;
 						}
 
@@ -12503,23 +12638,153 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					int.TryParse(theApp._ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nBuffIndex);
 					double.TryParse(theApp._ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue2, out _SysInfo2.dbdigits);
 					int.TryParse(theApp._ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue3, out _SysInfo2.nDispLen);
-
 					double.TryParse(theApp._ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMin, out _SysInfo2.dbSpecMin);
 					double.TryParse(theApp._ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strSpecMax, out _SysInfo2.dbSpecMax);
 
+
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 54001:
+					_LoadCell2.SendData("Z");
+					_LoadCell2.bReadData = false;
+					tMainTimer[nStepIndex].Start(10000);
+					nProcessStep[nStepIndex]++;
+					break;
+
+				case 54002:
+					if (tMainTimer[nStepIndex].Verify())
+					{
+						TestResultSet2(_SysInfo2.nMainWorkStep, "TIME_OUT", "NG");
+						_SysInfo2.bTestNG = true;
+						_SysInfo2.nMainWorkStep++;
+						nProcessStep[nStepIndex] = 3000;
+
+					}
+
+					if (_LoadCell2.bReadData)
+					{
+						if (_LoadCell2.strReadData == "ZA")
+						{
+							_SysInfo2.bLoadCellInitOK = true;
+							_SysInfo2.strReadLoadCellData = "";
+							_SysInfo2.dbLoadCellData = 0.00;
+							_SysInfo2.dbLoadCellData2 = 0.00;
+							_LoadCell2.bReadData = false;
+
+							nProcessStep[nStepIndex] = 54003;
+						}
+						else
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, "DATA_ERR", "NG");
+							_SysInfo2.bTestNG = true;
+							_SysInfo2.nMainWorkStep++;
+							nProcessStep[nStepIndex] = 3000;
+						}
+					}
+					break;
+
+				case 54003:
+					_SysInfo2.strPopupContent = "SD Card installed";
+					_SysInfo2._SwStatus = MAIN_STATUS2.READY;
+					_SysInfo2._PopupStatus = MAIN_STATUS2.READY;
+					_SysInfo.nTL_Beep = 1;
+					ShowPopUpWindow2();
+					if (!GetDIOPort(DI.START_SW3) && !GetDIOPort(DI.START_SW4))
+					{
+						nProcessStep[nStepIndex]++;
+					}
+					break;
+
+				case 54004:
+					if (_SysInfo2._SwStatus == MAIN_STATUS2.OK)
+					{
+
+						nProcessStep[nStepIndex] = 54005;
+					}
+					else if (_SysInfo2._SwStatus == MAIN_STATUS2.NG)
+					{
+						TestResultSet2(_SysInfo2.nMainWorkStep, "User Stop", "NG");
+						_SysInfo2.bTestNG = true;
+						_SysInfo2.nMainWorkStep++;
+						nProcessStep[nStepIndex] = 3000;
+					}
+					else if (GetDIOPort(DI.START_SW3))
+					{
+						ClosePopUpWindow2();
+						nProcessStep[nStepIndex] = 54005;
+					}
+					else if (GetDIOPort(DI.START_SW4))
+					{
+						TestResultSet2(_SysInfo2.nMainWorkStep, "User Stop", "NG");
+						nProcessStep[nStepIndex] = 54006;
+					}
+					break;
+
+				case 54005:
+					if (!GetDIOPort(DI.START_SW3) && !GetDIOPort(DI.START_SW4))
+					{
+						nProcessStep[nStepIndex] = 54010;
+					}
+					break;
+
+				case 54006:
+					if (!GetDIOPort(DI.START_SW3) && !GetDIOPort(DI.START_SW4))
+					{
+						ClosePopUpWindow2();
+						_SysInfo2.bTestNG = true;
+						_SysInfo2.nMainWorkStep++;
+						nProcessStep[nStepIndex] = 3000;
+					}
+					break;
+
+				case 54010:
+					_LoadCell2.SendData("I");
+					_LoadCell2.bReadData = false;
+					tMainTimer[nStepIndex].Start(10000);
+					nProcessStep[nStepIndex] = 54015;
+					break;
+
+				case 54015:
+					if (tMainTimer[nStepIndex].Verify())
+					{
+						TestResultSet2(_SysInfo2.nMainWorkStep, "TIME_OUT", "NG");
+						_SysInfo2.bTestNG = true;
+						_SysInfo2.nMainWorkStep++;
+						nProcessStep[nStepIndex] = 3000;
+
+					}
+
+					if (_LoadCell2.bReadData)
+					{
+						_SysInfo2.strReadLoadCellData = _LoadCell2.strReadData.Substring(3, 8);
+						double.TryParse(_SysInfo2.strReadLoadCellData, out _SysInfo2.dbLoadCellData);
+						_SysInfo2.dbLoadCellData2 = _SysInfo2.dbLoadCellData * 0.00981;
+						AppendDebugMsg($"RoadCell #2 {_SysInfo2.dbLoadCellData2}", "ROADCELL");
+						_LoadCell2.bReadData = false;
+						nProcessStep[nStepIndex] = 54020;
+					}
+					break;
+
+				case 54020:
 					_SysInfo2.dbCalcData = 0;
 
-					_SysInfo2.dbCalcData = _SysInfo2.dbLoadCellMaxData;
+					_SysInfo2.dbCalcData = _SysInfo2.dbLoadCellData2;
 
 					if (_SysInfo2.nDispLen == 0)
 					{
 						if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax || _SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "NG");
+							_SysInfo2.bTestNG = true;
+							nProcessStep[nStepIndex] = 54030;
+							break;
 						}
 						else
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "OK");
+							nProcessStep[nStepIndex] = 54030;
+							break;
 						}
 					}
 					else if (_SysInfo2.nDispLen == 1)
@@ -12527,10 +12792,15 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.dbCalcData > _SysInfo2.dbSpecMax)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "NG");
+							_SysInfo2.bTestNG = true;
+							nProcessStep[nStepIndex] = 54030;
+							break;
 						}
 						else
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "OK");
+							nProcessStep[nStepIndex] = 54030;
+							break;
 						}
 					}
 					else if (_SysInfo2.nDispLen == 2)
@@ -12538,28 +12808,34 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						if (_SysInfo2.dbCalcData < _SysInfo2.dbSpecMin)
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "NG");
+							_SysInfo2.bTestNG = true;
+							nProcessStep[nStepIndex] = 54030;
+							break;
 						}
 						else
 						{
 							TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "OK");
+							nProcessStep[nStepIndex] = 54030;
+							break;
 						}
 					}
 					else if (_SysInfo2.nDispLen == 3)
 					{
 
 						TestResultSet2(_SysInfo2.nMainWorkStep, _SysInfo2.dbCalcData.ToString(), "OK");
+						nProcessStep[nStepIndex] = 54030;
+						break;
 
 					}
 
-
-					nProcessStep[nStepIndex] = 54010;
 					break;
 
-				case 54010:
-					//_SysInfo.bLoadCellStart = false; 
+				case 54030:
+					//_SysInfo2.bLoadCellStart = false; 
 					_SysInfo2.nMainWorkStep++;
 					nProcessStep[nStepIndex] = 3000;
 					break;
+
 
 
 
@@ -17672,24 +17948,25 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			}
 
 			_LoadCell.SetPort(String.Format("COM{0}", _Config.nLoadCellPort), _Config.nLoadCellBaudRate, Parity.None, 8, StopBits.One);
-			if (_LoadCell.PortOpen())
-			{
-				AppendLogMsg(String.Format("<COM{0}> Load cell port open successful", _Config.nLoadCellPort), MSG_TYPE.INFO);
-			}
-			else
-			{
-				AppendLogMsg(String.Format("<COM{0}> Load cell port open Fail", _Config.nLoadCellPort), MSG_TYPE.ERROR);
-			}
-
+			//_LoadCell.SetPort(String.Format("COM{0}", _Config.nLoadCellPort), _Config.nLoadCellBaudRate, Parity.None, 8, StopBits.One);
+			//if (_LoadCell.PortOpen())
+			//{
+			//	AppendLogMsg(String.Format("<COM{0}> Load cell port open successful", _Config.nLoadCellPort), MSG_TYPE.INFO);
+			//}
+			//else
+			//{
+			//	AppendLogMsg(String.Format("<COM{0}> Load cell port open Fail", _Config.nLoadCellPort), MSG_TYPE.ERROR);
+			//}
 			_LoadCell2.SetPort(String.Format("COM{0}", _Config.nLoadCellPort2), _Config.nLoadCellBaudRate2, Parity.None, 8, StopBits.One);
-			if (_LoadCell2.PortOpen())
-			{
-				AppendLogMsg(String.Format("<COM{0}> Load cell #2 port open successful ", _Config.nLoadCellPort2), MSG_TYPE.INFO);
-			}
-			else
-			{
-				AppendLogMsg(String.Format("<COM{0}> Load cell #2 port open Fail", _Config.nLoadCellPort2), MSG_TYPE.ERROR);
-			}
+			//_LoadCell2.SetPort(String.Format("COM{0}", _Config.nLoadCellPort2), _Config.nLoadCellBaudRate2, Parity.None, 8, StopBits.One);
+			//if (_LoadCell2.PortOpen())
+			//{
+			//	AppendLogMsg(String.Format("<COM{0}> Load cell #2 port open successful ", _Config.nLoadCellPort2), MSG_TYPE.INFO);
+			//}
+			//else
+			//{
+			//	AppendLogMsg(String.Format("<COM{0}> Load cell #2 port open Fail", _Config.nLoadCellPort2), MSG_TYPE.ERROR);
+			//}
 
 			for (int i = 0; i < 8; i++)
 			{

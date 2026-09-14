@@ -59,6 +59,8 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
+        <Button x:Name="btModelSetup" Content="1" HorizontalAlignment="Left" Height="28" Margin="473,456,0,0" VerticalAlignment="Top" Width="70" Style="{DynamicResource MyImgButton}" Click="btModelSetup_Click"/>
+        <Button x:Name="btModelSetup2" Content="2" HorizontalAlignment="Left" Height="28" Margin="473,488,0,0" VerticalAlignment="Top" Width="70" Style="{DynamicResource MyImgButton}" Click="btModelSetup2_Click"/>
 
     </Grid>
 </Window>
