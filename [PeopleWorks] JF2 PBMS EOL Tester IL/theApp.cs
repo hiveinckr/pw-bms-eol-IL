@@ -4649,9 +4649,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					else
 					{
 						_SysInfo.bSubEolStart = false;
-						theApp.nProcessStep[(int)PROC_LIST.SUB_EOL] = 30000;
-						TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
-						nProcessStep[nStepIndex] = 46020;
+						theApp.nProcessStep[(int)PROC_LIST.SUB_EOL] = 20000;
+						
+						if(theApp.nProcessStep[(int)PROC_LIST.SUB_EOL] == 0)
+						{
+							TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
+							nProcessStep[nStepIndex] = 46020;
+						}
+						
 					}
 					break;
 
@@ -5231,6 +5236,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue1, out _SysInfo.nDmmCh);
 					int.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue3, out _SysInfo.nDmmTime);
+					double.TryParse(_ModelInfo._TestInfo[_SysInfo.nMainWorkStep].strValue2, out _SysInfo.dbDmmGain);
 
 					//if(_SysInfo.nDmmTime == 1)
 					//{
@@ -5317,15 +5323,20 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_Config.bDmmEtcMode)
 					{
 						double.TryParse(_KeysiteDmmEtc.strReadMessage, out _SysInfo.dbCommReadData);
-						AppendDebugMsg($"Curr AVG : {_SysInfo.dbCommReadData}", "CURR");
-						cellT.Add(_SysInfo.dbCommReadData);
+						AppendDebugMsg($"Curr AVG : {_SysInfo.dbCommReadData * _SysInfo.dbDmmGain}", "CURR");
+				
+							cellT.Add(_SysInfo.dbCommReadData);
+						
+						
 						nProcessStep[nStepIndex] = 49026;
 					}
 					else
 					{
 						double.TryParse(KeysiteDmm.GetReadData(), out _SysInfo.dbCommReadData);
-						AppendDebugMsg($"Curr AVG : {_SysInfo.dbCommReadData}", "CURR");
+						AppendDebugMsg($"Curr AVG : {_SysInfo.dbCommReadData * _SysInfo.dbDmmGain}", "CURR");
+
 						cellT.Add(_SysInfo.dbCommReadData);
+						
 						nProcessStep[nStepIndex] = 49026;
 
 					}
@@ -10983,9 +10994,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					else
 					{
 						_SysInfo2.bSubEolStart = false;
-						theApp.nProcessStep[(int)PROC_LIST.SUB_EOL2] = 30000;
-						TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
-						nProcessStep[nStepIndex] = 46020;
+						theApp.nProcessStep[(int)PROC_LIST.SUB_EOL2] = 20000;
+						
+						if (theApp.nProcessStep[(int)PROC_LIST.SUB_EOL2] == 0)
+						{
+							TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
+							nProcessStep[nStepIndex] = 46020;
+						}
+						
 					}
 					break;
 
@@ -11565,6 +11581,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue1, out _SysInfo2.nDmmCh);
 					int.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue3, out _SysInfo2.nDmmTime);
+					double.TryParse(_ModelInfo2._TestInfo[_SysInfo2.nMainWorkStep].strValue2, out _SysInfo2.dbDmmGain);
 
 					//if(_SysInfo2.nDmmTime == 1)
 					//{
@@ -11650,15 +11667,19 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					if (_Config.bDmmEtcMode)
 					{
 						double.TryParse(_KeysiteDmmEtc2.strReadMessage, out _SysInfo2.dbCommReadData);
-						AppendDebugMsg($"Curr AVG #2 {_SysInfo2.dbCommReadData}", "CURR");
-						cellT2.Add(_SysInfo2.dbCommReadData);
+						AppendDebugMsg($"Curr AVG #2 {_SysInfo2.dbCommReadData * _SysInfo2.dbDmmGain}", "CURR");
+					
+							cellT2.Add(_SysInfo2.dbCommReadData);
+						
 						nProcessStep[nStepIndex] = 49026;
 					}
 					else
 					{
 						double.TryParse(KeysiteDmm2.GetReadData(), out _SysInfo2.dbCommReadData);
-						AppendDebugMsg($"Curr AVG #2 {_SysInfo2.dbCommReadData}", "CURR");
-						cellT2.Add(_SysInfo2.dbCommReadData);
+						AppendDebugMsg($"Curr AVG #2 {_SysInfo2.dbCommReadData * _SysInfo2.dbDmmGain}", "CURR");
+					
+							cellT2.Add(_SysInfo2.dbCommReadData);
+					
 						nProcessStep[nStepIndex] = 49026;
 
 					}
@@ -13281,10 +13302,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 10000:
-
+					
 					nProcessStep[nStepIndex] = 11000;
-
-
 					break;
 
 				case 11000:
@@ -13332,21 +13351,32 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 
 				case 20060:
+					
 					if (_SysInfo.nRepeatWorkStep >= _ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo.Count)
 					{
-
+						if (_SysInfo.bEolNg)
+						{
+							TestResultSet(_SysInfo.nSubMainWorkStep, "", "NG");
+						}
+						else
+						{
+							TestResultSet(_SysInfo.nSubMainWorkStep, "", "OK");
+						}
 						_SysInfo.bEolReadData = false;
-						nProcessStep[nStepIndex] = 30000;
+						nProcessStep[nStepIndex] = 29000;
 					}
 					else
 					{
 						_SysInfo.bEolReadData = false;
+						tMainTimer[nStepIndex].Start(1000);
 						nProcessStep[nStepIndex] = 21000;
 					}
 					break;
 
 
 				case 21000:
+					if (!tMainTimer[nStepIndex].Verify()){break;}
+					
 					if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nTestType == 0)
 					{
 						// Modbus Can Write
@@ -14171,11 +14201,12 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				// Sub Item 통신 종료
 				case 29000:
 					_SysInfo.nRepeatWorkStep = 0;
-					nProcessStep[nStepIndex] = 11000;
+					nProcessStep[nStepIndex] = 20050;
 					break;
 
 				case 30000:
 					_SysInfo.nSubMainWorkStep = 0;
+					_SysInfo.nRepeatWorkStep = 0;
 					nProcessStep[nStepIndex] = 0;
 					break;
 
@@ -14195,13 +14226,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 10000:
 
-					
+					tMainTimer[nStepIndex].Start(100);
 					nProcessStep[nStepIndex] = 11000;
 
 
 					break;
 
 				case 11000:
+					
 					if (_SysInfo2.bSubEolStart)
 					{
 						nProcessStep[nStepIndex] = 20000;
@@ -14234,6 +14266,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					break;
 
 				case 20050:
+					
 					if (_SysInfo2.bSubEolStart)
 					{
 						nProcessStep[nStepIndex] = 20060;
@@ -14248,19 +14281,30 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				case 20060:
 					if (_SysInfo2.nRepeatWorkStep >= _ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo.Count)
 					{
-
+						if (_SysInfo2.bEolNg)
+						{
+							TestResultSet2(_SysInfo2.nSubMainWorkStep, "", "NG");
+						}
+						else
+						{
+							TestResultSet2(_SysInfo2.nSubMainWorkStep, "", "OK");
+						}
+						
 						_SysInfo2.bEolReadData = false;
-						nProcessStep[nStepIndex] = 30000;
+						nProcessStep[nStepIndex] = 29000;
 					}
 					else
 					{
 						_SysInfo2.bEolReadData = false;
+						tMainTimer[nStepIndex].Start(1000);
 						nProcessStep[nStepIndex] = 21000;
 					}
 					break;
 
 
 				case 21000:
+					if (!tMainTimer[nStepIndex].Verify()) {break;}
+					
 					if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nTestType == 0)
 					{
 						// Modbus Can Write
@@ -15085,11 +15129,13 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				// Sub Item 통신 종료
 				case 29000:
 					_SysInfo2.nRepeatWorkStep = 0;
-					nProcessStep[nStepIndex] = 11000;
+					tMainTimer[nStepIndex].Start(1000);
+					nProcessStep[nStepIndex] = 20050;
 					break;
 
 				case 30000:
 					_SysInfo2.nSubMainWorkStep = 0;
+					_SysInfo.nRepeatWorkStep = 0;
 					nProcessStep[nStepIndex] = 0;
 					break;
 

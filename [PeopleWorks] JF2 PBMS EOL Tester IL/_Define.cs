@@ -645,6 +645,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static double dbRMSCommReadData = 0.0;
 		public static int nDmmCh = 0;
 		public static int nDmmTime = 0;
+		public static double dbDmmGain = 0;
 		public static int nDelayTime = 0;
 		public static int nSubEol = 0;
 		public static string strDmmCh;
@@ -865,6 +866,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 		public static double dbRMSCommReadData = 0.0;
 		public static int nDmmCh = 0;
 		public static int nDmmTime = 0;
+		public static double dbDmmGain = 0;
 		public static int nDelayTime = 0;
 		public static int nSubEol = 0;
 		public static string strDmmCh;
