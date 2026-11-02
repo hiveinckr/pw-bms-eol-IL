@@ -207,7 +207,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "Waiting for work";
 					lbMainStatus.Background = Brushes.DarkGreen;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampBlink(LAMP_COLOR.TL_YELLOW);
 
@@ -224,7 +224,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "O.K";
 					lbMainStatus.Background = Brushes.LightGreen;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
@@ -232,7 +232,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "N.G";
 					lbMainStatus.Background = Brushes.LightPink;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
@@ -240,7 +240,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "Forced to stop";
 					lbMainStatus.Background = Brushes.LightPink;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampBlink(LAMP_COLOR.TL_RED);
 				}
@@ -248,7 +248,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "O.K(OK quality master sample)";
 					lbMainStatus.Background = Brushes.LightGreen;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
@@ -256,7 +256,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "N.G(OK quality master sample)";
 					lbMainStatus.Background = Brushes.LightPink;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
@@ -264,7 +264,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "N.G(NG quality master sample)";
 					lbMainStatus.Background = Brushes.LightPink;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
@@ -272,7 +272,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "O.K(NG quality master sample)";
 					lbMainStatus.Background = Brushes.LightGreen;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
@@ -306,7 +306,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "작업 대기중";
 					lbMainStatus.Background = Brushes.DarkGreen;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampBlink(LAMP_COLOR.TL_YELLOW);
 
@@ -323,7 +323,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "O.K";
 					lbMainStatus.Background = Brushes.LightGreen;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
@@ -331,7 +331,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "N.G";
 					lbMainStatus.Background = Brushes.LightPink;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
@@ -339,7 +339,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "강제 정지됨";
 					lbMainStatus.Background = Brushes.LightPink;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampBlink(LAMP_COLOR.TL_RED);
 				}
@@ -347,7 +347,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "O.K(양품 마스터 샘플)";
 					lbMainStatus.Background = Brushes.LightGreen;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
@@ -355,7 +355,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "N.G(양품 마스터 샘플)";
 					lbMainStatus.Background = Brushes.LightPink;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
@@ -363,7 +363,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "N.G(불량 마스터 샘플)";
 					lbMainStatus.Background = Brushes.LightPink;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
@@ -371,7 +371,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 				{
 					lbMainStatus.Content = "O.K(불량 마스터 샘플)";
 					lbMainStatus.Background = Brushes.LightGreen;
-					btStart.IsEnabled = true;
+					btStart.IsEnabled = false;
 					btStop.IsEnabled = false;
 					theApp.TowerLampOn(LAMP_COLOR.TL_GREEN);
 				}
@@ -383,7 +383,17 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			lbBarcode.Content = _SysInfo.strDispBarcode;
 			lbSerialNum_Copy.Content = _SysInfo.strDispMac;
 
-			if (_SysInfo.nWriteSerialNum != 0) lbSerialNum.Content = _SysInfo.nWriteSerialNum.ToString();
+			if (_SysInfo.nWriteSerialNum != 0)
+			{
+				lbSerialNum.Content = _SysInfo.nWriteSerialNum.ToString();
+
+			}
+			else
+			{
+				lbSerialNum.Content = "";
+
+			}
+			
 
 		}
 
@@ -665,7 +675,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					//MessageBox.Show($"DT1 : {_dt1.DayOfYear} / DT2 : {_dt2} / Diff : {_ts}");
 
 					//_SysInfo.nDispLen = 5;
-					theApp.nProcessStep[(int)PROC_LIST.MAIN] = 1000;
+					//theApp.nProcessStep[(int)PROC_LIST.MAIN] = 1000;
 					break;
 
 				case "btStop":

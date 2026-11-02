@@ -4649,14 +4649,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					else
 					{
 						_SysInfo.bSubEolStart = false;
-						theApp.nProcessStep[(int)PROC_LIST.SUB_EOL] = 20000;
-						
-						if(theApp.nProcessStep[(int)PROC_LIST.SUB_EOL] == 0)
-						{
-							TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
-							nProcessStep[nStepIndex] = 46020;
-						}
-						
+						theApp.nProcessStep[(int)PROC_LIST.SUB_EOL] = 30000;
+						TestResultSet(_SysInfo.nMainWorkStep, "", "OK");
+						nProcessStep[nStepIndex] = 46020;
+
+
 					}
 					break;
 
@@ -6688,6 +6685,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo.strMacAdress = "";
 					_SysInfo.strDispMac = "";
 					_SysInfo.nEolTestCOunt = 0;
+					_SysInfo.strDispBarcode = "";
+					_SysInfo.strDispMac = "";
+					_SysInfo.nWriteSerialNum = 0;
 					ShowResultMessege();
 					nProcessStep[nStepIndex] = 100000;
 					break;
@@ -10994,14 +10994,11 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					else
 					{
 						_SysInfo2.bSubEolStart = false;
-						theApp.nProcessStep[(int)PROC_LIST.SUB_EOL2] = 20000;
-						
-						if (theApp.nProcessStep[(int)PROC_LIST.SUB_EOL2] == 0)
-						{
-							TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
-							nProcessStep[nStepIndex] = 46020;
-						}
-						
+						theApp.nProcessStep[(int)PROC_LIST.SUB_EOL2] = 30000;
+						TestResultSet2(_SysInfo2.nMainWorkStep, "", "OK");
+						nProcessStep[nStepIndex] = 46020;
+
+
 					}
 					break;
 
@@ -13001,8 +12998,8 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					
 
 					_SysInfo2.dtTestEndTime = DateTime.Now;
-
-					_tTackTimer2.Stop();
+					
+;					_tTackTimer2.Stop();
 					TestTotalResultView2(_SysInfo2.strDispBarcode, _SysInfo2.strTotalResult);
 					SaveResultData2();
 					SetDIOPort(DO.RY_01 + 2 - 1, false);
@@ -13030,6 +13027,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo2.bReadMacBcd = false;
 					_SysInfo2.bReadMainBcd = false;
 					_SysInfo2.nVoltCount = 0;
+					
 					nProcessStep[nStepIndex] = 86000;
 					break;
 
@@ -13039,6 +13037,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					_SysInfo2.strMacAdress = "";
 					_SysInfo2.strDispMac = "";
 					_SysInfo2.nEolTestCOunt = 0;
+					_SysInfo2.strDispBarcode = "";
+					_SysInfo2.strDispMac = "";
+					_SysInfo2.nWriteSerialNum = 0;
 					ShowResultMessege2();
 					nProcessStep[nStepIndex] = 100000;
 					break;
@@ -13333,7 +13334,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 					else
 					{
-						_SysInfo.bEolReadData = false;
+						_SysInfo.bEolReadData = true;
 						nProcessStep[nStepIndex] = 21000;
 					}
 					break;
@@ -13363,20 +13364,20 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 							TestResultSet(_SysInfo.nSubMainWorkStep, "", "OK");
 						}
 						_SysInfo.bEolReadData = false;
+						//tMainTimer[nStepIndex].Start(1000);
 						nProcessStep[nStepIndex] = 29000;
 					}
 					else
 					{
-						_SysInfo.bEolReadData = false;
-						tMainTimer[nStepIndex].Start(1000);
+						_SysInfo.bEolReadData = true;
 						nProcessStep[nStepIndex] = 21000;
 					}
 					break;
 
 
 				case 21000:
-					if (!tMainTimer[nStepIndex].Verify()){break;}
-					
+
+
 					if (_ModelInfo._TestInfo[_SysInfo.nSubMainWorkStep]._DataInfo[_SysInfo.nRepeatWorkStep].nTestType == 0)
 					{
 						// Modbus Can Write
@@ -14200,7 +14201,9 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				// Sub Item 통신 종료
 				case 29000:
+					//if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_SysInfo.nRepeatWorkStep = 0;
+
 					nProcessStep[nStepIndex] = 20050;
 					break;
 
@@ -14226,7 +14229,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				case 10000:
 
-					tMainTimer[nStepIndex].Start(100);
+			
 					nProcessStep[nStepIndex] = 11000;
 
 
@@ -14260,7 +14263,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 					}
 					else
 					{
-						_SysInfo2.bEolReadData = false;
+						_SysInfo2.bEolReadData = true;
 						nProcessStep[nStepIndex] = 21000;
 					}
 					break;
@@ -14291,19 +14294,19 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 						}
 						
 						_SysInfo2.bEolReadData = false;
+						//tMainTimer[nStepIndex].Start(1000);
 						nProcessStep[nStepIndex] = 29000;
 					}
 					else
 					{
-						_SysInfo2.bEolReadData = false;
-						tMainTimer[nStepIndex].Start(1000);
+						_SysInfo2.bEolReadData = true;
+					
 						nProcessStep[nStepIndex] = 21000;
 					}
 					break;
 
 
 				case 21000:
-					if (!tMainTimer[nStepIndex].Verify()) {break;}
 					
 					if (_ModelInfo2._TestInfo[_SysInfo2.nSubMainWorkStep]._DataInfo[_SysInfo2.nRepeatWorkStep].nTestType == 0)
 					{
@@ -15128,14 +15131,14 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 
 				// Sub Item 통신 종료
 				case 29000:
+					//if (!tMainTimer[nStepIndex].Verify()) { break; }
 					_SysInfo2.nRepeatWorkStep = 0;
-					tMainTimer[nStepIndex].Start(1000);
 					nProcessStep[nStepIndex] = 20050;
 					break;
 
 				case 30000:
 					_SysInfo2.nSubMainWorkStep = 0;
-					_SysInfo.nRepeatWorkStep = 0;
+					_SysInfo2.nRepeatWorkStep = 0;
 					nProcessStep[nStepIndex] = 0;
 					break;
 
