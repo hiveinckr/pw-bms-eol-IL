@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_PeopleWorks__JF2_PBMS_EOL_Tester_IL"
         mc:Ignorable="d"
-            Title="[Popup]" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" Closing="Window_Closing">
+            Title="[Popup]" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" Closing="Window_Closing" ResizeMode="NoResize">
     <Grid  Height="700" Width="1300">
         <Label x:Name="lbMainStatus" Content="OK" HorizontalAlignment="Center" Height="680" VerticalAlignment="Center" Width="1280" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="LightBlue" Foreground="Black" FontWeight="Bold" FontSize="150" Template="{DynamicResource LabelControlTemplateGray}" Padding="0,0,0,0"/>
 

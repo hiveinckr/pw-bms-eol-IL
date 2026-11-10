@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:_PeopleWorks__JF2_PBMS_EOL_Tester_IL"
         mc:Ignorable="d"
                              Title="바코드 수동 입력" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
-        SizeToContent="WidthAndHeight" Visibility="Visible" WindowStyle="ToolWindow">
+        SizeToContent="WidthAndHeight" Visibility="Visible" WindowStyle="ToolWindow" ResizeMode="NoResize">
     <Grid Width="635" Height="108">
         <TextBox x:Name="tbPassWord" HorizontalAlignment="Left" Height="40" Margin="10,10,0,0" VerticalAlignment="Top" Width="615" VerticalContentAlignment="Center" FontSize="16" KeyDown="tbPassWord_KeyDown"/>
         <Button x:Name="btOK" HorizontalAlignment="Left" Height="48" Margin="10,55,0,0" VerticalAlignment="Top" Width="130" Style="{DynamicResource MyImgButton}" Click="btOK_Click">

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:_PeopleWorks__JF2_PBMS_EOL_Tester_IL"
         mc:Ignorable="d"
                       Title="MasterPass" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
-        SizeToContent="WidthAndHeight" Visibility="Visible" WindowStyle="ToolWindow">
+        SizeToContent="WidthAndHeight" Visibility="Visible" WindowStyle="ToolWindow" ResizeMode="NoResize">
     <Grid Width="400" Height="108">
         <PasswordBox x:Name="tbPassWord" HorizontalAlignment="Left" Height="40" Margin="10,10,0,0" VerticalAlignment="Top" Width="380" VerticalContentAlignment="Center" FontSize="16" KeyDown="tbPassWord_KeyDown"/>
 

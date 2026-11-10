@@ -6,27 +6,34 @@
         xmlns:local="clr-namespace:_PeopleWorks__JF2_PBMS_EOL_Tester_IL"
         mc:Ignorable="d"
                              Title="Model Change" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
-        SizeToContent="WidthAndHeight" Visibility="Visible" WindowStyle="ToolWindow">
-    <Grid Height="600" Width="910">
+        SizeToContent="WidthAndHeight" Visibility="Visible" WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <Grid Height="815" Width="910">
 
-        <DataGrid x:Name="gdCMABCD" HorizontalAlignment="Center" Height="527" Margin="0,10,0,0" VerticalAlignment="Top" Width="890" Background="White" CanUserResizeRows="False" CellStyle="{DynamicResource DataGridCellStyle1}"  AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" MouseDoubleClick="gdCMABCD_MouseDoubleClick">
+        <DataGrid x:Name="gdCMABCD" HorizontalAlignment="Center" Height="527" Margin="0,10,0,0" VerticalAlignment="Top" Width="890" Background="White" CanUserResizeRows="False" CellStyle="{DynamicResource DataGridCellStyle1}"  AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" MouseDoubleClick="gdCMABCD_MouseDoubleClick" SelectionChanged ="gdCMABCD_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Model Name" CanUserReorder="False" Width="*" HeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" CanUserSort="False" CanUserResize="False"  Binding="{Binding strBCD}" IsReadOnly="True" ElementStyle="{DynamicResource TextBlockStyle1}"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button x:Name="btOK" HorizontalAlignment="Left" Height="48" Margin="10,542,0,0" VerticalAlignment="Top" Width="160" Style="{DynamicResource MyImgButton}" Click="btOK_Click">
+        <Button x:Name="btOK" HorizontalAlignment="Left" Height="48" Margin="10,757,0,0" VerticalAlignment="Top" Width="160" Style="{DynamicResource MyImgButton}" Click="btOK_Click">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Source="Resource/icons8-checkmark-64.png" Width="30" Height="30"/>
                 <ContentControl Content="Load Model" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="15"/>
             </StackPanel>
         </Button>
-        <Button x:Name="btCancel" HorizontalAlignment="Left" Height="48" Margin="180,542,0,0" VerticalAlignment="Top" Width="130" Style="{DynamicResource MyImgButton}" Click="btCancel_Click">
+        <Button x:Name="btCancel" HorizontalAlignment="Left" Height="48" Margin="180,757,0,0" VerticalAlignment="Top" Width="130" Style="{DynamicResource MyImgButton}" Click="btCancel_Click">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Source="Resource/icons8-cancel-64.png" Width="30" Height="30"/>
                 <ContentControl Content="Cancle" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="15"/>
             </StackPanel>
         </Button>
+        <TextBox x:Name="tbComment3" HorizontalAlignment="Center" Height="210" Margin="0,542,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="Ivory" IsReadOnly="True" Width="890" VerticalContentAlignment="Top" FontSize="30" AcceptsReturn="True">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="3"/>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
 
     </Grid>
 </Window>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:_PeopleWorks__JF2_PBMS_EOL_Tester_IL"
         mc:Ignorable="d"
              Title="[PeopleWorks] JF2 RBMS PBMS EOL Tester IL (Ver. 202500723.1)" Height="Auto" Width="Auto" WindowStartupLocation="CenterScreen" 
-        SizeToContent="WidthAndHeight" Closing="Window_Closing">
+        SizeToContent="WidthAndHeight" Closing="Window_Closing" ResizeMode="NoResize">
     <Grid  Height="1010" Width="1920">
         <ToolBar HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="1920" Background="GhostWhite">
             <Button x:Name="btDebugMonitor" Click="btDebugMonitor_Click">

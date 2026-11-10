@@ -22,6 +22,7 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 	public partial class ModelList2 : Window
 	{
 		ObservableCollection<ModelListView> lstModel = new ObservableCollection<ModelListView>();
+		MODEL_INFO2 PreviewModelInfo = new MODEL_INFO2();
 		public ModelList2()
 		{
 			InitializeComponent();
@@ -81,6 +82,35 @@ namespace _PeopleWorks__JF2_PBMS_EOL_Tester_IL
 			public DateTime tNowTime { get; set; }
 			public string strBCD { get; set; }
 			public string strResult { get; set; }
+		}
+
+		private void gdCMABCD_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (gdCMABCD.SelectedIndex < 0)
+			{
+				tbComment3.Text = "";
+				return;
+			}
+
+			try
+			{
+				// 선택한 모델명
+				string strModelName = lstModel[gdCMABCD.SelectedIndex].strBCD;
+
+				// 별도 객체 생성
+				MODEL_INFO2 mInfo = new MODEL_INFO2();
+
+				// 선택한 모델 정보 로드
+				theApp.LoadModelInfo2(ref mInfo, strModelName);
+
+				// 선택한 모델의 설명 표시
+				tbComment3.Text = mInfo.strComment3;
+			}
+			catch (Exception ex)
+			{
+				tbComment3.Text = "";
+				MessageBox.Show("모델 설명 불러오기 실패 : " + ex.Message);
+			}
 		}
 	}
 }
